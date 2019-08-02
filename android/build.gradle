@@ -5,6 +5,7 @@ buildscript {
     repositories {
         google()
         jcenter()
+        
     }
 
     dependencies {
@@ -47,10 +48,13 @@ repositories {
         url "$projectDir/../node_modules/react-native/android"
     }
     mavenCentral()
+    // For Steerpath Smart Map SDK
+    maven { url "http://steerpath.bintray.com/steerpath" }
 }
 
 dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactnativeVersion', '+')}"
+    implementation "com.steerpath:smart:1.1.1.0-test11"
 }
 
 def configureReactNativePom(def pom) {

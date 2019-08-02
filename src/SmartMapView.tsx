@@ -24,7 +24,7 @@ function runCommand(handler: any, name: string, args: any[]) {
     args,
   );
 }
-export const SmartMapView = forwardRef(function _SmartMapViewFC(props: SmartMapViewProps, ref: any) {
+export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(function _SmartMapViewFC(props: SmartMapViewProps, ref: any) {
   const smartMapRef = useRef(null);
 
   useEffect(() => {
