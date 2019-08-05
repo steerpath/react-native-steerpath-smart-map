@@ -1,4 +1,4 @@
-import { ViewProps } from 'react-native';
+import { ViewProperties } from 'react-native';
 
 export enum SmartMapModes {
   MAP_ONLY = 'mapOnly',
@@ -50,7 +50,12 @@ export interface SmartViewNativeProps {
   onMapClicked?: (mapObjects: SmartMapObject[]) => void;
 }
 
-export interface SmartMapViewProps extends ViewProps, SmartViewWebProps, SmartViewNativeProps {}
+export interface SmartMapViewProps extends ViewProperties, SmartViewWebProps, SmartViewNativeProps {
+  /**
+   * This is a quick hack for enabling typed ref
+   */
+  ref: any
+}
 
 export type SmartMapNavigationUserTask = SmartMapObject;
 
