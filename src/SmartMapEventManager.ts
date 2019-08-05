@@ -1,24 +1,18 @@
 /* eslint-disable prefer-destructuring */
-import { NativeModules, Platform, NativeEventEmitter } from 'react-native';
-
-export enum SmartMapEvent {
-  MAP_LOADED = 'SPSmartMapLoaded',
-  MAP_CLICKED = 'SPSmartMapClicked',
-}
+import { NativeModules, NativeEventEmitter } from "react-native";
+import { SmartMapEvent } from "./SmartMapViewProps";
 
 const RNSmartMapEventManager = NativeModules.RNSmartMapEventManager;
 
-const SmartMapEventManagerEmitter = Platform.OS === 'web' ? null : new NativeEventEmitter(RNSmartMapEventManager);
+const SmartMapEventManagerEmitter = new NativeEventEmitter(
+  RNSmartMapEventManager
+);
 
 export const SmartMapEventManager = {
   addListener(eventName: SmartMapEvent, listener: (data: any) => void) {
-    if (SmartMapEventManagerEmitter) {
-      SmartMapEventManagerEmitter.addListener(eventName, listener);
-    }
+    SmartMapEventManagerEmitter.addListener(eventName, listener);
   },
   removeListener(eventName: SmartMapEvent, listener: (data: any) => void) {
-    if (SmartMapEventManagerEmitter) {
-      SmartMapEventManagerEmitter.removeListener(eventName, listener);
-    }
-  },
+    SmartMapEventManagerEmitter.removeListener(eventName, listener);
+  }
 };

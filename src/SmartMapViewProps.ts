@@ -1,34 +1,39 @@
-import { ViewProperties } from 'react-native';
+import { ViewProperties } from "react-native";
 
 export enum SmartMapModes {
-  MAP_ONLY = 'mapOnly',
-  STATIC = 'static',
-  SEARCH = 'search',
+  MAP_ONLY = "mapOnly",
+  STATIC = "static",
+  SEARCH = "search"
 }
 
 export enum SmartObjectSource {
-  STATIC = 'static',
-  MARKER = 'marker',
-  LIVE = 'live',
+  STATIC = "static",
+  MARKER = "marker",
+  LIVE = "live"
 }
 
 export enum Layout {
-  TOP = 'top',
-  BOTTOM = 'bottom',
-  LEFT = 'left',
-  RIGHT = 'right',
+  TOP = "top",
+  BOTTOM = "bottom",
+  LEFT = "left",
+  RIGHT = "right"
 }
 
 export enum MapResponse {
-  SUCCESS = 'success',
-  OBJECT_NOT_FOUND = 'objectNotFound',
-  NETWORK_ERROR = 'networkError',
+  SUCCESS = "success",
+  OBJECT_NOT_FOUND = "objectNotFound",
+  NETWORK_ERROR = "networkError"
 }
 
 export enum SmartGeofenceResponse {
-  SUCCESS = 'success',
-  MALFORMED_DATA = 'malformedData',
-  NOT_FOUND = 'notFound',
+  SUCCESS = "success",
+  MALFORMED_DATA = "malformedData",
+  NOT_FOUND = "notFound"
+}
+
+export enum SmartMapEvent {
+  MAP_LOADED = "SPSmartMapLoaded",
+  MAP_CLICKED = "SPSmartMapClicked"
 }
 
 export interface SmartMapObject {
@@ -50,11 +55,14 @@ export interface SmartViewNativeProps {
   onMapClicked?: (mapObjects: SmartMapObject[]) => void;
 }
 
-export interface SmartMapViewProps extends ViewProperties, SmartViewWebProps, SmartViewNativeProps {
+export interface SmartMapViewProps
+  extends ViewProperties,
+    SmartViewWebProps,
+    SmartViewNativeProps {
   /**
    * This is a quick hack for enabling typed ref
    */
-  ref?: any
+  ref?: any;
 }
 
 export type SmartMapNavigationUserTask = SmartMapObject;
@@ -66,8 +74,8 @@ export interface SmartMapPOISelectionUserTask extends SmartMapObject {
 }
 
 export enum SmartMapUserTaskType {
-  NAVIGATION = 'navigation',
-  POI_SELECTION = 'poiSelection',
+  NAVIGATION = "navigation",
+  POI_SELECTION = "poiSelection"
 }
 
 export interface SmartMapUserTask {

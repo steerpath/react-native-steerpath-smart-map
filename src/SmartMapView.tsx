@@ -9,8 +9,9 @@ import {
   MapResponse,
   SmartMapUserTask,
   SmartMapUserTaskResponse,
+  SmartMapEvent,
 } from './SmartMapViewProps';
-import { SmartMapEventManager, SmartMapEvent } from './SmartMapEventManager';
+import { SmartMapEventManager } from './SmartMapEventManager';
 
 const NATIVE_VIEW_NAME = 'RNSmartMapView';
 
