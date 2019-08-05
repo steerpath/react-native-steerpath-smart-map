@@ -1,6 +1,6 @@
 {
-  "name": "react-native-steerpath-smart-map-sdk",
-  "title": "React Native Steerpath Smart Map Sdk",
+  "name": "react-native-steerpath-smart-map",
+  "title": "React Native Steerpath Smart Map",
   "version": "1.0.0",
   "description": "TODO",
   "main": "dist/index.js",

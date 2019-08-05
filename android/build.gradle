@@ -38,6 +38,11 @@ android {
   lintOptions {
     abortOnError false
   }
+
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
 }
 
 repositories {
@@ -54,7 +59,7 @@ repositories {
 
 dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactnativeVersion', '+')}"
-    implementation "com.steerpath:smart:1.1.1.0-test11"
+    implementation "com.steerpath:smart:1.1.1.0-test.15"
 }
 
 def configureReactNativePom(def pom) {

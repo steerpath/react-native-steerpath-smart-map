@@ -43,3 +43,4 @@ buck-out/
 
 # Project build outputs:
 dist/*
+example/ios/Podfile.lock
