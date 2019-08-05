@@ -47,8 +47,8 @@ You need to add the following lines to your html file (`index.html` if using
 `create-react-app`):
 
 ```html
-<script src="https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/releases/smart/1.0.11/steerpath-smart-1.0.11.min.js"></script>
-<link href="https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/releases/smart/1.0.11/steerpath-smart-1.0.11.css" rel="stylesheet">
+<script src="https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/releases/smart/1.0.14/steerpath-smart-1.0.14.min.js"></script>
+<link href="https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/releases/smart/1.0.14/steerpath-smart-1.0.14.css" rel="stylesheet">
 ```
 
 ## Run the example app

@@ -1,9 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useImperativeHandle, useRef, forwardRef } from 'react';
 import { SmartMapViewProps, SmartMapObject, Layout, MapResponse } from './SmartMapViewProps';
-
+//TODO: Juhani fix the breaking changes when updating web sdk
+//TODO: Juhani update web sdk in ./public/index.html
 declare let window: any;
-
+//TODO: Juhani replace html element id to ref
 const COMPONENT_ID_PREFIX = 'map_container_id';
 
 function runCommand(handler: any, name: string, args: any[]) {
@@ -27,9 +28,14 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
   useEffect(() => {
     const smartSDK = new window.steerpath.SmartSDK(props.apiKey);
     // eslint-disable-next-line no-new
-    smartMapRef.current = new window.steerpath.SmartNavigationView(COMPONENT_ID_PREFIX, smartSDK);
+    smartMapRef.current = new window.steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
+    return () => {
+      //When screen size changes and this component unmounted
+      //remove the old instance of smartMapRef.current
+      (smartMapRef.current as any).removeMap()
+    }
   }, [props.apiKey]);
-
+  //TODO: hook to expose methods
   useImperativeHandle(ref, () => ({
     setCamera({
       latitude,
@@ -81,7 +87,10 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     selectMapObject(smartMapObj: SmartMapObject) {
-      console.warn('select Map Object is not supported on the web');
+      let localRef = smartMapObj.localRef
+      let buildingRef = smartMapObj.buildingRef
+      runCommand(smartMapRef.current, 'selectMapObject', [localRef, buildingRef]);
+
     },
     animateCameraToObject(
       localRef: string,
@@ -90,6 +99,11 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       callback?: (response: MapResponse) => void,
     ) {
       runCommand(smartMapRef.current, 'animateCameraToObject', [localRef, buildingRef, zoomLevel, callback]);
+    },
+    setMapMode(
+      mapMode: string
+    ) {
+      runCommand(smartMapRef.current, "setMapMode", [mapMode])
     },
     startUserTask() {
       console.warn('startUserTask is not supported on the web');
@@ -100,6 +114,7 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     cancelCurrentUserTask() {
       console.warn('cancelCurrentUserTask is not supported on the web');
     },
+    //TODO: Juhani add more bindings
   }));
 
   return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1 }} />;
