@@ -1,8 +1,8 @@
 {
   "name": "react-native-steerpath-smart-map",
   "title": "React Native Steerpath Smart Map",
-  "version": "1.0.0",
-  "description": "TODO",
+  "version": "0.0.2",
+  "description": "Steerpath SmartMapView for React Native",
   "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/github_account/react-native-steerpath-smart-map-sdk.git",
-    "baseUrl": "https://github.com/github_account/react-native-steerpath-smart-map-sdk"
+    "url": "git@bitbucket.org:nimbledevices/react-native-steerpath-smartmap.git",
+    "baseUrl": "https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/"
   },
   "keywords": [
     "react-native"
   ],
   "author": {
-    "name": "Your Name",
-    "email": "yourname@email.com"
+    "name": "Steerpath Oy",
+    "email": "support@steerpath.com"
   },
   "license": "MIT",
   "licenseFilename": "LICENSE",

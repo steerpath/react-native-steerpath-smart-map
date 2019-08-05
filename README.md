@@ -2,11 +2,11 @@
 
 ## Getting started
 
-`$ npm install react-native-steerpath-smart-map-sdk --save`
+`$ npm install react-native-steerpath-smart-map --save`
 
 or 
 
-`$ yarn add react-native-steerpath-smart-map-sdk`
+`$ yarn add react-native-steerpath-smart-map`
 
 ### Mostly automatic installation
 
@@ -35,7 +35,7 @@ repositories {
 ```
 
 If you are using React-Native < 0.60:
-`$ react-native link react-native-steerpath-smart-map-sdk`
+`$ react-native link react-native-steerpath-smart-map`
 
 Run:
 
@@ -65,7 +65,7 @@ $ react-native run-android # for android
 
 ## Usage
 ```javascript
-import SteerpathSmartMapSdk from 'react-native-steerpath-smart-map-sdk';
+import SteerpathSmartMapSdk from 'react-native-steerpath-smart-map';
 
 // TODO: What to do with the module?
 SteerpathSmartMapSdk;
