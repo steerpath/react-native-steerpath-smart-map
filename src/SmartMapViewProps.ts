@@ -54,7 +54,7 @@ export interface SmartMapViewProps extends ViewProperties, SmartViewWebProps, Sm
   /**
    * This is a quick hack for enabling typed ref
    */
-  ref: any
+  ref?: any
 }
 
 export type SmartMapNavigationUserTask = SmartMapObject;
