@@ -1,4 +1,4 @@
-
+require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
 source 'https://github.com/CocoaPods/Specs.git'
 source 'https://bitbucket.org/nimbledevices/steerpath-mapbox-ios-podspec.git'
 source 'https://bitbucket.org/nimbledevices/steerpath-smart-sdk-podspec.git'
@@ -30,5 +30,7 @@ platform :ios, '10.0'
 		pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
 		pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
 		pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
+		
+		use_native_modules!
 
 	end
