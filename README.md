@@ -1,5 +1,8 @@
 # react-native-steerpath-smart-map
 
+> Warning: This module is still under active development and not suitable for
+> production. Use at your own risk!
+
 ## Getting started
 
 `$ npm install react-native-steerpath-smart-map --save`
