@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		54311E118E4B5D3209B3CD9A /* libPods-SteerpathSmartMapSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9B946A14D696A939BC22047 /* libPods-SteerpathSmartMapSdk.a */; };
 		B66F820D22F4358C00B6516F /* RNSmartMapManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B66F820322F4358C00B6516F /* RNSmartMapManager.m */; };
 		B66F820E22F4358C00B6516F /* RNSmartMapViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B66F820622F4358C00B6516F /* RNSmartMapViewManager.m */; };
 		B66F820F22F4358C00B6516F /* RCTConvert+SmartMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = B66F820822F4358C00B6516F /* RCTConvert+SmartMapView.m */; };
@@ -28,6 +29,8 @@
 
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libSteerpathSmartMapSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSteerpathSmartMapSdk.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		34CDFE83ADF1872D87ECE4E0 /* Pods-SteerpathSmartMapSdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SteerpathSmartMapSdk.release.xcconfig"; path = "Target Support Files/Pods-SteerpathSmartMapSdk/Pods-SteerpathSmartMapSdk.release.xcconfig"; sourceTree = "<group>"; };
+		9B3178C37E533A845BD4D634 /* Pods-SteerpathSmartMapSdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SteerpathSmartMapSdk.debug.xcconfig"; path = "Target Support Files/Pods-SteerpathSmartMapSdk/Pods-SteerpathSmartMapSdk.debug.xcconfig"; sourceTree = "<group>"; };
 		B66F820322F4358C00B6516F /* RNSmartMapManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNSmartMapManager.m; sourceTree = "<group>"; };
 		B66F820422F4358C00B6516F /* RCTConvert+SmartMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTConvert+SmartMapView.h"; sourceTree = "<group>"; };
 		B66F820522F4358C00B6516F /* RNSmartMapViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNSmartMapViewManager.h; sourceTree = "<group>"; };
@@ -38,6 +41,7 @@
 		B66F820A22F4358C00B6516F /* RNSmartMapManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNSmartMapManager.h; sourceTree = "<group>"; };
 		B66F820B22F4358C00B6516F /* RNSmartMapEventManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNSmartMapEventManager.m; sourceTree = "<group>"; };
 		B66F820C22F4358C00B6516F /* RNSmartMapEventManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNSmartMapEventManager.h; sourceTree = "<group>"; };
+		B9B946A14D696A939BC22047 /* libPods-SteerpathSmartMapSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SteerpathSmartMapSdk.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,6 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				54311E118E4B5D3209B3CD9A /* libPods-SteerpathSmartMapSdk.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -73,7 +78,26 @@
 				B66F820522F4358C00B6516F /* RNSmartMapViewManager.h */,
 				B66F820622F4358C00B6516F /* RNSmartMapViewManager.m */,
 				134814211AA4EA7D00B7C361 /* Products */,
+				729AE9910076D7C7A2773EBB /* Pods */,
+				9F7F61C231EEC5D4C00ED173 /* Frameworks */,
 			);
+			sourceTree = "<group>";
+		};
+		729AE9910076D7C7A2773EBB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				9B3178C37E533A845BD4D634 /* Pods-SteerpathSmartMapSdk.debug.xcconfig */,
+				34CDFE83ADF1872D87ECE4E0 /* Pods-SteerpathSmartMapSdk.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		9F7F61C231EEC5D4C00ED173 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B9B946A14D696A939BC22047 /* libPods-SteerpathSmartMapSdk.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -83,6 +107,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 58B511EF1A9E6C8500147676 /* Build configuration list for PBXNativeTarget "SteerpathSmartMapSdk" */;
 			buildPhases = (
+				1DF3AA6E9186207984EA2F22 /* [CP] Check Pods Manifest.lock */,
 				58B511D71A9E6C8500147676 /* Sources */,
 				58B511D81A9E6C8500147676 /* Frameworks */,
 				58B511D91A9E6C8500147676 /* CopyFiles */,
@@ -115,6 +140,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 58B511D21A9E6C8500147676;
@@ -126,6 +152,31 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		1DF3AA6E9186207984EA2F22 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SteerpathSmartMapSdk-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		58B511D71A9E6C8500147676 /* Sources */ = {
@@ -238,6 +289,7 @@
 		};
 		58B511F01A9E6C8500147676 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9B3178C37E533A845BD4D634 /* Pods-SteerpathSmartMapSdk.debug.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
@@ -254,6 +306,7 @@
 		};
 		58B511F11A9E6C8500147676 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34CDFE83ADF1872D87ECE4E0 /* Pods-SteerpathSmartMapSdk.release.xcconfig */;
 			buildSettings = {
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",

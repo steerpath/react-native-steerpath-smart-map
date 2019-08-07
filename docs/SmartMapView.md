@@ -24,7 +24,7 @@
 | `removeMarker` | `smartMapObj: SmartMapObject` | iOS/Android/Web | Removes single marker from the map.
 | `removeAllMarkers` | | iOS/Android/Web | Remove all markers from the map
 | `selectMapObject` | `smartMapObj: SmartMapObject` | iOS/Android/Web | Animates map to the selected object, adds marker, opens BottomSheet with object information.
-| `startUserTask` | `userTask: SmartMapUserTask` | iOS/Android | Starts given UserTask unless some other UserTask is already in progress. Current MapMode will be suspended. See [SmartMapUserTaskEventManager](SmartMapUserTaskEventManager.md).
+| `startUserTask` | `userTask: SmartMapUserTask` | iOS/Android | Starts given UserTask unless some other UserTask is already in progress. Current MapMode will be suspended.
 | `getCurrentUserTask` | `callback: (userTaskResponse: SmartMapUserTaskResponse) => any` | iOS/Android | Get the current User Task
 | `cancelCurrentUserTask` | | iOS/Android | Cancel the current user task, if any
 

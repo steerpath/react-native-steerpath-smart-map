@@ -81,7 +81,6 @@ SmartMapManager.start(API_KEY); // This is not required in the web platform
 * [<SmartMapView /> Component API](docs/SmartMapView.md)
 * [SmartGeofenceManager API](docs/SmartGeofenceManager.md)
 * [SmartMapManager API](docs/SmartMapManager.md)
-* [SmartMapUserTaskEventManager API](docs/SmartMapUserTaskEventManager.md)
 
 ## For Steerpath Developer
 
