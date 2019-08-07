@@ -1,4 +1,4 @@
-# react-native-steerpath-smart-map-sdk
+# react-native-steerpath-smart-map
 
 ## Getting started
 
@@ -65,11 +65,23 @@ $ react-native run-android # for android
 
 ## Usage
 ```javascript
-import SteerpathSmartMapSdk from 'react-native-steerpath-smart-map';
+import {SmartMapView, SmartMapManager} from 'react-native-steerpath-smart-map';
+const API_KEY = '...'
 
-// TODO: What to do with the module?
-SteerpathSmartMapSdk;
+SmartMapManager.start(API_KEY); // This is not required in the web platform
+
+<SmartMapView
+    style={{flex: 1}}
+    apiKey={API_KEY} // This is required only if you are using this component in the web
+/>;
 ```
+
+## Documentation
+
+* [<SmartMapView /> Component API](docs/SmartMapView.md)
+* [SmartGeofenceManager API](docs/SmartGeofenceManager.md)
+* [SmartMapManager API](docs/SmartMapManager.md)
+* [SmartMapUserTaskEventManager API](docs/SmartMapUserTaskEventManager.md)
 
 ## For Steerpath Developer
 
