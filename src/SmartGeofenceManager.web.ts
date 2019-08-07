@@ -3,7 +3,6 @@
 export const SmartGeofenceManager = {
   addGeofence() {},
   removeGeofence() {},
-  addBeaconfences() {},
   removeBeaconfences() {},
   addBeaconfence() {},
   removeBeaconfence() {},

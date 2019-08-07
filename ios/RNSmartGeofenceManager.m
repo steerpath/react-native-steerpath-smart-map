@@ -53,21 +53,6 @@ RCT_EXPORT_METHOD(removeGeofence:(nonnull NSString *) localRef
   [manager removeGeofence:localRef building:buildingRef];
 }
 
-
-RCT_EXPORT_METHOD(addBeaconfences)
-{
-  SPSmartGeofenceManager* manager = [SPSmartGeofenceManager sharedInstance];
-  
-  [manager addBeaconfences];
-}
-
-RCT_EXPORT_METHOD(removeBeaconfences)
-{
-  SPSmartGeofenceManager* manager = [SPSmartGeofenceManager sharedInstance];
-  
-  [manager removeBeaconfences];
-}
-
 RCT_EXPORT_METHOD(addBeaconfence:(nonnull NSString *)beaconId
                   radius:(nonnull NSNumber*)radiusInMeter
                   loiteringDelay:(nonnull NSNumber*)loiteringDelayInSecond

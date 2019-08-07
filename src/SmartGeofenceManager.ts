@@ -26,12 +26,6 @@ export const SmartGeofenceManager = {
   removeGeofence(localRef: string, buildingRef: string) {
     RNSmartGeofenceManager.removeGeofence(localRef, buildingRef);
   },
-  addBeaconfences() {
-    RNSmartGeofenceManager.addBeaconfences();
-  },
-  removeBeaconfences() {
-    RNSmartGeofenceManager.removeBeaconfences();
-  },
   addBeaconfence(
     beaconId: string,
     radius: number,
