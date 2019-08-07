@@ -52,7 +52,13 @@ export interface SmartViewWebProps {
 export interface SmartViewNativeProps {
   mapMode?: SmartMapModes;
   onMapLoaded?: () => void;
-  onMapClicked?: (mapObjects: SmartMapObject[]) => void;
+  onMapClicked?: (payload:  {mapObjects: SmartMapObject[]}) => void;
+  onUserFloorChanged?: (payload: {floorIndex: number, buildingRef: string}) => void;
+  onVisibleFloorChanged?: (payload: {floorIndex: number, buildingRef: string}) => void;
+  onNavigationEnded?: () => void;
+  onNavigationStarted?: () => void;
+  onNavigationPreviewAppeared?: () => void;
+  onNavigationDestinationReached?: () => void;
 }
 
 export interface SmartMapViewProps

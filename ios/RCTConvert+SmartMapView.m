@@ -158,5 +158,18 @@
            };
 }
 
++ (NSArray<NSDictionary*>*)convertMapObjects:(id)mapObjects
+{
+    if (mapObjects) {
+        NSArray<SPSmartMapObject*>* convertedObjects = mapObjects;
+        NSMutableArray<NSDictionary*>* convertedMapObjects = [NSMutableArray new];
+        for (int i = 0; i < [convertedObjects count]; i++) {
+            [convertedMapObjects addObject:[RCTConvert convertMapObjectToJSONWith:[convertedObjects objectAtIndex:i]]];
+        }
+        return [NSArray arrayWithArray:convertedMapObjects];
+    }
+    return nil;
+}
+
 @end
 

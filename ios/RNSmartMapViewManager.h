@@ -16,9 +16,11 @@
 #import <Foundation/Foundation.h>
 
 #import "RCTConvert+SmartMapView.h"
+#import "RNSmartMapView.h"
+#import "RNSmartMapEventManager.h"
 
 
-@interface RNSmartMapViewManager : RCTViewManager <SPSmartMapUserTaskDelegate, SPSmartMapViewDelegate>
+@interface RNSmartMapViewManager : RCTViewManager
 
 @end
 
