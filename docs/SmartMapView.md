@@ -4,7 +4,7 @@
 
 | Prop | Type | Default | Platform | Note |
 |—|—|—|—|—|
-| `mapMode` | `mapOnly | static | search` | `search`  | iOS/Android | The Map Mode to display
+| `mapMode` | `mapOnly/static/search` | `search`  | iOS/Android | The Map Mode to display
 | `apiKey`  | `string` | `null`| Web | The api key to initialise the SDK
 
 ## Events

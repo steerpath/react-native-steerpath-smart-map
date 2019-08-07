@@ -81,9 +81,9 @@ SmartMapManager.start(API_KEY); // This is not required in the web platform
 
 ## Documentation
 
-* [<SmartMapView /> Component API](docs/SmartMapView.md)
-* [SmartGeofenceManager API](docs/SmartGeofenceManager.md)
-* [SmartMapManager API](docs/SmartMapManager.md)
+* [<SmartMapView /> Component API](https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/docs/SmartMapView.md)
+* [SmartGeofenceManager API](https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/docs/SmartMapManager.md)
+* [SmartMapManager API](https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/docs/SmartMapManager.md)
 
 ## For Steerpath Developer
 
