@@ -1,4 +1,4 @@
-### SmartMapUserTaskEventManager API.
+### SmartGeofenceManager API.
 
 > This API is only available for the Native Platforms
 
