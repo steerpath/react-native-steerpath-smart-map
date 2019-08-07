@@ -86,6 +86,17 @@ SmartMapManager.start(API_KEY); // This is not required in the web platform
 
 ### Publishing a new version:
 
+* For development
+
+For the first time: Run `yarn install && yarn build` in the root project, then go to example and run
+`yarn install` again.
+
+Everytime making changes in the root project, run `yarn build` again and go to
+example project and `yarn add react-native-steerpath-smart-map --force` to see
+the changes in the example project. Make any changes to the example project if necessary.
+
+* For releasing 
+
 Run the Typescript compiler and then npm publish:
 
 ```bash
