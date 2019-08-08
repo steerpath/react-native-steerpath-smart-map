@@ -36,6 +36,32 @@ export enum SmartMapEvent {
   MAP_CLICKED = "SPSmartMapClicked"
 }
 
+export enum SmartMapViewStatus {
+  ONLY_MAP = "onlyMap",
+  CARD_VIEW = "cardView",
+  SEARCH_IN_MIN_HEIGHT = "searchInMinHeight",
+  ERROR_VIEW = "errorView",
+  SETTING_VIEW = "settingView",
+  NAVIGATING_VIEW = "navigatingView",
+  SEARCH_IN_EXPANDED_MODE = "searchInExpandedMode",
+  SEARCH_IN_PREFERRED_HEIGHT = "searchInPreferredHeight"
+}
+
+export enum NavigationError {
+  OBJECT_NOT_FOUND = "objectNotFound",
+  ROUTE_NOT_FOUND = "routeNotFound",
+  USER_LOCATION_NOT_FOUND = "userLocationNotFound"
+}
+
+export enum SmartMapUserTaskResponse {
+  STARTED = "started",
+  CANCELLED = "cancelled",
+  ERROR = "error",
+  BUSY = "busy",
+  UNSUPPORTED = "unsupported",
+  COMPLETED = "completed"
+}
+
 export interface SmartMapObject {
   latitude: number;
   longitude: number;
@@ -54,16 +80,25 @@ export interface SmartViewNativeProps {
   onMapClicked?: (payload: { mapObjects: SmartMapObject[] }) => void;
   onUserFloorChanged?: (payload: {
     floorIndex: number;
-    buildingRef: string;
+    buildingRef?: string;
   }) => void;
   onVisibleFloorChanged?: (payload: {
     floorIndex: number;
-    buildingRef: string;
+    buildingRef?: string;
   }) => void;
+  onViewStatusChanged?: (payload: {
+    status: SmartMapViewStatus;
+    poiDetail: SmartMapObject;
+  }) => void;
+  onNavigationFailed?: (payload: { error: NavigationError }) => void;
   onNavigationEnded?: () => void;
   onNavigationStarted?: () => void;
   onNavigationPreviewAppeared?: () => void;
   onNavigationDestinationReached?: () => void;
+  onUserTaskResponse?: (payload: {
+    response: SmartMapUserTaskResponse;
+    userTask: SmartMapUserTask;
+  }) => void;
 }
 
 export interface SmartMapViewProps
@@ -93,12 +128,4 @@ export enum SmartMapUserTaskType {
 export interface SmartMapUserTask {
   type: SmartMapUserTaskType;
   payload: SmartMapNavigationUserTask | SmartMapPOISelectionUserTask;
-}
-
-export interface SmartMapUserTaskResponse {
-  type: SmartMapUserTaskType;
-  payload: {
-    localRef: string;
-    buildingRef: string;
-  };
 }

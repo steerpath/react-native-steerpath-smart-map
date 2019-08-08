@@ -62,7 +62,12 @@
 
 -(void)onViewStatusChanged:(SPMapViewStatus)status withPOIDetail:(SPSmartMapObject *)objectDetail
 {
-    
+    if (mapView.onViewStatusChanged) {
+        mapView.onViewStatusChanged(@{
+                                      @"status": [RCTConvert SPMapViewStatus:status],
+                                      @"poiDetail": [RCTConvert convertMapObjectToJSONWith:objectDetail]
+                                      });
+    }
 }
 
 #pragma mark NavigationEvent
@@ -76,7 +81,11 @@
 
 -(void)onNavigationFailed:(SPNavigationError)error
 {
-    
+    if (mapView.onNavigationFailed) {
+        mapView.onNavigationFailed(@{
+                                     @"error": [RCTConvert SPNavigationError:error]
+                                     });
+    }
 }
 
 - (void)onNavigationStarted
@@ -105,7 +114,12 @@
 
 - (void)spSmartMapUserTask:(SPSmartMapUserTask *)userTask onUserTaskResponse:(SPSmartMapUserTaskResponse)response
 {
-    
+    if (mapView.onUserTaskResponse) {
+        mapView.onUserTaskResponse(@{
+                                     @"response": [RCTConvert SPSmartMapUserTaskResponse:response],
+                                     @"userTask": [RCTConvert convertUserTaskToJSONWith:userTask]
+                                     });
+    }
 }
 
 

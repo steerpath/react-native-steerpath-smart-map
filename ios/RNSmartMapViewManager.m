@@ -9,6 +9,21 @@
 #import "RNSmartMapViewManager.h"
 
 @implementation RNSmartMapViewManager
+{
+    NSHashTable* mapEventManagers;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    mapEventManagers = [NSHashTable new];
+    return self;
+}
+
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
 
 RCT_EXPORT_MODULE(RNSmartMapView)
 
@@ -16,10 +31,24 @@ RCT_EXPORT_MODULE(RNSmartMapView)
 {
   RNSmartMapView* view = [RNSmartMapView new];
   RNSmartMapEventManager* mapEventManager = [[RNSmartMapEventManager alloc] initWithMapView:view];
+    [mapEventManagers addObject:mapEventManager];
   view.delegate = mapEventManager;
   view.userTaskDelegate = mapEventManager;
   return view;
 }
+
+RCT_EXPORT_VIEW_PROPERTY(onMapLoaded, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onMapClicked, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onUserFloorChanged, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onVisibleFloorChanged, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onViewStatusChanged, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onNavigationEnded, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onNavigationFailed, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onNavigationStarted, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onNavigationPreviewAppeared, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onNavigationDestinationReached, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onUserTaskResponse, RCTBubblingEventBlock)
+
 
 RCT_CUSTOM_VIEW_PROPERTY(mapMode, SPMapMode, RNSmartMapView)
 {   // The one we want to switch on

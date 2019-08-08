@@ -9,10 +9,19 @@
 
 ## Events
 
-| Event Name     |      Returns       |    Platform     | Notes                                                                                   |
-| :------------- | :----------------: | :-------------: | :-------------------------------------------------------------------------------------- |
-| `onMapLoaded`  |       `void`       | iOS/Android/Web | Callback that is called once the map is fully loaded.                                   |
-| `onMapClicked` | `SmartMapObject[]` |   iOS/Android   | Callback that is called when user tap on the map, returns a list of tapped map objects. |
+| Event Name                       |                               Payload                                |    Platform     | Notes                                                                                                                                                                                                                                         |
+| :------------------------------- | :------------------------------------------------------------------: | :-------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `onMapLoaded`                    |                                `void`                                | iOS/Android/Web | Callback that is called once the map is fully loaded.                                                                                                                                                                                         |
+| `onMapClicked`                   |                          `SmartMapObject[]`                          |   iOS/Android   | Callback that is called when user tap on the map, returns a list of tapped map objects.                                                                                                                                                       |
+| `onUserFloorChanged`             |            `{ floorIndex: number; buildingRef?: string }`            |   iOS/Android   | Called after the user moves onto a new floor or building. The ‘buildingRef’ parameter is nil if the user has moved outside of a building.                                                                                                     |
+| `onVisibleFloorChanged`          |            `{ floorIndex: number; buildingRef?: string }`            |   iOS/Android   | Called after the visible floor or building on the map has changed. The ‘buildingRef’ parameter is nil if there is no ‘visible’ building.                                                                                                      |
+| `onViewStatusChanged`            |     `{ status: SmartMapViewStatus; poiDetail: SmartMapObject }`      |   iOS/Android   | Called when the views of smartMap changed                                                                                                                                                                                                     |
+| `onNavigationFailed`             |                     `{ error: NavigationError }`                     |   iOS/Android   | Called if navigation fails.                                                                                                                                                                                                                   |
+| `onNavigationEnded`              |                                                                      |   iOS/Android   | Called if navigation ended                                                                                                                                                                                                                    |
+| `onNavigationStarted`            |                                                                      |   iOS/Android   | Called if navigation started                                                                                                                                                                                                                  |
+| `onNavigationPreviewAppeared`    |                                                                      |   iOS/Android   | Called if navigation preview appeared                                                                                                                                                                                                         |
+| `onNavigationDestinationReached` |                                                                      |   iOS/Android   | Called if destination reached                                                                                                                                                                                                                 |
+| `onUserTaskResponse`             | `{ response: SmartMapUserTaskResponse; userTask: SmartMapUserTask }` |   iOS/Android   | Called when smartmap start a userTask. Whenever the user task is interrupted. The response type will be Cancelled otherwise if it is finished Completed will be returned. After a user task is finished. The map mode will be set to mapOnly. |
 
 ## Methods
 
@@ -28,51 +37,4 @@
 | `getCurrentUserTask`    |                        `callback: (userTaskResponse: SmartMapUserTaskResponse) => any`                        |   iOS/Android   | Get the current User Task                                                                                                                                                                                |
 | `cancelCurrentUserTask` |                                                                                                               |   iOS/Android   | Cancel the current user task, if any                                                                                                                                                                     |
 
-## Types
-
-```
-type SmartMapObject {
-  latitude: number;
-  longitude: number;
-  floorIndex: number;
-  localRef: string;
-  buildingRef: string;
-  title: string;
-  source: SmartObjectSource;
-}
-
-enum SmartObjectSource {
-  STATIC = "static",
-  MARKER = "marker",
-  LIVE = "live"
-}
-
-interface CameraPosition {
-	latitude: number;
-  longitude: number;
-  zoomLevel: number;
-  bearing?: number;
-  pitch?: number;
-  floorIndex?: number;
-  buildingRef: string;
-}
-
-type SmartMapNavigationUserTask = SmartMapObject;
-
-interface SmartMapPOISelectionUserTask extends SmartMapObject {
-  shouldAddMarker: boolean;
-  actionButtonText: string;
-  actionButtonIcon: string;
-}
-
-enum SmartMapUserTaskType {
-  NAVIGATION = "navigation",
-  POI_SELECTION = "poiSelection"
-}
-
-interface SmartMapUserTask {
-  type: SmartMapUserTaskType;
-  payload: SmartMapNavigationUserTask | SmartMapPOISelectionUserTask;
-}
-
-```
+## [Types](https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/src/SmartMapViewProps.ts)

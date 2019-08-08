@@ -1,10 +1,6 @@
 /* eslint-disable no-redeclare */
 /* eslint-disable prefer-destructuring */
-import React, {
-  useImperativeHandle,
-  forwardRef,
-  useRef
-} from "react";
+import React, { useImperativeHandle, forwardRef, useRef } from "react";
 import {
   requireNativeComponent,
   NativeModules,
@@ -125,10 +121,20 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         ref={smartMapRef}
         {...props}
         onUserFloorChanged={event => {
-          props.onUserFloorChanged && props.onUserFloorChanged(event.nativeEvent);
+          props.onUserFloorChanged &&
+            props.onUserFloorChanged(event.nativeEvent);
+        }}
+        onViewStatusChanged={event => {
+          props.onViewStatusChanged &&
+            props.onViewStatusChanged(event.nativeEvent);
+        }}
+        onNavigationFailed={event => {
+          props.onNavigationFailed &&
+            props.onNavigationFailed(event.nativeEvent);
         }}
         onVisibleFloorChanged={event => {
-          props.onVisibleFloorChanged && props.onVisibleFloorChanged(event.nativeEvent);
+          props.onVisibleFloorChanged &&
+            props.onVisibleFloorChanged(event.nativeEvent);
         }}
         onMapClicked={event => {
           props.onMapClicked && props.onMapClicked(event.nativeEvent);

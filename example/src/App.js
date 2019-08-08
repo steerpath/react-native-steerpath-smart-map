@@ -32,6 +32,9 @@ export default function App() {
       onVisibleFloorChanged={payload =>
         console.log("Visible Floor changed", payload)
       }
+      onViewStatusChanged={payload =>
+        console.log("onViewstatuschanged", payload)
+      }
       onNavigationEnded={() => console.log("navigation ended")}
       onNavigationStarted={() => console.log("navigation started")}
       onNavigationPreviewAppeared={() =>
@@ -40,6 +43,9 @@ export default function App() {
       onNavigationDestinationReached={() =>
         console.log("navigation DestinationReached")
       }
+      onUserTaskResponse={payload => {
+        console.log("onUsertask response", payload);
+      }}
     />
   );
 }
