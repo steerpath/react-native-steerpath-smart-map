@@ -51,10 +51,15 @@ export interface SmartViewWebProps {
 
 export interface SmartViewNativeProps {
   mapMode?: SmartMapModes;
-  onMapLoaded?: () => void;
-  onMapClicked?: (payload:  {mapObjects: SmartMapObject[]}) => void;
-  onUserFloorChanged?: (payload: {floorIndex: number, buildingRef: string}) => void;
-  onVisibleFloorChanged?: (payload: {floorIndex: number, buildingRef: string}) => void;
+  onMapClicked?: (payload: { mapObjects: SmartMapObject[] }) => void;
+  onUserFloorChanged?: (payload: {
+    floorIndex: number;
+    buildingRef: string;
+  }) => void;
+  onVisibleFloorChanged?: (payload: {
+    floorIndex: number;
+    buildingRef: string;
+  }) => void;
   onNavigationEnded?: () => void;
   onNavigationStarted?: () => void;
   onNavigationPreviewAppeared?: () => void;
@@ -69,6 +74,7 @@ export interface SmartMapViewProps
    * This is a quick hack for enabling typed ref
    */
   ref?: any;
+  onMapLoaded?: () => void;
 }
 
 export type SmartMapNavigationUserTask = SmartMapObject;
