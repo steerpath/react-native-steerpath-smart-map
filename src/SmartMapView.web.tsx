@@ -1,9 +1,12 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useImperativeHandle, useRef, forwardRef } from 'react';
 import { SmartMapViewProps, SmartMapObject, Layout, MapResponse } from './SmartMapViewProps';
-//TODO: Juhani fix the breaking changes when updating web sdk
-//TODO: Juhani update web sdk in ./public/index.html
-declare let window: any;
+import { steerpath } from "steerpath-smart-sdk"
+
+//no longer needed as the steerpath is imported from node modules
+//instead of the window namespace
+//declare let window: any;
+
 //TODO: Juhani replace html element id to ref
 const COMPONENT_ID_PREFIX = 'map_container_id';
 
@@ -12,7 +15,7 @@ function runCommand(handler: any, name: string, args: any[]) {
 }
 
 function convertToWebSDKSmartMapObj(smartMapObj: SmartMapObject) {
-  return new window.steerpath.SmartMapObject(
+  return new steerpath.SmartMapObject(
     smartMapObj.latitude,
     smartMapObj.longitude,
     smartMapObj.floorIndex,
@@ -26,9 +29,9 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
   const smartMapRef = useRef(null);
 
   useEffect(() => {
-    const smartSDK = new window.steerpath.SmartSDK(props.apiKey);
+    const smartSDK = new steerpath.SmartSDK(props.apiKey);
     // eslint-disable-next-line no-new
-    smartMapRef.current = new window.steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
+    smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
     return () => {
       //When screen size changes and this component unmounted
       //remove the old instance of smartMapRef.current
