@@ -1,113 +1,55 @@
 package com.steerpath.rnsmartmap;
 
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.util.Log;
+import android.view.Choreographer;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
-import com.facebook.react.bridge.LifecycleEventListener;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.steerpath.smart.SmartMapFragment;
 
-public class RNSmartMapView extends SteerpathMapView implements OnMapReadyCallback {
+public class RNSmartMapView extends FrameLayout {
 
-    private Context mContext;
+    private SmartMapFragment smartMap;
 
-    private LifecycleEventListener mLifeCycleListener;
+    public RNSmartMapView(ThemedReactContext context) {
+        super(context);
+        SmartMapFragment fragment = SmartMapFragment.newInstance();
+        this.smartMap = fragment;
+        AppCompatActivity activity = (AppCompatActivity) context.getCurrentActivity();
 
-    private boolean mPaused;
-    private boolean mDestroyed;
+        activity.getSupportFragmentManager()
+                .beginTransaction()
+                .add(fragment, "tag")
+                .commit();
 
-    public RNSmartMapView(@NonNull ThemedReactContext context) {
-        super(context.getCurrentActivity());
-        this.mContext = context;
+        activity.getSupportFragmentManager().executePendingTransactions();
+        fragment.setCameraToBuildingRef("67", null);
+        addView(fragment.getView(), ViewGroup.LayoutParams.MATCH_PARENT);
 
-        onCreate(null);
-        onStart();
-        onResume();
-        getMapAsync(this);
-
-        setLifecycleListeners();
-
+        drawChildViews();
     }
 
-
-    @Override
-    public void onMapReady(SteerpathMap steerpathMap) {
-        Log.d("MONITOR", "Map is now ready");
+    public SmartMapFragment getSmartMap() {
+        return smartMap;
     }
 
-    @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        mPaused = false;
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mPaused = true;
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mDestroyed = true;
-    }
-
-    @Override
-    public void onLowMemory() {
-        super.onLowMemory();
-    }
-
-    private void setLifecycleListeners() {
-        final ReactContext reactContext = (ReactContext) mContext;
-
-        mLifeCycleListener = new LifecycleEventListener() {
+    private void drawChildViews() {
+        Choreographer.getInstance().postFrameCallback(new Choreographer.FrameCallback() {
             @Override
-            public void onHostResume() {
-                onResume();
+            public void doFrame(long l) {
+                for (int i = 0; i < RNSmartMapView.this.getChildCount(); i++) {
+                    View child = RNSmartMapView.this.getChildAt(i);
+                    child.measure(MeasureSpec.makeMeasureSpec(RNSmartMapView.this.getMeasuredWidth(), MeasureSpec.EXACTLY),
+                            MeasureSpec.makeMeasureSpec(RNSmartMapView.this.getMeasuredHeight(), MeasureSpec.EXACTLY));
+                    child.layout(0, 0, child.getMeasuredWidth(), child.getMeasuredHeight());
+
+                    RNSmartMapView.this.getViewTreeObserver().dispatchOnGlobalLayout();
+                    Choreographer.getInstance().postFrameCallback(this);
+                }
             }
-
-            @Override
-            public void onHostPause() {
-                onPause();
-            }
-
-            @Override
-            public void onHostDestroy() {
-                dispose();
-            }
-        };
-
-        reactContext.addLifecycleEventListener(mLifeCycleListener);
-    }
-
-    public synchronized void dispose() {
-        if (mDestroyed) {
-            return;
-        }
-
-        ReactContext reactContext = (ReactContext) mContext;
-        reactContext.removeLifecycleEventListener(mLifeCycleListener);
-
-        if (!mPaused) {
-            onPause();
-        }
-
-        onStop();
-        onDestroy();
+        });
     }
 }

@@ -8,6 +8,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.steerpath.smart.SmartGeofenceManager;
 import com.steerpath.smart.listeners.FenceEventListener;
 
 import javax.annotation.Nonnull;

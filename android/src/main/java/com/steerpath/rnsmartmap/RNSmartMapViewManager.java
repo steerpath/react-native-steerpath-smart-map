@@ -1,29 +1,20 @@
 package com.steerpath.rnsmartmap;
 
-import android.util.Log;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-
-import com.facebook.react.ReactActivity;
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.uimanager.SimpleViewManager;
+import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
-import com.steerpath.smart.SteerpathMapView;
+import com.steerpath.smart.MapMode;
+import com.steerpath.smart.SmartMapFragment;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> implements LifecycleEventListener {
+public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
 
     public static final String REACT_CLASS = "RNSmartMapView";
+    private SmartMapFragment smartMap;
 
     @Override
     public String getName() {
@@ -36,38 +27,37 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> impl
         this.reactApplicationContext = reactApplicationContext;
     }
 
-    private List<SteerpathMapView> mapViews = new ArrayList<>();
-
     @Override
     public RNSmartMapView createViewInstance(ThemedReactContext context) {
-        RNSmartMapView mapView = new RNSmartMapView(context);
-        return mapView;
-    }
-
-    @Override
-    protected void onAfterUpdateTransaction(RNSmartMapView mapView) {
-        super.onAfterUpdateTransaction(mapView);
-
-//        mapView.init();
+        RNSmartMapView smartMapView = new RNSmartMapView(context);
+        smartMap = smartMapView.getSmartMap();
+        return smartMapView;
     }
 
     @ReactProp(name = "mapMode")
-    public void setMapMode(RNSmartMapView view, @Nullable String mapMode) {
-
+    public void mapMode(RNSmartMapView view, @Nullable String mapMode) {
+        if (smartMap != null) {
+            switch (mapMode) {
+                case "mapOnly":
+                    smartMap.setMapMode(MapMode.MAP_ONLY);
+                    break;
+                case "static":
+                    smartMap.setMapMode(MapMode.STATIC);
+                    break;
+                case "search":
+                    smartMap.setMapMode(MapMode.SEARCH);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
-    @Override
-    public void onHostResume() {
-
-    }
-
-    @Override
-    public void onHostPause() {
-
-    }
-
-    @Override
-    public void onHostDestroy() {
-
+    @ReactMethod
+    public void setCamera(double latitude, double longitude, double zoomLevel, double bearing,
+                          double pitch, int floorIndex, String buildingRef) {
+        if (smartMap != null) {
+            smartMap.setCamera(latitude, longitude, zoomLevel, bearing, pitch, floorIndex, buildingRef);
+        }
     }
 }
