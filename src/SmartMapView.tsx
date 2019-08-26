@@ -13,8 +13,7 @@ import {
   Layout,
   MapResponse,
   SmartMapUserTask,
-  SmartMapUserTaskResponse,
-  SmartMapEvent
+  SmartMapUserTaskResponse
 } from "./SmartMapViewProps";
 
 const NATIVE_VIEW_NAME = "RNSmartMapView";
@@ -26,6 +25,9 @@ function runCommand(handler: any, name: string, args: any[]) {
       ...args
     );
   }
+  console.log({
+    config: NativeModules.UIManager.getViewManagerConfig(NATIVE_VIEW_NAME)
+  })
   return NativeModules.UIManager.dispatchViewManagerCommand(
     findNodeHandle(handler),
     NativeModules.UIManager.getViewManagerConfig(NATIVE_VIEW_NAME).Commands[

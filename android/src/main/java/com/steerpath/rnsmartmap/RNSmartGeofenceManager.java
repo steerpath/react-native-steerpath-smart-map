@@ -16,12 +16,10 @@ import javax.annotation.Nullable;
 
 public class RNSmartGeofenceManager extends ReactContextBaseJavaModule implements FenceEventListener {
     private final ReactApplicationContext appContext;
-    private final SmartGeofenceManager smartGeofenceManager;
 
     public RNSmartGeofenceManager(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
         this.appContext = reactContext;
-        this.smartGeofenceManager = new SmartGeofenceManager();
     }
 
     @Nonnull
@@ -32,26 +30,26 @@ public class RNSmartGeofenceManager extends ReactContextBaseJavaModule implement
 
     @ReactMethod
     public void addGeofence(String localRef, String buildingRef, Callback callback) {
-        smartGeofenceManager.addGeofence(localRef, buildingRef, (String response) -> {
+        SmartGeofenceManager.addGeofence(localRef, buildingRef, (String response) -> {
             callback.invoke(null, response);
         });
     }
 
     @ReactMethod
     public void removeGeofence(String localRef, String buildingRef) {
-        smartGeofenceManager.removeGeofence(localRef, buildingRef);
+        SmartGeofenceManager.removeGeofence(localRef, buildingRef);
     }
 
     @ReactMethod
     public void addBeaconfence(String beaconId, Number radiusInM, Number loiteringDelayInMs, Callback callback) {
-        smartGeofenceManager.addBeaconfence(beaconId, radiusInM.intValue(), loiteringDelayInMs.intValue(), (String response) -> {
+        SmartGeofenceManager.addBeaconfence(beaconId, radiusInM.intValue(), loiteringDelayInMs.intValue(), (String response) -> {
             callback.invoke(null, response);
         });
     }
 
     @ReactMethod
     public void removeBeaconfence(String beaconId) {
-        smartGeofenceManager.removeBeaconfence(beaconId);
+        SmartGeofenceManager.removeBeaconfence(beaconId);
     }
 
     @Override

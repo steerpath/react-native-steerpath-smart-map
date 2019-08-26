@@ -1,5 +1,7 @@
 package com.steerpath.rnsmartmap;
 
+import android.util.Log;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -36,6 +38,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
 
     @ReactProp(name = "mapMode")
     public void mapMode(RNSmartMapView view, @Nullable String mapMode) {
+        Log.d("mapMode", mapMode);
         if (smartMap != null) {
             switch (mapMode) {
                 case "mapOnly":

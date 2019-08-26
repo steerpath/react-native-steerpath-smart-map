@@ -7,6 +7,9 @@
     "jsx": "react",
     "lib": ["es6", "dom", "dom.iterable"],
     "moduleResolution": "node",
+    "typeRoots": [
+      "./src/typings"
+    ],
     "strict": true,
     "target": "es5",
     "skipLibCheck": true,

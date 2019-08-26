@@ -30,6 +30,7 @@ public class RNSmartMapView extends FrameLayout {
         addView(fragment.getView(), ViewGroup.LayoutParams.MATCH_PARENT);
 
         drawChildViews();
+
     }
 
     public SmartMapFragment getSmartMap() {
