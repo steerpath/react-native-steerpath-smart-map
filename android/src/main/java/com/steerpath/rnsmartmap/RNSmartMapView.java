@@ -8,18 +8,39 @@ import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeArray;
+import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.mapbox.geojson.FeatureCollection;
 import com.steerpath.smart.ObjectSource;
 import com.steerpath.smart.SmartMapFragment;
+import com.steerpath.smart.SmartMapObject;
+import com.steerpath.smart.listeners.MapEventListener;
+import com.steerpath.smart.listeners.MapResponseCallback;
 
-public class RNSmartMapView extends FrameLayout {
+import java.util.List;
+
+public class RNSmartMapView extends FrameLayout implements MapEventListener {
 
     private SmartMapFragment smartMap;
+    private ReactContext reactContext;
+    private RNSmartMapViewManager manager;
 
-    public RNSmartMapView(ThemedReactContext context) {
+    public RNSmartMapView(ThemedReactContext context, ReactApplicationContext reactApplicationContext,
+                          RNSmartMapViewManager mapViewManager) {
         super(context);
+
+
         SmartMapFragment fragment = SmartMapFragment.newInstance();
+        this.reactContext = reactApplicationContext;
+        this.manager = mapViewManager;
+
         this.smartMap = fragment;
+        smartMap.setMapEventListener(this);
         AppCompatActivity activity = (AppCompatActivity) context.getCurrentActivity();
 
         activity.getSupportFragmentManager()
@@ -51,6 +72,46 @@ public class RNSmartMapView extends FrameLayout {
             }
         });
     }
+
+    // MapEventListener CALLBACKS
+
+    @Override
+    public boolean onMapClick(List<SmartMapObject> mapObjects) {
+        if (mapObjects == null) {
+            return false;
+        }
+
+        WritableArray array = new WritableNativeArray();
+        for (SmartMapObject object : mapObjects) {
+            WritableMap map = new WritableNativeMap();
+            map.putDouble("latitude", object.getLatitude());
+            map.putDouble("longitude", object.getLongitude());
+            map.putInt("floorIndex", object.getFloorIndex());
+            map.putString("localRef", object.getLocalRef());
+            map.putString("buildingRef", object.getBuildingRef());
+            map.putString("title", object.getTitle());
+            map.putString("source", object.getSource());
+            array.pushMap(map);
+        }
+        manager.sendEvent(reactContext, this, "onMapClicked", array);
+        return true;
+    }
+
+    @Override
+    public void onMapLoaded() {
+        manager.sendEvent(reactContext, this, "onMapLoaded", new WritableNativeMap());
+    }
+
+    @Override
+    public void onUserFloorChanged(int floorIndex, String buildingRef) {
+
+    }
+
+    public void onVisibleFloorChanged(int floorIndex, String buildingRef) {
+
+    }
+
+    // PUBLIC METHODS
 
     public void setMapMode(String mapMode) {
         smartMap.setMapMode(mapMode);
@@ -102,4 +163,7 @@ public class RNSmartMapView extends FrameLayout {
         smartMap.selectMapObject(localRef, buildingRef);
     }
 
+    public void animateCameraToObject(String localRef, String buildingRef, double zoom, MapResponseCallback callback) {
+        smartMap.animateCameraToObject(localRef, buildingRef, zoom, callback);
+    }
 }

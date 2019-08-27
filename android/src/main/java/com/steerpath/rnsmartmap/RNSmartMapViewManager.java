@@ -1,14 +1,22 @@
 package com.steerpath.rnsmartmap;
 
 import android.util.Log;
+import android.view.View;
 
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableArray;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
+import com.facebook.react.common.MapBuilder;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
+import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.steerpath.smart.MapMode;
 
 import java.util.Map;
@@ -29,9 +37,10 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     private static final int GET_CURRENT_USER_TASK = 9;
     private static final int CANCEL_CURRENT_USER_TASK = 10;
 
-    public static final String REACT_CLASS = "RNSmartMapView";
+    private static final String REACT_CLASS = "RNSmartMapView";
 
     @Override
+    @Nonnull
     public String getName() {
         return REACT_CLASS;
     }
@@ -44,7 +53,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
 
     @Override
     public RNSmartMapView createViewInstance(ThemedReactContext context) {
-        RNSmartMapView smartMapView = new RNSmartMapView(context);
+        RNSmartMapView smartMapView = new RNSmartMapView(context, reactApplicationContext, this);
         return smartMapView;
     }
 
@@ -63,6 +72,14 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
             default:
                 break;
         }
+    }
+
+    @Override
+    public Map getExportedCustomDirectEventTypeConstants() {
+        return MapBuilder.of(
+                "onMapLoaded", MapBuilder.of("registrationName", "onMapLoaded"),
+                "onMapClicked", MapBuilder.of("registrationName", "onMapClicked")
+        );
     }
 
     @Nullable
@@ -84,16 +101,19 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     @Override
     public void receiveCommand(@Nonnull RNSmartMapView mapView, int commandId, @Nullable ReadableArray args) {
         ReadableMap map;
+        String buildingRef;
+        String localRef;
+        double zoom;
 
         switch (commandId) {
             case SET_CAMERA:
                 double lat = args.getDouble(0);
                 double lon = args.getDouble(1);
-                double zoom = args.getDouble(2);
+                zoom = args.getDouble(2);
                 double bearing = args.getDouble(3);
                 double pitch = args.getDouble(4);
                 int floorIndex = args.getInt(5);
-                String buildingRef = args.getString(6);
+                buildingRef = args.getString(6);
                 mapView.setCamera(lat, lon, zoom, bearing, pitch, floorIndex, buildingRef);
                 break;
             case ADD_MARKER:
@@ -116,7 +136,12 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 mapView.selectMapObject(getBuildingRef(map), getLocalRef(map));
                 break;
             case ANIMATE_CAMERA_TO_OBJECT:
-                Log.d("AnimateCamera", "" + args);
+                localRef = args.getString(0);
+                buildingRef = args.getString(1);
+                zoom = args.getDouble(2);
+                mapView.animateCameraToObject(localRef, buildingRef, zoom, s -> {
+                    Log.d("Callback", s);
+                });
                 break;
         }
     }
@@ -131,5 +156,20 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
 
     private String getSource(ReadableMap map) {
         return map.getString("source");
+    }
+
+
+    public void sendEvent(ReactContext reactContext, View view, String eventName, @Nullable WritableMap params) {
+        reactContext
+                .getJSModule(RCTEventEmitter.class)
+                .receiveEvent(view.getId(), eventName, params);
+    }
+
+    public void sendEvent(ReactContext reactContext, View view, String eventName, @Nullable WritableArray params) {
+        WritableMap map = new WritableNativeMap();
+        map.putArray("SmartMapObjects", params);
+        reactContext
+                .getJSModule(RCTEventEmitter.class)
+                .receiveEvent(view.getId(), eventName, map);
     }
 }
