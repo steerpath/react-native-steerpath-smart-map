@@ -7,7 +7,6 @@ import { steerpath } from "steerpath-smart-sdk"
 //instead of the window namespace
 //declare let window: any;
 
-//TODO: Juhani replace html element id to ref
 const COMPONENT_ID_PREFIX = 'map_container_id';
 
 function runCommand(handler: any, name: string, args: any[]) {
@@ -29,7 +28,8 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
   const smartMapRef = useRef(null);
 
   useEffect(() => {
-    const smartSDK = new steerpath.SmartSDK(props.apiKey);
+    const smartSDK = new steerpath.SmartSDK();
+    smartSDK.start(props.apiKey)
     // eslint-disable-next-line no-new
     smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
     return () => {
@@ -38,7 +38,6 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       (smartMapRef.current as any).removeMap()
     }
   }, [props.apiKey]);
-  //TODO: hook to expose methods
   useImperativeHandle(ref, () => ({
     setCamera({
       latitude,
@@ -117,7 +116,6 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     cancelCurrentUserTask() {
       console.warn('cancelCurrentUserTask is not supported on the web');
     },
-    //TODO: Juhani add more bindings
   }));
 
   return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1 }} />;
