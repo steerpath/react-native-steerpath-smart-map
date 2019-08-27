@@ -104,11 +104,19 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener {
 
     @Override
     public void onUserFloorChanged(int floorIndex, String buildingRef) {
+        WritableMap map = new WritableNativeMap();
+        map.putInt("floorIndex", floorIndex);
+        map.putString("buildingRef", buildingRef);
 
+        manager.sendEvent(reactContext, this, "onUserFloorChanged", map);
     }
 
     public void onVisibleFloorChanged(int floorIndex, String buildingRef) {
+        WritableMap map = new WritableNativeMap();
+        map.putInt("floorIndex", floorIndex);
+        map.putString("buildingRef", buildingRef);
 
+        manager.sendEvent(reactContext, this, "onVisibleFloorChanged", map);
     }
 
     // PUBLIC METHODS

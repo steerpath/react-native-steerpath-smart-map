@@ -10,6 +10,7 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
+import com.facebook.react.common.ArrayUtils;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.uimanager.ThemedReactContext;
@@ -78,7 +79,9 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     public Map getExportedCustomDirectEventTypeConstants() {
         return MapBuilder.of(
                 "onMapLoaded", MapBuilder.of("registrationName", "onMapLoaded"),
-                "onMapClicked", MapBuilder.of("registrationName", "onMapClicked")
+                "onMapClicked", MapBuilder.of("registrationName", "onMapClicked"),
+                "onUserFloorChanged", MapBuilder.of("registrationName", "onUserFloorChanged"),
+                "onVisibleFloorChanged", MapBuilder.of("registrationName", "onVisibleFloorChanged")
         );
     }
 
