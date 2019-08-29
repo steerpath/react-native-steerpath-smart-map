@@ -16,7 +16,6 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.ThemedReactContext;
-import com.mapbox.geojson.FeatureCollection;
 import com.steerpath.smart.NavigationUserTask;
 import com.steerpath.smart.ObjectSource;
 import com.steerpath.smart.POISelectionUserTask;
@@ -43,7 +42,6 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     public RNSmartMapView(ThemedReactContext context, ReactApplicationContext reactApplicationContext,
                           RNSmartMapViewManager mapViewManager) {
         super(context);
-
 
         SmartMapFragment fragment = SmartMapFragment.newInstance();
         this.reactContext = reactApplicationContext;
@@ -133,8 +131,34 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
     @Override
     public void onUserTaskResponse(@NonNull UserTask userTask, String s) {
-        Log.d("userTask", userTask.toString());
-        Log.d("userTask status", s);
+        String response;
+        switch (s) {
+            case UserTaskResponse.BUSY:
+                response = "busy";
+                break;
+            case UserTaskResponse.ERROR:
+                response = "error";
+                break;
+            case UserTaskResponse.STARTED:
+                response = "started";
+                break;
+            case UserTaskResponse.CANCELLED:
+                response = "cancelled";
+                break;
+            case UserTaskResponse.COMPLETED:
+                response = "completed";
+                break;
+            case UserTaskResponse.UNSUPPORTED:
+                response = "unsupported";
+                break;
+            default:
+                response = "unknownUserTaskResponse";
+                break;
+        }
+
+        WritableMap map = new WritableNativeMap();
+        map.putString("SmartMapUserTaskResponse", response);
+        manager.sendEvent(reactContext, this, "onUserTaskResponse", map);
     }
 
     /** - - - - - NAVIGATION EVENTS - - - - - */
@@ -224,6 +248,25 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
     public void startNavigationUserTask(double lat, double lon, int floorIndex, String localRef,String buildingRef) {
         smartMap.startUserTask(new NavigationUserTask(new SmartMapObject(lat, lon, floorIndex, localRef, buildingRef)));
+    }
+
+    public void startPoiSelectionUserTask(String localRef, String buildingRef, String source, boolean addMarker,
+                                          String actionButtonText, int actionButtonIcon) {
+
+        String objectSource;
+
+        if (source.toLowerCase().equals("marker")) {
+            objectSource = ObjectSource.MARKER;
+        } else {
+            objectSource = ObjectSource.STATIC;
+        }
+
+        smartMap.getMapObject(localRef, buildingRef, objectSource, (smartMapObject, s) -> {
+            Log.d("response", s);
+            if (smartMapObject != null) {
+                smartMap.startUserTask(new POISelectionUserTask(smartMapObject, addMarker, actionButtonText, actionButtonIcon));
+            }
+        });
     }
 
     /** - - - - - PRIVATE METHODS - - - - - */

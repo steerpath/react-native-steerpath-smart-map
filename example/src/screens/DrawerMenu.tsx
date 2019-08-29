@@ -20,16 +20,6 @@ const NAVIGATION_TASK = {
   payload: MAP_OBJECT
 }
 
-const POI_SELECTION_TASK = {
-  type: SmartMapUserTaskType.POI_SELECTION,
-  payload: {
-    MAP_OBJECT,
-    shouldAddMarker: true,
-    actionButtonText: "BUTTON",
-    actionButtonIcon: null
-  }
-}
-
 export default function DrawerMenu() {
   const { smartMapRef } = useSmartMapContext();
   return (
@@ -82,12 +72,6 @@ export default function DrawerMenu() {
               smartMapRef.current.startUserTask(NAVIGATION_TASK);
           }}
         />
-        <Button
-          title="Start POI selection user task"
-          onPress={() => {
-            smartMapRef.current &&
-              smartMapRef.current.startUserTask(POI_SELECTION_TASK);
-          }}/>
       </ScrollView>
     </SafeAreaView>
   );

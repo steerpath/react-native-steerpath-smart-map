@@ -17,6 +17,7 @@ import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.steerpath.smart.MapMode;
 import com.steerpath.smart.SmartMapObject;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -166,7 +167,13 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 if (taskType.equals("navigation")) {
                     mapView.startNavigationUserTask(getLatitude(payload), getLongitude(payload), getFloorIndex(payload), getLocalRef(payload), getBuildingRef(payload));
                 } else if (taskType.equals("poiSelection")) {
-
+                    map = args.getMap(0);
+                    Log.d("map", map.toString());
+                    payload = map.getMap("payload");
+                    ReadableMap mapObject = payload.getMap("map_object");
+                    Log.d("map_object", mapObject.toString());
+                    mapView.startPoiSelectionUserTask(getLocalRef(mapObject), getBuildingRef(mapObject), getSource(mapObject),
+                            payload.getBoolean("shouldAddMarker"), payload.getString("actionButtonText"), payload.getInt("actionButtonIcon"));
                 } else {
                     Log.d("ERROR", "Invalid user task type");
                 }
@@ -204,7 +211,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     }
 
 
-    public void sendEvent(ReactContext reactContext, View view, String eventName, @Nullable WritableMap params) {
+    void sendEvent(ReactContext reactContext, View view, String eventName, @Nullable WritableMap params) {
         reactContext
                 .getJSModule(RCTEventEmitter.class)
                 .receiveEvent(view.getId(), eventName, params);
