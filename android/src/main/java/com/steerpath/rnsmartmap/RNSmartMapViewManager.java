@@ -24,6 +24,18 @@ import java.util.TreeMap;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
+import static com.steerpath.rnsmartmap.RNEventKeys.MAP_CLICKED;
+import static com.steerpath.rnsmartmap.RNEventKeys.MAP_LOADED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_DESTINATION_REACHED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_ENDED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
+import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
+import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
+import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
+import static com.steerpath.rnsmartmap.RNEventKeys.VISIBLE_FLOOR_CHANGED;
+
 public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
 
     private static final int SET_CAMERA = 1;
@@ -77,20 +89,20 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     public Map getExportedCustomDirectEventTypeConstants() {
         String registrationName = "registrationName";
         Map<String, Map<String, String>> map =  MapBuilder.of(
-                "onMapLoaded", MapBuilder.of(registrationName, "onMapLoaded"),
-                "onMapClicked", MapBuilder.of(registrationName, "onMapClicked"),
-                "onUserFloorChanged", MapBuilder.of(registrationName, "onUserFloorChanged"),
-                "onVisibleFloorChanged", MapBuilder.of(registrationName, "onVisibleFloorChanged"),
-                "onUserTaskResponse", MapBuilder.of(registrationName, "onUserTaskResponse"),
-                "onViewStatusChanged", MapBuilder.of(registrationName, "onViewStatusChanged"),
-                "onNavigationFailed", MapBuilder.of(registrationName, "onNavigationFailed")
+                MAP_LOADED, MapBuilder.of(registrationName, MAP_LOADED),
+                MAP_CLICKED, MapBuilder.of(registrationName, MAP_CLICKED),
+                USER_FLOOR_CHANGED, MapBuilder.of(registrationName, USER_FLOOR_CHANGED),
+                VISIBLE_FLOOR_CHANGED, MapBuilder.of(registrationName, VISIBLE_FLOOR_CHANGED),
+                USER_TASK_RESPONSE, MapBuilder.of(registrationName, USER_TASK_RESPONSE),
+                VIEW_STATUS_CHANGED, MapBuilder.of(registrationName, VIEW_STATUS_CHANGED),
+                NAVIGATION_FAILED, MapBuilder.of(registrationName, NAVIGATION_FAILED)
         );
 
         map.putAll(MapBuilder.of(
-                "onNavigationEnded", MapBuilder.of(registrationName, "onNavigationEnded"),
-                "onNavigationStarted", MapBuilder.of(registrationName, "onNavigationStarted"),
-                "onNavigationPreviewAppeared", MapBuilder.of(registrationName, "onNavigationPreviewAppeared"),
-                "onNavigationDestinationReached", MapBuilder.of(registrationName, "onNavigationDestinationReached")
+                NAVIGATION_ENDED, MapBuilder.of(registrationName, NAVIGATION_ENDED),
+                NAVIGATION_STARTED, MapBuilder.of(registrationName, NAVIGATION_STARTED),
+                NAVIGATION_PREVIEW_APPEARED, MapBuilder.of(registrationName, NAVIGATION_PREVIEW_APPEARED),
+                NAVIGATION_DESTINATION_REACHED, MapBuilder.of(registrationName, NAVIGATION_DESTINATION_REACHED)
         ));
 
         return map;
@@ -168,10 +180,8 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                     mapView.startNavigationUserTask(getLatitude(payload), getLongitude(payload), getFloorIndex(payload), getLocalRef(payload), getBuildingRef(payload));
                 } else if (taskType.equals("poiSelection")) {
                     map = args.getMap(0);
-                    Log.d("map", map.toString());
                     payload = map.getMap("payload");
-                    ReadableMap mapObject = payload.getMap("map_object");
-                    Log.d("map_object", mapObject.toString());
+                    ReadableMap mapObject = payload.getMap("MAP_OBJECT");
                     mapView.startPoiSelectionUserTask(getLocalRef(mapObject), getBuildingRef(mapObject), getSource(mapObject),
                             payload.getBoolean("shouldAddMarker"), payload.getString("actionButtonText"), payload.getInt("actionButtonIcon"));
                 } else {

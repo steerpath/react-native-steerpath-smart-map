@@ -141,6 +141,9 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         onMapClicked={event => {
           props.onMapClicked && props.onMapClicked(event.nativeEvent);
         }}
+        onUserTaskResponse={event => {
+          props.onUserTaskResponse && props.onUserTaskResponse(event.nativeEvent);
+        }}
       />
     );
   }

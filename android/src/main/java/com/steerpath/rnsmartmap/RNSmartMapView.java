@@ -33,6 +33,18 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import static com.steerpath.rnsmartmap.RNEventKeys.MAP_CLICKED;
+import static com.steerpath.rnsmartmap.RNEventKeys.MAP_LOADED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_DESTINATION_REACHED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_ENDED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
+import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
+import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
+import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
+import static com.steerpath.rnsmartmap.RNEventKeys.VISIBLE_FLOOR_CHANGED;
+
 public class RNSmartMapView extends FrameLayout implements MapEventListener, UserTaskListener, NavigationEventListener, ViewStatusListener {
 
     private SmartMapFragment smartMap;
@@ -52,8 +64,8 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         smartMap.setNavigationEventListener(this);
         smartMap.setUserTaskListener(this);
         smartMap.setViewStatusListener(this);
-        AppCompatActivity activity = (AppCompatActivity) context.getCurrentActivity();
 
+        AppCompatActivity activity = (AppCompatActivity) context.getCurrentActivity();
         activity.getSupportFragmentManager()
                 .beginTransaction()
                 .add(fragment, "tag")
@@ -64,7 +76,6 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         addView(fragment.getView(), ViewGroup.LayoutParams.MATCH_PARENT);
 
         drawChildViews();
-
     }
 
     private void drawChildViews() {
@@ -84,7 +95,6 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         });
     }
 
-
     /** - - - - - MAP EVENTS - - - - -  */
 
     @Override
@@ -101,14 +111,14 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         WritableMap map = new WritableNativeMap();
         map.putArray("SmartMapObjects", array);
 
-        manager.sendEvent(reactContext, this, "onMapClicked", map);
+        manager.sendEvent(reactContext, this, MAP_CLICKED, map);
 
         return true;
     }
 
     @Override
     public void onMapLoaded() {
-        manager.sendEvent(reactContext, this, "onMapLoaded", new WritableNativeMap());
+        manager.sendEvent(reactContext, this, MAP_LOADED, new WritableNativeMap());
     }
 
     @Override
@@ -117,7 +127,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         map.putInt("floorIndex", floorIndex);
         map.putString("buildingRef", buildingRef);
 
-        manager.sendEvent(reactContext, this, "onUserFloorChanged", map);
+        manager.sendEvent(reactContext, this, USER_FLOOR_CHANGED, map);
     }
 
     @Override
@@ -126,7 +136,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         map.putInt("floorIndex", floorIndex);
         map.putString("buildingRef", buildingRef);
 
-        manager.sendEvent(reactContext, this, "onVisibleFloorChanged", map);
+        manager.sendEvent(reactContext, this, VISIBLE_FLOOR_CHANGED, map);
     }
 
     @Override
@@ -157,37 +167,49 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         }
 
         WritableMap map = new WritableNativeMap();
-        map.putString("SmartMapUserTaskResponse", response);
-        manager.sendEvent(reactContext, this, "onUserTaskResponse", map);
+        map.putString("response", response);
+
+        WritableMap taskMap = new WritableNativeMap();
+
+        if (userTask instanceof NavigationUserTask) {
+            taskMap.putString("type", "navigation");
+        } else if (userTask instanceof POISelectionUserTask) {
+            taskMap.putString("type", "poiSelection");
+        }
+
+        taskMap.putMap("payload", new WritableNativeMap());
+        map.putMap("userTask", taskMap);
+
+        manager.sendEvent(reactContext, this, USER_TASK_RESPONSE, map);
     }
 
     /** - - - - - NAVIGATION EVENTS - - - - - */
 
     @Override
     public void onNavigationPreviewAppeared() {
-        manager.sendEvent(reactContext, this, "onNavigationPreviewAppeared", new WritableNativeMap());
+        manager.sendEvent(reactContext, this, NAVIGATION_PREVIEW_APPEARED, new WritableNativeMap());
     }
 
     @Override
     public void onNavigationStarted() {
-        manager.sendEvent(reactContext, this, "onNavigationStarted", new WritableNativeMap());
+        manager.sendEvent(reactContext, this, NAVIGATION_STARTED, new WritableNativeMap());
     }
 
     @Override
     public void onNavigationEnded() {
-        manager.sendEvent(reactContext, this, "onNavigationEnded", new WritableNativeMap());
+        manager.sendEvent(reactContext, this, NAVIGATION_ENDED, new WritableNativeMap());
     }
 
     @Override
     public void onNavigationDestinationReached() {
-        manager.sendEvent(reactContext, this, "onNavigationDestinationReached", new WritableNativeMap());
+        manager.sendEvent(reactContext, this, NAVIGATION_DESTINATION_REACHED, new WritableNativeMap());
     }
 
     @Override
     public void onNavigationFailed(String s) {
         WritableMap map = new WritableNativeMap();
         map.putString("NavigationError", s);
-        manager.sendEvent(reactContext, this, "onNavigationFailed", map);
+        manager.sendEvent(reactContext, this, NAVIGATION_FAILED, map);
     }
 
     /** - - - - - VIEW STATUS LISTENER - - - - -  */
@@ -200,7 +222,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
             map.putMap("smartMapObject", smartMapObjectToWritableMap(smartMapObject));
         }
 
-        manager.sendEvent(reactContext, this, "onViewStatusChanged", map);
+        manager.sendEvent(reactContext, this, VIEW_STATUS_CHANGED, map);
     }
 
     /** - - - - - PUBLIC METHODS - - - - - */
@@ -262,7 +284,6 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         }
 
         smartMap.getMapObject(localRef, buildingRef, objectSource, (smartMapObject, s) -> {
-            Log.d("response", s);
             if (smartMapObject != null) {
                 smartMap.startUserTask(new POISelectionUserTask(smartMapObject, addMarker, actionButtonText, actionButtonIcon));
             }

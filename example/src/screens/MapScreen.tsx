@@ -1,8 +1,7 @@
 
 import {
   SmartMapView,
-  SmartMapModes,
-  SmartMapUserTaskType
+  SmartMapModes
 } from "react-native-steerpath-smart-map";
 import { SafeAreaView, Button } from 'react-native'
 import { NavigationScreenProp } from 'react-navigation';
@@ -29,21 +28,11 @@ export default function MapScreen({navigation}: MapScreenProps) {
         style={{ flex: 1 }}
         mapMode={SmartMapModes.MAP_ONLY}
         onMapLoaded={() => console.log("MapLoaded")}
-        onMapClicked={mapObjects => {
-          console.log("Map Clicked: ", mapObjects["SmartMapObjects"])
-          const array: any[] = mapObjects["SmartMapObjects"]
+        onMapClicked={payload => {
+          console.log("Map Clicked: ", payload)
+          const array: any[] = payload["mapObjects"]
           const map_object = array[0];
-          const POI_SELECTION_TASK = {
-            type: SmartMapUserTaskType.POI_SELECTION,
-              payload: {
-                map_object,
-                shouldAddMarker: true,
-                actionButtonText: "BUTTON",
-                actionButtonIcon: 0
-              }
-          }
-          smartMapRef.current &&
-              smartMapRef.current.startUserTask(POI_SELECTION_TASK);
+          smartMapRef.current && smartMapRef.current.selectMapObject(map_object); 
         }}
         onUserFloorChanged={payload => console.log("User floor changed", payload)}
         onVisibleFloorChanged={payload =>
@@ -61,7 +50,7 @@ export default function MapScreen({navigation}: MapScreenProps) {
           console.log("navigation DestinationReached")
         }
         onUserTaskResponse={payload => {
-          console.log("onUsertask response", payload);
+          console.log("onUserTaskResponse", payload)
         }}
       />
       <Button

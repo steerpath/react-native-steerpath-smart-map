@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { SafeAreaView, ScrollView, Button } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
-import { SmartObjectSource, SmartMapUserTaskType } from 'react-native-steerpath-smart-map';
+import { SmartObjectSource, SmartMapUserTaskType, SmartGeofenceManager } from 'react-native-steerpath-smart-map';
 import { useSmartMapContext } from './SmartMapContext';
 
 const MAP_OBJECT = {
@@ -18,6 +18,16 @@ const MAP_OBJECT = {
 const NAVIGATION_TASK = {
   type: SmartMapUserTaskType.NAVIGATION,
   payload: MAP_OBJECT
+}
+
+const POI_SELECTION_TASK = {
+  type: SmartMapUserTaskType.POI_SELECTION,
+    payload: {
+      MAP_OBJECT,
+      shouldAddMarker: true,
+      actionButtonText: "BUTTON",
+      actionButtonIcon: 0
+    }
 }
 
 export default function DrawerMenu() {
@@ -72,6 +82,21 @@ export default function DrawerMenu() {
               smartMapRef.current.startUserTask(NAVIGATION_TASK);
           }}
         />
+        <Button
+          title="Start POI Selection task"
+          onPress={() => {
+            smartMapRef.current && smartMapRef.current.startUserTask(POI_SELECTION_TASK); 
+          }}/>
+        <Button
+          title="Add Geofence"
+          onPress={() => {
+            SmartGeofenceManager.addGeofence(MAP_OBJECT.localRef, MAP_OBJECT.buildingRef, function(
+              error,
+              response,
+            ) {
+              alert(response);
+            });
+          }}/>
       </ScrollView>
     </SafeAreaView>
   );
