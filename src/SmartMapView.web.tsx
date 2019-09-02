@@ -28,10 +28,19 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
   const smartMapRef = useRef(null);
 
   useEffect(() => {
+    /*
     const smartSDK = new steerpath.SmartSDK();
     smartSDK.start(props.apiKey)
     // eslint-disable-next-line no-new
     smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
+    */
+   for (const apiKey in steerpath.sdk) {
+     if (steerpath.sdk.hasOwnProperty(apiKey)) {
+       const smartSDK = steerpath.sdk[apiKey];
+       smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
+       break;  
+     }
+   }
     return () => {
       //When screen size changes and this component unmounted
       //remove the old instance of smartMapRef.current
@@ -81,6 +90,15 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         textHaloColor,
       ]);
     },
+    addMarkers(
+      mapObjectsArray,
+      layout: Layout | null,
+      iconName: string | null,
+      textColor: string | null,
+      textHaloColor: string | null,
+    ) {
+      runCommand(smartMapRef.current, "addMarkers", [mapObjectsArray, layout, iconName, textColor, textHaloColor])
+    },
     removeMarker(smartMapObj: SmartMapObject) {
       runCommand(smartMapRef.current, 'removeMarker', [convertToWebSDKSmartMapObj(smartMapObj)]);
     },
@@ -107,14 +125,25 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     ) {
       runCommand(smartMapRef.current, "setMapMode", [mapMode])
     },
-    startUserTask() {
-      console.warn('startUserTask is not supported on the web');
+    startUserTask(
+      userTask: any
+    ) {
+      runCommand(smartMapRef.current, "startUserTask", [userTask])
     },
     getCurrentUserTask() {
-      console.warn('getCurrentUserTask is not supported on the web');
+      //TODO: does not return current task
+      return runCommand(smartMapRef.current,"getCurrentUserTask",[]) 
     },
     cancelCurrentUserTask() {
-      console.warn('cancelCurrentUserTask is not supported on the web');
+      runCommand(smartMapRef.current,"cancelCurrentUserTask",[])      
+    },
+    getMapObject(
+      localRef: string,
+      buildingRef: string,
+      source:string,
+      callback?: (response: MapResponse) => void,
+    ) {
+      runCommand(smartMapRef.current, "getMapObject", [localRef, buildingRef, source, callback])
     },
   }));
 

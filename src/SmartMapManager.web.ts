@@ -1,9 +1,11 @@
 /* eslint-disable prefer-destructuring */
+import { steerpath } from "steerpath-smart-sdk"
 
 declare let window: any;
 
 export const SmartMapManager = {
-  start(): void {
-    console.warn('In the web, you initialize the SDK by passing the SDK to the MapView component');
+  start(apiKey: string): void {
+    const smartSDK = new steerpath.SmartSDK();
+    smartSDK.start(apiKey)
   },
 };
