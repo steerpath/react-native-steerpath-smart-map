@@ -11,7 +11,10 @@
 import React, {
   Component,
 } from "react";
-import {SmartMapManager, SmartMapView} from 'react-native-steerpath-smart-map';
+import {
+  SmartMapManager,
+  SmartMapView
+} from 'react-native-steerpath-smart-map';
 import 'steerpath-smart-sdk/steerpath-smart.css'
 import {
   View,
@@ -30,12 +33,17 @@ export default class App extends Component {
       "didMount": false
     }
     this.smartMapRef = {}
+    this.handleMapClick = this.handleMapClick.bind(this)
   }
 
   componentDidMount(){
     this.setState({
      "didMount": true
     })
+  }
+
+  handleMapClick(event){
+    console.log("handleMapClick"  , event)
   }
   
   render(){
@@ -44,6 +52,7 @@ export default class App extends Component {
         <SmartMapView
           style={{flex: 1}}
           apiKey={API_KEY}
+          onMapClicked={this.handleMapClick}
           ref={(smartMapRef) => { this.smartMapRef = smartMapRef }}/>
         <TestAPIMethods
           smartMapRef={this.smartMapRef}/>

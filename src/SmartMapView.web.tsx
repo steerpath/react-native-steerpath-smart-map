@@ -2,6 +2,8 @@
 import React, { useEffect, useImperativeHandle, useRef, forwardRef } from 'react';
 import { SmartMapViewProps, SmartMapObject, Layout, MapResponse } from './SmartMapViewProps';
 import { steerpath } from "steerpath-smart-sdk"
+import { SmartMapEventManager } from './SmartMapEventManager';
+import { SmartMapEvent } from "./SmartMapViewProps";
 
 //no longer needed as the steerpath is imported from node modules
 //instead of the window namespace
@@ -28,13 +30,16 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
   const smartMapRef = useRef(null);
 
   useEffect(() => {
+    console.log("props " , props)
+    //TODO:
+    //consider if this approach would be better
     /*
-    const smartSDK = new steerpath.SmartSDK();
-    smartSDK.start(props.apiKey)
-    // eslint-disable-next-line no-new
-    smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
+      const smartSDK = steerpath.sdk[props.apiKey];
+      smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
     */
-   for (const apiKey in steerpath.sdk) {
+    //dig the sdk instance from the steerpath namespace
+    //and use that as default when creating SmartMapView
+    for (const apiKey in steerpath.sdk) {
      if (steerpath.sdk.hasOwnProperty(apiKey)) {
        const smartSDK = steerpath.sdk[apiKey];
        smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
@@ -47,6 +52,30 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       (smartMapRef.current as any).removeMap()
     }
   }, [props.apiKey]);
+
+
+  //event listeners
+  //TODO: consider using SmartMapEventManager
+  //to make events behave in a similar way native events do 
+  useEffect(() => {
+    if (props.onMapClicked) {
+      steerpath.MapEventListener.on("steerpathPoiClick", (e) => {
+        if (props.onMapClicked) {
+          props.onMapClicked(e)
+        }
+      });
+    }
+    return () => {
+      if (props.onMapClicked) {
+        steerpath.MapEventListener.off("steerpathPoiClick", (e) => {
+          if (props.onMapClicked) {
+            props.onMapClicked(e)
+          }
+        })
+      }
+    };
+  }, [props.onMapClicked]);
+
   useImperativeHandle(ref, () => ({
     setCamera({
       latitude,
