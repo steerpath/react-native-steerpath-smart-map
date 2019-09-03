@@ -109,7 +109,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         }
 
         WritableMap map = new WritableNativeMap();
-        map.putArray("SmartMapObjects", array);
+        map.putArray("mapObjects", array);
 
         manager.sendEvent(reactContext, this, MAP_CLICKED, map);
 
@@ -208,7 +208,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     @Override
     public void onNavigationFailed(String s) {
         WritableMap map = new WritableNativeMap();
-        map.putString("NavigationError", s);
+        map.putString("error", s);
         manager.sendEvent(reactContext, this, NAVIGATION_FAILED, map);
     }
 

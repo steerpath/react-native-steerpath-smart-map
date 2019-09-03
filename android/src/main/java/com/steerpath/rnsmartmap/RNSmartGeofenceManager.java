@@ -15,6 +15,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class RNSmartGeofenceManager extends ReactContextBaseJavaModule implements FenceEventListener {
+
     private final ReactApplicationContext appContext;
 
     public RNSmartGeofenceManager(@Nonnull ReactApplicationContext reactContext) {
@@ -26,6 +27,16 @@ public class RNSmartGeofenceManager extends ReactContextBaseJavaModule implement
     @Override
     public String getName() {
         return "RNSmartGeofenceManager";
+    }
+
+    @ReactMethod
+    public void startListening() {
+        SmartGeofenceManager.addListener(this);
+    }
+
+    @ReactMethod
+    public void stopListening() {
+        SmartGeofenceManager.removeListener(this);
     }
 
     @ReactMethod
