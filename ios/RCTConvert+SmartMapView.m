@@ -148,6 +148,9 @@
 
 + (NSDictionary *)convertMapObjectToJSONWith:(SPSmartMapObject *)mapObj
 {
+    if (mapObj == nil) {
+        return @{};
+    }
   return @{
            @"title": mapObj.title,
            @"latitude": [NSNumber numberWithDouble:mapObj.latitude],
@@ -156,6 +159,79 @@
            @"localRef": mapObj.localRef,
            @"buildingRef": mapObj.buildingRef
            };
+}
+
++ (NSArray<NSDictionary*>*)convertMapObjects:(id)mapObjects
+{
+    if (mapObjects) {
+        NSArray<SPSmartMapObject*>* convertedObjects = mapObjects;
+        NSMutableArray<NSDictionary*>* convertedMapObjects = [NSMutableArray new];
+        for (int i = 0; i < [convertedObjects count]; i++) {
+            [convertedMapObjects addObject:[RCTConvert convertMapObjectToJSONWith:[convertedObjects objectAtIndex:i]]];
+        }
+        return [NSArray arrayWithArray:convertedMapObjects];
+    }
+    return nil;
+}
+
++ (NSString *)SPMapViewStatus:(SPMapViewStatus)status
+{
+    switch (status) {
+        case SPMapViewStatusOnlyMap:
+            return @"onlyMap";
+        case SPMapViewStatusCardView:
+            return @"cardView";
+        case SPMapViewStatusSearchInMinHeight:
+            return @"searchInMinHeight";
+        case SPMapViewStatusErrorView:
+            return @"errorView";
+        case SPMapViewStatusSettingView:
+            return @"settingView";
+        case SPMapViewStatusNavigatingView:
+            return @"navigatingView";
+        case SPMapViewStatusSearchInExpandedMode:
+            return @"searchInExpandedMode";
+        case SPMapViewStatusSearchInPreferredHeight:
+            return @"searchInPreferredHeight";
+        default:
+            return @"unknownViewStatus";
+    }
+}
+
++ (NSString *)SPNavigationError:(SPNavigationError)error
+{
+    switch (error) {
+        case SPNavigationErrorRouteNotFound:
+            return @"routeNotFound";
+        case SPNavigationErrorObjectNotFound:
+            return @"objectNotFound";
+        case SPNavigationErrorUserLocationNotFound:
+            return @"userLocationNotFound";
+            
+        default:
+            return @"unknownNavigationError";
+    }
+}
+
++ (NSString *)SPSmartMapUserTaskResponse:(SPSmartMapUserTaskResponse)response
+{
+    switch (response) {
+        case SPSmartMapUserTaskResponseBusy:
+            return @"busy";
+        case SPSmartMapUserTaskResponseError:
+            return @"error";
+        case SPSmartMapUserTaskResponseStarted:
+            return @"started";
+        case SPSmartMapUserTaskResponseCancelled:
+            return @"cancelled";
+        case SPSmartMapUserTaskResponseCompleted:
+            return @"completed";
+        case SPSmartMapUserTaskResponseUnSupported:
+            return @"unsupported";
+        
+        default:
+            return @"unknownUserTaskResponse";
+    }
 }
 
 @end

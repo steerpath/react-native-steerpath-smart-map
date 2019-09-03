@@ -41,6 +41,10 @@ buck-out/
 \.buckd/
 *.keystore
 
+# vscode
+
+.vscode
+
 # Project build outputs:
 dist/*
 example/ios/Podfile.lock

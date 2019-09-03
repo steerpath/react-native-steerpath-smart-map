@@ -22,6 +22,10 @@
 + (SPSmartMapPOISelectionUserTask*)SPSmartMapPOISelectionUserTask:(id)json;
 + (NSDictionary*)convertUserTaskToJSONWith:(SPSmartMapUserTask*)task;
 + (NSDictionary*)convertMapObjectToJSONWith:(SPSmartMapObject*)mapObj;
++ (NSArray<NSDictionary*>*)convertMapObjects:(id)mapObjects;
++ (NSString*)SPMapViewStatus:(SPMapViewStatus)status;
++ (NSString*)SPNavigationError:(SPNavigationError)error;
++ (NSString*)SPSmartMapUserTaskResponse:(SPSmartMapUserTaskResponse)response;
 
 @end
 

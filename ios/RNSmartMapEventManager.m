@@ -1,69 +1,126 @@
 //
 //  RNSmartMapEventManager.m
-//  SteerpathOfficeApp
+//  SteerpathSmartMapSdk
 //
-//  Created by Jarvis Luong on 30/07/2019.
+//  Created by Jarvis Luong on 07/08/2019.
 //  Copyright © 2019 Facebook. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
 #import "RNSmartMapEventManager.h"
 
 @implementation RNSmartMapEventManager
+@synthesize mapView = mapView;
+
+
+-(instancetype)initWithMapView:(RNSmartMapView *)mapView
 {
-  bool hasListeners;
+    self = [self init];
+    self.mapView = mapView;
+    return self;
 }
 
-RCT_EXPORT_MODULE(RNSmartMapEventManager);
+#pragma mark MapEvents
 
-// Will be called when this module's first listener is added.
--(void)startObserving {
-  hasListeners = YES;
-  [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(emitEventInternal:) name:nil object:nil];
-  // Set up any upstream listeners or background tasks as necessary
-}
-
-// Will be called when this module's last listener is removed, or on dealloc.
--(void)stopObserving {
-  hasListeners = NO;
-  [[NSNotificationCenter defaultCenter] removeObserver:self];
-  // Remove upstream listeners, stop unnecessary background tasks
-}
-
--(NSArray<NSString *> *)supportedEvents
+-(void)onMapLoaded
 {
-  return @[@"SPSmartMapLoaded", @"SPSmartMapClicked"];
-}
-
--(void)emitEventInternal:(NSNotification*)notification
-{
-  NSInteger eventIndex =[[self supportedEvents] indexOfObject:notification.name];
-  if (eventIndex != NSNotFound) {
-    switch (eventIndex) {
-      case 1:
-        // SPSmartMapClicked
-        [self sendEventWithName:notification.name body:[self convertMapObjects:notification.object]];
-        break;
-        
-      default:
-        // Events with no body
-        [self sendEventWithName:notification.name body:nil];
+    if (mapView.onMapLoaded) {
+        mapView.onMapLoaded(nil);
     }
-    
-  }
 }
 
--(NSArray<NSDictionary*>*)convertMapObjects:(id)mapObjects
+- (BOOL)onMapClicked:(NSArray<SPSmartMapObject *> *)objects
 {
-  if (mapObjects) {
-    NSArray<SPSmartMapObject*>* convertedObjects = mapObjects;
-    NSMutableArray<NSDictionary*>* convertedMapObjects = [NSMutableArray new];
-    for (int i = 0; i < [convertedObjects count]; i++) {
-      [convertedMapObjects addObject:[RCTConvert convertMapObjectToJSONWith:[convertedObjects objectAtIndex:i]]];
+    if (mapView.onMapClicked) {
+        mapView.onMapClicked(@{
+                               @"mapObjects": [RCTConvert convertMapObjects:objects]
+                               });
     }
-    return [NSArray arrayWithArray:convertedMapObjects];
-  }
-  return nil;
+    return YES;
 }
+
+- (void)onUserFloorChanged:(NSInteger)floorIndex buildingRef:(NSString *)buildingRef
+{
+    if (mapView.onUserFloorChanged) {
+        mapView.onUserFloorChanged(@{
+                                     @"floorIndex": [NSNumber numberWithInteger:floorIndex],
+                                     @"buildingRef": buildingRef
+                                     });
+    }
+}
+
+- (void)onVisibleFloorChanged:(NSInteger)floorIndex buildingRef:(NSString *)buildingRef
+{
+    if (mapView.onVisibleFloorChanged) {
+        mapView.onVisibleFloorChanged(@{
+                                     @"floorIndex": [NSNumber numberWithInteger:floorIndex],
+                                     @"buildingRef": buildingRef
+                                     });
+    }
+}
+
+#pragma mark ViewStatusListener
+
+-(void)onViewStatusChanged:(SPMapViewStatus)status withPOIDetail:(SPSmartMapObject *)objectDetail
+{
+    if (mapView.onViewStatusChanged) {
+        mapView.onViewStatusChanged(@{
+                                      @"status": [RCTConvert SPMapViewStatus:status],
+                                      @"poiDetail": [RCTConvert convertMapObjectToJSONWith:objectDetail]
+                                      });
+    }
+}
+
+#pragma mark NavigationEvent
+
+- (void)onNavigationEnded
+{
+    if (mapView.onNavigationEnded) {
+        mapView.onNavigationEnded(nil);
+    }
+}
+
+-(void)onNavigationFailed:(SPNavigationError)error
+{
+    if (mapView.onNavigationFailed) {
+        mapView.onNavigationFailed(@{
+                                     @"error": [RCTConvert SPNavigationError:error]
+                                     });
+    }
+}
+
+- (void)onNavigationStarted
+{
+    if (mapView.onNavigationStarted) {
+        mapView.onNavigationStarted(nil);
+    }
+}
+
+- (void)onNavigationPreviewAppeared
+{
+    if (mapView.onNavigationPreviewAppeared) {
+        mapView.onNavigationPreviewAppeared(nil);
+    }
+}
+
+- (void)onNavigationDestinationReached
+{
+    if (mapView.onNavigationDestinationReached) {
+        mapView.onNavigationDestinationReached(nil);
+    }
+}
+
+#pragma mark UserTaskEvent
+// Put user task event delegate here
+
+- (void)spSmartMapUserTask:(SPSmartMapUserTask *)userTask onUserTaskResponse:(SPSmartMapUserTaskResponse)response
+{
+    if (mapView.onUserTaskResponse) {
+        mapView.onUserTaskResponse(@{
+                                     @"response": [RCTConvert SPSmartMapUserTaskResponse:response],
+                                     @"userTask": [RCTConvert convertUserTaskToJSONWith:userTask]
+                                     });
+    }
+}
+
 
 @end

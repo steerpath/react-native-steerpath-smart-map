@@ -9,19 +9,48 @@
 #import "RNSmartMapViewManager.h"
 
 @implementation RNSmartMapViewManager
+{
+    NSHashTable* mapEventManagers;
+}
+
+- (instancetype)init
+{
+    self = [super init];
+    mapEventManagers = [NSHashTable new];
+    return self;
+}
+
++ (BOOL)requiresMainQueueSetup
+{
+    return YES;
+}
 
 RCT_EXPORT_MODULE(RNSmartMapView)
 
 - (UIView *)view
 {
-  SPSmartMapView* view = [SPSmartMapView new];
-
-  view.delegate = self;
-  view.userTaskDelegate = self;
+  RNSmartMapView* view = [RNSmartMapView new];
+  RNSmartMapEventManager* mapEventManager = [[RNSmartMapEventManager alloc] initWithMapView:view];
+    [mapEventManagers addObject:mapEventManager];
+  view.delegate = mapEventManager;
+  view.userTaskDelegate = mapEventManager;
   return view;
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(mapMode, SPMapMode, SPSmartMapView)
+RCT_EXPORT_VIEW_PROPERTY(onMapLoaded, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onMapClicked, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onUserFloorChanged, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onVisibleFloorChanged, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onViewStatusChanged, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onNavigationEnded, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onNavigationFailed, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onNavigationStarted, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onNavigationPreviewAppeared, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onNavigationDestinationReached, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onUserTaskResponse, RCTBubblingEventBlock)
+
+
+RCT_CUSTOM_VIEW_PROPERTY(mapMode, SPMapMode, RNSmartMapView)
 {   // The one we want to switch on
   NSArray *items = @[@"mapOnly", @"search", @"static"];
   int item = [items indexOfObject:json];
@@ -50,8 +79,8 @@ RCT_EXPORT_METHOD(setCamera:(nonnull NSNumber*) reactTag
                   buildingRef:(nonnull NSString *)buildingRef)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-    SPSmartMapView *view = viewRegistry[reactTag];
-    if (!view || ![view isKindOfClass:[SPSmartMapView class]]) {
+    RNSmartMapView *view = viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
       RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
       return;
     }
@@ -67,8 +96,8 @@ RCT_EXPORT_METHOD(addMarker:(nonnull NSNumber*) reactTag
                   textHaloColor:(NSString*)textHaloColor)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-    SPSmartMapView *view = (SPSmartMapView*)viewRegistry[reactTag];
-    if (!view || ![view isKindOfClass:[SPSmartMapView class]]) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
       RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
       return;
     }
@@ -91,8 +120,8 @@ RCT_EXPORT_METHOD(removeMarker:(nonnull NSNumber*) reactTag
                   mapObject:(id)json)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-    SPSmartMapView *view = (SPSmartMapView*)viewRegistry[reactTag];
-    if (!view || ![view isKindOfClass:[SPSmartMapView class]]) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
       RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
       return;
     }
@@ -106,8 +135,8 @@ RCT_EXPORT_METHOD(removeMarker:(nonnull NSNumber*) reactTag
 RCT_EXPORT_METHOD(removeAllMarkers:(nonnull NSNumber*) reactTag)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-    SPSmartMapView *view = (SPSmartMapView*)viewRegistry[reactTag];
-    if (!view || ![view isKindOfClass:[SPSmartMapView class]]) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
       RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
       return;
     }
@@ -119,8 +148,8 @@ RCT_EXPORT_METHOD(selectMapObject:(nonnull NSNumber*) reactTag
                   mapObject:(id)json)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-    SPSmartMapView *view = (SPSmartMapView*)viewRegistry[reactTag];
-    if (!view || ![view isKindOfClass:[SPSmartMapView class]]) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
       RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
       return;
     }
@@ -138,8 +167,8 @@ RCT_EXPORT_METHOD(animateCameraToObject:(nonnull NSNumber*) reactTag
                   callback:(RCTResponseSenderBlock)callback)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-    SPSmartMapView *view = (SPSmartMapView*)viewRegistry[reactTag];
-    if (!view || ![view isKindOfClass:[SPSmartMapView class]]) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
       RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
       return;
     }
@@ -156,8 +185,8 @@ RCT_EXPORT_METHOD(startUserTask:(nonnull NSNumber*) reactTag
                   userTask:(id)json)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-    SPSmartMapView *view = (SPSmartMapView*)viewRegistry[reactTag];
-    if (!view || ![view isKindOfClass:[SPSmartMapView class]]) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
       RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
       return;
     }
@@ -170,8 +199,8 @@ RCT_EXPORT_METHOD(getCurrentUserTask:(nonnull NSNumber*) reactTag
                   callback:(RCTResponseSenderBlock)callback)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-    SPSmartMapView *view = (SPSmartMapView*)viewRegistry[reactTag];
-    if (!view || ![view isKindOfClass:[SPSmartMapView class]]) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
       RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
       return;
     }
@@ -183,31 +212,13 @@ RCT_EXPORT_METHOD(getCurrentUserTask:(nonnull NSNumber*) reactTag
 RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-    SPSmartMapView *view = (SPSmartMapView*)viewRegistry[reactTag];
-    if (!view || ![view isKindOfClass:[SPSmartMapView class]]) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
       RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
       return;
     }
     [view cancelCurrentUserTask];
   }];
 }
-
-#pragma mark MapEvents
-
--(void)onMapLoaded
-{
-  NSNotification* mapLoadedNotification = [NSNotification notificationWithName:@"SPSmartMapLoaded" object:nil];
-  [[NSNotificationCenter defaultCenter] postNotification:mapLoadedNotification];
-}
-
-- (BOOL)onMapClicked:(NSArray<SPSmartMapObject *> *)objects
-{
-  NSNotification* mapClickedNotification = [NSNotification notificationWithName:@"SPSmartMapClicked" object:objects];
-  [[NSNotificationCenter defaultCenter] postNotification:mapClickedNotification];
-  return YES;
-}
-
-#pragma mark UserTaskEvent
-// Put user task event delegate here
 
 @end

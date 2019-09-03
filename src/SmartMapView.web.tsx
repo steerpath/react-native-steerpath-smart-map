@@ -22,7 +22,7 @@ function convertToWebSDKSmartMapObj(smartMapObj: SmartMapObject) {
     smartMapObj.floorIndex,
     smartMapObj.buildingRef,
     smartMapObj.localRef,
-    smartMapObj.title,
+    smartMapObj.title
   );
 }
 
@@ -49,8 +49,8 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     return () => {
       //When screen size changes and this component unmounted
       //remove the old instance of smartMapRef.current
-      (smartMapRef.current as any).removeMap()
-    }
+      (smartMapRef.current as any).removeMap();
+    };
   }, [props.apiKey]);
 
 
@@ -84,7 +84,7 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       bearing,
       pitch,
       floorIndex,
-      buildingRef,
+      buildingRef
     }: {
       latitude: number;
       longitude: number;
@@ -94,14 +94,14 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       floorIndex?: number;
       buildingRef: string;
     }) {
-      runCommand(smartMapRef.current, 'setCamera', [
+      runCommand(smartMapRef.current, "setCamera", [
         latitude,
         longitude,
         zoomLevel,
         bearing,
         pitch,
         floorIndex,
-        buildingRef,
+        buildingRef
       ]);
     },
     addMarker(
@@ -109,14 +109,14 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       layout: Layout | null,
       iconName: string | null,
       textColor: string | null,
-      textHaloColor: string | null,
+      textHaloColor: string | null
     ) {
-      runCommand(smartMapRef.current, 'addMarker', [
+      runCommand(smartMapRef.current, "addMarker", [
         convertToWebSDKSmartMapObj(smartMapObj),
         layout,
         iconName,
         textColor,
-        textHaloColor,
+        textHaloColor
       ]);
     },
     addMarkers(
@@ -129,30 +129,37 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       runCommand(smartMapRef.current, "addMarkers", [mapObjectsArray, layout, iconName, textColor, textHaloColor])
     },
     removeMarker(smartMapObj: SmartMapObject) {
-      runCommand(smartMapRef.current, 'removeMarker', [convertToWebSDKSmartMapObj(smartMapObj)]);
+      runCommand(smartMapRef.current, "removeMarker", [
+        convertToWebSDKSmartMapObj(smartMapObj)
+      ]);
     },
     removeAllMarkers() {
-      runCommand(smartMapRef.current, 'removeAllMarkers', []);
+      runCommand(smartMapRef.current, "removeAllMarkers", []);
     },
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     selectMapObject(smartMapObj: SmartMapObject) {
-      let localRef = smartMapObj.localRef
-      let buildingRef = smartMapObj.buildingRef
-      runCommand(smartMapRef.current, 'selectMapObject', [localRef, buildingRef]);
-
+      let localRef = smartMapObj.localRef;
+      let buildingRef = smartMapObj.buildingRef;
+      runCommand(smartMapRef.current, "selectMapObject", [
+        localRef,
+        buildingRef
+      ]);
     },
     animateCameraToObject(
       localRef: string,
       buildingRef: string,
       zoomLevel: number | null,
-      callback?: (response: MapResponse) => void,
+      callback?: (response: MapResponse) => void
     ) {
-      runCommand(smartMapRef.current, 'animateCameraToObject', [localRef, buildingRef, zoomLevel, callback]);
+      runCommand(smartMapRef.current, "animateCameraToObject", [
+        localRef,
+        buildingRef,
+        zoomLevel,
+        callback
+      ]);
     },
-    setMapMode(
-      mapMode: string
-    ) {
-      runCommand(smartMapRef.current, "setMapMode", [mapMode])
+    setMapMode(mapMode: string) {
+      runCommand(smartMapRef.current, "setMapMode", [mapMode]);
     },
     startUserTask(
       userTask: any

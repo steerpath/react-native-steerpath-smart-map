@@ -1,21 +1,23 @@
 //
 //  RNSmartMapEventManager.h
-//  SteerpathOfficeApp
+//  SteerpathSmartMapSdk
 //
-//  Created by Jarvis Luong on 30/07/2019.
+//  Created by Jarvis Luong on 07/08/2019.
 //  Copyright © 2019 Facebook. All rights reserved.
 //
 
-#ifndef RNSmartMapEventManager_h
-#define RNSmartMapEventManager_h
-
-#import <React/RCTBridgeModule.h>
-#import <React/RCTEventEmitter.h>
-#import <SteerpathSmartSDK/SteerpathSmartSDK.h>
+#import <Foundation/Foundation.h>
+#import "RNSmartMapView.h"
 #import "RCTConvert+SmartMapView.h"
 
-@interface RNSmartMapEventManager : RCTEventEmitter <RCTBridgeModule>
+NS_ASSUME_NONNULL_BEGIN
+
+@interface RNSmartMapEventManager : NSObject <SPSmartMapUserTaskDelegate, SPSmartMapViewDelegate>
+
+-(instancetype)initWithMapView:(RNSmartMapView*)mapView;
+
+@property (nonatomic) RNSmartMapView* mapView;
 
 @end
 
-#endif /* RNSmartMapEventManager_h */
+NS_ASSUME_NONNULL_END
