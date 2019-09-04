@@ -71,6 +71,7 @@ export interface SmartMapObject {
   title: string;
   source: SmartObjectSource;
 }
+
 export interface SmartViewWebProps {
   apiKey?: string;
 }

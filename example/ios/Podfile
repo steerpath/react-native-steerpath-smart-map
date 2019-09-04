@@ -33,4 +33,5 @@ platform :ios, '10.0'
 		
 		pod 'react-native-steerpath-smart-map', :path => '../../react-native-steerpath-smart-map.podspec'
 
+
 	end

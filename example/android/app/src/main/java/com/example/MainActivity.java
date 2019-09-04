@@ -1,6 +1,12 @@
 package com.example;
 
+import android.os.Bundle;
+
 import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactActivityDelegate;
+import com.facebook.react.ReactRootView;
+import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
+
 
 public class MainActivity extends ReactActivity {
 
@@ -11,5 +17,45 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "example";
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(null);
+    }
+
+    @Override
+    protected ReactActivityDelegate createReactActivityDelegate() {
+        return new ReactActivityDelegate(this, getMainComponentName()) {
+            @Override
+            protected ReactRootView createRootView() {
+                return new RNGestureHandlerEnabledRootView(MainActivity.this);
+            }
+        };
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
     }
 }

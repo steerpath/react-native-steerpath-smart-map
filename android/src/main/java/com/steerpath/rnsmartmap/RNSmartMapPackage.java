@@ -31,9 +31,7 @@ public class RNSmartMapPackage implements ReactPackage {
         List<NativeModule> modules = new ArrayList<>();
 
         modules.add(new RNSmartMapManager(reactContext));
-
         modules.add(new RNSmartGeofenceManager(reactContext));
-
         return modules;
     }
 }

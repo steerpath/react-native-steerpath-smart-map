@@ -1,31 +1,67 @@
 package com.steerpath.rnsmartmap;
 
 import android.util.Log;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
+import android.view.View;
 
-import com.facebook.react.ReactActivity;
-import com.facebook.react.bridge.LifecycleEventListener;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.uimanager.SimpleViewManager;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 
-import com.steerpath.smart.SteerpathMapView;
+import com.facebook.react.uimanager.events.RCTEventEmitter;
+import com.steerpath.smart.MapMode;
+import com.steerpath.smart.SmartMapObject;
+import com.steerpath.smart.listeners.MapResponseCallback;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> implements LifecycleEventListener {
+import static com.steerpath.rnsmartmap.RNEventKeys.MAP_CLICKED;
+import static com.steerpath.rnsmartmap.RNEventKeys.MAP_LOADED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_DESTINATION_REACHED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_ENDED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
+import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
+import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
+import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
+import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
+import static com.steerpath.rnsmartmap.RNEventKeys.VISIBLE_FLOOR_CHANGED;
 
-    public static final String REACT_CLASS = "RNSmartMapView";
+public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
+
+    private static final int ADD_MARKER = 1;
+    private static final int ADD_MARKERS = 2;
+    private static final int ANIMATE_CAMERA = 3;
+    private static final int ANIMATE_CAMERA_TO_BUILDING_REF = 4;
+    private static final int ANIMATE_CAMERA_TO_OBJECT = 5;
+    private static final int CANCEL_CURRENT_USER_TASK = 6;
+    private static final int GET_CURRENT_USER_TASK = 7;
+    private static final int GET_MAP_OBJECT = 8;
+    private static final int REMOVE_ALL_MARKERS = 9;
+    private static final int REMOVE_MARKER = 10;
+    private static final int REMOVE_MARKERS = 11;
+    private static final int SELECT_MAP_OBJECT = 12;
+    private static final int SET_CAMERA = 13;
+    private static final int SET_CAMERA_TO_BUILDING_REF = 14;
+    private static final int SET_CAMERA_TO_OBJECT = 15;
+    private static final int START_USER_TASK = 16;
+
+    private static final String REACT_CLASS = "RNSmartMapView";
 
     @Override
+    @Nonnull
     public String getName() {
         return REACT_CLASS;
     }
@@ -36,38 +72,227 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> impl
         this.reactApplicationContext = reactApplicationContext;
     }
 
-    private List<SteerpathMapView> mapViews = new ArrayList<>();
-
     @Override
     public RNSmartMapView createViewInstance(ThemedReactContext context) {
-        RNSmartMapView mapView = new RNSmartMapView(context);
-        return mapView;
-    }
-
-    @Override
-    protected void onAfterUpdateTransaction(RNSmartMapView mapView) {
-        super.onAfterUpdateTransaction(mapView);
-
-//        mapView.init();
+        RNSmartMapView smartMapView = new RNSmartMapView(context, reactApplicationContext, this);
+        return smartMapView;
     }
 
     @ReactProp(name = "mapMode")
-    public void setMapMode(RNSmartMapView view, @Nullable String mapMode) {
-
+    public void mapMode(RNSmartMapView mapView, @Nullable String mapMode) {
+        switch (mapMode) {
+            case "mapOnly":
+                mapView.setMapMode(MapMode.MAP_ONLY);
+                break;
+            case "static":
+                mapView.setMapMode(MapMode.STATIC);
+                break;
+            case "search":
+                mapView.setMapMode(MapMode.SEARCH);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
-    public void onHostResume() {
+    public Map getExportedCustomDirectEventTypeConstants() {
+        String registrationName = "registrationName";
+        Map<String, Map<String, String>> map =  MapBuilder.of(
+                MAP_LOADED, MapBuilder.of(registrationName, MAP_LOADED),
+                MAP_CLICKED, MapBuilder.of(registrationName, MAP_CLICKED),
+                USER_FLOOR_CHANGED, MapBuilder.of(registrationName, USER_FLOOR_CHANGED),
+                VISIBLE_FLOOR_CHANGED, MapBuilder.of(registrationName, VISIBLE_FLOOR_CHANGED),
+                USER_TASK_RESPONSE, MapBuilder.of(registrationName, USER_TASK_RESPONSE),
+                VIEW_STATUS_CHANGED, MapBuilder.of(registrationName, VIEW_STATUS_CHANGED),
+                NAVIGATION_FAILED, MapBuilder.of(registrationName, NAVIGATION_FAILED)
+        );
 
+        map.putAll(MapBuilder.of(
+                NAVIGATION_ENDED, MapBuilder.of(registrationName, NAVIGATION_ENDED),
+                NAVIGATION_STARTED, MapBuilder.of(registrationName, NAVIGATION_STARTED),
+                NAVIGATION_PREVIEW_APPEARED, MapBuilder.of(registrationName, NAVIGATION_PREVIEW_APPEARED),
+                NAVIGATION_DESTINATION_REACHED, MapBuilder.of(registrationName, NAVIGATION_DESTINATION_REACHED)
+        ));
+
+        return map;
+    }
+
+    @Nullable
+    @Override
+    public Map<String, Integer> getCommandsMap() {
+        TreeMap<String, Integer> commands = new TreeMap<>();
+        commands.put("addMarker", ADD_MARKER);
+        commands.put("addMarkers", ADD_MARKERS);
+        commands.put("animateCamera", ANIMATE_CAMERA);
+        commands.put("animateCameraToBuildingRef", ANIMATE_CAMERA_TO_BUILDING_REF);
+        commands.put("animateCameraToObject", ANIMATE_CAMERA_TO_OBJECT);
+        commands.put("cancelCurrentUserTask", CANCEL_CURRENT_USER_TASK);
+        commands.put("getCurrentUserTask", GET_CURRENT_USER_TASK);
+        commands.put("getMapObject", GET_MAP_OBJECT);
+        commands.put("removeAllMarkers", REMOVE_ALL_MARKERS);
+        commands.put("removeMarker", REMOVE_MARKER);
+        commands.put("removeMarkers", REMOVE_MARKERS);
+        commands.put("selectMapObject", SELECT_MAP_OBJECT);
+        commands.put("setCamera", SET_CAMERA);
+        commands.put("setCameraToBuildingRef", SET_CAMERA_TO_BUILDING_REF);
+        commands.put("setCameraToObject", SET_CAMERA_TO_OBJECT);
+        commands.put("startUserTask", START_USER_TASK);
+        return commands;
     }
 
     @Override
-    public void onHostPause() {
+    public void receiveCommand(@Nonnull RNSmartMapView mapView, int commandId, @Nullable ReadableArray args) {
+        ReadableMap map;
+        String buildingRef;
+        String localRef;
+        double lat;
+        double lon;
+        double zoom;
+        double bearing;
+        double pitch;
+        int floorIndex;
 
+        switch (commandId) {
+            case ADD_MARKER:
+                map = args.getMap(0);
+                String layout = args.getString(1);
+                String iconImage = args.getString(2);
+                String rgbTextColor = args.getString(3);
+                String rgbTextHaloColor = args.getString(4);
+                mapView.addMarker(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map), getBuildingRef(map),
+                        getSource(map), layout, iconImage, rgbTextColor, rgbTextHaloColor);
+                break;
+            case ADD_MARKERS:
+                mapView.addMarkers(generateMapObjectsList(args.getArray(0)), args.getString(1),
+                        args.getString(2), args.getString(3), args.getString(4));
+                break;
+            case ANIMATE_CAMERA:
+                lat = args.getDouble(0);
+                lon = args.getDouble(1);
+                zoom = args.getDouble(2);
+                bearing = args.getDouble(3);
+                pitch = args.getDouble(4);
+                floorIndex = args.getInt(5);
+                buildingRef = args.getString(6);
+                mapView.animateCamera(lat, lon, zoom, bearing, pitch, floorIndex, buildingRef);
+                break;
+            case ANIMATE_CAMERA_TO_BUILDING_REF:
+                mapView.animateCameraToBuildingRef(args.getString(0), s -> {
+
+                });
+                break;
+            case ANIMATE_CAMERA_TO_OBJECT:
+                localRef = args.getString(0);
+                buildingRef = args.getString(1);
+                zoom = args.getDouble(2);
+                mapView.animateCameraToObject(localRef, buildingRef, zoom, s -> {
+                    Log.d("Callback", s);
+                });
+                break;
+            case CANCEL_CURRENT_USER_TASK:
+                mapView.cancelCurrentUserTask();
+                break;
+            case GET_CURRENT_USER_TASK:
+                // TODO
+                break;
+            case GET_MAP_OBJECT:
+                // TODO
+                break;
+            case REMOVE_ALL_MARKERS:
+                mapView.removeAllMarkers();
+                break;
+            case REMOVE_MARKER:
+                map = args.getMap(0);
+                mapView.removeMarker(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map), getBuildingRef(map));
+                break;
+            case REMOVE_MARKERS:
+                mapView.removeMarkers(generateMapObjectsList(args.getArray(0)));
+                break;
+            case SELECT_MAP_OBJECT:
+                map = args.getMap(0);
+                mapView.selectMapObject(getBuildingRef(map), getLocalRef(map));
+                break;
+            case SET_CAMERA:
+                lat = args.getDouble(0);
+                lon = args.getDouble(1);
+                zoom = args.getDouble(2);
+                bearing = args.getDouble(3);
+                pitch = args.getDouble(4);
+                floorIndex = args.getInt(5);
+                buildingRef = args.getString(6);
+                mapView.setCamera(lat, lon, zoom, bearing, pitch, floorIndex, buildingRef);
+                break;
+            case SET_CAMERA_TO_BUILDING_REF:
+                mapView.setCameraToBuildingRef(args.getString(0), s -> {
+
+                });
+                break;
+            case SET_CAMERA_TO_OBJECT:
+                mapView.setCameraToObject(args.getString(0), args.getString(1), args.getDouble(2), s -> {
+
+                });
+                break;
+            case START_USER_TASK:
+                map = args.getMap(0);
+                ReadableMap payload = map.getMap("payload");
+                String taskType = map.getString("type");
+                if (taskType.equals("navigation")) {
+                    mapView.startNavigationUserTask(getLatitude(payload), getLongitude(payload), getFloorIndex(payload), getLocalRef(payload), getBuildingRef(payload));
+                } else if (taskType.equals("poiSelection")) {
+                    map = args.getMap(0);
+                    payload = map.getMap("payload");
+                    ReadableMap mapObject = payload.getMap("MAP_OBJECT");
+                    mapView.startPoiSelectionUserTask(getLocalRef(mapObject), getBuildingRef(mapObject), getSource(mapObject),
+                            payload.getBoolean("shouldAddMarker"), payload.getString("actionButtonText"), payload.getInt("actionButtonIcon"));
+                } else {
+                    Log.d("ERROR", "Invalid user task type");
+                }
+
+                break;
+        }
     }
 
-    @Override
-    public void onHostDestroy() {
+    private double getLatitude(ReadableMap map) {
+        return map.getDouble("latitude");
+    }
 
+    private double getLongitude(ReadableMap map) {
+        return map.getDouble("longitude");
+    }
+
+    private int getFloorIndex(ReadableMap map) {
+        return map.getInt("floorIndex");
+    }
+
+    private String getBuildingRef(ReadableMap map) {
+        return map.getString("buildingRef");
+    }
+
+    private String getLocalRef(ReadableMap map) {
+        return map.getString("localRef");
+    }
+
+    private String getSource(ReadableMap map) {
+        return map.getString("source");
+    }
+
+    void sendEvent(ReactContext reactContext, View view, String eventName, @Nullable WritableMap params) {
+        reactContext
+                .getJSModule(RCTEventEmitter.class)
+                .receiveEvent(view.getId(), eventName, params);
+    }
+
+    private List<SmartMapObject> generateMapObjectsList(ReadableArray array) {
+        List<SmartMapObject> mapObjects = new ArrayList<>();
+        for (int i = 0; i<array.size(); i++) {
+            mapObjects.add(generateMapObject(array.getMap(i)));
+        }
+
+        return mapObjects;
+    }
+
+    private SmartMapObject generateMapObject(ReadableMap map) {
+        return new SmartMapObject(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map), getBuildingRef(map));
     }
 }
