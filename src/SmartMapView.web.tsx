@@ -8,10 +8,6 @@ import { SmartMapEvent } from "./SmartMapViewProps";
 //instead of the window namespace
 //declare let window: any;
 
-<<<<<<< HEAD
-=======
-//TODO: Juhani replace html element id to ref
->>>>>>> e2c13222d5a3621d01dee613cf47b3034a6f8572
 const COMPONENT_ID_PREFIX = 'map_container_id';
 
 function runCommand(handler: any, name: string, args: any[]) {
