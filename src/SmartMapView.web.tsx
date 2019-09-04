@@ -164,7 +164,6 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         textHaloColor,
       ]);
     },
-<<<<<<< HEAD
     addMarkers(
       mapObjectsArray,
       layout: Layout | null,
@@ -180,10 +179,6 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       runCommand(smartMapRef.current, "removeMarker", [
         convertToWebSDKSmartMapObj(smartMapObj)
       ]);
-=======
-    removeMarker(smartMapObj: SmartMapObject) {
-      runCommand(smartMapRef.current, 'removeMarker', [convertToWebSDKSmartMapObj(smartMapObj)]);
->>>>>>> e2c13222d5a3621d01dee613cf47b3034a6f8572
     },
     removeMarkers(
       mapObjectsArray,
@@ -193,7 +188,6 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     removeAllMarkers() {
       runCommand(smartMapRef.current, 'removeAllMarkers', []);
     },
-<<<<<<< HEAD
     animateCamera({
       latitude,
       longitude,
@@ -220,14 +214,6 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         floorIndex,
         buildingRef
       ]);
-=======
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    selectMapObject(smartMapObj: SmartMapObject) {
-      let localRef = smartMapObj.localRef
-      let buildingRef = smartMapObj.buildingRef
-      runCommand(smartMapRef.current, 'selectMapObject', [localRef, buildingRef]);
-
->>>>>>> e2c13222d5a3621d01dee613cf47b3034a6f8572
     },
     animateCameraToBuilding(
       buildingRef: string,
@@ -244,18 +230,13 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       localRef: string,
       buildingRef: string,
       zoomLevel: number | null,
-<<<<<<< HEAD
       callback: (response: MapResponse) => void
-=======
-      callback?: (response: MapResponse) => void,
->>>>>>> e2c13222d5a3621d01dee613cf47b3034a6f8572
     ) {
       runCommand(smartMapRef.current, 'animateCameraToObject', [localRef, buildingRef, zoomLevel, callback]);
     },
     setMapMode(
       mapMode: string
     ) {
-<<<<<<< HEAD
       runCommand(smartMapRef.current, "setMapMode", [mapMode]);
     },
     startUserTask(
@@ -286,20 +267,6 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     ) {
       runCommand(smartMapRef.current, "getMapObject", [localRef, buildingRef, source, callback])
     },
-=======
-      runCommand(smartMapRef.current, "setMapMode", [mapMode])
-    },
-    startUserTask() {
-      console.warn('startUserTask is not supported on the web');
-    },
-    getCurrentUserTask() {
-      console.warn('getCurrentUserTask is not supported on the web');
-    },
-    cancelCurrentUserTask() {
-      console.warn('cancelCurrentUserTask is not supported on the web');
-    },
-    //TODO: Juhani add more bindings
->>>>>>> e2c13222d5a3621d01dee613cf47b3034a6f8572
   }));
 
   return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1 }} />;
