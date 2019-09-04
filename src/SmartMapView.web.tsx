@@ -2,7 +2,6 @@
 import React, { useEffect, useImperativeHandle, useRef, forwardRef } from 'react';
 import { SmartMapViewProps, SmartMapObject, Layout, MapResponse } from './SmartMapViewProps';
 import { steerpath } from "steerpath-smart-sdk"
-import { SmartMapEventManager } from './SmartMapEventManager';
 import { SmartMapEvent } from "./SmartMapViewProps";
 
 //no longer needed as the steerpath is imported from node modules
@@ -63,7 +62,15 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         if (props.onMapClicked) {
           props.onMapClicked(e)
         }
-      });
+      })
+    }
+
+    if(props.onVisibleFloorChanged){
+      steerpath.MapEventListener.on("steerpathLayerIndexChanged", (e) => {
+        if (props.onVisibleFloorChanged) {
+          props.onVisibleFloorChanged(e)
+        }
+      })
     }
     return () => {
       if (props.onMapClicked) {
@@ -73,9 +80,18 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
           }
         })
       }
+
+      if (props.onVisibleFloorChanged) {
+        steerpath.MapEventListener.off("steerpathLayerIndexChanged", (e) => {
+          if (props.onVisibleFloorChanged) {
+            props.onVisibleFloorChanged(e)
+          }
+        })
+      }
     };
   }, [props.onMapClicked]);
-
+  
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   useImperativeHandle(ref, () => ({
     setCamera({
       latitude,
@@ -92,7 +108,7 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       bearing?: number;
       pitch?: number;
       floorIndex?: number;
-      buildingRef: string;
+      buildingRef?: string;
     }) {
       runCommand(smartMapRef.current, "setCamera", [
         latitude,
@@ -104,6 +120,31 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         buildingRef
       ]);
     },
+    setCameraToBuilding(
+      buildingRef: string,
+      zoomLevel: number,
+      callback: (response: MapResponse) => void
+    ) {
+      runCommand(smartMapRef.current, "setCameraToBuilding", [
+        buildingRef,
+        zoomLevel,
+        callback
+      ]);
+    },
+    setCameraToObject(
+      localRef: string,
+      buildingRef: string,
+      zoomLevel: number,
+      callback: (response: MapResponse) => void
+    ) {
+      runCommand(smartMapRef.current, "setCameraToObject", [
+        localRef,
+        buildingRef,
+        zoomLevel,
+        callback
+      ]);
+    },
+
     addMarker(
       smartMapObj: SmartMapObject,
       layout: Layout | null,
@@ -128,28 +169,64 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     ) {
       runCommand(smartMapRef.current, "addMarkers", [mapObjectsArray, layout, iconName, textColor, textHaloColor])
     },
-    removeMarker(smartMapObj: SmartMapObject) {
+    removeMarker(
+      smartMapObj: SmartMapObject
+    ) {
       runCommand(smartMapRef.current, "removeMarker", [
         convertToWebSDKSmartMapObj(smartMapObj)
       ]);
     },
+    removeMarkers(
+      mapObjectsArray,
+    ) {
+      runCommand(smartMapRef.current, "removeMarkers", [mapObjectsArray])
+    },
     removeAllMarkers() {
       runCommand(smartMapRef.current, "removeAllMarkers", []);
     },
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    selectMapObject(smartMapObj: SmartMapObject) {
-      let localRef = smartMapObj.localRef;
-      let buildingRef = smartMapObj.buildingRef;
-      runCommand(smartMapRef.current, "selectMapObject", [
-        localRef,
+    animateCamera({
+      latitude,
+      longitude,
+      zoomLevel,
+      bearing,
+      pitch,
+      floorIndex,
+      buildingRef
+    }: {
+      latitude: number;
+      longitude: number;
+      zoomLevel: number;
+      bearing?: number;
+      pitch?: number;
+      floorIndex?: number;
+      buildingRef?: string;
+    }) {
+      runCommand(smartMapRef.current, "animateCamera", [
+        latitude,
+        longitude,
+        zoomLevel,
+        bearing,
+        pitch,
+        floorIndex,
         buildingRef
+      ]);
+    },
+    animateCameraToBuilding(
+      buildingRef: string,
+      zoomLevel: number,
+      callback: (response: MapResponse) => void
+    ) {
+      runCommand(smartMapRef.current, "animateCameraToBuilding", [
+        buildingRef,
+        zoomLevel,
+        callback
       ]);
     },
     animateCameraToObject(
       localRef: string,
       buildingRef: string,
       zoomLevel: number | null,
-      callback?: (response: MapResponse) => void
+      callback: (response: MapResponse) => void
     ) {
       runCommand(smartMapRef.current, "animateCameraToObject", [
         localRef,
@@ -158,7 +235,9 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         callback
       ]);
     },
-    setMapMode(mapMode: string) {
+    setMapMode(
+      mapMode: string
+    ) {
       runCommand(smartMapRef.current, "setMapMode", [mapMode]);
     },
     startUserTask(
@@ -173,11 +252,19 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     cancelCurrentUserTask() {
       runCommand(smartMapRef.current,"cancelCurrentUserTask",[])      
     },
+    selectMapObject(smartMapObj: SmartMapObject) {
+      let localRef = smartMapObj.localRef;
+      let buildingRef = smartMapObj.buildingRef;
+      runCommand(smartMapRef.current, "selectMapObject", [
+        localRef,
+        buildingRef
+      ]);
+    },
     getMapObject(
       localRef: string,
       buildingRef: string,
       source:string,
-      callback?: (response: MapResponse) => void,
+      callback: (response: MapResponse) => void,
     ) {
       runCommand(smartMapRef.current, "getMapObject", [localRef, buildingRef, source, callback])
     },
