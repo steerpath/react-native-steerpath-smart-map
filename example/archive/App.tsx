@@ -7,7 +7,7 @@
  *
  * https://github.com/facebook/react-native
  */
-
+/*
 import React from 'react';
 import {createStackNavigator, createAppContainer} from 'react-navigation';
 import { MapScreenWithContext } from './screens/MapScreenWithContext';
@@ -30,3 +30,5 @@ const rootStack = createStackNavigator({
 
   const App = createAppContainer(rootStack);
   export default App;
+
+  */
