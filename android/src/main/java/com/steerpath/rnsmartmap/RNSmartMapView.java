@@ -104,7 +104,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
     @Override
     public boolean onMapClick(List<SmartMapObject> mapObjects) {
-        if (mapObjects == null) {
+        if (mapObjects.isEmpty()) {
             return false;
         }
 
