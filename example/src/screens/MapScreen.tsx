@@ -14,24 +14,13 @@ interface MapScreenProps {
   navigation: NavigationScreenProp<any>;
 }
 
-function handleGeofenceEntered(eventName: SmartGeofenceEvent, payload: Record<string, any>) {
-  console.log({
-    eventName,
-    payload
-  });
-}
-
 export default function MapScreen({ navigation }: MapScreenProps) {
 
   const smartMapRef = useRef<any>(null);
   const { setSmartMapRef } = useSmartMapContext();
 
   useEffect(() => {
-    SmartGeofenceManager.addListener(handleGeofenceEntered)
     setSmartMapRef(smartMapRef);
-    return () => {
-      SmartGeofenceManager.removeListener(handleGeofenceEntered);
-    }
   }, [setSmartMapRef]);
 
   return (

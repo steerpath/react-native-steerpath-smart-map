@@ -60,7 +60,7 @@ function createSmartGeofenceManager() {
     addListener(
       listener: (eventName: SmartGeofenceEvent, data: Record<string, string>) => void
     ) {
-      if (eventListenerRegistered) {
+      if (!eventListenerRegistered) {
         RNSmartGeofenceManager.startListening();
         eventListenerRegistered = true;
       }

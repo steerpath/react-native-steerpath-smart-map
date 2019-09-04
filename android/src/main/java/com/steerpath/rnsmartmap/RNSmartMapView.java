@@ -11,11 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReadableArray;
+import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.steerpath.smart.Layout;
 import com.steerpath.smart.NavigationUserTask;
 import com.steerpath.smart.ObjectSource;
 import com.steerpath.smart.POISelectionUserTask;
@@ -24,11 +27,13 @@ import com.steerpath.smart.SmartMapObject;
 import com.steerpath.smart.UserTask;
 import com.steerpath.smart.UserTaskResponse;
 import com.steerpath.smart.listeners.MapEventListener;
+import com.steerpath.smart.listeners.MapObjectCallback;
 import com.steerpath.smart.listeners.MapResponseCallback;
 import com.steerpath.smart.listeners.NavigationEventListener;
 import com.steerpath.smart.listeners.UserTaskListener;
 import com.steerpath.smart.listeners.ViewStatusListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -227,17 +232,8 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
     /** - - - - - PUBLIC METHODS - - - - - */
 
-    public void setMapMode(String mapMode) {
-        smartMap.setMapMode(mapMode);
-    }
-
-    public void setCamera(double latitude, double longitude, double zoomLevel, double bearing, double pitch,
-                          int floorIndex, String buildingRef) {
-        smartMap.setCamera(latitude, longitude, zoomLevel, bearing, pitch, floorIndex, buildingRef);
-    }
-
-    public void addMarker(double lat, double lon, int floorIndex, String localRef, String buildingRef, @Nullable String objectSource, @Nullable String layout, @Nullable String iconImage,
-                          @Nullable String rgbTextColor, @Nullable String rgbTextHaloColor) {
+    public void addMarker(double lat, double lon, int floorIndex, String localRef, String buildingRef, @Nullable String objectSource, String layout, @Nullable String iconImage,
+                          String rgbTextColor, String rgbTextHaloColor) {
 
         SmartMapObject smartMapObject = new SmartMapObject(lat, lon, floorIndex, localRef, buildingRef);
         if (objectSource != null && objectSource.equals("marker")) {
@@ -245,27 +241,75 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         } else {
             smartMapObject.setSource(ObjectSource.STATIC);
         }
-        if (layout == null) {
+        if (layout == null && rgbTextColor == null && rgbTextHaloColor == null) {
             smartMap.addMarker(smartMapObject);
         } else {
             smartMap.addMarker(smartMapObject, layout, iconImage, rgbTextColor, rgbTextHaloColor);
         }
     }
 
-    public void removeMarker(double lat, double lon, int floorIndex, String localRef, String buildingRef) {
-        smartMap.removeMarker(new SmartMapObject(lat, lon, floorIndex, localRef, buildingRef));
+    public void addMarkers(List<SmartMapObject> objects, @Layout String layout, String iconName, String rgbTextColor, String rgbTextHaloColor) {
+        if (layout == null && rgbTextColor == null && rgbTextHaloColor == null) {
+            smartMap.addMarkers(objects);
+        } else {
+            smartMap.addMarkers(objects, layout, iconName, rgbTextColor, rgbTextHaloColor);
+        }
+    }
+
+    public void animateCamera(double latitude, double longitude, double zoomLevel, double bearing, double pitch, int floorIndex, String buildingRef) {
+        smartMap.animateCamera(latitude, longitude, zoomLevel, bearing, pitch, floorIndex, buildingRef);
+    }
+
+    public void animateCameraToBuildingRef(String buildingRef, MapResponseCallback callback) {
+        smartMap.animateCameraToBuildingRef(buildingRef, callback);
+    }
+
+    public void animateCameraToObject(String localRef, String buildingRef, double zoom, MapResponseCallback callback) {
+        smartMap.animateCameraToObject(localRef, buildingRef, zoom, callback);
+    }
+
+    public void cancelCurrentUserTask() {
+        smartMap.cancelCurrentUserTask();
+    }
+
+    public UserTask getCurrentUserTask() {
+        return smartMap.getCurrentUserTask();
+    }
+
+    public void getMapObject(String localRef, String buildingRef, String source, MapObjectCallback callback) {
+        smartMap.getMapObject(localRef, buildingRef, source, callback);
     }
 
     public void removeAllMarkers() {
         smartMap.removeAllMarkers();
     }
 
+    public void removeMarker(double lat, double lon, int floorIndex, String localRef, String buildingRef) {
+        smartMap.removeMarker(new SmartMapObject(lat, lon, floorIndex, localRef, buildingRef));
+    }
+
+    public void removeMarkers(List<SmartMapObject> smartMapObjects) {
+        smartMap.removeMarkers(smartMapObjects);
+    }
+
     public void selectMapObject(String buildingRef, String localRef) {
         smartMap.selectMapObject(localRef, buildingRef);
     }
 
-    public void animateCameraToObject(String localRef, String buildingRef, double zoom, MapResponseCallback callback) {
-        smartMap.animateCameraToObject(localRef, buildingRef, zoom, callback);
+    public void setCamera(double latitude, double longitude, double zoomLevel, double bearing, double pitch,
+                          int floorIndex, String buildingRef) {
+        smartMap.setCamera(latitude, longitude, zoomLevel, bearing, pitch, floorIndex, buildingRef);
+    }
+
+    public void setCameraToBuildingRef(String buildingRef, MapResponseCallback callback) {
+        smartMap.setCameraToBuildingRef(buildingRef, callback);
+    }
+    public void setCameraToObject(String localRef, String buildingRef, double zoomLevel, MapResponseCallback callback) {
+        smartMap.setCameraToObject(localRef, buildingRef, zoomLevel, callback);
+    }
+
+    public void setMapMode(String mapMode) {
+        smartMap.setMapMode(mapMode);
     }
 
     public void startNavigationUserTask(double lat, double lon, int floorIndex, String localRef,String buildingRef) {

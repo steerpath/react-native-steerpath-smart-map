@@ -41,6 +41,116 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
     const smartMapRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
+      addMarker(
+        smartMapObj: SmartMapObject,
+        layout: Layout | null,
+        iconName: string | null,
+        textColor: string | null,
+        textHaloColor: string | null
+      ) {
+        runCommand(smartMapRef.current, "addMarker", [
+          smartMapObj,
+          layout,
+          iconName,
+          textColor,
+          textHaloColor
+        ]);
+      },
+      addMarkers(
+        mapObjectsArray,
+        layout: Layout | null,
+        iconName: string | null,
+        textColor: string | null,
+        textHaloColor: string | null
+      ) {
+        runCommand(smartMapRef.current, "addMarkers", [
+          mapObjectsArray, 
+          layout, 
+          iconName, 
+          textColor, 
+          textHaloColor
+        ])
+      },
+      animateCamera({
+        latitude,
+        longitude,
+        zoomLevel,
+        bearing,
+        pitch,
+        floorIndex,
+        buildingRef
+      }: {
+        latitude: number;
+        longitude: number;
+        zoomLevel: number;
+        bearing?: number;
+        pitch?: number;
+        floorIndex?: number;
+        buildingRef: string;
+      }) {
+        runCommand(smartMapRef.current, "animateCamera", [
+          latitude,
+          longitude,
+          zoomLevel,
+          bearing || 90,
+          pitch || 0,
+          floorIndex || 2,
+          buildingRef
+        ])
+      },
+      animateCameraToBuildingRef(
+        buildingRef: string,
+        callback: (response: MapResponse) => void
+      ){
+        runCommand(smartMapRef.current, "animateCameraToBuildingRef", [
+          buildingRef,
+          callback
+        ])
+      },
+      animateCameraToObject(
+        localRef: string,
+        buildingRef: string,
+        zoomLevel: number,
+        callback: (response: MapResponse) => void
+      ) {
+        runCommand(smartMapRef.current, "animateCameraToObject", [
+          localRef,
+          buildingRef,
+          zoomLevel,
+          callback
+        ]);
+      },
+      cancelCurrentUserTask() {
+        runCommand(smartMapRef.current, "cancelCurrentUserTask", []);
+      },
+      getCurrentUserTask(
+        callback: (userTaskResponse: SmartMapUserTaskResponse) => any
+      ) {
+        runCommand(smartMapRef.current, "getCurrentUserTask", [callback]);
+      },
+      getMapObject(
+        localRef: string,
+        buildingRef: string,
+        source: string
+        /*callback: MapObjectCallback*/
+        // TODO: add MapObjectCallback
+      ) {
+        runCommand(smartMapRef.current, "getMapObject", [
+
+        ])
+      },
+      removeAllMarkers() {
+        runCommand(smartMapRef.current, "removeAllMarkers", []);
+      },
+      removeMarker(smartMapObj: SmartMapObject) {
+        runCommand(smartMapRef.current, "removeMarker", [smartMapObj]);
+      },
+      removeMarkers(mapObjectsArray) {
+        runCommand(smartMapRef.current, "removeMarkers", [mapObjectsArray])
+      },
+      selectMapObject(smartMapObj: SmartMapObject) {
+        runCommand(smartMapRef.current, "selectMapObject", [smartMapObj]);
+      },
       setCamera({
         latitude,
         longitude,
@@ -68,54 +178,31 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           buildingRef
         ]);
       },
-      addMarker(
-        smartMapObj: SmartMapObject,
-        layout: Layout | null,
-        iconName: string | null,
-        textColor: string | null,
-        textHaloColor: string | null
+      setCameraToBuildingRef(
+        buildingRef: string,
+        callback: (response: MapResponse) => void
       ) {
-        runCommand(smartMapRef.current, "addMarker", [
-          smartMapObj,
-          layout,
-          iconName,
-          textColor,
-          textHaloColor
-        ]);
+        runCommand(smartMapRef.current, "setCameraToBuildingRef", [
+          buildingRef,
+          callback
+        ])
       },
-      removeMarker(smartMapObj: SmartMapObject) {
-        runCommand(smartMapRef.current, "removeMarker", [smartMapObj]);
-      },
-      removeAllMarkers() {
-        runCommand(smartMapRef.current, "removeAllMarkers", []);
-      },
-      selectMapObject(smartMapObj: SmartMapObject) {
-        runCommand(smartMapRef.current, "selectMapObject", [smartMapObj]);
-      },
-      animateCameraToObject(
+      setCameraToObject(
         localRef: string,
         buildingRef: string,
         zoomLevel: number,
         callback: (response: MapResponse) => void
       ) {
-        runCommand(smartMapRef.current, "animateCameraToObject", [
+        runCommand(smartMapRef.current, "setCameraToBuildingObject", [
           localRef,
           buildingRef,
           zoomLevel,
           callback
-        ]);
+        ])
       },
       startUserTask(userTask: SmartMapUserTask) {
         runCommand(smartMapRef.current, "startUserTask", [userTask]);
       },
-      getCurrentUserTask(
-        callback: (userTaskResponse: SmartMapUserTaskResponse) => any
-      ) {
-        runCommand(smartMapRef.current, "getCurrentUserTask", [callback]);
-      },
-      cancelCurrentUserTask() {
-        runCommand(smartMapRef.current, "cancelCurrentUserTask", []);
-      }
     }));
 
     return (

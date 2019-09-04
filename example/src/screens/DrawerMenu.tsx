@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { SafeAreaView, ScrollView, Button } from 'react-native';
 import { NavigationScreenProp } from 'react-navigation';
-import { SmartObjectSource, SmartMapUserTaskType, SmartGeofenceManager } from 'react-native-steerpath-smart-map';
+import { SmartObjectSource, SmartMapUserTaskType, SmartGeofenceManager, SmartGeofenceEvent } from 'react-native-steerpath-smart-map';
 import { useSmartMapContext } from './SmartMapContext';
 
 const MAP_OBJECT = {
@@ -30,8 +30,16 @@ const POI_SELECTION_TASK = {
     }
 }
 
+function handleGeofenceEntered(eventName: SmartGeofenceEvent, payload: Record<string, any>) {
+  console.log({
+    eventName,
+    payload
+  });
+}
+
 export default function DrawerMenu() {
   const { smartMapRef } = useSmartMapContext();
+  let hasListener: boolean = false;
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView>
@@ -90,6 +98,11 @@ export default function DrawerMenu() {
         <Button
           title="Add Geofence"
           onPress={() => {
+            if (!hasListener) {
+              SmartGeofenceManager.addListener(handleGeofenceEntered);
+              hasListener = true;
+            }
+            
             SmartGeofenceManager.addGeofence(MAP_OBJECT.localRef, MAP_OBJECT.buildingRef, function(
               error,
               response,
