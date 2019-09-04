@@ -96,13 +96,17 @@ export default function DrawerMenu() {
             smartMapRef.current && smartMapRef.current.startUserTask(POI_SELECTION_TASK); 
           }}/>
         <Button
+          title="Cancel current user task"
+          onPress={() => {
+            smartMapRef.current && smartMapRef.current.cancelCurrentUserTask();
+          }}/>
+        <Button
           title="Add Geofence"
           onPress={() => {
             if (!hasListener) {
               SmartGeofenceManager.addListener(handleGeofenceEntered);
               hasListener = true;
             }
-            
             SmartGeofenceManager.addGeofence(MAP_OBJECT.localRef, MAP_OBJECT.buildingRef, function(
               error,
               response,
@@ -110,6 +114,40 @@ export default function DrawerMenu() {
               alert(response);
             });
           }}/>
+          <Button
+            title="Animate camera"
+            onPress={() => {
+              smartMapRef.current && smartMapRef.current.animateCamera({
+                latitude: MAP_OBJECT.latitude, 
+                longitude: MAP_OBJECT.longitude, 
+                zoomLevel: 20, 
+                bearing: null, 
+                pitch: null, 
+                floorIndex: 2, 
+                buildingRef: MAP_OBJECT.buildingRef,
+              });
+            }
+          }/>
+          <Button
+            title="Animate camera to building ref"
+            onPress={() => {
+              smartMapRef.current && smartMapRef.current.animateCameraToBuildingRef(MAP_OBJECT.buildingRef, null);
+            }}/>
+          <Button
+            title="Animate camera to object"
+            onPress={() => {
+              smartMapRef.current && smartMapRef.current.animateCameraToObject(MAP_OBJECT.localRef, MAP_OBJECT.buildingRef, 24, null);
+            }}/>
+          <Button
+            title="Set camera to building ref"
+            onPress={() => {
+              smartMapRef.current && smartMapRef.current.setCameraToBuildingRef(MAP_OBJECT.buildingRef, null);
+            }}/>
+          <Button
+            title="Set camera to object"
+            onPress={() => {
+              smartMapRef.current && smartMapRef.current.setCameraToObject(MAP_OBJECT.localRef, MAP_OBJECT.buildingRef, 24, null);
+            }}/>      
       </ScrollView>
     </SafeAreaView>
   );

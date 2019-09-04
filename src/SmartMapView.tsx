@@ -57,7 +57,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         ]);
       },
       addMarkers(
-        mapObjectsArray,
+        mapObjectsArray: SmartMapObject[],
         layout: Layout | null,
         iconName: string | null,
         textColor: string | null,
@@ -193,7 +193,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         zoomLevel: number,
         callback: (response: MapResponse) => void
       ) {
-        runCommand(smartMapRef.current, "setCameraToBuildingObject", [
+        runCommand(smartMapRef.current, "setCameraToObject", [
           localRef,
           buildingRef,
           zoomLevel,
