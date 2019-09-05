@@ -1,6 +1,5 @@
 package com.steerpath.rnsmartmap;
 
-import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReadableArray;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
@@ -33,7 +30,6 @@ import com.steerpath.smart.listeners.NavigationEventListener;
 import com.steerpath.smart.listeners.UserTaskListener;
 import com.steerpath.smart.listeners.ViewStatusListener;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -77,7 +73,6 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
                 .commit();
 
         activity.getSupportFragmentManager().executePendingTransactions();
-        fragment.setCameraToBuildingRef("67", null);
         addView(fragment.getView(), ViewGroup.LayoutParams.MATCH_PARENT);
 
         drawChildViews();
