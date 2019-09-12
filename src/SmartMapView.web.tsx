@@ -263,6 +263,13 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     ) {
       runCommand(smartMapRef.current, "getMapObject", [localRef, buildingRef, source, callback])
     },
+    getMapObjectByProperties(
+      properties: object,
+      source: string,
+      callback: (response: MapResponse) => void,
+    ) {
+      runCommand(smartMapRef.current, "getMapObjectByProperties", [properties, source, callback])
+    },
   }));
 
   return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1 }} />;
