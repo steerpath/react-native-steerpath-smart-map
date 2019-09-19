@@ -3,7 +3,7 @@ import React, {
 } from "react";
 import {
   SmartMapManager,
-  SmartMapView
+  SmartMapView,
 } from "react-native-steerpath-smart-map";
 
 const API_KEY =
@@ -17,6 +17,53 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.smartMapRef = {}
+  }
+  
+  onUserTaskResponse(payload) {
+    console.log("onUserTaskResponse ", payload);
+    
+     let userTask = payload.userTask
+     let response = payload.response
+     if (userTask instanceof window.steerpath.POISelectionUserTask) {
+       if (response === "COMPLETED") {
+         console.log("event ", userTask);
+         this.cancelUserTask()
+         //this.smartMapRef.setMapMode("mapOnly")
+       }
+     }
+  }
+
+   startUserTask(userTask) {
+      let buildingRef = "building_1_31552752-7d5a-44c6-8206-cd86bd91f7c4"
+      let localRef = "Kitchen"
+      let source = "poi"
+      this.smartMapRef.getMapObject(localRef, buildingRef, source, (smartMapObject) => {
+        if (smartMapObject) {
+          let addMarker = true
+          let actionButtonText = "Show Details"
+          let actionButtonIcon = "category_fun"
+          this.smartMapRef.startUserTask({
+            "type": "poiSelection",
+            "payload": {
+              "addMarker": addMarker,
+              "actionButtonText": actionButtonText,
+              "actionButtonIcon": actionButtonIcon,
+              "smartMapObject": smartMapObject
+            }
+          })
+        }
+      })
+  }
+
+   cancelUserTask() {
+    this.smartMapRef.cancelCurrentUserTask()
+  }
+
+  componentDidMount(){
+    setTimeout(() => {
+      this.startUserTask()
+      
+    }, 3000);
   }
   render() {
     return (
@@ -40,9 +87,7 @@ export default class App extends Component {
         onNavigationDestinationReached={() =>
           console.log("navigation DestinationReached")
         }
-        onUserTaskResponse={payload => {
-          console.log("onUsertask response", payload);
-        }}
+        onUserTaskResponse={(payload)=>this.onUserTaskResponse(payload)}
         ref={(smartMapRef) => { this.smartMapRef = smartMapRef }}
       />
     )
