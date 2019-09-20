@@ -25,17 +25,21 @@ function convertToWebSDKSmartMapObj(smartMapObj: SmartMapObject) {
   );
 }
 
+
+function convertToWebUserTaskObj(userTask: any){
+  let addMarker = userTask.payload.addMarker
+  let actionButtonText = userTask.payload.actionButtonText
+  let actionButtonIcon = userTask.payload.actionButtonIcon
+  let smartMapObject = userTask.payload.smartMapObject
+  return new steerpath.POISelectionUserTask(smartMapObject, addMarker, actionButtonText, actionButtonIcon)
+}
+
 export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
   const smartMapRef = useRef(null);
 
   useEffect(() => {
     console.log("props " , props)
-    //TODO:
     //consider if this approach would be better
-    /*
-      const smartSDK = steerpath.sdk[props.apiKey];
-      smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
-    */
     //dig the sdk instance from the steerpath namespace
     //and use that as default when creating SmartMapView
     for (const apiKey in steerpath.sdk) {
@@ -54,11 +58,9 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
 
 
   //event listeners
-  //TODO: consider using SmartMapEventManager
-  //to make events behave in a similar way native events do 
   useEffect(() => {
     if (props.onMapClicked) {
-      steerpath.MapEventListener.on("steerpathPoiClick", (e) => {
+      steerpath.MapEventListener.on("onMapClick", (e) => {
         if (props.onMapClicked) {
           props.onMapClicked(e)
         }
@@ -72,9 +74,18 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         }
       })
     }
+
+    if (props.onUserTaskResponse) {
+      steerpath.UserTaskListener.on("onUserTaskResponse", (e) => {
+        if (props.onUserTaskResponse) {
+          props.onUserTaskResponse(e)
+        }
+      })
+    }
+
     return () => {
       if (props.onMapClicked) {
-        steerpath.MapEventListener.off("steerpathPoiClick", (e) => {
+        steerpath.MapEventListener.off("onMapClick", (e) => {
           if (props.onMapClicked) {
             props.onMapClicked(e)
           }
@@ -238,7 +249,9 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     startUserTask(
       userTask: any
     ) {
-      runCommand(smartMapRef.current, "startUserTask", [userTask])
+      runCommand(smartMapRef.current, "startUserTask", [
+        convertToWebUserTaskObj(userTask)
+      ])
     },
     getCurrentUserTask() {
       //TODO: does not return current task
@@ -262,6 +275,13 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       callback: (response: MapResponse) => void,
     ) {
       runCommand(smartMapRef.current, "getMapObject", [localRef, buildingRef, source, callback])
+    },
+    getMapObjectByProperties(
+      properties: object,
+      source: string,
+      callback: (response: MapResponse) => void,
+    ) {
+      runCommand(smartMapRef.current, "getMapObjectByProperties", [properties, source, callback])
     },
   }));
 
