@@ -6,7 +6,7 @@
     "start": "react-native start",
     "run-ios": "react-native run-ios",
     "run-android": "react-native run-android",
-    "run-web": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
+    "web": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "test": "jest",
     "lint": "eslint .",
     "postinstall": "node ../scripts/examples_postinstall.js"
