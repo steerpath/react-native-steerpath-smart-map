@@ -3,7 +3,6 @@ node_modules
 Pods
 Podfile
 Podfile.lock
-src
 docs
 scripts
 
