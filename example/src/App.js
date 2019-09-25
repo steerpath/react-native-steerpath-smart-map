@@ -53,6 +53,12 @@ export default class App extends Component {
           })
         }
       })
+      let properties = {
+        "title": "R&D"
+      }
+      this.smartMapRef.getMapObjectByProperties(properties, (smartMapObject) => {
+        console.log("smartMapObject ", smartMapObject)
+      })
   }
 
    cancelUserTask() {
@@ -66,6 +72,7 @@ export default class App extends Component {
     }, 3000);
   }
   render() {
+    console.log("this " , this);
     return (
       <SmartMapView
         style={{ flex: 1 }}
