@@ -57,6 +57,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     private static final int SET_CAMERA_TO_BUILDING_REF = 14;
     private static final int SET_CAMERA_TO_OBJECT = 15;
     private static final int START_USER_TASK = 16;
+    private static final int GET_MAP_OBJECT_BY_PROPERTIES = 17;
 
     private static final String REACT_CLASS = "RNSmartMapView";
 
@@ -138,6 +139,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
         commands.put("setCameraToBuildingRef", SET_CAMERA_TO_BUILDING_REF);
         commands.put("setCameraToObject", SET_CAMERA_TO_OBJECT);
         commands.put("startUserTask", START_USER_TASK);
+        commands.put("getMapObjectByProperties", GET_MAP_OBJECT_BY_PROPERTIES);
         return commands;
     }
 
@@ -248,7 +250,10 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 } else {
                     Log.d("ERROR", "Invalid user task type");
                 }
-
+                break;
+            case GET_MAP_OBJECT_BY_PROPERTIES:
+                map = args.getMap(0);
+                mapView.getMapObjectByProperties(map);
                 break;
         }
     }

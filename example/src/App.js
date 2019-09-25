@@ -11,6 +11,10 @@ const API_KEY =
 
 SmartMapManager.start(API_KEY);
 
+const props = {
+  "description": "Roope"
+}
+
 export default class App extends Component {
   constructor(props) {
     super(props)
@@ -31,7 +35,7 @@ export default class App extends Component {
      }
   }
 
-   startUserTask(userTask) {
+   startUserTask() {
       let buildingRef = "building_1_31552752-7d5a-44c6-8206-cd86bd91f7c4"
       let localRef = "Kitchen"
       let source = "poi"
@@ -59,8 +63,7 @@ export default class App extends Component {
 
   componentDidMount(){
     setTimeout(() => {
-      this.startUserTask()
-      
+      this.smartMapRef.getMapObjectByProperties(props, null);
     }, 3000);
   }
   render() {
@@ -68,6 +71,7 @@ export default class App extends Component {
       <SmartMapView
         style={{ flex: 1 }}
         apiKey={API_KEY}
+        ref={(smartMapRef) => { this.smartMapRef = smartMapRef }}
         onMapLoaded={() => console.log("MapLoaded")}
         onMapClicked={mapObjects => console.log("Map Clicked: ", mapObjects)}
         onUserFloorChanged={payload => console.log("User floor changed", payload)}
@@ -86,7 +90,6 @@ export default class App extends Component {
           console.log("navigation DestinationReached")
         }
         onUserTaskResponse={(payload)=>this.onUserTaskResponse(payload)}
-        ref={(smartMapRef) => { this.smartMapRef = smartMapRef }}
       />
     )
   }
