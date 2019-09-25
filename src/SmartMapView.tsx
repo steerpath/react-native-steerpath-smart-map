@@ -136,8 +136,16 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         // TODO: add MapObjectCallback
       ) {
         runCommand(smartMapRef.current, "getMapObject", [
-
+            localRef,
+            buildingRef, 
+            source
         ])
+      },
+      getMapObjectByProperties(
+        properties: object,
+        callback: (response: MapResponse) => void,
+      ) {
+        runCommand(smartMapRef.current, "getMapObjectByProperties", [properties, callback])
       },
       removeAllMarkers() {
         runCommand(smartMapRef.current, "removeAllMarkers", []);

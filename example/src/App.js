@@ -12,9 +12,6 @@ const API_KEY =
 //web
 "eyJhbGciOiJSUzI1NiJ9.eyJpYXQ6IjoxNTY0NDEwMjIxLCJqdGkiOiIwOGViODMyMi01ZGM1LTRkNTMtYjJmYy02NDllOTdlNzhjMjkiLCJzY29wZXMiOiJ2Mi1kNGQzNmI5Zi1lOGZiLTQ4MDctYTBjNS1lZDk3MzM0NGI2MDktcHVibGlzaGVkOnIiLCJzdWIiOiJ2Mi1kNGQzNmI5Zi1lOGZiLTQ4MDctYTBjNS1lZDk3MzM0NGI2MDkifQ.S-_kH7HnsN8TMl2ISq_niOycXKIGf7kox6fBZpeDWMnNH1bS9gT_a9grgKskiNe89oXGzV5lfR3uyBSAEFVzyl5nTJSDzFop-HqsI27VHx9CSInah0XDNe2lTLpgA1GG8UzcODKZ1N2eZyekb84FvT-wgh3joLdRtztUFUNkudTGpU3tquw41od-Ktw33UF8PXSWtI4Cpr3aU9k2bKCgYSB-csz8x3Svj3yda2R-uQgR-RzvZICywk4QYuVkNB-gs_lvzlS2h8AVZsgpJRcBsR2SLAv4kJHpdComPpicab3dGRutykzdtf3wnAnnJxl81qv-9r5WkBojlR3XMeSMkw"
 SmartMapManager.start(API_KEY);
-//TODO:
-//changed the convertToWebSDKSmartMapObj() method in bindings
-//as the SmartMapObject API has changed
 
 export default class App extends Component {
   constructor(props) {
@@ -65,6 +62,11 @@ export default class App extends Component {
     let properties = {
       "title": "R&D"
     }
+    const props = {
+      "description": "Roope"
+    }
+    //this.smartMapRef.getMapObjectByProperties(props, null);
+
     this.smartMapRef.getMapObjectByProperties(properties, (smartMapObject) => {
     //this.smartMapRef.getMapObject(localRef, buildingRef, source, (smartMapObject) => {
       if (smartMapObject) {
@@ -83,7 +85,7 @@ export default class App extends Component {
       }
     })
   }
-
+  
    cancelUserTask() {
     this.smartMapRef.cancelCurrentUserTask()
   }
@@ -92,7 +94,7 @@ export default class App extends Component {
     setTimeout(() => {
       //this.startUserTask()
       this.addMarker()
-    }, 3000);
+    }, 4000);
   }
   render() {
     console.log("this " , this);
@@ -100,6 +102,7 @@ export default class App extends Component {
       <SmartMapView
         style={{ flex: 1 }}
         apiKey={API_KEY}
+        ref={(smartMapRef) => { this.smartMapRef = smartMapRef }}
         onMapLoaded={() => console.log("MapLoaded")}
         onMapClicked={mapObjects => console.log("Map Clicked: ", mapObjects)}
         onUserFloorChanged={payload => console.log("User floor changed", payload)}
@@ -118,7 +121,6 @@ export default class App extends Component {
           console.log("navigation DestinationReached")
         }
         onUserTaskResponse={(payload)=>this.onUserTaskResponse(payload)}
-        ref={(smartMapRef) => { this.smartMapRef = smartMapRef }}
       />
     )
   }

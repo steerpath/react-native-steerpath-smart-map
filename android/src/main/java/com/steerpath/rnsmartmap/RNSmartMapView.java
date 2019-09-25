@@ -1,5 +1,6 @@
 package com.steerpath.rnsmartmap;
 
+import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
@@ -30,6 +33,7 @@ import com.steerpath.smart.listeners.NavigationEventListener;
 import com.steerpath.smart.listeners.UserTaskListener;
 import com.steerpath.smart.listeners.ViewStatusListener;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -326,6 +330,20 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
             if (smartMapObject != null) {
                 smartMap.startUserTask(new POISelectionUserTask(smartMapObject, addMarker, actionButtonText, actionButtonIcon));
             }
+        });
+    }
+
+    public void getMapObjectByProperties(ReadableMap map) {
+        HashMap<String, String> properties = new HashMap<>();
+        ReadableMapKeySetIterator iterator = map.keySetIterator();
+
+        while (iterator.hasNextKey()) {
+            String key = iterator.nextKey();
+            properties.put(key, map.getString(key));
+        }
+
+        smartMap.getMapObjectByProperties(properties, (smartMapObject, s) -> {
+            //TODO: return callback to client side
         });
     }
 
