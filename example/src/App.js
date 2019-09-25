@@ -3,7 +3,7 @@ import React, {
 } from "react";
 import {
   SmartMapManager,
-  SmartMapView,
+  SmartMapView
 } from "react-native-steerpath-smart-map";
 
 const API_KEY =
@@ -12,6 +12,9 @@ const API_KEY =
 //web
 "eyJhbGciOiJSUzI1NiJ9.eyJpYXQ6IjoxNTY0NDEwMjIxLCJqdGkiOiIwOGViODMyMi01ZGM1LTRkNTMtYjJmYy02NDllOTdlNzhjMjkiLCJzY29wZXMiOiJ2Mi1kNGQzNmI5Zi1lOGZiLTQ4MDctYTBjNS1lZDk3MzM0NGI2MDktcHVibGlzaGVkOnIiLCJzdWIiOiJ2Mi1kNGQzNmI5Zi1lOGZiLTQ4MDctYTBjNS1lZDk3MzM0NGI2MDkifQ.S-_kH7HnsN8TMl2ISq_niOycXKIGf7kox6fBZpeDWMnNH1bS9gT_a9grgKskiNe89oXGzV5lfR3uyBSAEFVzyl5nTJSDzFop-HqsI27VHx9CSInah0XDNe2lTLpgA1GG8UzcODKZ1N2eZyekb84FvT-wgh3joLdRtztUFUNkudTGpU3tquw41od-Ktw33UF8PXSWtI4Cpr3aU9k2bKCgYSB-csz8x3Svj3yda2R-uQgR-RzvZICywk4QYuVkNB-gs_lvzlS2h8AVZsgpJRcBsR2SLAv4kJHpdComPpicab3dGRutykzdtf3wnAnnJxl81qv-9r5WkBojlR3XMeSMkw"
 SmartMapManager.start(API_KEY);
+//TODO:
+//changed the convertToWebSDKSmartMapObj() method in bindings
+//as the SmartMapObject API has changed
 
 export default class App extends Component {
   constructor(props) {
@@ -33,32 +36,52 @@ export default class App extends Component {
      }
   }
 
-   startUserTask(userTask) {
-      let buildingRef = "building_1_31552752-7d5a-44c6-8206-cd86bd91f7c4"
-      let localRef = "Kitchen"
-      let source = "poi"
-      this.smartMapRef.getMapObject(localRef, buildingRef, source, (smartMapObject) => {
-        if (smartMapObject) {
-          let addMarker = true
-          let actionButtonText = "Book Now"
-          let actionButtonIcon = "category_fun"
-          this.smartMapRef.startUserTask({
-            "type": "poiSelection",
-            "payload": {
-              "addMarker": addMarker,
-              "actionButtonText": actionButtonText,
-              "actionButtonIcon": actionButtonIcon,
-              "smartMapObject": smartMapObject
-            }
-          })
-        }
-      })
-      let properties = {
-        "title": "R&D"
+  addMarker(){
+    let floorIndex = 2
+    let lat = 60.2209793852
+    let localRef = "R&D"
+    let lon = 24.8123370637
+    let title = "Custom Marker"
+    let buildingRef = "building_1_31552752-7d5a-44c6-8206-cd86bd91f7c4"
+    // let markerMapObject = new steerpath.SmartMapObject(lat, lon, floorIndex, buildingRef, localRef, title, {
+    //   "foo": "bar"
+    // })
+    let smartMapObject = {
+      title: title,
+      floorIndex: floorIndex,
+      latitude: lat,
+      longitude: lon,
+      localRef: localRef,
+      buildingRef: buildingRef,
+      source: "poi"
+    };
+    console.log("smartMapObject ", smartMapObject);
+    this.smartMapRef.addMarker(smartMapObject)
+  }
+  startUserTask(userTask) {
+    let buildingRef = "building_1_31552752-7d5a-44c6-8206-cd86bd91f7c4"
+    let localRef = "Kitchen"
+    let source = "poi"
+    let properties = {
+      "title": "R&D"
+    }
+    this.smartMapRef.getMapObjectByProperties(properties, (smartMapObject) => {
+    //this.smartMapRef.getMapObject(localRef, buildingRef, source, (smartMapObject) => {
+      if (smartMapObject) {
+        let addMarker = true
+        let actionButtonText = "Book Now"
+        let actionButtonIcon = "category_fun"
+        this.smartMapRef.startUserTask({
+          "type": "poiSelection",
+          "payload": {
+            "addMarker": addMarker,
+            "actionButtonText": actionButtonText,
+            "actionButtonIcon": actionButtonIcon,
+            "smartMapObject": smartMapObject
+          }
+        })
       }
-      this.smartMapRef.getMapObjectByProperties(properties, (smartMapObject) => {
-        console.log("smartMapObject ", smartMapObject)
-      })
+    })
   }
 
    cancelUserTask() {
@@ -67,8 +90,8 @@ export default class App extends Component {
 
   componentDidMount(){
     setTimeout(() => {
-      this.startUserTask()
-      
+      //this.startUserTask()
+      this.addMarker()
     }, 3000);
   }
   render() {
