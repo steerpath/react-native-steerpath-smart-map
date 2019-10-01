@@ -69,6 +69,7 @@ export interface SmartMapObject {
   localRef: string;
   buildingRef: string;
   title: string;
+  properties: object,
   source: SmartObjectSource;
 }
 

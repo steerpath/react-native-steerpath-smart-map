@@ -22,6 +22,7 @@ function convertToWebSDKSmartMapObj(smartMapObj: SmartMapObject) {
     smartMapObj.buildingRef,
     smartMapObj.localRef,
     smartMapObj.title,
+    smartMapObj.properties
   );
 }
 
@@ -52,7 +53,9 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     return () => {
       //When screen size changes and this component unmounted
       //remove the old instance of smartMapRef.current
-      (smartMapRef.current as any).removeMap()
+      if(smartMapRef.current){
+        (smartMapRef.current as any).removeMap()
+      }
     }
   }, [props.apiKey]);
 
@@ -178,6 +181,14 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       textColor: string | null,
       textHaloColor: string | null,
     ) {
+      console.log("before", mapObjectsArray);
+      
+      //convert mapObjectsArray to web SDK smartMapObjects
+      mapObjectsArray.map((smartMapObject, index) => {
+        smartMapObject = convertToWebSDKSmartMapObj(smartMapObject)
+      })
+      console.log("after", mapObjectsArray);
+
       runCommand(smartMapRef.current, "addMarkers", [mapObjectsArray, layout, iconName, textColor, textHaloColor])
     },
     removeMarker(
