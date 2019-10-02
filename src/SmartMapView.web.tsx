@@ -39,29 +39,14 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
   const smartMapRef = useRef(null);
 
   useEffect(() => {
-    console.log("props " , props)
-    //consider if this approach would be better
-    //dig the sdk instance from the steerpath namespace
-    //and use that as default when creating SmartMapView
     for (const apiKey in steerpath.sdk) {
-     if (steerpath.sdk.hasOwnProperty(apiKey)) {
-       const smartSDK = steerpath.sdk[apiKey];
-       smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
-       break;  
-     }
-   }
-    return () => {
-      //When screen size changes and this component unmounted
-      //remove the old instance of smartMapRef.current
-      if(smartMapRef.current){
-        (smartMapRef.current as any).removeMap()
+      if (steerpath.sdk.hasOwnProperty(apiKey)) {
+        const smartSDK = steerpath.sdk[apiKey];
+        smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
+        break;  
       }
     }
-  }, [props.apiKey]);
-
-
-  //event listeners
-  useEffect(() => {
+    //add event listeners
     if (props.onMapClicked) {
       steerpath.MapEventListener.on("onMapClick", (e) => {
         if (props.onMapClicked) {
@@ -87,6 +72,12 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     }
 
     return () => {
+      //When screen size changes and this component unmounted
+      //remove the old instance of smartMapRef.current
+      if(smartMapRef.current){
+        (smartMapRef.current as any).removeMap()
+      }
+
       if (props.onMapClicked) {
         steerpath.MapEventListener.off("onMapClick", (e) => {
           if (props.onMapClicked) {
@@ -102,8 +93,10 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
           }
         })
       }
-    };
-  }, [props.onMapClicked]);
+
+    }
+  }, [props.apiKey]);
+
   
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   useImperativeHandle(ref, () => ({
@@ -134,14 +127,13 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         buildingRef,
       ]);
     },
-    setCameraToBuilding(
+    setCameraToBuildingRef(
       buildingRef: string,
-      zoomLevel: number,
       callback: (response: MapResponse) => void
     ) {
       runCommand(smartMapRef.current, "setCameraToBuilding", [
         buildingRef,
-        zoomLevel,
+        18,
         callback
       ]);
     },
@@ -181,14 +173,9 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       textColor: string | null,
       textHaloColor: string | null,
     ) {
-      console.log("before", mapObjectsArray);
-      
-      //convert mapObjectsArray to web SDK smartMapObjects
-      mapObjectsArray.map((smartMapObject, index) => {
-        smartMapObject = convertToWebSDKSmartMapObj(smartMapObject)
+      mapObjectsArray = mapObjectsArray.map((smartMapObject) => {
+        return  convertToWebSDKSmartMapObj(smartMapObject)
       })
-      console.log("after", mapObjectsArray);
-
       runCommand(smartMapRef.current, "addMarkers", [mapObjectsArray, layout, iconName, textColor, textHaloColor])
     },
     removeMarker(
@@ -201,6 +188,9 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     removeMarkers(
       mapObjectsArray,
     ) {
+      mapObjectsArray = mapObjectsArray.map((smartMapObject) => {
+        return  convertToWebSDKSmartMapObj(smartMapObject)
+      })
       runCommand(smartMapRef.current, "removeMarkers", [mapObjectsArray])
     },
     removeAllMarkers() {
@@ -233,14 +223,13 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         buildingRef
       ]);
     },
-    animateCameraToBuilding(
+    animateCameraToBuildingRef(
       buildingRef: string,
-      zoomLevel: number,
       callback: (response: MapResponse) => void
     ) {
       runCommand(smartMapRef.current, "animateCameraToBuilding", [
         buildingRef,
-        zoomLevel,
+        18,
         callback
       ]);
     },
