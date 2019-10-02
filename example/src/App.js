@@ -20,85 +20,24 @@ SmartMapManager.start(API_KEY);
 export default class App extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      "didMount": false
+    }
     this.smartMapRef = {}
   }
   
   onUserTaskResponse(payload) {
     console.log("onUserTaskResponse ", payload);
-    
      let userTask = payload.userTask
      let response = payload.response
-     if (userTask instanceof window.steerpath.POISelectionUserTask) {
-       if (response === "COMPLETED") {
-         console.log("event ", userTask);
-         this.cancelUserTask()
-         //this.smartMapRef.setMapMode("mapOnly")
-       }
-     }
-  }
-
-  addMarker(){
-    let floorIndex = 2
-    let lat = 60.2209793852
-    let localRef = "R&D"
-    let lon = 24.8123370637
-    let title = "Custom Marker"
-    let buildingRef = "building_1_31552752-7d5a-44c6-8206-cd86bd91f7c4"
-    // let markerMapObject = new steerpath.SmartMapObject(lat, lon, floorIndex, buildingRef, localRef, title, {
-    //   "foo": "bar"
-    // })
-    let smartMapObject = {
-      title: title,
-      floorIndex: floorIndex,
-      latitude: lat,
-      longitude: lon,
-      localRef: localRef,
-      buildingRef: buildingRef,
-      source: "poi"
-    };
-    console.log("smartMapObject ", smartMapObject);
-    this.smartMapRef.addMarker(smartMapObject)
-  }
-  startUserTask(userTask) {
-    let buildingRef = "building_1_31552752-7d5a-44c6-8206-cd86bd91f7c4"
-    let localRef = "Kitchen"
-    let source = "poi"
-    let properties = {
-      "title": "R&D"
-    }
-    const props = {
-      "description": "Roope"
-    }
-    //this.smartMapRef.getMapObjectByProperties(props, null);
-
-    this.smartMapRef.getMapObjectByProperties(properties, (smartMapObject) => {
-    //this.smartMapRef.getMapObject(localRef, buildingRef, source, (smartMapObject) => {
-      if (smartMapObject) {
-        let addMarker = true
-        let actionButtonText = "Book Now"
-        let actionButtonIcon = "category_fun"
-        this.smartMapRef.startUserTask({
-          "type": "poiSelection",
-          "payload": {
-            "addMarker": addMarker,
-            "actionButtonText": actionButtonText,
-            "actionButtonIcon": actionButtonIcon,
-            "smartMapObject": smartMapObject
-          }
-        })
+      if (userTask instanceof window.steerpath.POISelectionUserTask) {
+        if (response === "COMPLETED") {
+          this.smartMapRef.cancelCurrentUserTask()
+        }
       }
-    })
   }
   
-   cancelUserTask() {
-    this.smartMapRef.cancelCurrentUserTask()
-  }
-
   componentDidMount(){
-    setTimeout(() => {
-      //this.startUserTask()
-      //this.addMarker()
-    }, 4000);
     this.setState({
       "didMount": true
     })
@@ -107,9 +46,9 @@ export default class App extends Component {
     console.log("this " , this);
     return (
        <View
-        style={{ flex: 10 }}>
+        style={{ flex: 10, flexDirection: "row" }}>
         <View
-          style={{ flex: 8 }}>
+          style={{ flex: 7 }}>
             <SmartMapView
             style={{ flex: 1 }}
             apiKey={API_KEY}
@@ -135,7 +74,7 @@ export default class App extends Component {
           />
         </View>
         <View
-          style={{ flex: 2 }}>
+          style={{ flex: 3 }}>
             <Drawer
             smartMapRef={this.smartMapRef}/ >
         </View>
