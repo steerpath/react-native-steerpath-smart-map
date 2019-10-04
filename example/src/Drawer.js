@@ -147,11 +147,6 @@ export default class Drawer extends Component {
         this.props.smartMapRef.getMapObjectByProperties(properties, this.getMapObjectCompletionBlock)
     }
 
-    selectMapObject() {
-        let localRef = "Kitchen"
-        this.props.smartMapRef.selectMapObject(localRef, this.buildingRef)
-    }
-
     getMapObjectCompletionBlock(data) {
         console.log("this.getMapObjectCompletionBlock", data)
     }

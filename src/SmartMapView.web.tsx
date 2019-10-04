@@ -46,54 +46,49 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         break;  
       }
     }
-    //add event listeners
-    if (props.onMapClicked) {
-      steerpath.MapEventListener.on("onMapClick", (e) => {
-        if (props.onMapClicked) {
-          props.onMapClicked(e)
-        }
-      })
-    }
 
-    if(props.onVisibleFloorChanged){
-      steerpath.MapEventListener.on("steerpathLayerIndexChanged", (e) => {
-        if (props.onVisibleFloorChanged) {
-          props.onVisibleFloorChanged(e)
-        }
-      })
-    }
-
-    if (props.onUserTaskResponse) {
-      steerpath.UserTaskListener.on("onUserTaskResponse", (e) => {
-        if (props.onUserTaskResponse) {
-          props.onUserTaskResponse(e)
-        }
-      })
-    }
-
+    const events = [
+      {
+        "sdk": "onMapClick",
+        "binding": "onMapClicked"
+      },
+      {
+        "sdk": "onUserTaskResponse",
+        "binding": "onUserTaskResponse"
+      },
+      {
+        "sdk": "steerpathLayerIndexChanged",
+        "binding": "onVisibleFloorChanged"
+      },
+      {
+        "sdk": "steerpathMapLoaded",
+        "binding": "onMapLoaded"
+      }
+    ]
+    //add event listeners ("on")
+    events.forEach(event => {
+      if(props[event.binding]){
+        steerpath.MapEventListener.on(event.sdk, props[event.binding])
+        // steerpath.MapEventListener.on(event.sdk, (e)=>{
+        //   if(props[event.binding]){
+        //     props[event.binding](e)
+        //   }
+        // })
+      }
+    });
+  
     return () => {
+      //remove event listeners ("off")
+      events.forEach(event => {
+        if(props[event.binding]){
+          steerpath.MapEventListener.off(event.sdk, props[event.binding])
+        }
+      });
       //When screen size changes and this component unmounted
       //remove the old instance of smartMapRef.current
       if(smartMapRef.current){
         (smartMapRef.current as any).removeMap()
       }
-
-      if (props.onMapClicked) {
-        steerpath.MapEventListener.off("onMapClick", (e) => {
-          if (props.onMapClicked) {
-            props.onMapClicked(e)
-          }
-        })
-      }
-
-      if (props.onVisibleFloorChanged) {
-        steerpath.MapEventListener.off("steerpathLayerIndexChanged", (e) => {
-          if (props.onVisibleFloorChanged) {
-            props.onVisibleFloorChanged(e)
-          }
-        })
-      }
-
     }
   }, [props.apiKey]);
 

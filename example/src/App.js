@@ -7,7 +7,8 @@ import {
 } from "react-native-steerpath-smart-map";
 import Drawer from "./Drawer.js"
 import {
-  View
+  View,
+  Button
 } from 'react-native';
 
 const API_KEY =
@@ -21,13 +22,13 @@ export default class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      "didMount": false
+      "didMount": false,
+      "renderMap": true
     }
     this.smartMapRef = {}
   }
   
   onUserTaskResponse(payload) {
-    console.log("onUserTaskResponse ", payload);
      let userTask = payload.userTask
      let response = payload.response
       if (userTask instanceof window.steerpath.POISelectionUserTask) {
@@ -42,41 +43,63 @@ export default class App extends Component {
       "didMount": true
     })
   }
+
+  handleRemove = () =>{
+    this.setState({
+      "renderMap": false
+    })
+  }
+
+  handleAdd = () =>{
+    this.setState({
+      "renderMap": true
+    })
+  }
+
+  onMapLoaded = () => {
+    console.log("onMapLoaded")
+  }
   render() {
     console.log("this " , this);
+    let smartMapView = <View></View>
+    if(this.state.renderMap === true){
+      smartMapView = <SmartMapView
+                      style={{ flex: 1 }}
+                      apiKey={API_KEY}
+                      ref={(smartMapRef) => { this.smartMapRef = smartMapRef }}
+                      onMapLoaded={this.onMapLoaded}
+                      onMapClicked={mapObjects => console.log("Map Clicked: ", mapObjects)}
+                      onUserFloorChanged={payload => console.log("User floor changed", payload)}
+                      onVisibleFloorChanged={payload =>
+                        console.log("Visible Floor changed", payload)
+                      }
+                      onViewStatusChanged={payload =>
+                        console.log("onViewstatuschanged", payload)
+                      }
+                      onNavigationEnded={() => console.log("navigation ended")}
+                      onNavigationStarted={() => console.log("navigation started")}
+                      onNavigationPreviewAppeared={() =>
+                        console.log("navigation PreviewAppeared")
+                      }
+                      onNavigationDestinationReached={() =>
+                        console.log("navigation DestinationReached")
+                      }
+                      onUserTaskResponse={(payload)=>this.onUserTaskResponse(payload)}
+                    />
+    }
     return (
        <View
         style={{ flex: 10, flexDirection: "row" }}>
         <View
           style={{ flex: 7 }}>
-            <SmartMapView
-            style={{ flex: 1 }}
-            apiKey={API_KEY}
-            ref={(smartMapRef) => { this.smartMapRef = smartMapRef }}
-            onMapLoaded={() => console.log("MapLoaded")}
-            onMapClicked={mapObjects => console.log("Map Clicked: ", mapObjects)}
-            onUserFloorChanged={payload => console.log("User floor changed", payload)}
-            onVisibleFloorChanged={payload =>
-              console.log("Visible Floor changed", payload)
-            }
-            onViewStatusChanged={payload =>
-              console.log("onViewstatuschanged", payload)
-            }
-            onNavigationEnded={() => console.log("navigation ended")}
-            onNavigationStarted={() => console.log("navigation started")}
-            onNavigationPreviewAppeared={() =>
-              console.log("navigation PreviewAppeared")
-            }
-            onNavigationDestinationReached={() =>
-              console.log("navigation DestinationReached")
-            }
-            onUserTaskResponse={(payload)=>this.onUserTaskResponse(payload)}
-          />
+            {smartMapView}
         </View>
         <View
           style={{ flex: 3 }}>
             <Drawer
-            smartMapRef={this.smartMapRef}/ >
+            smartMapRef={this.smartMapRef} />
+            <Button title="ADD" onPress={this.handleAdd}/>
+            <Button title="REMOVE" onPress={this.handleRemove} />
         </View>
       </View>
     )
