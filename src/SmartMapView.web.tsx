@@ -2,7 +2,6 @@
 import React, { useEffect, useImperativeHandle, useRef, forwardRef } from 'react';
 import { SmartMapViewProps, SmartMapObject, Layout, MapResponse } from './SmartMapViewProps';
 import { steerpath } from "steerpath-smart-sdk"
-import { SmartMapEvent } from "./SmartMapViewProps";
 
 //no longer needed as the steerpath is imported from node modules
 //instead of the window namespace
@@ -69,11 +68,6 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     events.forEach(event => {
       if(props[event.binding]){
         steerpath.MapEventListener.on(event.sdk, props[event.binding])
-        // steerpath.MapEventListener.on(event.sdk, (e)=>{
-        //   if(props[event.binding]){
-        //     props[event.binding](e)
-        //   }
-        // })
       }
     });
   
