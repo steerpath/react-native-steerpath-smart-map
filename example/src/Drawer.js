@@ -85,7 +85,7 @@ export default class Drawer extends Component {
     }
 
     setMapMode(mapMode) {
-        this.props.smartMapRef.setMapMode(mapMode)
+        this.props.smartMapRef.current.setMapMode(mapMode)
     }
 
     startUserTask = (userTask) => {
@@ -96,7 +96,7 @@ export default class Drawer extends Component {
                 "title": "R&D"
             }
             //either get by properties or by localRef + buildingRef
-            this.props.smartMapRef.getMapObjectByProperties(properties, (data) => {
+            this.props.smartMapRef.currentgetMapObjectByProperties(properties, (data) => {
             //this.props.smartMapRef.getMapObject(localRef, this.buildingRef, source, (data) => {
                 console.log("data " , data)
                 if (data) {
@@ -112,14 +112,14 @@ export default class Drawer extends Component {
                             "smartMapObject": data
                         }
                     }
-                    this.props.smartMapRef.startUserTask(userTask)
+                    this.props.smartMapRef.current.startUserTask(userTask)
                 }
             })
         }
     }
 
     cancelUserTask = () => {        
-        this.props.smartMapRef.cancelCurrentUserTask()
+        this.props.smartMapRef.current.cancelCurrentUserTask()
     }
 
     getMapObject = (source) => {
@@ -127,11 +127,11 @@ export default class Drawer extends Component {
         switch (source) {
             case "STATIC":
                 localRef = "Kitchen"
-                this.props.smartMapRef.getMapObject(localRef, this.buildingRef, source, this.getMapObjectCompletionBlock)
+                this.props.smartMapRef.current.getMapObject(localRef, this.buildingRef, source, this.getMapObjectCompletionBlock)
                 break;
             case "MARKER":
                 localRef = "custom_marker_local_ref"
-                this.props.smartMapRef.getMapObject(localRef, this.buildingRef, source, this.getMapObjectCompletionBlock)
+                this.props.smartMapRef.current.getMapObject(localRef, this.buildingRef, source, this.getMapObjectCompletionBlock)
                 break;
             default:
                 break;
@@ -144,7 +144,7 @@ export default class Drawer extends Component {
             "buildingRef": this.buildingRef,
             "title": title
         }
-        this.props.smartMapRef.getMapObjectByProperties(properties, this.getMapObjectCompletionBlock)
+        this.props.smartMapRef.current.getMapObjectByProperties(properties, this.getMapObjectCompletionBlock)
     }
 
     getMapObjectCompletionBlock(data) {
@@ -164,11 +164,11 @@ export default class Drawer extends Component {
 
         }
         if (type === "location") {            
-            this.props.smartMapRef.setCamera(cameraOptions)
+            this.props.smartMapRef.current.setCamera(cameraOptions)
         } else if (type === "object") {
-            this.props.smartMapRef.setCameraToObject(localRef, this.buildingRef, 21, this.cameraCompletionBlock)
+            this.props.smartMapRef.current.setCameraToObject(localRef, this.buildingRef, 21, this.cameraCompletionBlock)
         } else if (type === "building") {
-            this.props.smartMapRef.setCameraToBuildingRef(this.buildingRef, this.cameraCompletionBlock)
+            this.props.smartMapRef.current.setCameraToBuildingRef(this.buildingRef, this.cameraCompletionBlock)
         }
     }
 
@@ -186,11 +186,11 @@ export default class Drawer extends Component {
         }
 
         if (type === "location") {            
-            this.props.smartMapRef.animateCamera(cameraOptions)
+            this.props.smartMapRef.current.animateCamera(cameraOptions)
         } else if (type === "object") {
-            this.props.smartMapRef.animateCameraToObject(localRef, this.buildingRef, 21, this.cameraCompletionBlock)
+            this.props.smartMapRef.current.animateCameraToObject(localRef, this.buildingRef, 21, this.cameraCompletionBlock)
         } else if (type === "building") {
-            this.props.smartMapRef.animateCameraToBuildingRef(this.buildingRef, this.cameraCompletionBlock)
+            this.props.smartMapRef.current.animateCameraToBuildingRef(this.buildingRef, this.cameraCompletionBlock)
         }
     }
 
@@ -203,11 +203,11 @@ export default class Drawer extends Component {
         //Either add the this.markerMapObject without the layout options
         //this.props.smartMapRef.addMarker(this.markerMapObject)
         //or set the layout options.
-        this.props.smartMapRef.addMarker(this.markerMapObject, "bottom", "category_marker", "#ff2f92", "#fff")
+        this.props.smartMapRef.current.addMarker(this.markerMapObject, "bottom", "category_marker", "#ff2f92", "#fff")
     }
 
     removeMarker = () => {
-        this.props.smartMapRef.removeMarker(this.markerMapObject)
+        this.props.smartMapRef.current.removeMarker(this.markerMapObject)
     }
 
     addMarkers = () => {
@@ -235,16 +235,16 @@ export default class Drawer extends Component {
             }
             this.markerMapObjects.push(eachSmartObject)
         }
-        this.props.smartMapRef.addMarkers(this.markerMapObjects)
-        //this.props.smartMapRef.addMarkers(this.markerMapObjects, "bottom", "category_marker_pink", "#ff2f92", "#fff")
+        this.props.smartMapRef.current.addMarkers(this.markerMapObjects)
+        //this.props.smartMapRef.current.addMarkers(this.markerMapObjects, "bottom", "category_marker_pink", "#ff2f92", "#fff")
     }
 
     removeMarkers = () => {
-        this.props.smartMapRef.removeMarkers(this.markerMapObjects)
+        this.props.smartMapRef.current.removeMarkers(this.markerMapObjects)
     }
 
     removeAllMarkers = () => {
-        this.props.smartMapRef.removeAllMarkers()
+        this.props.smartMapRef.current.removeAllMarkers()
     }
 
     selectMapObject = () => {
@@ -252,14 +252,14 @@ export default class Drawer extends Component {
             "localRef": "Kitchen",
             "buildingRef": this.buildingRef
         }
-        this.props.smartMapRef.selectMapObject(mapObject)
+        this.props.smartMapRef.current.selectMapObject(mapObject)
     }
 
     navigateToLocation() {
         let lon = 24.9616104468
         let lat = 60.183513885
         let layerIndex = 2
-        this.props.smartMapRef.navigateToLocation(lat, lon, layerIndex)
+        this.props.smartMapRef.current.navigateToLocation(lat, lon, layerIndex)
     }
 
     addGeofence(){
@@ -278,7 +278,6 @@ export default class Drawer extends Component {
     }
 
     render() {
-        console.log("smartMapRef ", this.props)
         return (
             <View
                 style={{flex: 1}}>

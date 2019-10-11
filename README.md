@@ -11,6 +11,10 @@ or
 
 `$ yarn add react-native-steerpath-smart-map`
 
+## Example app
+
+[here](https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/example/)
+
 ### Mostly automatic installation
 
 We only support Cocoapod linking for iOS at the moment
