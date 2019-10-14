@@ -88,6 +88,44 @@ RCT_EXPORT_METHOD(setCamera:(nonnull NSNumber*) reactTag
   }];
 }
 
+RCT_EXPORT_METHOD(setCameraToBuildingRef:(nonnull NSNumber*) reactTag
+                  buildingRef:(nonnull NSString*) buildingRef
+                  callback:(RCTResponseSenderBlock)callback)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+    [view setCameraToBuildingRef:buildingRef
+                     completion:^(SPMapResponse response) {
+                       callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+                     }];
+  }];
+}
+
+RCT_EXPORT_METHOD(setCameraToObject:(nonnull NSNumber*) reactTag
+                  localRef:(nonnull NSString*) localRef
+                  buildingRef:(nonnull NSString*) buildingRef
+                  zoomLevel:(nonnull NSNumber*) zoomLevel
+                  callback:(RCTResponseSenderBlock)callback)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+    [view setCameraToObject:localRef
+                     buildingRef:buildingRef
+                       zoomLevel:[zoomLevel doubleValue]
+                     completion:^(SPMapResponse response) {
+                       callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+                     }];
+  }];
+}
+
 RCT_EXPORT_METHOD(addMarker:(nonnull NSNumber*) reactTag
                   mapObject:(id)mapObject
                   layout:(NSString*)layout
@@ -160,6 +198,28 @@ RCT_EXPORT_METHOD(selectMapObject:(nonnull NSNumber*) reactTag
   
 }
 
+RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber*) reactTag
+                  latitude:(nonnull NSNumber*)latitude
+                  longitude:(nonnull NSNumber*)longitude
+                  zoomLevel:(nonnull NSNumber*)zoomLevel
+                  bearing:(nonnull NSNumber*)bearing
+                  pitch:(nonnull NSNumber*)pitch
+                  floorIndex:(nonnull NSNumber*)floorIndex
+                  buildingRef:(nonnull NSString *)buildingRef
+                  callback:(RCTResponseSenderBlock)callback)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+    [view animateCamera:[latitude doubleValue] longitude:[longitude doubleValue] zoomLevel:[zoomLevel doubleValue] bearing:[bearing doubleValue] pitch:[pitch doubleValue] floorIndex:[floorIndex intValue] buildingRef:buildingRef completion:^(SPMapResponse response) {
+      callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+    }];
+  }];
+}
+
 RCT_EXPORT_METHOD(animateCameraToObject:(nonnull NSNumber*) reactTag
                   localRef:(nonnull NSString*) localRef
                   buildingRef:(nonnull NSString*) buildingRef
@@ -175,6 +235,23 @@ RCT_EXPORT_METHOD(animateCameraToObject:(nonnull NSNumber*) reactTag
     [view animateCameraToObject:localRef
                      buildingRef:buildingRef
                        zoomLevel:[zoomLevel doubleValue]
+                     completion:^(SPMapResponse response) {
+                       callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+                     }];
+  }];
+}
+
+RCT_EXPORT_METHOD(animateCameraToBuildingRef:(nonnull NSNumber*) reactTag
+                  buildingRef:(nonnull NSString*) buildingRef
+                  callback:(RCTResponseSenderBlock)callback)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+    [view animateCameraToBuildingRef:buildingRef
                      completion:^(SPMapResponse response) {
                        callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
                      }];

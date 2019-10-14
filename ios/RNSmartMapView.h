@@ -13,9 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface RNSmartMapView : SPSmartMapView
 
-@property (nonatomic, copy)
-
- onMapLoaded;
+@property (nonatomic, copy) RCTBubblingEventBlock onMapLoaded;
 @property (nonatomic, copy) RCTBubblingEventBlock onMapClicked;
 @property (nonatomic, copy) RCTBubblingEventBlock onUserFloorChanged;
 @property (nonatomic, copy) RCTBubblingEventBlock onVisibleFloorChanged;

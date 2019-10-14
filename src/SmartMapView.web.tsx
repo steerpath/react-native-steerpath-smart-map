@@ -2,7 +2,6 @@
 import React, { useEffect, useImperativeHandle, useRef, forwardRef } from 'react';
 import { SmartMapViewProps, SmartMapObject, Layout, MapResponse } from './SmartMapViewProps';
 import { steerpath } from "steerpath-smart-sdk"
-import { SmartMapEvent } from "./SmartMapViewProps";
 
 //no longer needed as the steerpath is imported from node modules
 //instead of the window namespace
@@ -22,6 +21,7 @@ function convertToWebSDKSmartMapObj(smartMapObj: SmartMapObject) {
     smartMapObj.buildingRef,
     smartMapObj.localRef,
     smartMapObj.title,
+    smartMapObj.properties
   );
 }
 
@@ -38,69 +38,57 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
   const smartMapRef = useRef(null);
 
   useEffect(() => {
-    console.log("props " , props)
-    //consider if this approach would be better
-    //dig the sdk instance from the steerpath namespace
-    //and use that as default when creating SmartMapView
     for (const apiKey in steerpath.sdk) {
-     if (steerpath.sdk.hasOwnProperty(apiKey)) {
-       const smartSDK = steerpath.sdk[apiKey];
-       smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
-       break;  
-     }
-   }
+      if (steerpath.sdk.hasOwnProperty(apiKey)) {
+        const smartSDK = steerpath.sdk[apiKey];
+        smartMapRef.current = new steerpath.SmartMapView(COMPONENT_ID_PREFIX, smartSDK);
+        break;  
+      }
+    }
+
+    const events = [
+      {
+        "sdk": "onMapClick",
+        "binding": "onMapClicked"
+      },
+      {
+        "sdk": "steerpathLayerIndexChanged",
+        "binding": "onVisibleFloorChanged"
+      },
+      {
+        "sdk": "steerpathMapLoaded",
+        "binding": "onMapLoaded"
+      }
+    ]
+    //add event listeners ("on")
+    events.forEach(event => {
+      if(props[event.binding]){
+        steerpath.MapEventListener.on(event.sdk, props[event.binding])
+      }
+    });
+
+    //also add user task listener
+    steerpath.UserTaskListener.on("onUserTaskResponse", props.onUserTaskResponse)
+  
     return () => {
+      //remove event listeners ("off")
+      events.forEach(event => {
+        if(props[event.binding]){
+          steerpath.MapEventListener.off(event.sdk, props[event.binding])
+        }
+      });
+
+      //also remove user task listener
+      steerpath.UserTaskListener.on("onUserTaskResponse", props.onUserTaskResponse)
+  
       //When screen size changes and this component unmounted
       //remove the old instance of smartMapRef.current
-      (smartMapRef.current as any).removeMap()
+      if(smartMapRef.current){
+        (smartMapRef.current as any).removeMap()
+      }
     }
   }, [props.apiKey]);
 
-
-  //event listeners
-  useEffect(() => {
-    if (props.onMapClicked) {
-      steerpath.MapEventListener.on("onMapClick", (e) => {
-        if (props.onMapClicked) {
-          props.onMapClicked(e)
-        }
-      })
-    }
-
-    if(props.onVisibleFloorChanged){
-      steerpath.MapEventListener.on("steerpathLayerIndexChanged", (e) => {
-        if (props.onVisibleFloorChanged) {
-          props.onVisibleFloorChanged(e)
-        }
-      })
-    }
-
-    if (props.onUserTaskResponse) {
-      steerpath.UserTaskListener.on("onUserTaskResponse", (e) => {
-        if (props.onUserTaskResponse) {
-          props.onUserTaskResponse(e)
-        }
-      })
-    }
-
-    return () => {
-      if (props.onMapClicked) {
-        steerpath.MapEventListener.off("onMapClick", (e) => {
-          if (props.onMapClicked) {
-            props.onMapClicked(e)
-          }
-        })
-      }
-
-      if (props.onVisibleFloorChanged) {
-        steerpath.MapEventListener.off("steerpathLayerIndexChanged", (e) => {
-          if (props.onVisibleFloorChanged) {
-            props.onVisibleFloorChanged(e)
-          }
-        })
-      }
-    };
-  }, [props.onMapClicked]);
   
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   useImperativeHandle(ref, () => ({
@@ -131,14 +119,13 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         buildingRef,
       ]);
     },
-    setCameraToBuilding(
+    setCameraToBuildingRef(
       buildingRef: string,
-      zoomLevel: number,
       callback: (response: MapResponse) => void
     ) {
       runCommand(smartMapRef.current, "setCameraToBuilding", [
         buildingRef,
-        zoomLevel,
+        18,
         callback
       ]);
     },
@@ -178,6 +165,9 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       textColor: string | null,
       textHaloColor: string | null,
     ) {
+      mapObjectsArray = mapObjectsArray.map((smartMapObject) => {
+        return  convertToWebSDKSmartMapObj(smartMapObject)
+      })
       runCommand(smartMapRef.current, "addMarkers", [mapObjectsArray, layout, iconName, textColor, textHaloColor])
     },
     removeMarker(
@@ -190,6 +180,9 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     removeMarkers(
       mapObjectsArray,
     ) {
+      mapObjectsArray = mapObjectsArray.map((smartMapObject) => {
+        return  convertToWebSDKSmartMapObj(smartMapObject)
+      })
       runCommand(smartMapRef.current, "removeMarkers", [mapObjectsArray])
     },
     removeAllMarkers() {
@@ -222,14 +215,13 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         buildingRef
       ]);
     },
-    animateCameraToBuilding(
+    animateCameraToBuildingRef(
       buildingRef: string,
-      zoomLevel: number,
       callback: (response: MapResponse) => void
     ) {
       runCommand(smartMapRef.current, "animateCameraToBuilding", [
         buildingRef,
-        zoomLevel,
+        18,
         callback
       ]);
     },
@@ -278,10 +270,9 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     },
     getMapObjectByProperties(
       properties: object,
-      source: string,
       callback: (response: MapResponse) => void,
     ) {
-      runCommand(smartMapRef.current, "getMapObjectByProperties", [properties, source, callback])
+      runCommand(smartMapRef.current, "getMapObjectByProperties", [properties, callback])
     },
   }));
 

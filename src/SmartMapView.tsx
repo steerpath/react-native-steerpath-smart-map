@@ -25,9 +25,6 @@ function runCommand(handler: any, name: string, args: any[]) {
       ...args
     );
   }
-  console.log({
-    config: NativeModules.UIManager.getViewManagerConfig(NATIVE_VIEW_NAME)
-  })
   return NativeModules.UIManager.dispatchViewManagerCommand(
     findNodeHandle(handler),
     NativeModules.UIManager.getViewManagerConfig(NATIVE_VIEW_NAME).Commands[
@@ -78,7 +75,8 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         bearing,
         pitch,
         floorIndex,
-        buildingRef
+        buildingRef,
+        callback
       }: {
         latitude: number;
         longitude: number;
@@ -87,7 +85,9 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         pitch?: number;
         floorIndex?: number;
         buildingRef: string;
+        callback?: (response: MapResponse) => void
       }) {
+        const noOp = () => {}
         runCommand(smartMapRef.current, "animateCamera", [
           latitude,
           longitude,
@@ -95,7 +95,8 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           bearing || 90,
           pitch || 0,
           floorIndex || 2,
-          buildingRef
+          buildingRef,
+          callback || noOp
         ])
       },
       animateCameraToBuildingRef(
