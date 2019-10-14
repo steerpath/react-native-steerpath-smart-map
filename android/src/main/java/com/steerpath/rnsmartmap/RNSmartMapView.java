@@ -276,6 +276,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     }
 
     public void getMapObject(String localRef, String buildingRef, String source, MapObjectCallback callback) {
+        // TODO: return callback to the client side
         smartMap.getMapObject(localRef, buildingRef, source, callback);
     }
 
@@ -333,7 +334,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         });
     }
 
-    public void getMapObjectByProperties(ReadableMap map) {
+    public void getMapObjectByProperties(ReadableMap map, MapObjectCallback callback) {
         HashMap<String, String> properties = new HashMap<>();
         ReadableMapKeySetIterator iterator = map.keySetIterator();
 
@@ -342,9 +343,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
             properties.put(key, map.getString(key));
         }
 
-        smartMap.getMapObjectByProperties(properties, (smartMapObject, s) -> {
-            //TODO: return callback to client side
-        });
+        smartMap.getMapObjectByProperties(properties, callback);
     }
 
     /** - - - - - PRIVATE METHODS - - - - - */

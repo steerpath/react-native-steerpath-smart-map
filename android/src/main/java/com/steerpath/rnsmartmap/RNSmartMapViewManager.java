@@ -16,6 +16,7 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.steerpath.smart.MapMode;
 import com.steerpath.smart.SmartMapObject;
+import com.steerpath.smart.listeners.MapObjectCallback;
 import com.steerpath.smart.listeners.MapResponseCallback;
 
 import java.util.ArrayList;
@@ -199,7 +200,12 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 // TODO
                 break;
             case GET_MAP_OBJECT:
-                // TODO
+                localRef = args.getString(0);
+                buildingRef = args.getString(1);
+                String source = args.getString(2);
+                mapView.getMapObject(localRef, buildingRef, source, (smartMapObject, s) -> {
+                    // TODO: return callback to the client side
+                });
                 break;
             case REMOVE_ALL_MARKERS:
                 mapView.removeAllMarkers();
@@ -253,7 +259,9 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 break;
             case GET_MAP_OBJECT_BY_PROPERTIES:
                 map = args.getMap(0);
-                mapView.getMapObjectByProperties(map);
+                mapView.getMapObjectByProperties(map, (smartMapObject, s) -> {
+                    // TODO: return callback to the client side
+                });
                 break;
         }
     }
