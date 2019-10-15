@@ -26,7 +26,9 @@ export default function App() {
           apiKey={API_KEY}
           ref={smartMapRef}
           onMapLoaded={() => console.log("Map loaded")}
-          onMapClicked={mapObjects => console.log("Map Clicked: ", mapObjects)}
+          onMapClicked={payload => {
+            console.log(mapObject);
+          }}
           onUserFloorChanged={payload =>
             console.log("User floor changed", payload)
           }
@@ -47,9 +49,9 @@ export default function App() {
           onUserTaskResponse={payload => this.onUserTaskResponse(payload)}
         />
       </View>
-      <View style={{ flex: 3 }}>
+{/*       <View style={{ flex: 3 }}>
         <Drawer smartMapRef={smartMapRef} />
-      </View>
+      </View> */}
     </View>
   );
 }

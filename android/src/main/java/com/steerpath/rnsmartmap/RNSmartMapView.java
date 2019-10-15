@@ -1,6 +1,5 @@
 package com.steerpath.rnsmartmap;
 
-import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableMap;
@@ -32,6 +32,9 @@ import com.steerpath.smart.listeners.MapResponseCallback;
 import com.steerpath.smart.listeners.NavigationEventListener;
 import com.steerpath.smart.listeners.UserTaskListener;
 import com.steerpath.smart.listeners.ViewStatusListener;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
@@ -357,6 +360,14 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         map.putString("buildingRef", object.getBuildingRef());
         map.putString("title", object.getTitle());
         map.putString("source", object.getSource());
+        WritableMap properties = Arguments.createMap();
+        try {
+            properties = Utils.convertJsonToWritableMap(object.getProperties());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        map.putMap("properties", properties);
         return map;
     }
 }
