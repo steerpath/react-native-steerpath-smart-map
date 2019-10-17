@@ -27,7 +27,7 @@ export default function App() {
           ref={smartMapRef}
           onMapLoaded={() => console.log("Map loaded")}
           onMapClicked={payload => {
-            console.log(mapObject);
+            console.log(payload);
           }}
           onUserFloorChanged={payload =>
             console.log("User floor changed", payload)
