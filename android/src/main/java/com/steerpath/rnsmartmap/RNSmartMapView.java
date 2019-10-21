@@ -11,8 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.bridge.WritableArray;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
@@ -27,16 +25,12 @@ import com.steerpath.smart.SmartMapObject;
 import com.steerpath.smart.UserTask;
 import com.steerpath.smart.UserTaskResponse;
 import com.steerpath.smart.listeners.MapEventListener;
-import com.steerpath.smart.listeners.MapObjectCallback;
-import com.steerpath.smart.listeners.MapResponseCallback;
 import com.steerpath.smart.listeners.NavigationEventListener;
 import com.steerpath.smart.listeners.UserTaskListener;
 import com.steerpath.smart.listeners.ViewStatusListener;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -100,6 +94,10 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
                 }
             }
         });
+    }
+
+    SmartMapFragment getMap() {
+        return smartMap;
     }
 
     /** - - - - - MAP EVENTS - - - - -  */
@@ -261,26 +259,8 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     public void animateCamera(double latitude, double longitude, double zoomLevel, double bearing, double pitch, int floorIndex, String buildingRef) {
         smartMap.animateCamera(latitude, longitude, zoomLevel, bearing, pitch, floorIndex, buildingRef);
     }
-
-    public void animateCameraToBuildingRef(String buildingRef, MapResponseCallback callback) {
-        smartMap.animateCameraToBuildingRef(buildingRef, callback);
-    }
-
-    public void animateCameraToObject(String localRef, String buildingRef, double zoom, MapResponseCallback callback) {
-        smartMap.animateCameraToObject(localRef, buildingRef, zoom, callback);
-    }
-
     public void cancelCurrentUserTask() {
         smartMap.cancelCurrentUserTask();
-    }
-
-    public UserTask getCurrentUserTask() {
-        return smartMap.getCurrentUserTask();
-    }
-
-    public void getMapObject(String localRef, String buildingRef, String source, MapObjectCallback callback) {
-        // TODO: return callback to the client side
-        smartMap.getMapObject(localRef, buildingRef, source, callback);
     }
 
     public void removeAllMarkers() {
@@ -302,13 +282,6 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     public void setCamera(double latitude, double longitude, double zoomLevel, double bearing, double pitch,
                           int floorIndex, String buildingRef) {
         smartMap.setCamera(latitude, longitude, zoomLevel, bearing, pitch, floorIndex, buildingRef);
-    }
-
-    public void setCameraToBuildingRef(String buildingRef, MapResponseCallback callback) {
-        smartMap.setCameraToBuildingRef(buildingRef, callback);
-    }
-    public void setCameraToObject(String localRef, String buildingRef, double zoomLevel, MapResponseCallback callback) {
-        smartMap.setCameraToObject(localRef, buildingRef, zoomLevel, callback);
     }
 
     public void setMapMode(String mapMode) {
@@ -337,21 +310,9 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         });
     }
 
-    public void getMapObjectByProperties(ReadableMap map, MapObjectCallback callback) {
-        HashMap<String, String> properties = new HashMap<>();
-        ReadableMapKeySetIterator iterator = map.keySetIterator();
-
-        while (iterator.hasNextKey()) {
-            String key = iterator.nextKey();
-            properties.put(key, map.getString(key));
-        }
-
-        smartMap.getMapObjectByProperties(properties, callback);
-    }
-
     /** - - - - - PRIVATE METHODS - - - - - */
 
-    private WritableMap smartMapObjectToWritableMap(SmartMapObject object) {
+    WritableMap smartMapObjectToWritableMap(SmartMapObject object) {
         WritableMap map = new WritableNativeMap();
         map.putDouble("latitude", object.getLatitude());
         map.putDouble("longitude", object.getLongitude());

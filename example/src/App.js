@@ -27,7 +27,7 @@ export default function App() {
           ref={smartMapRef}
           onMapLoaded={() => console.log("Map loaded")}
           onMapClicked={payload => {
-            console.log(mapObject);
+            console.log(payload);
           }}
           onUserFloorChanged={payload =>
             console.log("User floor changed", payload)
@@ -46,12 +46,14 @@ export default function App() {
           onNavigationDestinationReached={() =>
             console.log("navigation DestinationReached")
           }
-          onUserTaskResponse={payload => this.onUserTaskResponse(payload)}
+          onUserTaskResponse={payload => {
+            console.log(payload)
+          }}
         />
       </View>
-{/*       <View style={{ flex: 3 }}>
-        <Drawer smartMapRef={smartMapRef} />
-      </View> */}
-    </View>
+{       <View style={{ flex: 3 }}>
+          <Drawer smartMapRef={smartMapRef} />
+        </View> }
+      </View>
   );
 }

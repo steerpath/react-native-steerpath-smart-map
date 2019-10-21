@@ -15,8 +15,7 @@ public class RNSmartMapPackage implements ReactPackage {
     public RNSmartMapPackage(Activity activity) {
     } // backwards compatibility
 
-    public RNSmartMapPackage() {
-    }
+    public RNSmartMapPackage() {}
 
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
@@ -32,6 +31,7 @@ public class RNSmartMapPackage implements ReactPackage {
 
         modules.add(new RNSmartMapManager(reactContext));
         modules.add(new RNSmartGeofenceManager(reactContext));
+        modules.add(new RNSmartMapModule(reactContext));
         return modules;
     }
 }
