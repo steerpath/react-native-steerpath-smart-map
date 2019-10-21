@@ -96,7 +96,7 @@ export default class Drawer extends Component {
                 "title": "R&D"
             }
             //either get by properties or by localRef + buildingRef
-            this.props.smartMapRef.currentgetMapObjectByProperties(properties, (data) => {
+            this.props.smartMapRef.current.getMapObjectByProperties(properties, (data) => {
             //this.props.smartMapRef.getMapObject(localRef, this.buildingRef, source, (data) => {
                 console.log("data " , data)
                 if (data) {
@@ -109,7 +109,8 @@ export default class Drawer extends Component {
                             "addMarker": addMarker,
                             "actionButtonText": actionButtonText,
                             "actionButtonIcon": actionButtonIcon,
-                            "smartMapObject": data
+                            "smartMapObject": data,
+                            "shouldAddMarker": true
                         }
                     }
                     this.props.smartMapRef.current.startUserTask(userTask)
@@ -118,8 +119,12 @@ export default class Drawer extends Component {
         }
     }
 
+    getCurrentUserTask = () => {
+        this.props.smartMapRef.current.getCurrentUserTask(this.getUserTaskResponseBlock);
+    }
+
     cancelUserTask = () => {        
-        this.props.smartMapRef.current.cancelCurrentUserTask()
+        this.props.smartMapRef.current.cancelCurrentUserTask(this.getUserTaskResponseBlock);
     }
 
     getMapObject = (source) => {
@@ -149,6 +154,10 @@ export default class Drawer extends Component {
 
     getMapObjectCompletionBlock(data) {
         console.log("this.getMapObjectCompletionBlock", data)
+    }
+
+    getUserTaskResponseBlock(data) {
+        console.log("this.getUserTaskResponseBlock", data);
     }
 
     setCamera = (type) => {
@@ -352,6 +361,9 @@ export default class Drawer extends Component {
                     <Button
                         title="Add Geofence"
                         onPress={this.addGeofence}/>
+                    <Button
+                        title="Get current task"
+                        onPress={this.getCurrentUserTask}/>    
                 </ScrollView>
                 </SafeAreaView>
             </View>

@@ -16,11 +16,8 @@ import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.steerpath.smart.MapMode;
 import com.steerpath.smart.SmartMapObject;
-import com.steerpath.smart.listeners.MapObjectCallback;
-import com.steerpath.smart.listeners.MapResponseCallback;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -45,20 +42,13 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     private static final int ADD_MARKER = 1;
     private static final int ADD_MARKERS = 2;
     private static final int ANIMATE_CAMERA = 3;
-    private static final int ANIMATE_CAMERA_TO_BUILDING_REF = 4;
-    private static final int ANIMATE_CAMERA_TO_OBJECT = 5;
-    private static final int CANCEL_CURRENT_USER_TASK = 6;
-    private static final int GET_CURRENT_USER_TASK = 7;
-    private static final int GET_MAP_OBJECT = 8;
-    private static final int REMOVE_ALL_MARKERS = 9;
-    private static final int REMOVE_MARKER = 10;
-    private static final int REMOVE_MARKERS = 11;
-    private static final int SELECT_MAP_OBJECT = 12;
-    private static final int SET_CAMERA = 13;
-    private static final int SET_CAMERA_TO_BUILDING_REF = 14;
-    private static final int SET_CAMERA_TO_OBJECT = 15;
-    private static final int START_USER_TASK = 16;
-    private static final int GET_MAP_OBJECT_BY_PROPERTIES = 17;
+    private static final int CANCEL_CURRENT_USER_TASK = 4;
+    private static final int REMOVE_ALL_MARKERS = 5;
+    private static final int REMOVE_MARKER = 6;
+    private static final int REMOVE_MARKERS = 7;
+    private static final int SELECT_MAP_OBJECT = 8;
+    private static final int SET_CAMERA = 9;
+    private static final int START_USER_TASK = 10;
 
     private static final String REACT_CLASS = "RNSmartMapView";
 
@@ -127,20 +117,13 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
         commands.put("addMarker", ADD_MARKER);
         commands.put("addMarkers", ADD_MARKERS);
         commands.put("animateCamera", ANIMATE_CAMERA);
-        commands.put("animateCameraToBuildingRef", ANIMATE_CAMERA_TO_BUILDING_REF);
-        commands.put("animateCameraToObject", ANIMATE_CAMERA_TO_OBJECT);
         commands.put("cancelCurrentUserTask", CANCEL_CURRENT_USER_TASK);
-        commands.put("getCurrentUserTask", GET_CURRENT_USER_TASK);
-        commands.put("getMapObject", GET_MAP_OBJECT);
         commands.put("removeAllMarkers", REMOVE_ALL_MARKERS);
         commands.put("removeMarker", REMOVE_MARKER);
         commands.put("removeMarkers", REMOVE_MARKERS);
         commands.put("selectMapObject", SELECT_MAP_OBJECT);
         commands.put("setCamera", SET_CAMERA);
-        commands.put("setCameraToBuildingRef", SET_CAMERA_TO_BUILDING_REF);
-        commands.put("setCameraToObject", SET_CAMERA_TO_OBJECT);
         commands.put("startUserTask", START_USER_TASK);
-        commands.put("getMapObjectByProperties", GET_MAP_OBJECT_BY_PROPERTIES);
         return commands;
     }
 
@@ -180,32 +163,8 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 buildingRef = args.getString(6);
                 mapView.animateCamera(lat, lon, zoom, bearing, pitch, floorIndex, buildingRef);
                 break;
-            case ANIMATE_CAMERA_TO_BUILDING_REF:
-                mapView.animateCameraToBuildingRef(args.getString(0), s -> {
-
-                });
-                break;
-            case ANIMATE_CAMERA_TO_OBJECT:
-                localRef = args.getString(0);
-                buildingRef = args.getString(1);
-                zoom = args.getDouble(2);
-                mapView.animateCameraToObject(localRef, buildingRef, zoom, s -> {
-                    Log.d("Callback", s);
-                });
-                break;
             case CANCEL_CURRENT_USER_TASK:
                 mapView.cancelCurrentUserTask();
-                break;
-            case GET_CURRENT_USER_TASK:
-                // TODO
-                break;
-            case GET_MAP_OBJECT:
-                localRef = args.getString(0);
-                buildingRef = args.getString(1);
-                String source = args.getString(2);
-                mapView.getMapObject(localRef, buildingRef, source, (smartMapObject, s) -> {
-                    // TODO: return callback to the client side
-                });
                 break;
             case REMOVE_ALL_MARKERS:
                 mapView.removeAllMarkers();
@@ -231,16 +190,6 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 buildingRef = args.getString(6);
                 mapView.setCamera(lat, lon, zoom, bearing, pitch, floorIndex, buildingRef);
                 break;
-            case SET_CAMERA_TO_BUILDING_REF:
-                mapView.setCameraToBuildingRef(args.getString(0), s -> {
-
-                });
-                break;
-            case SET_CAMERA_TO_OBJECT:
-                mapView.setCameraToObject(args.getString(0), args.getString(1), args.getDouble(2), s -> {
-
-                });
-                break;
             case START_USER_TASK:
                 map = args.getMap(0);
                 ReadableMap payload = map.getMap("payload");
@@ -256,12 +205,6 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 } else {
                     Log.d("ERROR", "Invalid user task type");
                 }
-                break;
-            case GET_MAP_OBJECT_BY_PROPERTIES:
-                map = args.getMap(0);
-                mapView.getMapObjectByProperties(map, (smartMapObject, s) -> {
-                    // TODO: return callback to the client side
-                });
                 break;
         }
     }

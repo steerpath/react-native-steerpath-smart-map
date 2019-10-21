@@ -1,8 +1,6 @@
 package com.steerpath.rnsmartmap;
 
-import android.app.Activity;
-
-import androidx.annotation.Nullable;
+import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -12,10 +10,10 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
 import com.facebook.react.uimanager.NativeViewHierarchyManager;
-import com.facebook.react.uimanager.UIBlock;
 import com.facebook.react.uimanager.UIManagerModule;
-import com.steerpath.smart.SmartMapObject;
-import com.steerpath.smart.listeners.MapObjectCallback;
+import com.steerpath.smart.ObjectSource;
+import com.steerpath.smart.POISelectionUserTask;
+import com.steerpath.smart.UserTask;
 
 import java.util.HashMap;
 
@@ -35,50 +33,37 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
         return NAME;
     }
 
-    public Activity getActivity() {
-        return getCurrentActivity();
-    }
-
     @ReactMethod
     public void getMapObject(final int tag, final ReadableArray args, final Callback callback) {
-        final ReactApplicationContext context = getReactApplicationContext();
         String localRef = args.getString(0);
         String buildingRef = args.getString(1);
-        String source = args.getString(2);
+        String source;
 
-        // TODO parse options
-        UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-        uiManager.addUIBlock(new UIBlock() {
-            @Override
-            public void execute(NativeViewHierarchyManager nvhm) {
-                RNSmartMapView mapView = (RNSmartMapView) nvhm.resolveView(tag);
-                if (mapView == null) {
-                    callback.invoke("RNSmartMapView not found");
-                    return;
-                }
+        if (args.getString(2).equals("MARKER")) {
+            source = ObjectSource.MARKER;
+        } else {
+            source = ObjectSource.STATIC;
+        }
 
-                if (mapView.getMap() == null) {
-                    callback.invoke("RNSmartMapView.smartMapFragment is not valid");
-                }
-
-                mapView.getMap().getMapObject(localRef, buildingRef, source, new MapObjectCallback() {
-                    @Override
-                    public void onResponse(@Nullable SmartMapObject smartMapObject, String s) {
-                        if (smartMapObject != null) {
-                            callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject), s);
-                        } else {
-                            callback.invoke(s);
-                        }
-                    }
-                });
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
             }
+
+            mapView.getMap().getMapObject(localRef, buildingRef, source, (smartMapObject, s) -> {
+                if (smartMapObject != null) {
+                    callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject), s);
+                } else {
+                    callback.invoke(s);
+                }
+            });
         });
     }
 
     @ReactMethod
     public void getMapObjectByProperties(final int tag, final ReadableMap map, final Callback callback) {
-        final ReactApplicationContext context = getReactApplicationContext();
-
+        Log.d("map", "" + map);
         HashMap<String, String> properties = new HashMap<>();
         ReadableMapKeySetIterator iterator = map.keySetIterator();
 
@@ -87,31 +72,118 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
             properties.put(key, map.getString(key));
         }
 
-        UIManagerModule uiManager = context.getNativeModule(UIManagerModule.class);
-        uiManager.addUIBlock(new UIBlock() {
-            @Override
-            public void execute(NativeViewHierarchyManager nvhm) {
-                RNSmartMapView mapView = (RNSmartMapView) nvhm.resolveView(tag);
-                if (mapView == null) {
-                    callback.invoke("RNSmartMapView not found");
-                    return;
-                }
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
+            }
 
-                if (mapView.getMap() == null) {
-                    callback.invoke("RNSmartMapView.smartMapFragment is not valid");
+            mapView.getMap().getMapObjectByProperties(properties, (smartMapObject, s) -> {
+                if (smartMapObject != null) {
+                    callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject), s);
+                } else {
+                    callback.invoke(s);
                 }
+            });
+        });
+    }
 
-                mapView.getMap().getMapObjectByProperties(properties, new MapObjectCallback() {
-                    @Override
-                    public void onResponse(@Nullable SmartMapObject smartMapObject, String s) {
-                        if (smartMapObject != null) {
-                            callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject), s);
-                        } else {
-                            callback.invoke(s);
-                        }
-                    }
-                });
+    @ReactMethod
+    public void animateCameraToObject(final int tag, final ReadableArray args, final Callback callback) {
+        String localRef = args.getString(0);
+        String buildingRef = args.getString(1);
+        double zoom = args.getDouble(2);
+
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
+            }
+
+            mapView.getMap().animateCameraToObject(localRef, buildingRef, zoom, callback::invoke);
+        });
+    }
+
+    @ReactMethod
+    public void animateCameraTobuildingRef(final int tag, final ReadableArray args, final Callback callback) {
+        String buildingRef = args.getString(0);
+
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
+            }
+
+            mapView.getMap().animateCameraToBuildingRef(buildingRef, callback::invoke);
+        });
+    }
+
+    @ReactMethod
+    public void setCameraToObject(final int tag, final ReadableArray args, final Callback callback) {
+        String localRef = args.getString(0);
+        String buildingRef = args.getString(1);
+        double zoom = args.getDouble(2);
+
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
+            }
+
+            mapView.getMap().setCameraToObject(localRef, buildingRef, zoom, callback::invoke);
+        });
+    }
+
+    @ReactMethod
+    public void setCameraToBuildingRef(final int tag, final ReadableArray args, final Callback callback) {
+        String buildingRef = args.getString(0);
+
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
+            }
+
+            mapView.getMap().setCameraToBuildingRef(buildingRef, callback::invoke);
+        });
+    }
+
+    @ReactMethod
+    public void getCurrentUserTask(final int tag, final Callback callback) {
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
+            }
+
+            UserTask userTask = mapView.getMap().getCurrentUserTask();
+
+            if (userTask == null) {
+                callback.invoke("No active user task available");
+            } else {
+                // TODO: userTask does not have any getters and I cannot return it to JavaScript side
+                callback.invoke(mapView.getMap().getCurrentUserTask());
             }
         });
+    }
+
+    private UIManagerModule getUiManager() {
+        final ReactApplicationContext context = getReactApplicationContext();
+        return context.getNativeModule(UIManagerModule.class);
+    }
+
+    private RNSmartMapView resolveMapView(NativeViewHierarchyManager nvhm, final int tag, final Callback callback) {
+        RNSmartMapView mapView = (RNSmartMapView) nvhm.resolveView(tag);
+        if (mapView == null) {
+            callback.invoke("RNSmartMapView not found");
+            return null;
+        }
+
+        if (mapView.getMap() == null) {
+            callback.invoke("RNSmartMapView.smartMapFragment is not valid");
+            return null;
+        }
+
+        return mapView;
     }
 }
