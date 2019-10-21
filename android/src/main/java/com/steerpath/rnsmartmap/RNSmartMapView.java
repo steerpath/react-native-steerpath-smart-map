@@ -31,6 +31,7 @@ import com.steerpath.smart.listeners.ViewStatusListener;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -52,6 +53,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     private SmartMapFragment smartMap;
     private ReactContext reactContext;
     private RNSmartMapViewManager manager;
+    private ArrayList<String> addedIcons = new ArrayList<>();
 
     public RNSmartMapView(ThemedReactContext context, ReactApplicationContext reactApplicationContext,
                           RNSmartMapViewManager mapViewManager) {
@@ -232,15 +234,16 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
     /** - - - - - PUBLIC METHODS - - - - - */
 
-    public void addMarker(double lat, double lon, int floorIndex, String localRef, String buildingRef, @Nullable String objectSource, String layout, @Nullable String iconImage,
+    public void addMarker(double lat, double lon, int floorIndex, String localRef, String buildingRef, String layout, @Nullable String iconImage,
                           String rgbTextColor, String rgbTextHaloColor) {
 
-        SmartMapObject smartMapObject = new SmartMapObject(lat, lon, floorIndex, localRef, buildingRef);
-        if (objectSource != null && objectSource.equals("marker")) {
-            smartMapObject.setSource(ObjectSource.MARKER);
-        } else {
-            smartMapObject.setSource(ObjectSource.STATIC);
+        if (!addedIcons.contains(iconImage)) {
+            int resId = this.getResources().getIdentifier(iconImage, "drawable", getContext().getPackageName());
+            smartMap.addIconImage(iconImage, resId);
+
         }
+
+        SmartMapObject smartMapObject = new SmartMapObject(lat, lon, floorIndex, localRef, buildingRef);
         if (layout == null && rgbTextColor == null && rgbTextHaloColor == null) {
             smartMap.addMarker(smartMapObject);
         } else {
@@ -293,10 +296,10 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     }
 
     public void startPoiSelectionUserTask(String localRef, String buildingRef, String source, boolean addMarker,
-                                          String actionButtonText, int actionButtonIcon) {
+                                          String actionButtonText, String actionButtonIcon) {
 
         String objectSource;
-
+        int resId = this.getResources().getIdentifier(actionButtonIcon, "drawable", getContext().getPackageName());
         if (source.toLowerCase().equals("marker")) {
             objectSource = ObjectSource.MARKER;
         } else {
@@ -305,7 +308,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
         smartMap.getMapObject(localRef, buildingRef, objectSource, (smartMapObject, s) -> {
             if (smartMapObject != null) {
-                smartMap.startUserTask(new POISelectionUserTask(smartMapObject, addMarker, actionButtonText, actionButtonIcon));
+                smartMap.startUserTask(new POISelectionUserTask(smartMapObject, addMarker, actionButtonText, resId));
             }
         });
     }
