@@ -52,6 +52,10 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         "binding": "onMapClicked"
       },
       {
+        "sdk": "onSearchResultSelected",
+        "binding": "onSearchResultSelected"
+      },
+      {
         "sdk": "steerpathLayerIndexChanged",
         "binding": "onVisibleFloorChanged"
       },
@@ -60,7 +64,7 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         "binding": "onMapLoaded"
       }
     ]
-    //add event listeners ("on")
+    //add map event listeners ("on")
     events.forEach(event => {
       if(props[event.binding]){
         steerpath.MapEventListener.on(event.sdk, props[event.binding])
@@ -71,7 +75,7 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     steerpath.UserTaskListener.on("onUserTaskResponse", props.onUserTaskResponse)
   
     return () => {
-      //remove event listeners ("off")
+      //remove map event listeners ("off")
       events.forEach(event => {
         if(props[event.binding]){
           steerpath.MapEventListener.off(event.sdk, props[event.binding])
@@ -79,7 +83,7 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       });
 
       //also remove user task listener
-      steerpath.UserTaskListener.on("onUserTaskResponse", props.onUserTaskResponse)
+      steerpath.UserTaskListener.off("onUserTaskResponse", props.onUserTaskResponse)
   
       //When screen size changes and this component unmounted
       //remove the old instance of smartMapRef.current

@@ -35,6 +35,10 @@ export default function App() {
           onVisibleFloorChanged={payload =>
             console.log("Visible Floor changed", payload)
           }
+
+          onSearchResultSelected={payload => 
+            console.log("Search result selected " , payload)
+          }
           onViewStatusChanged={payload =>
             console.log("onViewstatuschanged", payload)
           }
