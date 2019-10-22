@@ -76,7 +76,6 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         pitch,
         floorIndex,
         buildingRef,
-        callback
       }: {
         latitude: number;
         longitude: number;
@@ -85,9 +84,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         pitch?: number;
         floorIndex?: number;
         buildingRef: string;
-        callback?: (response: MapResponse) => void
       }) {
-        const noOp = () => {}
         runCommand(smartMapRef.current, "animateCamera", [
           latitude,
           longitude,
@@ -96,7 +93,6 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           pitch || 0,
           floorIndex || 2,
           buildingRef,
-          callback || noOp
         ])
       },
       animateCameraToBuildingRef(
@@ -104,7 +100,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         callback: (response: MapResponse) => void
       ){
         if (Platform.OS == "android") {
-          NativeModules.RNSmartMapModule.setCameraToBuildingRef(findNodeHandle(smartMapRef.current), 
+          NativeModules.RNSmartMapModule.animateCameraToBuildingRef(findNodeHandle(smartMapRef.current), 
           [buildingRef], callback);
         } else {
           runCommand(smartMapRef.current, "animateCameraToBuildingRef", [

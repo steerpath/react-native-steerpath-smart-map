@@ -105,7 +105,7 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void animateCameraTobuildingRef(final int tag, final ReadableArray args, final Callback callback) {
+    public void animateCameraToBuildingRef(final int tag, final ReadableArray args, final Callback callback) {
         String buildingRef = args.getString(0);
 
         getUiManager().addUIBlock(nvhm -> {
