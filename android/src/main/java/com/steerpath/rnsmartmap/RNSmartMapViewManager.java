@@ -131,7 +131,6 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     public void receiveCommand(@Nonnull RNSmartMapView mapView, int commandId, @Nullable ReadableArray args) {
         ReadableMap map;
         String buildingRef;
-        String localRef;
         double lat;
         double lon;
         double zoom;
@@ -146,8 +145,8 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 String iconImage = args.getString(2);
                 String rgbTextColor = args.getString(3);
                 String rgbTextHaloColor = args.getString(4);
-                mapView.addMarker(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map), getBuildingRef(map),
-                        getSource(map), layout, iconImage, rgbTextColor, rgbTextHaloColor);
+                mapView.addMarker(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map), getBuildingRef(map), 
+                        layout, iconImage, rgbTextColor, rgbTextHaloColor);
                 break;
             case ADD_MARKERS:
                 mapView.addMarkers(generateMapObjectsList(args.getArray(0)), args.getString(1),
@@ -199,9 +198,9 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 } else if (taskType.equals("poiSelection")) {
                     map = args.getMap(0);
                     payload = map.getMap("payload");
-                    ReadableMap mapObject = payload.getMap("MAP_OBJECT");
+                    ReadableMap mapObject = payload.getMap("smartMapObject");
                     mapView.startPoiSelectionUserTask(getLocalRef(mapObject), getBuildingRef(mapObject), getSource(mapObject),
-                            payload.getBoolean("shouldAddMarker"), payload.getString("actionButtonText"), payload.getInt("actionButtonIcon"));
+                            payload.getBoolean("shouldAddMarker"), payload.getString("actionButtonText"), payload.getString("actionButtonIcon"));
                 } else {
                     Log.d("ERROR", "Invalid user task type");
                 }

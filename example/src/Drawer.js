@@ -14,7 +14,6 @@ import {
     SmartGeofenceEvent
 } from 'react-native-steerpath-smart-map';
 
-
 export default class Drawer extends Component {
     constructor(props){
         super(props)
@@ -212,7 +211,12 @@ export default class Drawer extends Component {
         //Either add the this.markerMapObject without the layout options
         //this.props.smartMapRef.addMarker(this.markerMapObject)
         //or set the layout options.
-        this.props.smartMapRef.current.addMarker(this.markerMapObject, "bottom", "category_marker", "#ff2f92", "#fff")
+        let markerIcon = "category_marker";
+        if(Platform.OS == "android") {
+            markerIcon = "ic_sp_category_marker"
+        }
+
+        this.props.smartMapRef.current.addMarker(this.markerMapObject, "bottom", markerIcon, "#ff2f92", "#fff")
     }
 
     removeMarker = () => {
