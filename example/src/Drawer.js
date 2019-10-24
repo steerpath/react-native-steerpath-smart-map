@@ -5,7 +5,8 @@ import { Text, View } from 'react-native';
 import {
     SafeAreaView,
     ScrollView,
-    Button
+    Button,
+    Platform
 } from 'react-native';
 import {
     SmartObjectSource,
