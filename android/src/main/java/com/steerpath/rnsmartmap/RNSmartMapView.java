@@ -8,7 +8,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableArray;
@@ -43,6 +42,7 @@ import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_ENDED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
+import static com.steerpath.rnsmartmap.RNEventKeys.SEARCH_RESULT_SELECTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
 import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
@@ -106,20 +106,22 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
     @Override
     public boolean onMapClick(List<SmartMapObject> mapObjects) {
-        if (mapObjects.isEmpty()) {
-            return false;
-        }
-
         WritableArray array = new WritableNativeArray();
+
         for (SmartMapObject object : mapObjects) {
-            array.pushMap(smartMapObjectToWritableMap(object));
+            array.pushMap(smartMapObjectToWritableMap(object, false));
         }
 
         WritableMap map = new WritableNativeMap();
         map.putArray("mapObjects", array);
 
         manager.sendEvent(reactContext, this, MAP_CLICKED, map);
+        return true;
+    }
 
+    @Override
+    public boolean onSearchResultSelected(SmartMapObject mapObject) {
+        manager.sendEvent(reactContext, this, SEARCH_RESULT_SELECTED, smartMapObjectToWritableMap(mapObject, true));
         return true;
     }
 
@@ -226,7 +228,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         WritableMap map = new WritableNativeMap();
         map.putString("status", s);
         if (smartMapObject != null) {
-            map.putMap("smartMapObject", smartMapObjectToWritableMap(smartMapObject));
+            map.putMap("smartMapObject", smartMapObjectToWritableMap(smartMapObject, false));
         }
 
         manager.sendEvent(reactContext, this, VIEW_STATUS_CHANGED, map);
@@ -315,23 +317,24 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
     /** - - - - - PRIVATE METHODS - - - - - */
 
-    WritableMap smartMapObjectToWritableMap(SmartMapObject object) {
+    WritableMap smartMapObjectToWritableMap(SmartMapObject object, boolean removePropertiesKey) {
         WritableMap map = new WritableNativeMap();
-        map.putDouble("latitude", object.getLatitude());
-        map.putDouble("longitude", object.getLongitude());
-        map.putInt("floorIndex", object.getFloorIndex());
-        map.putString("localRef", object.getLocalRef());
-        map.putString("buildingRef", object.getBuildingRef());
-        map.putString("title", object.getTitle());
-        map.putString("source", object.getSource());
-        WritableMap properties = Arguments.createMap();
         try {
-            properties = Utils.convertJsonToWritableMap(object.getProperties());
+            if (removePropertiesKey) {
+                map.putMap("properties", Utils.convertJsonToWritableMap(object.getProperties().getJSONObject("properties")));
+            } else {
+                map.putMap("properties", Utils.convertJsonToWritableMap(object.getProperties()));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        map.putMap("properties", properties);
+        map.putString("source", object.getSource());
+        map.putDouble("longitude", object.getLongitude());
+        map.putDouble("latitude", object.getLatitude());
+        map.putInt("floorIndex", object.getFloorIndex());
+        map.putString("buildingRef", object.getBuildingRef());
+        map.putString("localRef", object.getLocalRef());
+        map.putString("title", object.getTitle());
         return map;
     }
 }

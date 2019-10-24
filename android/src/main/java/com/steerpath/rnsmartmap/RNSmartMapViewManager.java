@@ -32,6 +32,7 @@ import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_ENDED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
+import static com.steerpath.rnsmartmap.RNEventKeys.SEARCH_RESULT_SELECTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
 import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
@@ -93,14 +94,16 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
         Map<String, Map<String, String>> map =  MapBuilder.of(
                 MAP_LOADED, MapBuilder.of(registrationName, MAP_LOADED),
                 MAP_CLICKED, MapBuilder.of(registrationName, MAP_CLICKED),
+                SEARCH_RESULT_SELECTED, MapBuilder.of(registrationName, SEARCH_RESULT_SELECTED),
                 USER_FLOOR_CHANGED, MapBuilder.of(registrationName, USER_FLOOR_CHANGED),
                 VISIBLE_FLOOR_CHANGED, MapBuilder.of(registrationName, VISIBLE_FLOOR_CHANGED),
                 USER_TASK_RESPONSE, MapBuilder.of(registrationName, USER_TASK_RESPONSE),
-                VIEW_STATUS_CHANGED, MapBuilder.of(registrationName, VIEW_STATUS_CHANGED),
-                NAVIGATION_FAILED, MapBuilder.of(registrationName, NAVIGATION_FAILED)
+                VIEW_STATUS_CHANGED, MapBuilder.of(registrationName, VIEW_STATUS_CHANGED)
+
         );
 
         map.putAll(MapBuilder.of(
+                NAVIGATION_FAILED, MapBuilder.of(registrationName, NAVIGATION_FAILED),
                 NAVIGATION_ENDED, MapBuilder.of(registrationName, NAVIGATION_ENDED),
                 NAVIGATION_STARTED, MapBuilder.of(registrationName, NAVIGATION_STARTED),
                 NAVIGATION_PREVIEW_APPEARED, MapBuilder.of(registrationName, NAVIGATION_PREVIEW_APPEARED),

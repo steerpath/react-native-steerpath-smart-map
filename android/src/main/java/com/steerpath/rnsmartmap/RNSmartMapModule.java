@@ -53,7 +53,7 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
 
             mapView.getMap().getMapObject(localRef, buildingRef, source, (smartMapObject, s) -> {
                 if (smartMapObject != null) {
-                    callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject), s);
+                    callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject, false), s);
                 } else {
                     callback.invoke(s);
                 }
@@ -63,7 +63,6 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getMapObjectByProperties(final int tag, final ReadableMap map, final Callback callback) {
-        Log.d("map", "" + map);
         HashMap<String, String> properties = new HashMap<>();
         ReadableMapKeySetIterator iterator = map.keySetIterator();
 
@@ -80,7 +79,7 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
 
             mapView.getMap().getMapObjectByProperties(properties, (smartMapObject, s) -> {
                 if (smartMapObject != null) {
-                    callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject), s);
+                    callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject, false), s);
                 } else {
                     callback.invoke(s);
                 }

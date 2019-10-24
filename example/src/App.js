@@ -29,6 +29,9 @@ export default function App() {
           onMapClicked={payload => {
             console.log(payload);
           }}
+          onSearchResultSelected={payload => {
+            console.log("onSearchResultSelected", payload);
+          }}
           onUserFloorChanged={payload =>
             console.log("User floor changed", payload)
           }
