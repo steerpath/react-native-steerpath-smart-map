@@ -9271,7 +9271,7 @@ react-native-reanimated@^1.2.0:
 "react-native-steerpath-smart-map@file:..":
   version "1.0.25"
   dependencies:
-    steerpath-smart-sdk "^1.0.33"
+    steerpath-smart-sdk "^1.0.34"
 
 react-native-web@^0.11.5:
   version "0.11.5"
@@ -10327,10 +10327,10 @@ stealthy-require@^1.1.1:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-steerpath-smart-sdk@^1.0.33:
-  version "1.0.33"
-  resolved "https://registry.yarnpkg.com/steerpath-smart-sdk/-/steerpath-smart-sdk-1.0.33.tgz#85c36bbca4c3f8b839483d3a0406593406ca6370"
-  integrity sha512-Ak/66QXjzOuFW+57XovL3lcoVF6zUOjmyIEbQAFejz3KBvC6sRZfWeJzQKjyGRVrocuSxQs8BIFGrzGMCeo2jw==
+steerpath-smart-sdk@^1.0.34:
+  version "1.0.34"
+  resolved "https://registry.yarnpkg.com/steerpath-smart-sdk/-/steerpath-smart-sdk-1.0.34.tgz#506041321501c4155cad6bd6f532a4b1591c7230"
+  integrity sha512-ZwXK823k9dYhuPuSduqbTNnNavi+FYXDyztl5ToSW6XpTywO9keQDlopW6ukPWahW+56Som52zmK9IHTLEjeBQ==
 
 stream-browserify@^2.0.1:
   version "2.0.2"
