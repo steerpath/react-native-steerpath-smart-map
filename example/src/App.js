@@ -39,9 +39,10 @@ export default function App() {
             console.log("Visible Floor changed", payload)
           }
 
-          onSearchResultSelected={payload => 
+          onSearchResultSelected={payload => {
+            smartMapRef.current.selectMapObject(payload);
             console.log("Search result selected " , payload)
-          }
+          }}
           onViewStatusChanged={payload =>
             console.log("onViewstatuschanged", payload)
           }
