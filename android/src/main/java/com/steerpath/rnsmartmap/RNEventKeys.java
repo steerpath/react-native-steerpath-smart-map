@@ -7,6 +7,7 @@ public class RNEventKeys {
     public static final String MAP_CLICKED = "onMapClicked";
     public static final String USER_FLOOR_CHANGED = "onUserFloorChanged";
     public static final String VISIBLE_FLOOR_CHANGED = "onVisibleFloorChanged";
+    public static final String SEARCH_RESULT_SELECTED = "onSearchResultSelected";
 
     // USER TASK
     public static final String USER_TASK_RESPONSE = "onUserTaskResponse";

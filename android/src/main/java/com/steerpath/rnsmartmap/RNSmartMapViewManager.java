@@ -32,6 +32,7 @@ import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_ENDED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
+import static com.steerpath.rnsmartmap.RNEventKeys.SEARCH_RESULT_SELECTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
 import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
@@ -93,14 +94,16 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
         Map<String, Map<String, String>> map =  MapBuilder.of(
                 MAP_LOADED, MapBuilder.of(registrationName, MAP_LOADED),
                 MAP_CLICKED, MapBuilder.of(registrationName, MAP_CLICKED),
+                SEARCH_RESULT_SELECTED, MapBuilder.of(registrationName, SEARCH_RESULT_SELECTED),
                 USER_FLOOR_CHANGED, MapBuilder.of(registrationName, USER_FLOOR_CHANGED),
                 VISIBLE_FLOOR_CHANGED, MapBuilder.of(registrationName, VISIBLE_FLOOR_CHANGED),
                 USER_TASK_RESPONSE, MapBuilder.of(registrationName, USER_TASK_RESPONSE),
-                VIEW_STATUS_CHANGED, MapBuilder.of(registrationName, VIEW_STATUS_CHANGED),
-                NAVIGATION_FAILED, MapBuilder.of(registrationName, NAVIGATION_FAILED)
+                VIEW_STATUS_CHANGED, MapBuilder.of(registrationName, VIEW_STATUS_CHANGED)
+
         );
 
         map.putAll(MapBuilder.of(
+                NAVIGATION_FAILED, MapBuilder.of(registrationName, NAVIGATION_FAILED),
                 NAVIGATION_ENDED, MapBuilder.of(registrationName, NAVIGATION_ENDED),
                 NAVIGATION_STARTED, MapBuilder.of(registrationName, NAVIGATION_STARTED),
                 NAVIGATION_PREVIEW_APPEARED, MapBuilder.of(registrationName, NAVIGATION_PREVIEW_APPEARED),
@@ -131,7 +134,6 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     public void receiveCommand(@Nonnull RNSmartMapView mapView, int commandId, @Nullable ReadableArray args) {
         ReadableMap map;
         String buildingRef;
-        String localRef;
         double lat;
         double lon;
         double zoom;
@@ -146,8 +148,8 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 String iconImage = args.getString(2);
                 String rgbTextColor = args.getString(3);
                 String rgbTextHaloColor = args.getString(4);
-                mapView.addMarker(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map), getBuildingRef(map),
-                        getSource(map), layout, iconImage, rgbTextColor, rgbTextHaloColor);
+                mapView.addMarker(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map), getBuildingRef(map), 
+                        layout, iconImage, rgbTextColor, rgbTextHaloColor);
                 break;
             case ADD_MARKERS:
                 mapView.addMarkers(generateMapObjectsList(args.getArray(0)), args.getString(1),
@@ -199,9 +201,9 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 } else if (taskType.equals("poiSelection")) {
                     map = args.getMap(0);
                     payload = map.getMap("payload");
-                    ReadableMap mapObject = payload.getMap("MAP_OBJECT");
+                    ReadableMap mapObject = payload.getMap("smartMapObject");
                     mapView.startPoiSelectionUserTask(getLocalRef(mapObject), getBuildingRef(mapObject), getSource(mapObject),
-                            payload.getBoolean("shouldAddMarker"), payload.getString("actionButtonText"), payload.getInt("actionButtonIcon"));
+                            payload.getBoolean("shouldAddMarker"), payload.getString("actionButtonText"), payload.getString("actionButtonIcon"));
                 } else {
                     Log.d("ERROR", "Invalid user task type");
                 }

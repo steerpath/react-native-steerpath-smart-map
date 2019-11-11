@@ -33,7 +33,8 @@ export enum SmartGeofenceResponse {
 
 export enum SmartMapEvent {
   MAP_LOADED = "SPSmartMapLoaded",
-  MAP_CLICKED = "SPSmartMapClicked"
+  MAP_CLICKED = "SPSmartMapClicked",
+  SEARCH_RESULT_SELECTED = "SPSearchResultSelected"
 }
 
 export enum SmartMapViewStatus {
@@ -80,6 +81,7 @@ export interface SmartViewWebProps {
 export interface SmartViewNativeProps {
   mapMode?: SmartMapModes;
   onMapClicked?: (payload: { mapObjects: SmartMapObject[] }) => void;
+  onSearchResultSelected?: (payload: { mapObject: SmartMapObject }) => void;
   onUserFloorChanged?: (payload: {
     floorIndex: number;
     buildingRef?: string;

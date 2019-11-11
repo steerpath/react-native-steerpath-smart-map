@@ -8,7 +8,6 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.WritableArray;
@@ -31,6 +30,7 @@ import com.steerpath.smart.listeners.ViewStatusListener;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Nullable;
@@ -42,6 +42,7 @@ import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_ENDED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
+import static com.steerpath.rnsmartmap.RNEventKeys.SEARCH_RESULT_SELECTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
 import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
@@ -52,6 +53,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     private SmartMapFragment smartMap;
     private ReactContext reactContext;
     private RNSmartMapViewManager manager;
+    private ArrayList<String> addedIcons = new ArrayList<>();
 
     public RNSmartMapView(ThemedReactContext context, ReactApplicationContext reactApplicationContext,
                           RNSmartMapViewManager mapViewManager) {
@@ -104,20 +106,22 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
     @Override
     public boolean onMapClick(List<SmartMapObject> mapObjects) {
-        if (mapObjects.isEmpty()) {
-            return false;
-        }
-
         WritableArray array = new WritableNativeArray();
+
         for (SmartMapObject object : mapObjects) {
-            array.pushMap(smartMapObjectToWritableMap(object));
+            array.pushMap(smartMapObjectToWritableMap(object, false));
         }
 
         WritableMap map = new WritableNativeMap();
         map.putArray("mapObjects", array);
 
         manager.sendEvent(reactContext, this, MAP_CLICKED, map);
+        return true;
+    }
 
+    @Override
+    public boolean onSearchResultSelected(SmartMapObject mapObject) {
+        manager.sendEvent(reactContext, this, SEARCH_RESULT_SELECTED, smartMapObjectToWritableMap(mapObject, true));
         return true;
     }
 
@@ -224,7 +228,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         WritableMap map = new WritableNativeMap();
         map.putString("status", s);
         if (smartMapObject != null) {
-            map.putMap("smartMapObject", smartMapObjectToWritableMap(smartMapObject));
+            map.putMap("smartMapObject", smartMapObjectToWritableMap(smartMapObject, false));
         }
 
         manager.sendEvent(reactContext, this, VIEW_STATUS_CHANGED, map);
@@ -232,15 +236,16 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
     /** - - - - - PUBLIC METHODS - - - - - */
 
-    public void addMarker(double lat, double lon, int floorIndex, String localRef, String buildingRef, @Nullable String objectSource, String layout, @Nullable String iconImage,
+    public void addMarker(double lat, double lon, int floorIndex, String localRef, String buildingRef, String layout, @Nullable String iconImage,
                           String rgbTextColor, String rgbTextHaloColor) {
 
-        SmartMapObject smartMapObject = new SmartMapObject(lat, lon, floorIndex, localRef, buildingRef);
-        if (objectSource != null && objectSource.equals("marker")) {
-            smartMapObject.setSource(ObjectSource.MARKER);
-        } else {
-            smartMapObject.setSource(ObjectSource.STATIC);
+        if (!addedIcons.contains(iconImage)) {
+            int resId = this.getResources().getIdentifier(iconImage, "drawable", getContext().getPackageName());
+            smartMap.addIconImage(iconImage, resId);
+
         }
+
+        SmartMapObject smartMapObject = new SmartMapObject(lat, lon, floorIndex, localRef, buildingRef);
         if (layout == null && rgbTextColor == null && rgbTextHaloColor == null) {
             smartMap.addMarker(smartMapObject);
         } else {
@@ -293,10 +298,10 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     }
 
     public void startPoiSelectionUserTask(String localRef, String buildingRef, String source, boolean addMarker,
-                                          String actionButtonText, int actionButtonIcon) {
+                                          String actionButtonText, String actionButtonIcon) {
 
         String objectSource;
-
+        int resId = this.getResources().getIdentifier(actionButtonIcon, "drawable", getContext().getPackageName());
         if (source.toLowerCase().equals("marker")) {
             objectSource = ObjectSource.MARKER;
         } else {
@@ -305,30 +310,31 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
         smartMap.getMapObject(localRef, buildingRef, objectSource, (smartMapObject, s) -> {
             if (smartMapObject != null) {
-                smartMap.startUserTask(new POISelectionUserTask(smartMapObject, addMarker, actionButtonText, actionButtonIcon));
+                smartMap.startUserTask(new POISelectionUserTask(smartMapObject, addMarker, actionButtonText, resId));
             }
         });
     }
 
     /** - - - - - PRIVATE METHODS - - - - - */
 
-    WritableMap smartMapObjectToWritableMap(SmartMapObject object) {
+    WritableMap smartMapObjectToWritableMap(SmartMapObject object, boolean removePropertiesKey) {
         WritableMap map = new WritableNativeMap();
-        map.putDouble("latitude", object.getLatitude());
-        map.putDouble("longitude", object.getLongitude());
-        map.putInt("floorIndex", object.getFloorIndex());
-        map.putString("localRef", object.getLocalRef());
-        map.putString("buildingRef", object.getBuildingRef());
-        map.putString("title", object.getTitle());
-        map.putString("source", object.getSource());
-        WritableMap properties = Arguments.createMap();
         try {
-            properties = Utils.convertJsonToWritableMap(object.getProperties());
+            if (removePropertiesKey) {
+                map.putMap("properties", Utils.convertJsonToWritableMap(object.getProperties().getJSONObject("properties")));
+            } else {
+                map.putMap("properties", Utils.convertJsonToWritableMap(object.getProperties()));
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        map.putMap("properties", properties);
+        map.putString("source", object.getSource());
+        map.putDouble("longitude", object.getLongitude());
+        map.putDouble("latitude", object.getLatitude());
+        map.putInt("floorIndex", object.getFloorIndex());
+        map.putString("buildingRef", object.getBuildingRef());
+        map.putString("localRef", object.getLocalRef());
+        map.putString("title", object.getTitle());
         return map;
     }
 }
