@@ -154,6 +154,35 @@ RCT_EXPORT_METHOD(addMarker:(nonnull NSNumber*) reactTag
   
 }
 
+RCT_EXPORT_METHOD(addMarkers:(nonnull NSNumber*) reactTag
+                  mapObjectsArray:(id)mapObjectsArray
+                  layout:(NSString*)layout
+                  iconName:(NSString*)iconName
+                  textColor:(NSString*)textColor
+                  textHaloColor:(NSString*)textHaloColor)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+    if (mapObjectsArray && [mapObjectsArray isKindOfClass:[NSArray class]]) {
+        NSMutableArray* smartMapObjects = [NSMutableArray array];
+        for (int i = 0; i < [mapObjectsArray count];i++) {
+            id mapObject = [mapObjectsArray objectAtIndex:i];
+            [smartMapObjects addObject:[RCTConvert SPSmartMapObject:mapObject]];
+        }
+      if (iconName && textColor && textHaloColor) {
+          [view addMarkers:smartMapObjects layout:[RCTConvert SPLayout:layout] iconName:iconName textColor:textColor textHaloColor:textHaloColor];
+      } else {
+        [view addMarkers:smartMapObjects];
+      }
+    }
+  }];
+  
+}
+
 RCT_EXPORT_METHOD(removeMarker:(nonnull NSNumber*) reactTag
                   mapObject:(id)json)
 {
@@ -165,6 +194,27 @@ RCT_EXPORT_METHOD(removeMarker:(nonnull NSNumber*) reactTag
     }
     if (json) {
       [view removeMarker:[RCTConvert SPSmartMapObject:json]];
+    }
+  }];
+  
+}
+
+RCT_EXPORT_METHOD(removeMarkers:(nonnull NSNumber*) reactTag
+                  mapObjectsArray:(id)mapObjectsArray)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+    if (mapObjectsArray && [mapObjectsArray isKindOfClass:[NSArray class]]) {
+        NSMutableArray* smartMapObjects = [NSMutableArray array];
+        for (int i = 0; i < [mapObjectsArray count];i++) {
+            id mapObject = [mapObjectsArray objectAtIndex:i];
+            [smartMapObjects addObject:[RCTConvert SPSmartMapObject:mapObject]];
+        }
+      [view removeMarkers:smartMapObjects];
     }
   }];
   
@@ -205,8 +255,7 @@ RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber*) reactTag
                   bearing:(nonnull NSNumber*)bearing
                   pitch:(nonnull NSNumber*)pitch
                   floorIndex:(nonnull NSNumber*)floorIndex
-                  buildingRef:(nonnull NSString *)buildingRef
-                  callback:(RCTResponseSenderBlock)callback)
+                  buildingRef:(nonnull NSString *)buildingRef)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
     RNSmartMapView *view = viewRegistry[reactTag];
@@ -215,7 +264,7 @@ RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber*) reactTag
       return;
     }
     [view animateCamera:[latitude doubleValue] longitude:[longitude doubleValue] zoomLevel:[zoomLevel doubleValue] bearing:[bearing doubleValue] pitch:[pitch doubleValue] floorIndex:[floorIndex intValue] buildingRef:buildingRef completion:^(SPMapResponse response) {
-      callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+        NSLog(@"Animate Camera completed");
     }];
   }];
 }
