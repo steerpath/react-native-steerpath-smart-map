@@ -248,6 +248,25 @@ RCT_EXPORT_METHOD(selectMapObject:(nonnull NSNumber*) reactTag
   
 }
 
+RCT_EXPORT_METHOD(getMapObject:(nonnull NSNumber*) reactTag
+                  localRef:(nonnull NSString *)localRef
+                  buildingRef:(nonnull NSString *)buildingRef
+                  source:(nonnull NSString*)source
+                  callback:(RCTResponseSenderBlock)callback)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+      [view getMapObject:localRef buildingRef:buildingRef source:[RCTConvert SPObjectSource:source] completion:^(SPSmartMapObject * _Nullable mapObject, SPMapResponse response) {
+          callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+      }];
+  }];
+  
+}
+
 RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber*) reactTag
                   latitude:(nonnull NSNumber*)latitude
                   longitude:(nonnull NSNumber*)longitude

@@ -7,9 +7,9 @@ export enum SmartMapModes {
 }
 
 export enum SmartObjectSource {
-  STATIC = "static",
-  MARKER = "marker",
-  LIVE = "live"
+  STATIC = "STATIC",
+  MARKER = "MARKER",
+  LIVE = "LIVE"
 }
 
 export enum Layout {

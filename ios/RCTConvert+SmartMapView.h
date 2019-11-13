@@ -16,6 +16,7 @@
 
 + (SPSmartMapObject*)SPSmartMapObject:(id)json;
 + (SPLayout)SPLayout:(NSString*)layout;
++ (SPObjectSource)SPObjectSource:(NSString*)source;
 + (NSString*)SPMapResponse:(SPMapResponse)response;
 + (NSString*)SPSmartGeofenceResponseType:(SPSmartGeofenceResponseType)response;
 + (SPSmartMapUserTask*)SPSmartUserTask:(id)json;
