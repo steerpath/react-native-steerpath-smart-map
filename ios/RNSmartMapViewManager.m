@@ -32,7 +32,7 @@ RCT_EXPORT_MODULE(RNSmartMapView)
   RNSmartMapView* view = [RNSmartMapView new];
   RNSmartMapEventManager* mapEventManager = [[RNSmartMapEventManager alloc] initWithMapView:view];
     [mapEventManagers addObject:mapEventManager];
-  view.delegate = mapEventManager;
+  view.delegate = self;
   view.userTaskDelegate = mapEventManager;
   return view;
 }
@@ -364,6 +364,96 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
     }
     [view cancelCurrentUserTask];
   }];
+}
+
+#pragma MAP Events
+
+-(void)spSmartMapViewOnMapLoaded:(RNSmartMapView*)smartMap;
+{
+    if (smartMap.onMapLoaded) {
+        smartMap.onMapLoaded(nil);
+    }
+}
+
+-(BOOL)spSmartMapView:(RNSmartMapView*)smartMap onMapClicked:(NSArray<SPSmartMapObject*>*)objects;
+{
+    if (smartMap.onMapClicked) {
+        smartMap.onMapClicked(@{
+                               @"mapObjects": [RCTConvert convertMapObjects:objects]
+                               });
+    }
+    return YES;
+}
+
+-(void)spSmartMapView:(RNSmartMapView*)smartMap onUserFloorChanged:(NSInteger)floorIndex buildingRef:(nullable NSString*)buildingRef;
+{
+    if (smartMap.onUserFloorChanged) {
+        smartMap.onUserFloorChanged(@{
+                                     @"floorIndex": [NSNumber numberWithInteger:floorIndex],
+                                     @"buildingRef": buildingRef
+                                     });
+    }
+}
+
+-(void)spSmartMapView:(RNSmartMapView*)smartMap onVisibleFloorChanged:(NSInteger)floorIndex buildingRef:(nullable NSString*)buildingRef;
+{
+    if (smartMap.onVisibleFloorChanged) {
+        smartMap.onVisibleFloorChanged(@{
+                                     @"floorIndex": [NSNumber numberWithInteger:floorIndex],
+                                     @"buildingRef": buildingRef
+                                     });
+    }
+}
+
+#pragma mark ViewStatusListener
+
+-(void)spSmartMapView:(RNSmartMapView*)smartMap onViewStatusChanged:(SPMapViewStatus)status withPOIDetail:(nullable SPSmartMapObject*)objectDetail;
+{
+    if (smartMap.onViewStatusChanged) {
+        smartMap.onViewStatusChanged(@{
+                                      @"status": [RCTConvert SPMapViewStatus:status],
+                                      @"poiDetail": [RCTConvert convertMapObjectToJSONWith:objectDetail]
+                                      });
+    }
+}
+
+#pragma mark NavigationEvent
+
+-(void)spSmartMapViewOnNavigationEnded:(RNSmartMapView*)smartMap;
+{
+    if (smartMap.onNavigationEnded) {
+        smartMap.onNavigationEnded(nil);
+    }
+}
+
+-(void)onNavigationFailed:(RNSmartMapView*)smartMap withError:(SPNavigationError)error;
+{
+    if (smartMap.onNavigationFailed) {
+        smartMap.onNavigationFailed(@{
+                                     @"error": [RCTConvert SPNavigationError:error]
+                                     });
+    }
+}
+
+-(void)spSmartMapViewOnNavigationStarted:(RNSmartMapView*)smartMap;
+{
+    if (smartMap.onNavigationStarted) {
+        smartMap.onNavigationStarted(nil);
+    }
+}
+
+-(void)spSmartMapViewOnNavigationPreviewAppeared:(RNSmartMapView*)smartMap;
+{
+    if (smartMap.onNavigationPreviewAppeared) {
+        smartMap.onNavigationPreviewAppeared(nil);
+    }
+}
+
+-(void)spSmartMapViewOnNavigationDestinationReached:(RNSmartMapView*)smartMap;
+{
+    if (smartMap.onNavigationDestinationReached) {
+        smartMap.onNavigationDestinationReached(nil);
+    }
 }
 
 @end
