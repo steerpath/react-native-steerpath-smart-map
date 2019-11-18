@@ -32,7 +32,7 @@ RCT_EXPORT_MODULE(RNSmartMapView)
   RNSmartMapView* view = [RNSmartMapView new];
   RNSmartMapEventManager* mapEventManager = [[RNSmartMapEventManager alloc] initWithMapView:view];
     [mapEventManagers addObject:mapEventManager];
-  view.delegate = mapEventManager;
+  view.delegate = self;
   view.userTaskDelegate = mapEventManager;
   return view;
 }
@@ -50,24 +50,34 @@ RCT_EXPORT_VIEW_PROPERTY(onNavigationDestinationReached, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onUserTaskResponse, RCTBubblingEventBlock)
 
 
-RCT_CUSTOM_VIEW_PROPERTY(mapMode, SPMapMode, RNSmartMapView)
+RCT_EXPORT_METHOD(setMapMode:(nonnull NSNumber*) reactTag
+                  mapMode:(nullable NSString*)mapMode)
 {   // The one we want to switch on
-  NSArray *items = @[@"mapOnly", @"search", @"static"];
-  int item = [items indexOfObject:json];
-  switch (item) {
-    case 0:
-      [view setMapMode:SPMapModeMapOnly];
-      break;
-    case 1:
-      [view setMapMode:SPMapModeSearch];
-      break;
-    case 2:
-      [view setMapMode:SPMapModeStatic];
-      break;
-    default:
-      break;
-  }
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+      RNSmartMapView *view = viewRegistry[reactTag];
+      if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+        RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+        return;
+      }
+      NSArray *items = @[@"mapOnly", @"search", @"static"];
+      int item = [items indexOfObject:mapMode];
+      switch (item) {
+        case 0:
+          [view setMapMode:SPMapModeMapOnly];
+          break;
+        case 1:
+          [view setMapMode:SPMapModeSearch];
+          break;
+        case 2:
+          [view setMapMode:SPMapModeStatic];
+          break;
+        default:
+          break;
+      }
+    }];
+  
 }
+
 
 RCT_EXPORT_METHOD(setCamera:(nonnull NSNumber*) reactTag
                   latitude:(nonnull NSNumber*)latitude
@@ -154,6 +164,35 @@ RCT_EXPORT_METHOD(addMarker:(nonnull NSNumber*) reactTag
   
 }
 
+RCT_EXPORT_METHOD(addMarkers:(nonnull NSNumber*) reactTag
+                  mapObjectsArray:(id)mapObjectsArray
+                  layout:(NSString*)layout
+                  iconName:(NSString*)iconName
+                  textColor:(NSString*)textColor
+                  textHaloColor:(NSString*)textHaloColor)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+    if (mapObjectsArray && [mapObjectsArray isKindOfClass:[NSArray class]]) {
+        NSMutableArray* smartMapObjects = [NSMutableArray array];
+        for (int i = 0; i < [mapObjectsArray count];i++) {
+            id mapObject = [mapObjectsArray objectAtIndex:i];
+            [smartMapObjects addObject:[RCTConvert SPSmartMapObject:mapObject]];
+        }
+      if (iconName && textColor && textHaloColor) {
+          [view addMarkers:smartMapObjects layout:[RCTConvert SPLayout:layout] iconName:iconName textColor:textColor textHaloColor:textHaloColor];
+      } else {
+        [view addMarkers:smartMapObjects];
+      }
+    }
+  }];
+  
+}
+
 RCT_EXPORT_METHOD(removeMarker:(nonnull NSNumber*) reactTag
                   mapObject:(id)json)
 {
@@ -165,6 +204,27 @@ RCT_EXPORT_METHOD(removeMarker:(nonnull NSNumber*) reactTag
     }
     if (json) {
       [view removeMarker:[RCTConvert SPSmartMapObject:json]];
+    }
+  }];
+  
+}
+
+RCT_EXPORT_METHOD(removeMarkers:(nonnull NSNumber*) reactTag
+                  mapObjectsArray:(id)mapObjectsArray)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+    if (mapObjectsArray && [mapObjectsArray isKindOfClass:[NSArray class]]) {
+        NSMutableArray* smartMapObjects = [NSMutableArray array];
+        for (int i = 0; i < [mapObjectsArray count];i++) {
+            id mapObject = [mapObjectsArray objectAtIndex:i];
+            [smartMapObjects addObject:[RCTConvert SPSmartMapObject:mapObject]];
+        }
+      [view removeMarkers:smartMapObjects];
     }
   }];
   
@@ -198,6 +258,40 @@ RCT_EXPORT_METHOD(selectMapObject:(nonnull NSNumber*) reactTag
   
 }
 
+RCT_EXPORT_METHOD(getMapObject:(nonnull NSNumber*) reactTag
+                  localRef:(nonnull NSString *)localRef
+                  buildingRef:(nonnull NSString *)buildingRef
+                  source:(nonnull NSString*)source
+                  callback:(RCTResponseSenderBlock)callback)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+      [view getMapObject:localRef buildingRef:buildingRef source:[RCTConvert SPObjectSource:source] completion:^(SPSmartMapObject * _Nullable mapObject, SPMapResponse response) {
+          callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+      }];
+  }];
+  
+}
+
+RCT_EXPORT_METHOD(getMapObjectByProperties:(nonnull NSNumber*) reactTag
+                  properties:(nonnull NSDictionary *)properties
+                  callback:(RCTResponseSenderBlock)callback)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+      callback(@[[NSNull null]]);
+  }];
+  
+}
+
 RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber*) reactTag
                   latitude:(nonnull NSNumber*)latitude
                   longitude:(nonnull NSNumber*)longitude
@@ -205,8 +299,7 @@ RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber*) reactTag
                   bearing:(nonnull NSNumber*)bearing
                   pitch:(nonnull NSNumber*)pitch
                   floorIndex:(nonnull NSNumber*)floorIndex
-                  buildingRef:(nonnull NSString *)buildingRef
-                  callback:(RCTResponseSenderBlock)callback)
+                  buildingRef:(nonnull NSString *)buildingRef)
 {
   [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
     RNSmartMapView *view = viewRegistry[reactTag];
@@ -215,7 +308,7 @@ RCT_EXPORT_METHOD(animateCamera:(nonnull NSNumber*) reactTag
       return;
     }
     [view animateCamera:[latitude doubleValue] longitude:[longitude doubleValue] zoomLevel:[zoomLevel doubleValue] bearing:[bearing doubleValue] pitch:[pitch doubleValue] floorIndex:[floorIndex intValue] buildingRef:buildingRef completion:^(SPMapResponse response) {
-      callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+        NSLog(@"Animate Camera completed");
     }];
   }];
 }
@@ -296,6 +389,105 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
     }
     [view cancelCurrentUserTask];
   }];
+}
+
+#pragma MAP Events
+
+-(void)spSmartMapViewOnMapLoaded:(RNSmartMapView*)smartMap;
+{
+    if (smartMap.onMapLoaded) {
+        smartMap.onMapLoaded(nil);
+    }
+}
+
+-(BOOL)spSmartMapView:(RNSmartMapView*)smartMap onMapClicked:(NSArray<SPSmartMapObject*>*)objects;
+{
+    if (smartMap.onMapClicked) {
+        smartMap.onMapClicked(@{
+                               @"mapObjects": [RCTConvert convertMapObjects:objects]
+                               });
+    }
+    return YES;
+}
+
+-(void)spSmartMapView:(RNSmartMapView*)smartMap onUserFloorChanged:(NSInteger)floorIndex buildingRef:(nullable NSString*)buildingRef;
+{
+    if (smartMap.onUserFloorChanged) {
+        smartMap.onUserFloorChanged(@{
+                                     @"floorIndex": [NSNumber numberWithInteger:floorIndex],
+                                     @"buildingRef": [self valueOrEmptyIfNil:buildingRef]
+                                     });
+    }
+}
+
+-(void)spSmartMapView:(RNSmartMapView*)smartMap onVisibleFloorChanged:(NSInteger)floorIndex buildingRef:(nullable NSString*)buildingRef;
+{
+    if (smartMap.onVisibleFloorChanged) {
+        smartMap.onVisibleFloorChanged(@{
+                                     @"floorIndex": [NSNumber numberWithInteger:floorIndex],
+                                     @"buildingRef": [self valueOrEmptyIfNil:buildingRef]
+                                     });
+    }
+}
+
+#pragma mark ViewStatusListener
+
+-(void)spSmartMapView:(RNSmartMapView*)smartMap onViewStatusChanged:(SPMapViewStatus)status withPOIDetail:(nullable SPSmartMapObject*)objectDetail;
+{
+    if (smartMap.onViewStatusChanged) {
+        smartMap.onViewStatusChanged(@{
+                                      @"status": [RCTConvert SPMapViewStatus:status],
+                                      @"poiDetail": [RCTConvert convertMapObjectToJSONWith:objectDetail]
+                                      });
+    }
+}
+
+#pragma mark NavigationEvent
+
+-(void)spSmartMapViewOnNavigationEnded:(RNSmartMapView*)smartMap;
+{
+    if (smartMap.onNavigationEnded) {
+        smartMap.onNavigationEnded(nil);
+    }
+}
+
+-(void)onNavigationFailed:(RNSmartMapView*)smartMap withError:(SPNavigationError)error;
+{
+    if (smartMap.onNavigationFailed) {
+        smartMap.onNavigationFailed(@{
+                                     @"error": [RCTConvert SPNavigationError:error]
+                                     });
+    }
+}
+
+-(void)spSmartMapViewOnNavigationStarted:(RNSmartMapView*)smartMap;
+{
+    if (smartMap.onNavigationStarted) {
+        smartMap.onNavigationStarted(nil);
+    }
+}
+
+-(void)spSmartMapViewOnNavigationPreviewAppeared:(RNSmartMapView*)smartMap;
+{
+    if (smartMap.onNavigationPreviewAppeared) {
+        smartMap.onNavigationPreviewAppeared(nil);
+    }
+}
+
+-(void)spSmartMapViewOnNavigationDestinationReached:(RNSmartMapView*)smartMap;
+{
+    if (smartMap.onNavigationDestinationReached) {
+        smartMap.onNavigationDestinationReached(nil);
+    }
+}
+
+-(NSString*)valueOrEmptyIfNil:(nullable NSString*)str
+{
+    NSString* guarded = @"";
+    if (str != nil) {
+        guarded = str;
+    }
+    return guarded;
 }
 
 @end

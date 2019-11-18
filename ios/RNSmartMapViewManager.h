@@ -20,7 +20,7 @@
 #import "RNSmartMapEventManager.h"
 
 
-@interface RNSmartMapViewManager : RCTViewManager
+@interface RNSmartMapViewManager : RCTViewManager<SPSmartMapViewDelegate>
 
 @end
 

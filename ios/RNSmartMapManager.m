@@ -17,4 +17,9 @@ RCT_EXPORT_METHOD(start:(NSString *) apiKey)
   [[SPSmartSDK getInstance] start: apiKey];
 }
 
+RCT_EXPORT_METHOD(setLiveConfig:(NSDictionary *)config)
+{
+    [[SPSmartSDK getInstance] setLiveConfiguration: config];
+}
+
 @end

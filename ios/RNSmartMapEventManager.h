@@ -12,7 +12,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RNSmartMapEventManager : NSObject <SPSmartMapUserTaskDelegate, SPSmartMapViewDelegate>
+@interface RNSmartMapEventManager : NSObject <SPSmartMapUserTaskDelegate>
 
 -(instancetype)initWithMapView:(RNSmartMapView*)mapView;
 

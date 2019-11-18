@@ -58,6 +58,22 @@
   }
 }
 
++ (SPObjectSource)SPObjectSource:(NSString *)source
+{
+    NSArray *items = @[@"MARKER", @"LIVE", @"STATIC"];
+    NSInteger item = [items indexOfObject:source];
+    switch (item) {
+      case 0:
+        return SPObjectSourceMarker;
+      case 1:
+        return SPObjectSourceLive;
+      case 2:
+        return SPObjectSourceStatic;
+      default:
+        return SPObjectSourceStatic;
+    }
+}
+
 + (NSString*)SPMapResponse:(SPMapResponse)response
 {
   switch (response) {
@@ -157,7 +173,8 @@
            @"longitude": [NSNumber numberWithDouble:mapObj.longitude],
            @"floorIndex": [NSNumber numberWithInteger:mapObj.floorIndex],
            @"localRef": mapObj.localRef,
-           @"buildingRef": mapObj.buildingRef
+           @"buildingRef": mapObj.buildingRef,
+           @"properties": mapObj.properties
            };
 }
 
