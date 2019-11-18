@@ -50,10 +50,11 @@ RCT_EXPORT_VIEW_PROPERTY(onNavigationDestinationReached, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onUserTaskResponse, RCTBubblingEventBlock)
 
 
-RCT_CUSTOM_VIEW_PROPERTY(mapMode, SPMapMode, RNSmartMapView)
+RCT_EXPORT_METHOD(setMapMode:(nonnull NSNumber*) reactTag
+                  mapMode:(nullable NSString*)mapMode)
 {   // The one we want to switch on
   NSArray *items = @[@"mapOnly", @"search", @"static"];
-  int item = [items indexOfObject:json];
+  int item = [items indexOfObject:mapMode];
   switch (item) {
     case 0:
       [view setMapMode:SPMapModeMapOnly];
@@ -68,6 +69,7 @@ RCT_CUSTOM_VIEW_PROPERTY(mapMode, SPMapMode, RNSmartMapView)
       break;
   }
 }
+
 
 RCT_EXPORT_METHOD(setCamera:(nonnull NSNumber*) reactTag
                   latitude:(nonnull NSNumber*)latitude
@@ -390,7 +392,7 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
     if (smartMap.onUserFloorChanged) {
         smartMap.onUserFloorChanged(@{
                                      @"floorIndex": [NSNumber numberWithInteger:floorIndex],
-                                     @"buildingRef": buildingRef
+                                     @"buildingRef": [self valueOrEmptyIfNil:buildingRef]
                                      });
     }
 }
@@ -400,7 +402,7 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
     if (smartMap.onVisibleFloorChanged) {
         smartMap.onVisibleFloorChanged(@{
                                      @"floorIndex": [NSNumber numberWithInteger:floorIndex],
-                                     @"buildingRef": buildingRef
+                                     @"buildingRef": [self valueOrEmptyIfNil:buildingRef]
                                      });
     }
 }
@@ -454,6 +456,15 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
     if (smartMap.onNavigationDestinationReached) {
         smartMap.onNavigationDestinationReached(nil);
     }
+}
+
+-(NSString*)valueOrEmptyIfNil:(nullable NSString*)str
+{
+    NSString* guarded = @"";
+    if (str != nil) {
+        guarded = str;
+    }
+    return guarded;
 }
 
 @end
