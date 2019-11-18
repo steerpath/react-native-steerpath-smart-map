@@ -53,21 +53,29 @@ RCT_EXPORT_VIEW_PROPERTY(onUserTaskResponse, RCTBubblingEventBlock)
 RCT_EXPORT_METHOD(setMapMode:(nonnull NSNumber*) reactTag
                   mapMode:(nullable NSString*)mapMode)
 {   // The one we want to switch on
-  NSArray *items = @[@"mapOnly", @"search", @"static"];
-  int item = [items indexOfObject:mapMode];
-  switch (item) {
-    case 0:
-      [view setMapMode:SPMapModeMapOnly];
-      break;
-    case 1:
-      [view setMapMode:SPMapModeSearch];
-      break;
-    case 2:
-      [view setMapMode:SPMapModeStatic];
-      break;
-    default:
-      break;
-  }
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+      RNSmartMapView *view = viewRegistry[reactTag];
+      if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+        RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+        return;
+      }
+      NSArray *items = @[@"mapOnly", @"search", @"static"];
+      int item = [items indexOfObject:mapMode];
+      switch (item) {
+        case 0:
+          [view setMapMode:SPMapModeMapOnly];
+          break;
+        case 1:
+          [view setMapMode:SPMapModeSearch];
+          break;
+        case 2:
+          [view setMapMode:SPMapModeStatic];
+          break;
+        default:
+          break;
+      }
+    }];
+  
 }
 
 
