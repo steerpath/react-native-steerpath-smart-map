@@ -173,7 +173,8 @@
            @"longitude": [NSNumber numberWithDouble:mapObj.longitude],
            @"floorIndex": [NSNumber numberWithInteger:mapObj.floorIndex],
            @"localRef": mapObj.localRef,
-           @"buildingRef": mapObj.buildingRef
+           @"buildingRef": mapObj.buildingRef,
+           @"properties": mapObj.properties
            };
 }
 
