@@ -6,9 +6,19 @@
 //  Copyright © 2019 Facebook. All rights reserved.
 //
 
-#import "RNSmartMapEventManager.h"
+#import <Foundation/Foundation.h>
+#import "RNSmartMapView.h"
+#import "RCTConvert+SmartMapView.h"
 
-@implementation RNSmartMapEventManager
+@interface RNSmartMapUserTaskEventManager : NSObject <SPSmartMapUserTaskDelegate>
+
+-(instancetype)initWithMapView:(RNSmartMapView*)mapView;
+
+@property (nonatomic) RNSmartMapView* mapView;
+
+@end
+
+@implementation RNSmartMapUserTaskEventManager
 @synthesize mapView = mapView;
 
 

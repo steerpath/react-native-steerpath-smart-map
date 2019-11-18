@@ -17,7 +17,7 @@
 
 #import "RCTConvert+SmartMapView.h"
 #import "RNSmartMapView.h"
-#import "RNSmartMapEventManager.h"
+#import "RNSmartMapUserTaskEventManager.h"
 
 
 @interface RNSmartMapViewManager : RCTViewManager<SPSmartMapViewDelegate>

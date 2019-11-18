@@ -137,15 +137,18 @@
   return [[SPSmartMapPOISelectionUserTask alloc] initWith:mapObj shouldAddMarker:shouldAddMarker actionButtonText:actionButtonText actionButtonIcon:actionButtonIcon];
 }
 
-+ (NSDictionary*)convertUserTaskToJSONWith:(SPSmartMapUserTask*)task
++ (NSDictionary*)convertUserTaskToJSONWith:(nullable SPSmartMapUserTask*)task
 {
+    if (task == nil) {
+        return @{};
+    }
   if ([task isKindOfClass:[SPSmartMapNavigationUserTask class]]) {
     SPSmartMapNavigationUserTask* navigationTask = (SPSmartMapNavigationUserTask*) task;
     return @{
              @"type": @"navigation",
              @"payload": @{
-                 @"localRef": [navigationTask getUserTaskLocalRef],
-                 @"buildingRef": [navigationTask getUserTaskBuildingRef]
+                 @"localRef": [RCTConvert valueOrEmptyIfNil:[navigationTask getUserTaskLocalRef]],
+                 @"buildingRef": [RCTConvert valueOrEmptyIfNil:[navigationTask getUserTaskBuildingRef]]
                  }
              };
   }
@@ -154,8 +157,8 @@
     return @{
              @"type": @"poiSelection",
              @"payload": @{
-                 @"localRef": [poiTask getMapObject].localRef,
-                 @"buildingRef": [poiTask getMapObject].buildingRef
+                 @"localRef": [RCTConvert valueOrEmptyIfNil:[poiTask getMapObject].localRef],
+                 @"buildingRef": [RCTConvert valueOrEmptyIfNil:[poiTask getMapObject].buildingRef]
                  }
              };
   }
@@ -249,6 +252,15 @@
         default:
             return @"unknownUserTaskResponse";
     }
+}
+
++ (NSString*)valueOrEmptyIfNil:(nullable NSString*)str
+{
+    NSString* guarded = @"";
+    if (str != nil) {
+        guarded = str;
+    }
+    return guarded;
 }
 
 @end

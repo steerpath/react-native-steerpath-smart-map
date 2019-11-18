@@ -30,7 +30,7 @@ RCT_EXPORT_MODULE(RNSmartMapView)
 - (UIView *)view
 {
   RNSmartMapView* view = [RNSmartMapView new];
-  RNSmartMapEventManager* mapEventManager = [[RNSmartMapEventManager alloc] initWithMapView:view];
+  RNSmartMapUserTaskEventManager* mapEventManager = [[RNSmartMapUserTaskEventManager alloc] initWithMapView:view];
     [mapEventManagers addObject:mapEventManager];
   view.delegate = self;
   view.userTaskDelegate = mapEventManager;
@@ -287,7 +287,13 @@ RCT_EXPORT_METHOD(getMapObjectByProperties:(nonnull NSNumber*) reactTag
       RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
       return;
     }
-      callback(@[[NSNull null]]);
+      [view getMapObjectByProperties:properties completion:^(SPSmartMapObject * _Nullable mapObject, SPMapResponse response) {
+          if (mapObject == nil) {
+              callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+          } else {
+              callback(@[[RCTConvert convertMapObjectToJSONWith:mapObject], [RCTConvert SPMapResponse:response]]);
+          }
+      }];
   }];
   
 }
