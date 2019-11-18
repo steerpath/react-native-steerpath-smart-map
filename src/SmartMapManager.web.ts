@@ -8,5 +8,5 @@ export const SmartMapManager = {
     const smartSDK = new steerpath.SmartSDK();
     smartSDK.start(apiKey, config);
   },
-  setLiveConfig(_config: Record<string, string>): void {}
+  setLiveConfig(_config: Record<string, any>): void {}
 };

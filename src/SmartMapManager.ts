@@ -7,7 +7,7 @@ export const SmartMapManager = {
   start(apiKey: string): void {
     RNSmartMapManager.start(apiKey);
   },
-  setLiveConfig(config: Record<string, string>): void {
+  setLiveConfig(config: Record<string, any>): void {
     if (Platform.OS === 'ios') {
       RNSmartMapManager.setLiveConfig(config);
     }
