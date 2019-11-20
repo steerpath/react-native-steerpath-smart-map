@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) RCTBubblingEventBlock onUserTaskResponse;
 
+@property (nonatomic, copy) RCTBubblingEventBlock onSearchResultSelected;
+
 @end
 
 NS_ASSUME_NONNULL_END

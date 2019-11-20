@@ -29,16 +29,12 @@ export default function App() {
           onMapClicked={payload => {
             console.log(payload);
           }}
-          onSearchResultSelected={payload => {
-            console.log("onSearchResultSelected", payload);
-          }}
           onUserFloorChanged={payload =>
             console.log("User floor changed", payload)
           }
           onVisibleFloorChanged={payload =>
             console.log("Visible Floor changed", payload)
           }
-
           onSearchResultSelected={payload => {
             smartMapRef.current.selectMapObject(payload);
             console.log("Search result selected " , payload)
