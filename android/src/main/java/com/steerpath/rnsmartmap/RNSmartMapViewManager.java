@@ -50,6 +50,8 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     private static final int SELECT_MAP_OBJECT = 8;
     private static final int SET_CAMERA = 9;
     private static final int START_USER_TASK = 10;
+    private static final int START_MAP = 11;
+    private static final int STOP_MAP = 12;
 
     private static final String REACT_CLASS = "RNSmartMapView";
 
@@ -99,7 +101,6 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 VISIBLE_FLOOR_CHANGED, MapBuilder.of(registrationName, VISIBLE_FLOOR_CHANGED),
                 USER_TASK_RESPONSE, MapBuilder.of(registrationName, USER_TASK_RESPONSE),
                 VIEW_STATUS_CHANGED, MapBuilder.of(registrationName, VIEW_STATUS_CHANGED)
-
         );
 
         map.putAll(MapBuilder.of(
@@ -127,6 +128,8 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
         commands.put("selectMapObject", SELECT_MAP_OBJECT);
         commands.put("setCamera", SET_CAMERA);
         commands.put("startUserTask", START_USER_TASK);
+        commands.put("start", START_MAP);
+        commands.put("stop", STOP_MAP);
         return commands;
     }
 
@@ -207,6 +210,14 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 } else {
                     Log.d("ERROR", "Invalid user task type");
                 }
+                break;
+            case START_MAP:
+                mapView.getMap().onStart();
+                mapView.getMap().onResume();
+                break;
+            case STOP_MAP:
+                mapView.getMap().onPause();
+                mapView.getMap().onStop();
                 break;
         }
     }

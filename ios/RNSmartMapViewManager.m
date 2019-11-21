@@ -48,6 +48,7 @@ RCT_EXPORT_VIEW_PROPERTY(onNavigationStarted, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onNavigationPreviewAppeared, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onNavigationDestinationReached, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onUserTaskResponse, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onSearchResultSelected, RCTBubblingEventBlock)
 
 
 RCT_EXPORT_METHOD(setMapMode:(nonnull NSNumber*) reactTag
@@ -412,8 +413,9 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
         smartMap.onMapClicked(@{
                                @"mapObjects": [RCTConvert convertMapObjects:objects]
                                });
+        return YES;
     }
-    return YES;
+    return NO;
 }
 
 -(void)spSmartMapView:(RNSmartMapView*)smartMap onUserFloorChanged:(NSInteger)floorIndex buildingRef:(nullable NSString*)buildingRef;
@@ -450,41 +452,51 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
 
 #pragma mark NavigationEvent
 
--(void)spSmartMapViewOnNavigationEnded:(RNSmartMapView*)smartMap;
+-(void)spSmartMapViewOnNavigationEnded:(RNSmartMapView*)smartMap
 {
     if (smartMap.onNavigationEnded) {
         smartMap.onNavigationEnded(nil);
     }
 }
 
--(void)onNavigationFailed:(RNSmartMapView*)smartMap withError:(SPNavigationError)error;
-{
-    if (smartMap.onNavigationFailed) {
-        smartMap.onNavigationFailed(@{
-                                     @"error": [RCTConvert SPNavigationError:error]
-                                     });
-    }
-}
-
--(void)spSmartMapViewOnNavigationStarted:(RNSmartMapView*)smartMap;
+-(void)spSmartMapViewOnNavigationStarted:(RNSmartMapView*)smartMap
 {
     if (smartMap.onNavigationStarted) {
         smartMap.onNavigationStarted(nil);
     }
 }
 
--(void)spSmartMapViewOnNavigationPreviewAppeared:(RNSmartMapView*)smartMap;
+-(void)spSmartMapViewOnNavigationPreviewAppeared:(RNSmartMapView*)smartMap
 {
     if (smartMap.onNavigationPreviewAppeared) {
         smartMap.onNavigationPreviewAppeared(nil);
     }
 }
 
--(void)spSmartMapViewOnNavigationDestinationReached:(RNSmartMapView*)smartMap;
+-(void)spSmartMapViewOnNavigationDestinationReached:(RNSmartMapView*)smartMap
 {
     if (smartMap.onNavigationDestinationReached) {
         smartMap.onNavigationDestinationReached(nil);
     }
+}
+
+-(void)spSmartMapViewOnNavigationFailed:(RNSmartMapView*)smartMap withError:(SPNavigationError)error
+{
+    if (smartMap.onNavigationFailed) {
+        smartMap.onNavigationFailed(@{
+            @"message": [RCTConvert SPNavigationError:error]
+        });
+    }
+}
+
+#pragma mark Search result clicked event
+-(BOOL)spSmartMapView:(RNSmartMapView*)smartMap onSearchResultSelected:(SPSmartMapObject*)mapObject
+{
+    if (smartMap.onSearchResultSelected) {
+        smartMap.onSearchResultSelected([RCTConvert convertMapObjectToJSONWith:mapObject]);
+        return YES;
+    }
+    return NO;
 }
 
 -(NSString*)valueOrEmptyIfNil:(nullable NSString*)str
