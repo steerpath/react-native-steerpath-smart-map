@@ -269,6 +269,16 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
       },
       startUserTask(userTask: SmartMapUserTask) {
         runCommand(smartMapRef.current, "startUserTask", [userTask]);
+      },
+      start() {
+        if (Platform.OS === 'android') {
+          runCommand(smartMapRef.current, "start", []);
+        }
+      },
+      stop() {
+        if (Platform.OS === 'android') {
+          runCommand(smartMapRef.current, "stop", []);
+        }
       }
     }));
 
