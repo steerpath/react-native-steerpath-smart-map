@@ -13,7 +13,8 @@ import {
   Layout,
   MapResponse,
   SmartMapUserTask,
-  SmartMapUserTaskResponse
+  SmartMapUserTaskResponse,
+  SmartMapModes
 } from "./SmartMapViewProps";
 
 const NATIVE_VIEW_NAME = "RNSmartMapView";
@@ -38,6 +39,9 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
     const smartMapRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
+      setMapMode(mapMode: SmartMapModes) {
+        runCommand(smartMapRef.current, "setMapMode", [mapMode]);
+      },
       addMarker(
         smartMapObj: SmartMapObject,
         layout: Layout | null,
@@ -61,12 +65,12 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         textHaloColor: string | null
       ) {
         runCommand(smartMapRef.current, "addMarkers", [
-          mapObjectsArray, 
-          layout, 
-          iconName, 
-          textColor, 
+          mapObjectsArray,
+          layout,
+          iconName,
+          textColor,
           textHaloColor
-        ])
+        ]);
       },
       animateCamera({
         latitude,
@@ -75,7 +79,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         bearing,
         pitch,
         floorIndex,
-        buildingRef,
+        buildingRef
       }: {
         latitude: number;
         longitude: number;
@@ -92,21 +96,24 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           bearing || 90,
           pitch || 0,
           floorIndex || 2,
-          buildingRef,
-        ])
+          buildingRef
+        ]);
       },
       animateCameraToBuildingRef(
         buildingRef: string,
         callback: (response: MapResponse) => void
-      ){
+      ) {
         if (Platform.OS == "android") {
-          NativeModules.RNSmartMapModule.animateCameraToBuildingRef(findNodeHandle(smartMapRef.current), 
-          [buildingRef], callback);
+          NativeModules.RNSmartMapModule.animateCameraToBuildingRef(
+            findNodeHandle(smartMapRef.current),
+            [buildingRef],
+            callback
+          );
         } else {
           runCommand(smartMapRef.current, "animateCameraToBuildingRef", [
             buildingRef,
             callback
-          ])
+          ]);
         }
       },
       animateCameraToObject(
@@ -116,11 +123,11 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         callback: (response: MapResponse) => void
       ) {
         if (Platform.OS == "android") {
-          NativeModules.RNSmartMapModule.animateCameraToObject(findNodeHandle(smartMapRef.current), [
-            localRef,
-            buildingRef,
-            zoomLevel 
-          ], callback);
+          NativeModules.RNSmartMapModule.animateCameraToObject(
+            findNodeHandle(smartMapRef.current),
+            [localRef, buildingRef, zoomLevel],
+            callback
+          );
         } else {
           runCommand(smartMapRef.current, "animateCameraToObject", [
             localRef,
@@ -137,7 +144,10 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         callback: (userTaskResponse: SmartMapUserTaskResponse) => any
       ) {
         if (Platform.OS == "android") {
-          NativeModules.RNSmartMapModule.getCurrentUserTask(findNodeHandle(smartMapRef.current), callback)
+          NativeModules.RNSmartMapModule.getCurrentUserTask(
+            findNodeHandle(smartMapRef.current),
+            callback
+          );
         } else {
           runCommand(smartMapRef.current, "getCurrentUserTask", [callback]);
         }
@@ -147,32 +157,37 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         buildingRef: string,
         source: string,
         callback: (response: MapResponse) => void
-      ) 
-      {
-        if(Platform.OS == "android") {
-          NativeModules.RNSmartMapModule.getMapObject(findNodeHandle(smartMapRef.current), [
-            localRef,
-            buildingRef, 
-            source
-          ], callback)
+      ) {
+        if (Platform.OS == "android") {
+          NativeModules.RNSmartMapModule.getMapObject(
+            findNodeHandle(smartMapRef.current),
+            [localRef, buildingRef, source],
+            callback
+          );
         } else {
           runCommand(smartMapRef.current, "getMapObject", [
             localRef,
-            buildingRef, 
+            buildingRef,
             source,
             callback
-        ])
+          ]);
         }
       },
       getMapObjectByProperties(
         properties: object,
-        callback: (response: MapResponse) => void,
+        callback: (response: MapResponse) => void
       ) {
         if (Platform.OS == "android") {
-          NativeModules.RNSmartMapModule.getMapObjectByProperties(findNodeHandle(smartMapRef.current), 
-            properties, callback)
+          NativeModules.RNSmartMapModule.getMapObjectByProperties(
+            findNodeHandle(smartMapRef.current),
+            properties,
+            callback
+          );
         } else {
-          runCommand(smartMapRef.current, "getMapObjectByProperties", [properties, callback])
+          runCommand(smartMapRef.current, "getMapObjectByProperties", [
+            properties,
+            callback
+          ]);
         }
       },
       removeAllMarkers() {
@@ -182,7 +197,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         runCommand(smartMapRef.current, "removeMarker", [smartMapObj]);
       },
       removeMarkers(mapObjectsArray) {
-        runCommand(smartMapRef.current, "removeMarkers", [mapObjectsArray])
+        runCommand(smartMapRef.current, "removeMarkers", [mapObjectsArray]);
       },
       selectMapObject(smartMapObj: SmartMapObject) {
         runCommand(smartMapRef.current, "selectMapObject", [smartMapObj]);
@@ -219,14 +234,16 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         callback: (response: MapResponse) => void
       ) {
         if (Platform.OS == "android") {
-          NativeModules.RNSmartMapModule.setCameraToBuildingRef(findNodeHandle(smartMapRef.current), 
-          [buildingRef], callback);
-        }
-        else {
+          NativeModules.RNSmartMapModule.setCameraToBuildingRef(
+            findNodeHandle(smartMapRef.current),
+            [buildingRef],
+            callback
+          );
+        } else {
           runCommand(smartMapRef.current, "setCameraToBuildingRef", [
             buildingRef,
             callback
-          ])
+          ]);
         }
       },
       setCameraToObject(
@@ -236,23 +253,23 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         callback: (response: MapResponse) => void
       ) {
         if (Platform.OS == "android") {
-          NativeModules.RNSmartMapModule.setCameraToObject(findNodeHandle(smartMapRef.current), [
-            localRef, 
-            buildingRef, 
-            zoomLevel
-          ], callback);
+          NativeModules.RNSmartMapModule.setCameraToObject(
+            findNodeHandle(smartMapRef.current),
+            [localRef, buildingRef, zoomLevel],
+            callback
+          );
         } else {
           runCommand(smartMapRef.current, "setCameraToObject", [
             localRef,
             buildingRef,
             zoomLevel,
             callback
-          ])
+          ]);
         }
       },
       startUserTask(userTask: SmartMapUserTask) {
         runCommand(smartMapRef.current, "startUserTask", [userTask]);
-      },
+      }
     }));
 
     return (
@@ -279,10 +296,12 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           props.onMapClicked && props.onMapClicked(event.nativeEvent);
         }}
         onUserTaskResponse={event => {
-          props.onUserTaskResponse && props.onUserTaskResponse(event.nativeEvent);
+          props.onUserTaskResponse &&
+            props.onUserTaskResponse(event.nativeEvent);
         }}
         onSearchResultSelected={event => {
-          props.onSearchResultSelected && props.onSearchResultSelected(event.nativeEvent);
+          props.onSearchResultSelected &&
+            props.onSearchResultSelected(event.nativeEvent);
         }}
       />
     );

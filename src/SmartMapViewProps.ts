@@ -79,7 +79,6 @@ export interface SmartViewWebProps {
 }
 
 export interface SmartViewNativeProps {
-  mapMode?: SmartMapModes;
   onMapClicked?: (payload: { mapObjects: SmartMapObject[] }) => void;
   onSearchResultSelected?: (payload: { mapObject: SmartMapObject }) => void;
   onUserFloorChanged?: (payload: {

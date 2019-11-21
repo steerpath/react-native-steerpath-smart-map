@@ -50,6 +50,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     private static final int SELECT_MAP_OBJECT = 8;
     private static final int SET_CAMERA = 9;
     private static final int START_USER_TASK = 10;
+    private static final int SET_MAP_MODE = 11;
 
     private static final String REACT_CLASS = "RNSmartMapView";
 
@@ -71,8 +72,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
         return smartMapView;
     }
 
-    @ReactProp(name = "mapMode")
-    public void mapMode(RNSmartMapView mapView, @Nullable String mapMode) {
+    private void rnSetMapMode(RNSmartMapView mapView, @Nullable String mapMode) {
         switch (mapMode) {
             case "mapOnly":
                 mapView.setMapMode(MapMode.MAP_ONLY);
@@ -127,6 +127,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
         commands.put("selectMapObject", SELECT_MAP_OBJECT);
         commands.put("setCamera", SET_CAMERA);
         commands.put("startUserTask", START_USER_TASK);
+        commands.put("setMapMode", SET_MAP_MODE);
         return commands;
     }
 
@@ -207,6 +208,9 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 } else {
                     Log.d("ERROR", "Invalid user task type");
                 }
+                break;
+            case SET_MAP_MODE:
+                rnSetMapMode(args.getString(0));
                 break;
         }
     }
