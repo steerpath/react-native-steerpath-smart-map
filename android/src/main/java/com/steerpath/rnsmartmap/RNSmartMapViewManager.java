@@ -52,6 +52,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     private static final int START_USER_TASK = 10;
     private static final int START_MAP = 11;
     private static final int STOP_MAP = 12;
+    private static final int SET_MAP_MODE = 13;
 
     private static final String REACT_CLASS = "RNSmartMapView";
 
@@ -71,23 +72,6 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     public RNSmartMapView createViewInstance(ThemedReactContext context) {
         RNSmartMapView smartMapView = new RNSmartMapView(context, reactApplicationContext, this);
         return smartMapView;
-    }
-
-    @ReactProp(name = "mapMode")
-    public void mapMode(RNSmartMapView mapView, @Nullable String mapMode) {
-        switch (mapMode) {
-            case "mapOnly":
-                mapView.setMapMode(MapMode.MAP_ONLY);
-                break;
-            case "static":
-                mapView.setMapMode(MapMode.STATIC);
-                break;
-            case "search":
-                mapView.setMapMode(MapMode.SEARCH);
-                break;
-            default:
-                break;
-        }
     }
 
     @Override
@@ -130,6 +114,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
         commands.put("startUserTask", START_USER_TASK);
         commands.put("start", START_MAP);
         commands.put("stop", STOP_MAP);
+        commands.put("setMapMode", SET_MAP_MODE);
         return commands;
     }
 
@@ -159,6 +144,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                         args.getString(2), args.getString(3), args.getString(4));
                 break;
             case ANIMATE_CAMERA:
+                Log.d("animateCamera", args.toString());
                 lat = args.getDouble(0);
                 lon = args.getDouble(1);
                 zoom = args.getDouble(2);
@@ -219,6 +205,21 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 mapView.getMap().onPause();
                 mapView.getMap().onStop();
                 break;
+            case SET_MAP_MODE:
+                String mapMode = args.getString(0);
+                switch (mapMode) {
+                    case "mapOnly":
+                        mapView.setMapMode(MapMode.MAP_ONLY);
+                        break;
+                    case "static":
+                        mapView.setMapMode(MapMode.STATIC);
+                        break;
+                    case "search":
+                        mapView.setMapMode(MapMode.SEARCH);
+                        break;
+                    default:
+                        break;
+                }
         }
     }
 
