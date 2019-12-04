@@ -63,12 +63,22 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void getMapObjectByProperties(final int tag, final ReadableMap map, final Callback callback) {
-        HashMap<String, String> properties = new HashMap<>();
+        HashMap<String, Object> properties = new HashMap<>();
         ReadableMapKeySetIterator iterator = map.keySetIterator();
 
         while (iterator.hasNextKey()) {
             String key = iterator.nextKey();
-            properties.put(key, map.getString(key));
+            switch (map.getType(key)) {
+                case Number:
+                    properties.put(key, map.getDouble(key));
+                    break;
+                case Boolean:
+                    properties.put(key, map.getBoolean(key));
+                    break;
+                case String:
+                    properties.put(key, map.getString(key));
+                    break;
+            }
         }
 
         getUiManager().addUIBlock(nvhm -> {
