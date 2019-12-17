@@ -1,10 +1,14 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   SmartMapManager,
   SmartMapView
 } from "react-native-steerpath-smart-map";
+import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { View, Button, Platform } from "react-native";
+import { CONFIG_STRING } from "./config.js";
+
+const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/office_app_config.json";
 
 const API_KEY = Platform.select({
   web:
@@ -18,46 +22,67 @@ SmartMapManager.start(API_KEY);
 export default function App() {
   const smartMapRef = useRef();
 
+  const [sdkReady, setSDKReady] = useState(false);
+
+  useEffect(() => {
+    RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
+      .then(success => {
+        SmartMapManager.startWithConfig({
+          apiKey: API_KEY,
+          configFilePath: CONFIG_FILE_PATH
+        });
+        setSDKReady(true);
+        console.log("FILE WRITTEN!");
+      })
+      .catch(err => {
+        console.log(err.message);
+      });
+  }, []);
+
   return (
     <View style={{ flex: 10, flexDirection: "row" }}>
       <View style={{ flex: 7 }}>
-        <SmartMapView
-          style={{ flex: 1 }}
-          apiKey={API_KEY}
-          ref={smartMapRef}
-          onMapLoaded={() => console.log("Map loaded")}
-          onMapClicked={payload => {
-            console.log(payload);
-          }}
-          onUserFloorChanged={payload =>
-            console.log("User floor changed", payload)
-          }
-          onVisibleFloorChanged={payload =>
-            console.log("Visible Floor changed", payload)
-          }
-          onSearchResultSelected={payload => {
-            smartMapRef.current.selectMapObject(payload);
-            console.log("Search result selected " , payload)
-          }}
-          onViewStatusChanged={payload =>
-            console.log("onViewstatuschanged", payload)
-          }
-          onNavigationEnded={() => console.log("navigation ended")}
-          onNavigationStarted={() => console.log("navigation started")}
-          onNavigationPreviewAppeared={() =>
-            console.log("navigation PreviewAppeared")
-          }
-          onNavigationDestinationReached={() =>
-            console.log("navigation DestinationReached")
-          }
-          onUserTaskResponse={payload => {
-            console.log(payload)
-          }}
-        />
+        {sdkReady && (
+          <SmartMapView
+            style={{ flex: 1 }}
+            apiKey={API_KEY}
+            ref={smartMapRef}
+            onMapLoaded={() => console.log("Map loaded")}
+            onMapClicked={payload => {
+              console.log(payload);
+            }}
+            onUserFloorChanged={payload =>
+              console.log("User floor changed", payload)
+            }
+            onVisibleFloorChanged={payload =>
+              console.log("Visible Floor changed", payload)
+            }
+            onSearchResultSelected={payload => {
+              smartMapRef.current.selectMapObject(payload);
+              console.log("Search result selected ", payload);
+            }}
+            onViewStatusChanged={payload =>
+              console.log("onViewstatuschanged", payload)
+            }
+            onNavigationEnded={() => console.log("navigation ended")}
+            onNavigationStarted={() => console.log("navigation started")}
+            onNavigationPreviewAppeared={() =>
+              console.log("navigation PreviewAppeared")
+            }
+            onNavigationDestinationReached={() =>
+              console.log("navigation DestinationReached")
+            }
+            onUserTaskResponse={payload => {
+              console.log(payload);
+            }}
+          />
+        )}
       </View>
-{       <View style={{ flex: 3 }}>
+      {
+        <View style={{ flex: 3 }}>
           <Drawer smartMapRef={smartMapRef} />
-        </View> }
-      </View>
+        </View>
+      }
+    </View>
   );
 }
