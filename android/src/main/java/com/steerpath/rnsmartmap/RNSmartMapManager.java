@@ -27,4 +27,10 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
     public void start(String apiKey) {
         appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().start(appContext, apiKey));
     }
+
+    @ReactMethod
+    public void startWithConfig(String apiKey, String filePath) {
+        File file = new File(filePath);
+        appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().start(appContext, apiKey, file));
+    }
 }
