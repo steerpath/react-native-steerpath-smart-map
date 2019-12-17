@@ -9281,11 +9281,7 @@ react-native-reanimated@^1.2.0:
   integrity sha512-vkWRHrPK5qfHP/ZawlRoo38oeYe9NZaaOH/lmFxRcsKzaSK6x3H5ZPXI8lK6MfTLveqwo1QhJje3zIKXO4nQQw==
 
 "react-native-steerpath-smart-map@file:..":
-<<<<<<< HEAD
-  version "1.0.51"
-=======
-  version "1.0.50"
->>>>>>> development
+  version "1.0.54"
   dependencies:
     steerpath-smart-sdk "^1.0.37"
 
