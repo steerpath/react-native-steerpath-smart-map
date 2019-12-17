@@ -1,5 +1,12 @@
 import { ViewProperties } from "react-native";
 
+export interface ConfigSDK {
+  apiKey: string;
+  // In Web, the config file path is a JSON string, on Android/iOS, it will be a
+  // local file path to the config JSON file
+  configFilePath: string;
+}
+
 export enum SmartMapModes {
   MAP_ONLY = "mapOnly",
   STATIC = "static",
