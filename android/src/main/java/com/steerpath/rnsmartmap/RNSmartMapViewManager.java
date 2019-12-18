@@ -32,6 +32,7 @@ import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_ENDED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
+import static com.steerpath.rnsmartmap.RNEventKeys.ON_BACK_PRESSED;
 import static com.steerpath.rnsmartmap.RNEventKeys.SEARCH_RESULT_SELECTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
@@ -92,7 +93,8 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 NAVIGATION_ENDED, MapBuilder.of(registrationName, NAVIGATION_ENDED),
                 NAVIGATION_STARTED, MapBuilder.of(registrationName, NAVIGATION_STARTED),
                 NAVIGATION_PREVIEW_APPEARED, MapBuilder.of(registrationName, NAVIGATION_PREVIEW_APPEARED),
-                NAVIGATION_DESTINATION_REACHED, MapBuilder.of(registrationName, NAVIGATION_DESTINATION_REACHED)
+                NAVIGATION_DESTINATION_REACHED, MapBuilder.of(registrationName, NAVIGATION_DESTINATION_REACHED),
+                ON_BACK_PRESSED, MapBuilder.of(registrationName, ON_BACK_PRESSED)
         ));
 
         return map;

@@ -13,11 +13,11 @@ export const SmartMapManager = {
     RNSmartMapManager.start(apiKey);
   },
   startWithConfig(config: ConfigSDK): void {
-    if (Platform.OS !== 'ios') {
+    if (Platform.OS === 'web') {
       throw new Error('Not implemented');
     }
     let { configFilePath } = config;
-    if (configFilePath.startsWith("file://") && Platform.OS === 'ios') {
+    if (configFilePath.startsWith("file://")) {
       // iOS only accept the path like this: /var/something/file.json
       configFilePath = configFilePath.substring(7);
     }
