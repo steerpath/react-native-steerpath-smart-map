@@ -176,6 +176,19 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
         });
     }
 
+    @ReactMethod
+    public void onBackPressed(final int tag, final Callback callback) {
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
+            }
+
+            boolean onBackPressed = mapView.getMap().onBackPressed();
+            callback.invoke(onBackPressed);
+        });
+    }
+
     private UIManagerModule getUiManager() {
         final ReactApplicationContext context = getReactApplicationContext();
         return context.getNativeModule(UIManagerModule.class);

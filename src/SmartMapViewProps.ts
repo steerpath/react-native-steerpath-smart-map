@@ -109,6 +109,9 @@ export interface SmartViewNativeProps {
     response: SmartMapUserTaskResponse;
     userTask: SmartMapUserTask;
   }) => void;
+  onBackPressed?: (payload: {
+    smartMapBackPressed: boolean
+  }) => void;
 }
 
 export interface SmartMapViewProps

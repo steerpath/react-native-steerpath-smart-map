@@ -1,10 +1,12 @@
 package com.steerpath.rnsmartmap;
 
+import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -42,6 +44,7 @@ import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_ENDED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
+import static com.steerpath.rnsmartmap.RNEventKeys.ON_BACK_PRESSED;
 import static com.steerpath.rnsmartmap.RNEventKeys.SEARCH_RESULT_SELECTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
@@ -58,7 +61,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     public RNSmartMapView(ThemedReactContext context, ReactApplicationContext reactApplicationContext,
                           RNSmartMapViewManager mapViewManager) {
         super(context);
-
+    
         SmartMapFragment fragment = SmartMapFragment.newInstance();
         this.reactContext = reactApplicationContext;
         this.manager = mapViewManager;
@@ -69,6 +72,15 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         smartMap.setUserTaskListener(this);
         smartMap.setViewStatusListener(this);
 
+        OnBackPressedCallback onBackPressedCallback = new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                WritableMap map = new WritableNativeMap();
+                map.putBoolean("smartMapBackPressed", smartMap.onBackPressed());
+                manager.sendEvent(reactContext, RNSmartMapView.this, ON_BACK_PRESSED, map);
+            }
+        };
+
         AppCompatActivity activity = (AppCompatActivity) context.getCurrentActivity();
         activity.getSupportFragmentManager()
                 .beginTransaction()
@@ -76,6 +88,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
                 .commit();
 
         activity.getSupportFragmentManager().executePendingTransactions();
+        activity.getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
         addView(fragment.getView(), ViewGroup.LayoutParams.MATCH_PARENT);
 
         drawChildViews();

@@ -1,10 +1,15 @@
 package com.steerpath.rnsmartmap;
 
+import android.util.Log;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
+import com.facebook.react.bridge.ReadableMap;
 import com.steerpath.smart.SmartSDK;
+
+import java.io.File;
 
 import javax.annotation.Nonnull;
 
@@ -25,11 +30,14 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void start(String apiKey) {
+        Log.d("RNSmartMapManager", "start");
         appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().start(appContext, apiKey));
     }
 
     @ReactMethod
-    public void startWithConfig(String apiKey, String filePath) {
+    public void startWithConfig(ReadableMap map) {
+        String apiKey = map.getString("apiKey");
+        String filePath = map.getString("configFilePath");
         File file = new File(filePath);
         appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().start(appContext, apiKey, file));
     }

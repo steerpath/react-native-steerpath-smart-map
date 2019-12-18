@@ -21,4 +21,5 @@ public class RNEventKeys {
     public static final String NAVIGATION_STARTED = "onNavigationStarted";
     public static final String NAVIGATION_PREVIEW_APPEARED = "onNavigationPreviewAppeared";
     public static final String NAVIGATION_DESTINATION_REACHED = "onNavigationDestinationReached";
+    public static final String ON_BACK_PRESSED = "onBackPressed";
 }
