@@ -184,8 +184,12 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
                 return;
             }
 
-            boolean onBackPressed = mapView.getMap().onBackPressed();
-            callback.invoke(onBackPressed);
+            if(mapView.getMap() != null) {
+                boolean onBackPressed = mapView.getMap().onBackPressed();
+                callback.invoke(onBackPressed);
+            } else {
+                Log.e("ERROR", "Could not complete method call, SmartMap is null");
+            }
         });
     }
 

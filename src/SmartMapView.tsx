@@ -282,13 +282,13 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
       },
       onBackPressed(
         callback: () => Boolean) {
-        if(Platform.OS === 'android') {
-          NativeModules.RNSmartMapModule.onBackPressed(
-            findNodeHandle(smartMapRef.current),
-            callback
-          )
+          if(Platform.OS === 'android') {
+            NativeModules.RNSmartMapModule.onBackPressed(
+              findNodeHandle(smartMapRef.current),
+              callback
+            )
+          }
         }
-      }
     }));
 
     return (
@@ -321,10 +321,6 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         onSearchResultSelected={event => {
           props.onSearchResultSelected &&
             props.onSearchResultSelected(event.nativeEvent);
-        }}
-        onBackPressed={event => {
-          props.onBackPressed &&
-            props.onBackPressed(event.nativeEvent)
         }}
       />
     );
