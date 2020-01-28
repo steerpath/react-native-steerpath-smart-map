@@ -271,24 +271,23 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         runCommand(smartMapRef.current, "startUserTask", [userTask]);
       },
       start() {
-        if (Platform.OS === 'android') {
+        if (Platform.OS === "android") {
           runCommand(smartMapRef.current, "start", []);
         }
       },
       stop() {
-        if (Platform.OS === 'android') {
+        if (Platform.OS === "android") {
           runCommand(smartMapRef.current, "stop", []);
         }
       },
-      onBackPressed(
-        callback: () => Boolean) {
-          if(Platform.OS === 'android') {
-            NativeModules.RNSmartMapModule.onBackPressed(
-              findNodeHandle(smartMapRef.current),
-              callback
-            )
-          }
+      onBackPressed(callback: () => Boolean) {
+        if (Platform.OS === "android") {
+          NativeModules.RNSmartMapModule.onBackPressed(
+            findNodeHandle(smartMapRef.current),
+            callback
+          );
         }
+      }
     }));
 
     return (
@@ -312,7 +311,16 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
             props.onVisibleFloorChanged(event.nativeEvent);
         }}
         onMapClicked={event => {
-          props.onMapClicked && props.onMapClicked(event.nativeEvent);
+          if (Platform.OS === "ios") {
+            // iOS Mapbox SDK return a reversed order of map object compared to web and android sdk, so we reverse to match the behavior
+
+            props.onMapClicked &&
+              props.onMapClicked({
+                mapObjects: [...event.nativeEvent.mapObjects].reverse()
+              });
+          } else {
+            props.onMapClicked && props.onMapClicked(event.nativeEvent);
+          }
         }}
         onUserTaskResponse={event => {
           props.onUserTaskResponse &&
