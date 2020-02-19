@@ -55,6 +55,7 @@ example/ios/Podfile.lock
 
 # Java class files
 *.class
+.classpath
 
 # Generated files
 bin/
