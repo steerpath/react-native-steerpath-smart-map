@@ -37,8 +37,21 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
     @ReactMethod
     public void startWithConfig(ReadableMap map) {
         String apiKey = map.getString("apiKey");
-        String filePath = map.getString("configFilePath");
-        File file = new File(filePath);
-        appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().start(appContext, apiKey, file));
+        if (map.hasKey("configFilePath")) {
+            String filePath = map.getString("configFilePath");
+            if (filePath != null) {
+                File file = new File(filePath);
+                appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().start(appContext, apiKey, file));
+            }
+
+        } else if(map.hasKey("configString")) {
+            String configString = map.getString("configString");
+            if(configString != null) {
+                appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().start(appContext, apiKey, configString));
+            }
+        } else {
+            // TODO: throw error
+        }
+
     }
 }
