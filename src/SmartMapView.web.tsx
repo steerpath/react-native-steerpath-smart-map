@@ -268,13 +268,13 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
       localRef: string,
       buildingRef: string,
       source:string,
-      callback: (response: MapResponse) => void,
+      callback: (mapObject: SmartMapObject | null) => void,
     ) {
       runCommand(smartMapRef.current, "getMapObject", [localRef, buildingRef, source, callback])
     },
     getMapObjectByProperties(
       properties: object,
-      callback: (response: MapResponse) => void,
+      callback: (mapObject: SmartMapObject | null) => void,
     ) {
       runCommand(smartMapRef.current, "getMapObjectByProperties", [properties, callback])
     },

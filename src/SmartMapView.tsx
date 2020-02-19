@@ -156,7 +156,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         localRef: string,
         buildingRef: string,
         source: string,
-        callback: (response: MapResponse) => void
+        callback: (mapObject: SmartMapObject | null,response: MapResponse) => void
       ) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.getMapObject(
@@ -175,7 +175,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
       },
       getMapObjectByProperties(
         properties: object,
-        callback: (response: MapResponse) => void
+        callback: (mapObject: SmartMapObject | null, response: MapResponse) => void
       ) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.getMapObjectByProperties(

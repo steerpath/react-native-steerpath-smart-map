@@ -5,7 +5,7 @@ import {
 } from "react-native-steerpath-smart-map";
 import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
-import { View, Button, Platform , BackHandler} from "react-native";
+import { View, Platform } from "react-native";
 import { CONFIG_STRING } from "./config.js";
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_office_config.json";
@@ -37,17 +37,26 @@ export default function App() {
         console.log(err.message);
       });
     } else {
-      SmartMapManager.start(API_KEY);
+      console.log('CONFIG_STRING', CONFIG_STRING);
+      
+      SmartMapManager.startWithConfig({
+        apiKey:API_KEY, 
+        configString: CONFIG_STRING});
       setSDKReady(true);
     }
   }, []);
 
-  /* const setOnBackPressedListener = () => {
-    BackHandler.addEventListener('hardwareBackPress', function () {
-      console.log('App', 'onBackPressed');     
-      return true;
-    });
-  } */
+  // navigate to selected smart map object
+  const navigateToPoi = (smartmapObject) => {
+    if(smartmapObject) {
+      const userTask = {
+        type: 'navigation',
+        payload: smartmapObject
+      }
+
+      smartMapRef.current.startUserTask(userTask);
+    }
+  }
 
   return (
     <View style={{ flex: 10, flexDirection: "row" }}>
@@ -59,10 +68,14 @@ export default function App() {
             ref={smartMapRef}
             onMapLoaded={() => {
               console.log("Map loaded");
-              //setOnBackPressedListener();
             }}
-            onMapClicked={payload => {
-              console.log(payload);
+            onMapClicked={payload => {              
+              const smartmapObject = payload.mapObjects[0];
+
+              // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
+              smartMapRef.current.selectMapObject(smartmapObject);
+
+              //navigateToPoi(smartmapObject);
             }}
             onUserFloorChanged={payload =>
               console.log("User floor changed", payload)
@@ -90,7 +103,7 @@ export default function App() {
             }}
             onBackPressed={payload => {
               console.log('onBackPressed',payload);
-            
+
             }}
           />
         )}

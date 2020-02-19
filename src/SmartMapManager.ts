@@ -5,7 +5,8 @@ const RNSmartMapManager = NativeModules.RNSmartMapManager;
 
 interface ConfigSDK {
   apiKey: string;
-  configFilePath: string;
+  configFilePath?: string | null;
+  configString?: string | null;
 }
 
 export const SmartMapManager = {
@@ -16,14 +17,17 @@ export const SmartMapManager = {
     if (Platform.OS === 'web') {
       throw new Error('Not implemented');
     }
-    let { configFilePath } = config;
-    if (configFilePath.startsWith("file://")) {
+    let { configFilePath, configString } = config;
+
+    if (configFilePath && configFilePath.startsWith("file://")) {
       // iOS only accept the path like this: /var/something/file.json
       configFilePath = configFilePath.substring(7);
     }
+
     RNSmartMapManager.startWithConfig({
       apiKey: config.apiKey,
-      configFilePath
+      configFilePath,
+      configString
     });
   },
   setLiveConfig(config: Record<string, any>): void {
