@@ -272,7 +272,11 @@ RCT_EXPORT_METHOD(getMapObject:(nonnull NSNumber*) reactTag
       return;
     }
       [view getMapObject:localRef buildingRef:buildingRef source:[RCTConvert SPObjectSource:source] completion:^(SPSmartMapObject * _Nullable mapObject, SPMapResponse response) {
-          callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+          if (mapObject == nil) {
+              callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+          } else {
+              callback(@[[RCTConvert convertMapObjectToJSONWith:mapObject], [RCTConvert SPMapResponse:response]]);
+          }
       }];
   }];
   
