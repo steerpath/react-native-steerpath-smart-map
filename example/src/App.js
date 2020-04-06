@@ -6,15 +6,15 @@ import {
 import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { View, Platform } from "react-native";
-import { CONFIG_STRING } from "./config.js";
+import { CONFIG_STRING, LIVE_CONFIG } from "./config.js";
 
-const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_office_config.json";
+const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
 
 const API_KEY = Platform.select({
   web:
     "eyJhbGciOiJSUzI1NiJ9.eyJpYXQ6IjoxNTY0NDEwMjIxLCJqdGkiOiIwOGViODMyMi01ZGM1LTRkNTMtYjJmYy02NDllOTdlNzhjMjkiLCJzY29wZXMiOiJ2Mi1kNGQzNmI5Zi1lOGZiLTQ4MDctYTBjNS1lZDk3MzM0NGI2MDktcHVibGlzaGVkOnIiLCJzdWIiOiJ2Mi1kNGQzNmI5Zi1lOGZiLTQ4MDctYTBjNS1lZDk3MzM0NGI2MDkifQ.S-_kH7HnsN8TMl2ISq_niOycXKIGf7kox6fBZpeDWMnNH1bS9gT_a9grgKskiNe89oXGzV5lfR3uyBSAEFVzyl5nTJSDzFop-HqsI27VHx9CSInah0XDNe2lTLpgA1GG8UzcODKZ1N2eZyekb84FvT-wgh3joLdRtztUFUNkudTGpU3tquw41od-Ktw33UF8PXSWtI4Cpr3aU9k2bKCgYSB-csz8x3Svj3yda2R-uQgR-RzvZICywk4QYuVkNB-gs_lvzlS2h8AVZsgpJRcBsR2SLAv4kJHpdComPpicab3dGRutykzdtf3wnAnnJxl81qv-9r5WkBojlR3XMeSMkw",
   default:
-    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIndyYXBwZWQiOnRydWV9.eyJjbGllbnRfdG9rZW4iOiJleUpoYkdjaU9pSlNVekkxTmlJc0ltbHpjeUk2SW5OMFpXVnljR0YwYUMxemJXRnlkQzF2Wm1acFkyVWlmUS5leUpqWm1jaU9pSnpkR1ZsY25CaGRHaGZiMlptYVdObFgyTnZibVpwWnk1cWMyOXVJaXdpWldScGRGSnBaMmgwY3lJNklpSXNJbVZwWkVGalkyVnpjeUk2SWlJc0ltbGhkRG9pT2pFMU5qZzRPVEkwTkRjc0ltcDBhU0k2SW1NeVptTXpaREE1TFdNMlpqWXRORFZtTlMwNFpXWTNMV0ZpTXprM1pEbGpaVEV4TVNJc0ltMWxkR0ZCWTJObGMzTWlPaUo1SWl3aWMyTnZjR1Z6SWpvaWRqSXRaRFJrTXpaaU9XWXRaVGhtWWkwME9EQTNMV0V3WXpVdFpXUTVOek16TkRSaU5qQTVMWEIxWW14cGMyaGxaRHB5SWl3aWMzVmlJam9pZGpJdFpEUmtNelppT1dZdFpUaG1ZaTAwT0RBM0xXRXdZelV0WldRNU56TXpORFJpTmpBNUluMC5CZkk5X0ZVZnUtcmJjVklRNTNfQkpxYkdBeVBYVndVSEpyZTdibnBKTGkyM0NuSzVUZ2ZxN2I4dWtlNUtQSFRRODJEdk9sMmhfUG1KMWpMU2lNdU9OTXlxNXVGZE1oOXNSbjBEbWJORTR4aFQtS2dVSnVFTEtZMmFqbEQ4ZUdQMEktZUVTSURpZ1VHNjRIMnUyRnFBZmk3WDhjQXVkdUFfd2cwV3ExVjllOFlzc2Qxc0JudjFvWUQ2NjAtN2NMTkdNVjhwOVF0M1JXUW5YZ3hRanNEYlpUdFM0Z2s2alcwRlM0Sk1zVDRkM0R1bHE1SXRWUFRoTUhzdDQ5V2o2WnFIaXFBMTV5UW83emZoNThDd2ZTSDZHME5laWFaWXMwNGYzbGtfcHZid2pQeTdCeng3Y0hKWk5yaVFucFRMNzNUSnQ3UDRCSlBTaUx5Um5RTjlEZ19fc1EiLCJpYXQiOjE1Njg4OTI1MTEsImlzcyI6InN0ZWVycGF0aF93cmFwcGVyIiwianRpIjoiOTBmODJmZGYtYTIwOC00ZTBmLWEzMWQtZTMxZjI1NzgyNzU0In0.kleL2Ufkh4kUR8jEFbfbN03Ph0lBoS7c3SbpPn4Rsv9cUZLKiSIAmWu-vMobGi50WWbAedQCl5PyfZwCkY_S763zPqpMQ2I-u86stnCqPP2KmWilyDUbTadS3I9uwf5Ga7sdgOOwFw_9HVJxIzS6h2BsrxHuxLmC0KKFZVNpZ52jQmhEnRjShQGtqnwN1_4wWV0V03R7krDm26TgxSyoHwyog0w9LNuEEUlY1UxTUl4uP0VF9x-qB98bZ-XMUnEz7tQt0ALILEWQqYDvvQZi5O1rZB1cR8fYiWX0efG2Z3m1v-jjdXybgy8ilcncfdAk1m75BwWd_JlhUyw27TpJ0A"
+    "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsIndyYXBwZWQiOnRydWV9.eyJjbGllbnRfdG9rZW4iOiJleUpoYkdjaU9pSlNVekkxTmlJc0ltbHpjeUk2SW5OMFpXVnljR0YwYUMxemJXRnlkQzF2Wm1acFkyVWlmUS5leUpqWm1jaU9pSnpkR1ZsY25CaGRHaGZZMjl1Wm1sbkxtcHpiMjRpTENKbFpHbDBVbWxuYUhSeklqb2lJaXdpWldsa1FXTmpaWE56SWpvaUlpd2lhV0YwT2lJNk1UVTRNalV6T1RVMU1Dd2lhblJwSWpvaVptSTFaVGswTW1RdE1XSmtOeTAwTlRobUxUaGtOelV0WW1FNU5EZzNZamczWWpKaElpd2liV1YwWVVGalkyVnpjeUk2SW5raUxDSnpZMjl3WlhNaU9pSjJNaTB6WVdVME1UZGlZUzB3TXpnM0xUUmxOemt0WVRVeE9TMDNaV1U1TWpFM05tUmpOamd0Y0hWaWJHbHphR1ZrT25JaUxDSnpkV0lpT2lKMk1pMHpZV1UwTVRkaVlTMHdNemczTFRSbE56a3RZVFV4T1MwM1pXVTVNakUzTm1Sak5qZ2lmUS51TEdtb0RoYzgyc3d1aHpKcU5qcE95cmdROVJjZjR4M2VYbWEtX3pjdnB2QTNxdVhTZVptazhhSWRvS0RKeVQwOXpuM0lDaEJ3R1hyNzdRZ2RaNzI1REZLRG95MjJ0OWZSc3pETFk0WGo1YVVOYk1EZDhHYnVwc0FOQm1VbW5NTkxjRC0zQUVsTWtkMjBEVEsxdlJNSWFXZU01TGJCb2ZfemFNMXJwMFJYdDM3UWNyaV9PSFNDZUtqWENvWm95YVlfSWdWSktfZGs1R3Y0S1U2S21TRmJRQkEtQVVMcUNwU2NUS0VFNzNFY0stNXVnZ0J0R2NNcDhyUG1oR1RSTXhDRkNGblpEYzB4cl9CS0ZKR3hqVjhuNUsxWGJhTjZrUXBmbE9CcVZUWHl0d1BnVUFvSzAwczVta0ZWZTByb2Q3Rkd2ZHpuR0RMb1FlVDl5a3dDaTFjV3ciLCJpYXQiOjE1ODI1Mzk1OTMsImlzcyI6InN0ZWVycGF0aF93cmFwcGVyIiwianRpIjoiNDU2NGZmMzYtNTY0OC00MTBjLWEwN2ItZWVhMTg3YzRmYzk0In0.D_imTL9bHGf97REf3B0_jwdaORXI3tTkp_6fLdIKJHop0QWYf-c_lC9XzGlh8tmoXMX39MuTH__FDs0jSa7psHBWeYNmv6gLsvTLjGlUR36Vl_dU7-CKREFnTI3MAJo2oiiwE27E8jH-DjcBXEk1JGl2PJfeQqEnj9pUPnPyGeLiFgsG23HcpXF08SKWPrbvlhGXKl2_bXr4AJABReKhEH0YG7H42p8D6D2HNsZPN_SXDJKVMtRPT5fQDK4VXLiKyZ0xKUi7_DFFlLRf-nELeRFpMSQ_iuPHXWgNuzTCKsMP6W9e4UazsMJbjuAhx1ti2Z7bIv-Z4eeIXGUo6vS73Q"
 });
 
 export default function App() {
@@ -23,40 +23,32 @@ export default function App() {
   const [sdkReady, setSDKReady] = useState(false);
 
   useEffect(() => {
-    if(Platform.OS === 'ios') {
-      RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
+    RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
       .then(success => {
         SmartMapManager.startWithConfig({
           apiKey: API_KEY,
           configFilePath: CONFIG_FILE_PATH
         });
+
         setSDKReady(true);
         console.log("FILE WRITTEN!");
       })
       .catch(err => {
         console.log(err.message);
       });
-    } else {
-      console.log('CONFIG_STRING', CONFIG_STRING);
-      
-      SmartMapManager.startWithConfig({
-        apiKey:API_KEY, 
-        configString: CONFIG_STRING});
-      setSDKReady(true);
-    }
   }, []);
 
   // navigate to selected smart map object
-  const navigateToPoi = (smartmapObject) => {
-    if(smartmapObject) {
+  const navigateToPoi = smartmapObject => {
+    if (smartmapObject) {
       const userTask = {
-        type: 'navigation',
+        type: "navigation",
         payload: smartmapObject
-      }
+      };
 
       smartMapRef.current.startUserTask(userTask);
     }
-  }
+  };
 
   return (
     <View style={{ flex: 10, flexDirection: "row" }}>
@@ -69,7 +61,7 @@ export default function App() {
             onMapLoaded={() => {
               console.log("Map loaded");
             }}
-            onMapClicked={payload => {              
+            onMapClicked={payload => {
               const smartmapObject = payload.mapObjects[0];
 
               // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
@@ -102,8 +94,7 @@ export default function App() {
               console.log(payload);
             }}
             onBackPressed={payload => {
-              console.log('onBackPressed',payload);
-
+              console.log("onBackPressed", payload);
             }}
           />
         )}

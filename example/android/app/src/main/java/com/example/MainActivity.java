@@ -1,6 +1,11 @@
 package com.example;
 
+import android.app.Activity;
+import android.app.Application;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;
@@ -8,7 +13,7 @@ import com.facebook.react.ReactRootView;
 import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;
 
 
-public class MainActivity extends ReactActivity {
+public class MainActivity extends ReactActivity  {
 
     /**
      * Returns the name of the main component registered from JavaScript.
