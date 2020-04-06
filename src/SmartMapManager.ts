@@ -14,8 +14,8 @@ export const SmartMapManager = {
     RNSmartMapManager.start(apiKey);
   },
   startWithConfig(config: ConfigSDK): void {
-    if (Platform.OS === 'web') {
-      throw new Error('Not implemented');
+    if (Platform.OS === "web") {
+      throw new Error("Not implemented");
     }
     let { configFilePath, configString } = config;
 
@@ -31,8 +31,6 @@ export const SmartMapManager = {
     });
   },
   setLiveConfig(config: Record<string, any>): void {
-    if (Platform.OS === "ios") {
-      RNSmartMapManager.setLiveConfig(config);
-    }
+    RNSmartMapManager.setLiveConfig(config);
   }
 };

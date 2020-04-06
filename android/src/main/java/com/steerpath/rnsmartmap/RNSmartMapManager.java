@@ -9,6 +9,9 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
 import com.steerpath.smart.SmartSDK;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.File;
 
 import javax.annotation.Nonnull;
@@ -44,14 +47,23 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
                 appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().start(appContext, apiKey, file));
             }
 
-        } else if(map.hasKey("configString")) {
+        } else if (map.hasKey("configString")) {
             String configString = map.getString("configString");
-            if(configString != null) {
+            if (configString != null) {
                 appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().start(appContext, apiKey, configString));
             }
         } else {
             // TODO: throw error
         }
+    }
 
+    @ReactMethod
+    public void setLiveConfig(ReadableMap map) {
+        try {
+            JSONObject object = Utils.convertMapToJson(map);
+            SmartSDK.getInstance().setLiveConfiguration(appContext, object);
+        } catch (JSONException e) {
+            Log.e("Error", "Failed to set live configuration for SmartSDK");
+        }
     }
 }
