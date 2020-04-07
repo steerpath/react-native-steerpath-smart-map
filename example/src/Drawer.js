@@ -3,12 +3,13 @@ import { Text, View } from "react-native";
 import { SafeAreaView, ScrollView, Button, Platform } from "react-native";
 import {
   SmartGeofenceManager,
-  SmartMapManager
+  SmartMapManager,
 } from "react-native-steerpath-smart-map";
 
 export default class Drawer extends Component {
   constructor(props) {
     super(props);
+    this.liveEnabled = false;
     let floorIndex = 2;
     this.buildingRef = "building_1_31552752-7d5a-44c6-8206-cd86bd91f7c4";
     this.hasListener = false;
@@ -20,8 +21,8 @@ export default class Drawer extends Component {
       buildingRef: this.buildingRef,
       title: "Custom Marker",
       properties: {
-        foo: "bar"
-      }
+        foo: "bar",
+      },
     };
     this.mapMarkers = [];
     this.markerMapObjects = [];
@@ -34,12 +35,12 @@ export default class Drawer extends Component {
             buildingRef: this.buildingRef,
             layerIndex: floorIndex,
             localRef: "marker-1",
-            title: "R&D"
+            title: "R&D",
           },
           geometry: {
             type: "Point",
-            coordinates: [24.812336917966604, 60.22097943263401]
-          }
+            coordinates: [24.812336917966604, 60.22097943263401],
+          },
         },
         {
           type: "Feature",
@@ -47,12 +48,12 @@ export default class Drawer extends Component {
             buildingRef: this.buildingRef,
             layerIndex: floorIndex,
             localRef: "marker-2",
-            title: "Meeting Room"
+            title: "Meeting Room",
           },
           geometry: {
             type: "Point",
-            coordinates: [24.8124679144, 60.2209838483]
-          }
+            coordinates: [24.8124679144, 60.2209838483],
+          },
         },
         {
           type: "Feature",
@@ -60,14 +61,14 @@ export default class Drawer extends Component {
             buildingRef: this.buildingRef,
             layerIndex: floorIndex,
             localRef: "marker-3",
-            title: "Lounge"
+            title: "Lounge",
           },
           geometry: {
             type: "Point",
-            coordinates: [24.81232250109315, 60.22088118747888]
-          }
-        }
-      ]
+            coordinates: [24.81232250109315, 60.22088118747888],
+          },
+        },
+      ],
     };
     this.handleGeofenceEntered = this.handleGeofenceEntered.bind(this);
   }
@@ -75,40 +76,46 @@ export default class Drawer extends Component {
   handleGeofenceEntered() {}
 
   startLive() {
-    SmartMapManager.setLiveConfig({
-      receive: {
-        showsThisDevice: false,
-        groups: ["Employees", "Bosses"]
-      },
-      transmit: {
-        id: "Developer123",
-        password: "W^3iP!m&GE£dq",
-        title: "Developer",
-        groups: ["Employees", "Bosses"],
-        geofences: {
-          neutral: ["Neutral-Area"],
-          allowed: ["Allowed-Area"],
-          forbidden: ["Forbidden-Area"]
-        }
-      }
-    });
+    if (this.liveEnabled) {
+      SmartMapManager.setLiveConfig(null);
+    } else {
+      SmartMapManager.setLiveConfig({
+        receive: {
+          showsThisDevice: false,
+          groups: ["Employees", "Bosses"],
+        },
+        transmit: {
+          id: "Developer123",
+          password: "W^3iP!m&GE£dq",
+          title: "Developer",
+          groups: ["Employees", "Bosses"],
+          geofences: {
+            neutral: ["Neutral-Area"],
+            allowed: ["Allowed-Area"],
+            forbidden: ["Forbidden-Area"],
+          },
+        },
+      });
+    }
+
+    this.liveEnabled = !this.liveEnabled;
   }
 
   setMapMode(mapMode) {
     this.props.smartMapRef.current.setMapMode(mapMode);
   }
 
-  startUserTask = userTask => {
+  startUserTask = (userTask) => {
     if (userTask === "poiSelection") {
       let source = "STATIC";
       let localRef = "Kitchen";
       let properties = {
-        title: "R&D"
+        title: "R&D",
       };
       //either get by properties or by localRef + buildingRef
       this.props.smartMapRef.current.getMapObjectByProperties(
         properties,
-        data => {
+        (data) => {
           //this.props.smartMapRef.getMapObject(localRef, this.buildingRef, source, (data) => {
           console.log("data ", data);
           if (data) {
@@ -122,8 +129,8 @@ export default class Drawer extends Component {
                 actionButtonText: actionButtonText,
                 actionButtonIcon: actionButtonIcon,
                 smartMapObject: data,
-                shouldAddMarker: true
-              }
+                shouldAddMarker: true,
+              },
             };
             this.props.smartMapRef.current.startUserTask(userTask);
           }
@@ -144,7 +151,7 @@ export default class Drawer extends Component {
     );
   };
 
-  getMapObject = source => {
+  getMapObject = (source) => {
     let localRef = "";
     switch (source) {
       case "STATIC":
@@ -174,7 +181,7 @@ export default class Drawer extends Component {
     let title = "Lounge";
     let properties = {
       buildingRef: this.buildingRef,
-      title: title
+      title: title,
     };
     this.props.smartMapRef.current.getMapObjectByProperties(
       properties,
@@ -190,7 +197,7 @@ export default class Drawer extends Component {
     console.log("this.getUserTaskResponseBlock", data);
   }
 
-  setCamera = type => {
+  setCamera = (type) => {
     let localRef = "Kitchen";
     let cameraOptions = {
       latitude: 60.220945577091356,
@@ -199,7 +206,7 @@ export default class Drawer extends Component {
       bearing: 30,
       pitch: 45,
       floorIndex: 2,
-      buildingRef: this.buildingRef
+      buildingRef: this.buildingRef,
     };
     if (type === "location") {
       this.props.smartMapRef.current.setCamera(cameraOptions);
@@ -227,7 +234,7 @@ export default class Drawer extends Component {
       bearing: 30,
       pitch: 45,
       floorIndex: 2,
-      buildingRef: this.buildingRef
+      buildingRef: this.buildingRef,
     };
 
     if (type === "location") {
@@ -293,8 +300,8 @@ export default class Drawer extends Component {
         buildingRef: buildingRef,
         title: title,
         properties: {
-          foo: "bar"
-        }
+          foo: "bar",
+        },
       };
       this.markerMapObjects.push(eachSmartObject);
     }
@@ -313,7 +320,7 @@ export default class Drawer extends Component {
   selectMapObject = () => {
     let mapObject = {
       localRef: "Kitchen",
-      buildingRef: this.buildingRef
+      buildingRef: this.buildingRef,
     };
     this.props.smartMapRef.current.selectMapObject(mapObject);
   };
@@ -331,7 +338,7 @@ export default class Drawer extends Component {
       SmartGeofenceManager.addListener(this.handleGeofenceEntered);
       this.hasListener = true;
     }
-    SmartGeofenceManager.addGeofence(localRef, this.buildingRef, response => {
+    SmartGeofenceManager.addGeofence(localRef, this.buildingRef, (response) => {
       console.log("response ", response);
     });
   }
@@ -346,7 +353,9 @@ export default class Drawer extends Component {
         <SafeAreaView style={{ flex: 1 }}>
           <ScrollView>
             <Button
-              title="Start Live service"
+              title={
+                this.liveEnabled ? "Stop Live service" : "Start Live service"
+              }
               onPress={() => this.startLive()}
             />
             <Button

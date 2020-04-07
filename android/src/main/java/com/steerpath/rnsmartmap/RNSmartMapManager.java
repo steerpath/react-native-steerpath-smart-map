@@ -59,11 +59,16 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void setLiveConfig(ReadableMap map) {
-        try {
-            JSONObject object = Utils.convertMapToJson(map);
-            SmartSDK.getInstance().setLiveConfiguration(appContext, object);
-        } catch (JSONException e) {
-            Log.e("Error", "Failed to set live configuration for SmartSDK");
+        if (map == null) {
+            // Logout and stop LiveService
+            SmartSDK.getInstance().setLiveConfiguration(appContext, null);
+        } else {
+            try {
+                JSONObject object = Utils.convertMapToJson(map);
+                SmartSDK.getInstance().setLiveConfiguration(appContext, object);
+            } catch (JSONException e) {
+                Log.e("Error", "Failed to set live configuration for SmartSDK");
+            }
         }
     }
 }
