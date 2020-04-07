@@ -45,6 +45,9 @@ example/ios/Podfile.lock
 
 ## Android specific
 
+*.settings
+*.project
+
 # Built application files
 *.apk
 *.aar
