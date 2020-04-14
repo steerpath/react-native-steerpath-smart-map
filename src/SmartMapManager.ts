@@ -27,10 +27,10 @@ export const SmartMapManager = {
     RNSmartMapManager.startWithConfig({
       apiKey: config.apiKey,
       configFilePath,
-      configString
+      configString,
     });
   },
-  setLiveConfig(config: Record<string, any>): void {
+  setLiveConfig(config: Record<string, any> | null): void {
     RNSmartMapManager.setLiveConfig(config);
-  }
+  },
 };
