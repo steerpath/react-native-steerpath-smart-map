@@ -62,8 +62,15 @@ export default function App() {
               console.log("Map loaded");
             }}
             onMapClicked={(payload) => {
-              const smartmapObject = payload.mapObjects[0];
+              console.log(payload);
+              const { mapObjects } = payload;
+              console.log("length", mapObjects.length);
 
+              for (let i = 0; i < mapObjects.length; i++) {
+                console.log("object", mapObjects[i]);
+              }
+
+              const smartmapObject = mapObjects[0];
               // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
               smartMapRef.current.selectMapObject(smartmapObject);
 
