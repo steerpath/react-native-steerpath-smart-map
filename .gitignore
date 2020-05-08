@@ -27,6 +27,7 @@ DerivedData
 *.ipa
 *.xcuserstate
 project.xcworkspace
+PODS/
 
 # BUCK
 buck-out/
@@ -42,6 +43,9 @@ example/ios/Podfile.lock
 
 
 ## Android specific
+
+*.settings
+*.project
 
 # Built application files
 *.apk
