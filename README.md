@@ -1,8 +1,5 @@
 # react-native-steerpath-smart-map
 
-> Warning: This module is still under active development and not suitable for
-> production. Use at your own risk!
-
 ## Getting started
 
 `$ npm install react-native-steerpath-smart-map --save`
@@ -78,7 +75,7 @@ $ react-native run-android # for android
 ```javascript
 import {
   SmartMapView,
-  SmartMapManager
+  SmartMapManager,
 } from "react-native-steerpath-smart-map";
 const API_KEY = "...";
 
