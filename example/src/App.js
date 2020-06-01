@@ -3,10 +3,10 @@ import {
   SmartMapManager,
   SmartMapView,
 } from "react-native-steerpath-smart-map";
-import RNFS, { setReadable } from "react-native-fs";
+import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { View, Platform } from "react-native";
-import { CONFIG_STRING, LIVE_CONFIG } from "./config.js";
+import { CONFIG_STRING } from "./config.js";
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
 

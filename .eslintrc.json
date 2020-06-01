@@ -70,5 +70,12 @@
     "no-underscore-dangle": "warn",
     "react/no-array-index-key": "warn",
     "no-lonely-if": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
   }
 }

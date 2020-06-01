@@ -124,10 +124,11 @@ export interface SmartMapViewProps
 
 export type SmartMapNavigationUserTask = SmartMapObject;
 
-export interface SmartMapPOISelectionUserTask extends SmartMapObject {
+export interface SmartMapPOISelectionUserTask {
   shouldAddMarker: boolean;
   actionButtonText: string;
   actionButtonIcon: string;
+  smartMapObject: SmartMapObject;
 }
 
 export enum SmartMapUserTaskType {

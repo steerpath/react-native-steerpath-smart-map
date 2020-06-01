@@ -12,6 +12,10 @@ import {
   MapResponse,
 } from "./SmartMapViewProps";
 import { steerpath } from "steerpath-smart-sdk";
+import {
+  SmartMapUserTask,
+  SmartMapPOISelectionUserTask,
+} from "../dist/SmartMapViewProps";
 
 //no longer needed as the steerpath is imported from node modules
 //instead of the window namespace
@@ -36,12 +40,16 @@ function convertToWebSDKSmartMapObj(smartMapObj: SmartMapObject) {
   );
 }
 
-function convertToWebUserTaskObj(userTask: any) {
+function convertToWebUserTaskObj(userTask: SmartMapUserTask) {
   // TODO: Roope tries to fix these
-  const addMarker = userTask.payload.addMarker;
-  const actionButtonText = userTask.payload.actionButtonText;
-  const actionButtonIcon = userTask.payload.actionButtonIcon;
-  const smartMapObject = userTask.payload.smartMapObject;
+  const addMarker = (userTask.payload as SmartMapPOISelectionUserTask)
+    .shouldAddMarker;
+  const actionButtonText = (userTask.payload as SmartMapPOISelectionUserTask)
+    .actionButtonText;
+  const actionButtonIcon = (userTask.payload as SmartMapPOISelectionUserTask)
+    .actionButtonIcon;
+  const smartMapObject = (userTask.payload as SmartMapPOISelectionUserTask)
+    .smartMapObject;
   return new steerpath.POISelectionUserTask(
     smartMapObject,
     addMarker,
@@ -271,7 +279,7 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
     setMapMode(mapMode: string) {
       runCommand(smartMapRef.current, "setMapMode", [mapMode]);
     },
-    startUserTask(userTask: any) {
+    startUserTask(userTask: SmartMapUserTask) {
       // TODO: roope fixes
       runCommand(smartMapRef.current, "startUserTask", [
         convertToWebUserTaskObj(userTask),
