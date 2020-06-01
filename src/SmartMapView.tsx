@@ -278,4 +278,5 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
   }
 );
 
+// It's tedious to type native props, so we can defer it later
 const RNSmartMapView = requireNativeComponent<any>(NATIVE_VIEW_NAME);
