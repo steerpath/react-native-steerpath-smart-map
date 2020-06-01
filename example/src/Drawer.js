@@ -4,6 +4,7 @@ import { SafeAreaView, ScrollView, Button, Platform } from "react-native";
 import {
   SmartGeofenceManager,
   SmartMapManager,
+  LiveConfig,
 } from "react-native-steerpath-smart-map";
 
 export default class Drawer extends Component {
