@@ -9,6 +9,24 @@ interface ConfigSDK {
   configString?: string | null;
 }
 
+export interface LiveConfig {
+  transmit?: {
+    id: string;
+    password: string;
+    title?: string;
+    groups?: string[];
+    geofences?: {
+      neutral?: string[];
+      forbidden?: string[];
+      allowed?: string[];
+    };
+  };
+  receive?: {
+    showThisDevice?: boolean;
+    groups?: string[];
+  };
+}
+
 export const SmartMapManager = {
   start(apiKey: string): void {
     RNSmartMapManager.start(apiKey);
@@ -31,7 +49,7 @@ export const SmartMapManager = {
       configString,
     });
   },
-  setLiveConfig(config: Record<string, unknown> | null): void {
+  setLiveConfig(config: LiveConfig | null): void {
     RNSmartMapManager.setLiveConfig(config);
   },
 };
