@@ -7,6 +7,82 @@ export interface ConfigSDK {
   configFilePath: string;
 }
 
+export interface SmartMapViewMethods {
+  setCamera(arg: {
+    latitude: number;
+    longitude: number;
+    zoomLevel: number;
+    bearing?: number;
+    pitch?: number;
+    floorIndex?: number;
+    buildingRef?: string;
+  }): void;
+  animateCamera(arg: {
+    latitude: number;
+    longitude: number;
+    zoomLevel: number;
+    bearing?: number;
+    pitch?: number;
+    floorIndex?: number;
+    buildingRef?: string;
+  }): void;
+  animateCameraToBuildingRef(
+    buildingRef: string,
+    callback: (response: MapResponse) => void
+  ): void;
+  setMapMode(mapMode: SmartMapModes): void;
+  startUserTask(userTask: SmartMapUserTask): void;
+  getCurrentUserTask(
+    callback: (userTaskResponse: SmartMapUserTaskResponse) => void
+  ): void;
+  cancelCurrentUserTask(): void;
+  selectMapObject(mapObj: SmartMapObject): void;
+  getMapObject(
+    localRef: string,
+    buildingRef: string,
+    source: string,
+    callback: (mapObject: SmartMapObject | null) => void
+  ): void;
+  getMapObjectByProperties(
+    properties: Record<string, unknown>,
+    callback: (mapObject: SmartMapObject | null) => void
+  ): void;
+  animateCameraToObject(
+    localRef: string,
+    buildingRef: string,
+    zoomLevel: number | null,
+    callback: (response: MapResponse) => void
+  ): void;
+  setCameraToBuildingRef(
+    buildingRef: string,
+    callback: (response: MapResponse) => void
+  ): void;
+  setCameraToObject(
+    localRef: string,
+    buildingRef: string,
+    zoomLevel: number,
+    callback: (response: MapResponse) => void
+  ): void;
+  addMarker(
+    smartMapObj: SmartMapObject,
+    layout: Layout | null,
+    iconName: string | null,
+    textColor: string | null,
+    textHaloColor: string | null
+  ): void;
+  addMarkers(
+    mapObjectsArray: SmartMapObject[],
+    layout: Layout | null,
+    iconName: string | null,
+    textColor: string | null,
+    textHaloColor: string | null
+  ): void;
+  removeMarker(smartMapObj: SmartMapObject): void;
+  removeMarkers(smartMaps: SmartMapObject[]): void;
+  removeAllMarkers(): void;
+  onBackPressed(callback: () => boolean): void;
+}
+
 export enum SmartMapModes {
   MAP_ONLY = "mapOnly",
   STATIC = "static",
