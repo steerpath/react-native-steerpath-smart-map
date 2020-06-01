@@ -32,7 +32,6 @@ export interface SmartMapViewMethods {
   ): void;
   setMapMode(mapMode: SmartMapModes): void;
   startUserTask(userTask: SmartMapUserTask): void;
-  // TODO: Improve this method
   getCurrentUserTask(
     callback: (userTaskResponse: SmartMapUserTaskResponse) => void
   ): void;

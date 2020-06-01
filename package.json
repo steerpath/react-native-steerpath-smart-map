@@ -33,6 +33,7 @@
   },
   "devDependencies": {
     "@types/react": "^16.9.35",
+    "@types/react-native": "^0.62.12",
     "react": "^16.9.0",
     "react-native": "^0.60.5",
     "typescript": "^3.9.3"

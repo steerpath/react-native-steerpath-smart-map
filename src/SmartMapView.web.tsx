@@ -11,6 +11,9 @@ import {
   Layout,
   MapResponse,
   SmartMapViewMethods,
+  SmartMapUserTask,
+  SmartMapPOISelectionUserTask,
+  SmartMapNavigationUserTask,
 } from "./SmartMapViewProps";
 import { steerpath } from "steerpath-smart-sdk";
 
@@ -20,9 +23,17 @@ import { steerpath } from "steerpath-smart-sdk";
 
 const COMPONENT_ID_PREFIX = "map_container_id";
 
-function runCommand(handler: any, name: string, args: any[]) {
-  // TODO: handle type and args type
-  handler[name](...args);
+// Implementation for the smart map reference
+interface SmartMapRef {
+  removeMap: Function;
+}
+
+function runCommand<ArgsT extends Array<unknown>>(
+  handler: SmartMapRef | null,
+  name: string,
+  args: ArgsT
+) {
+  handler?.[name](...args);
 }
 
 function convertToWebSDKSmartMapObj(smartMapObj: SmartMapObject) {
@@ -37,12 +48,14 @@ function convertToWebSDKSmartMapObj(smartMapObj: SmartMapObject) {
   );
 }
 
-function convertToWebUserTaskObj(userTask: any) {
-  // TODO: Roope tries to fix these
-  const addMarker = userTask.payload.addMarker;
-  const actionButtonText = userTask.payload.actionButtonText;
-  const actionButtonIcon = userTask.payload.actionButtonIcon;
-  const smartMapObject = userTask.payload.smartMapObject;
+function convertToWebUserTaskObj(userTask: SmartMapUserTask) {
+  const addMarker = (userTask.payload as SmartMapPOISelectionUserTask)
+    .shouldAddMarker;
+  const actionButtonText = (userTask.payload as SmartMapPOISelectionUserTask)
+    .actionButtonText;
+  const actionButtonIcon = (userTask.payload as SmartMapPOISelectionUserTask)
+    .actionButtonIcon;
+  const smartMapObject = userTask.payload as SmartMapNavigationUserTask;
   return new steerpath.POISelectionUserTask(
     smartMapObject,
     addMarker,
@@ -53,7 +66,7 @@ function convertToWebUserTaskObj(userTask: any) {
 
 export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
   (props, ref) => {
-    const smartMapRef = useRef<{ removeMap: Function }>(null);
+    const smartMapRef = useRef<SmartMapRef>(null);
 
     useEffect(() => {
       for (const apiKey in steerpath.sdk) {
@@ -274,7 +287,7 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
       },
       onBackPressed() {
         // Web doesn't have this implementation
-      }
+      },
     }));
 
     return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1 }} />;

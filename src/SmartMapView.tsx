@@ -6,22 +6,17 @@ import {
   NativeModules,
   findNodeHandle,
   Platform,
+  HostComponent,
 } from "react-native";
-import {
-  SmartMapViewProps,
-  SmartMapObject,
-  Layout,
-  MapResponse,
-  SmartMapUserTask,
-  SmartMapUserTaskResponse,
-  SmartMapModes,
-  SmartMapViewMethods,
-} from "./SmartMapViewProps";
+import { SmartMapViewProps, SmartMapViewMethods } from "./SmartMapViewProps";
 
 const NATIVE_VIEW_NAME = "RNSmartMapView";
 
-function runCommand(handler: any, name: string, args: any[]) {
-  // TODO: handler and args type
+function runCommand<ArgsT extends Array<unknown>>(
+  handler: typeof RNSmartMapView | null,
+  name: string,
+  args: ArgsT
+) {
   if (Platform.OS === "ios") {
     return NativeModules[NATIVE_VIEW_NAME][name](
       findNodeHandle(handler),
@@ -38,8 +33,7 @@ function runCommand(handler: any, name: string, args: any[]) {
 }
 export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
   function _SmartMapViewFC(props, ref) {
-    // TODO: ref types
-    const smartMapRef = useRef(null);
+    const smartMapRef = useRef<typeof RNSmartMapView>(null);
 
     useImperativeHandle(ref, () => ({
       setMapMode(mapMode) {
@@ -284,7 +278,4 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
   }
 );
 
-const RNSmartMapView = (requireNativeComponent as (
-  name: string,
-  componentClass: any // TODO: component class type
-) => any)(NATIVE_VIEW_NAME, SmartMapView); // TODO:
+const RNSmartMapView = requireNativeComponent<any>(NATIVE_VIEW_NAME);
