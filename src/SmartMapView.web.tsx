@@ -272,6 +272,9 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           callback,
         ]);
       },
+      onBackPressed() {
+        // Web doesn't have this implementation
+      }
     }));
 
     return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1 }} />;

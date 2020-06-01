@@ -15,6 +15,7 @@ import {
   SmartMapUserTask,
   SmartMapUserTaskResponse,
   SmartMapModes,
+  SmartMapViewMethods,
 } from "./SmartMapViewProps";
 
 const NATIVE_VIEW_NAME = "RNSmartMapView";
@@ -35,22 +36,16 @@ function runCommand(handler: any, name: string, args: any[]) {
     args
   );
 }
-export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
-  function _SmartMapViewFC(props: SmartMapViewProps, ref: any) {
+export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
+  function _SmartMapViewFC(props, ref) {
     // TODO: ref types
     const smartMapRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
-      setMapMode(mapMode: SmartMapModes) {
+      setMapMode(mapMode) {
         runCommand(smartMapRef.current, "setMapMode", [mapMode]);
       },
-      addMarker(
-        smartMapObj: SmartMapObject,
-        layout: Layout | null,
-        iconName: string | null,
-        textColor: string | null,
-        textHaloColor: string | null
-      ) {
+      addMarker(smartMapObj, layout, iconName, textColor, textHaloColor) {
         runCommand(smartMapRef.current, "addMarker", [
           smartMapObj,
           layout,
@@ -59,13 +54,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           textHaloColor,
         ]);
       },
-      addMarkers(
-        mapObjectsArray: SmartMapObject[],
-        layout: Layout | null,
-        iconName: string | null,
-        textColor: string | null,
-        textHaloColor: string | null
-      ) {
+      addMarkers(mapObjectsArray, layout, iconName, textColor, textHaloColor) {
         runCommand(smartMapRef.current, "addMarkers", [
           mapObjectsArray,
           layout,
@@ -82,14 +71,6 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         pitch,
         floorIndex,
         buildingRef,
-      }: {
-        latitude: number;
-        longitude: number;
-        zoomLevel: number;
-        bearing?: number;
-        pitch?: number;
-        floorIndex?: number;
-        buildingRef: string;
       }) {
         runCommand(smartMapRef.current, "animateCamera", [
           latitude,
@@ -101,10 +82,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           buildingRef,
         ]);
       },
-      animateCameraToBuildingRef(
-        buildingRef: string,
-        callback: (response: MapResponse) => void
-      ) {
+      animateCameraToBuildingRef(buildingRef, callback) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.animateCameraToBuildingRef(
             findNodeHandle(smartMapRef.current),
@@ -118,12 +96,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           ]);
         }
       },
-      animateCameraToObject(
-        localRef: string,
-        buildingRef: string,
-        zoomLevel: number,
-        callback: (response: MapResponse) => void
-      ) {
+      animateCameraToObject(localRef, buildingRef, zoomLevel, callback) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.animateCameraToObject(
             findNodeHandle(smartMapRef.current),
@@ -142,9 +115,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
       cancelCurrentUserTask() {
         runCommand(smartMapRef.current, "cancelCurrentUserTask", []);
       },
-      getCurrentUserTask(
-        callback: (userTaskResponse: SmartMapUserTaskResponse) => void
-      ) {
+      getCurrentUserTask(callback) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.getCurrentUserTask(
             findNodeHandle(smartMapRef.current),
@@ -154,15 +125,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           runCommand(smartMapRef.current, "getCurrentUserTask", [callback]);
         }
       },
-      getMapObject(
-        localRef: string,
-        buildingRef: string,
-        source: string,
-        callback: (
-          mapObject: SmartMapObject | null,
-          response: MapResponse
-        ) => void
-      ) {
+      getMapObject(localRef, buildingRef, source, callback) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.getMapObject(
             findNodeHandle(smartMapRef.current),
@@ -178,13 +141,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           ]);
         }
       },
-      getMapObjectByProperties(
-        properties: Record<string, unknown>,
-        callback: (
-          mapObject: SmartMapObject | null,
-          response: MapResponse
-        ) => void
-      ) {
+      getMapObjectByProperties(properties, callback) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.getMapObjectByProperties(
             findNodeHandle(smartMapRef.current),
@@ -201,13 +158,13 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
       removeAllMarkers() {
         runCommand(smartMapRef.current, "removeAllMarkers", []);
       },
-      removeMarker(smartMapObj: SmartMapObject) {
+      removeMarker(smartMapObj) {
         runCommand(smartMapRef.current, "removeMarker", [smartMapObj]);
       },
       removeMarkers(mapObjectsArray) {
         runCommand(smartMapRef.current, "removeMarkers", [mapObjectsArray]);
       },
-      selectMapObject(smartMapObj: SmartMapObject) {
+      selectMapObject(smartMapObj) {
         runCommand(smartMapRef.current, "selectMapObject", [smartMapObj]);
       },
       setCamera({
@@ -218,14 +175,6 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         pitch,
         floorIndex,
         buildingRef,
-      }: {
-        latitude: number;
-        longitude: number;
-        zoomLevel: number;
-        bearing?: number;
-        pitch?: number;
-        floorIndex?: number;
-        buildingRef: string;
       }) {
         runCommand(smartMapRef.current, "setCamera", [
           latitude,
@@ -237,10 +186,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           buildingRef,
         ]);
       },
-      setCameraToBuildingRef(
-        buildingRef: string,
-        callback: (response: MapResponse) => void
-      ) {
+      setCameraToBuildingRef(buildingRef, callback) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.setCameraToBuildingRef(
             findNodeHandle(smartMapRef.current),
@@ -254,12 +200,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           ]);
         }
       },
-      setCameraToObject(
-        localRef: string,
-        buildingRef: string,
-        zoomLevel: number,
-        callback: (response: MapResponse) => void
-      ) {
+      setCameraToObject(localRef, buildingRef, zoomLevel, callback) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.setCameraToObject(
             findNodeHandle(smartMapRef.current),
@@ -275,7 +216,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           ]);
         }
       },
-      startUserTask(userTask: SmartMapUserTask) {
+      startUserTask(userTask) {
         runCommand(smartMapRef.current, "startUserTask", [userTask]);
       },
       start() {
@@ -288,7 +229,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           runCommand(smartMapRef.current, "stop", []);
         }
       },
-      onBackPressed(callback: () => boolean) {
+      onBackPressed(callback) {
         if (Platform.OS === "android") {
           NativeModules.RNSmartMapModule.onBackPressed(
             findNodeHandle(smartMapRef.current),

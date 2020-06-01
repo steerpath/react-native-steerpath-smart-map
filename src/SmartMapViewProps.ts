@@ -33,7 +33,9 @@ export interface SmartMapViewMethods {
   setMapMode(mapMode: SmartMapModes): void;
   startUserTask(userTask: SmartMapUserTask): void;
   // TODO: Improve this method
-  getCurrentUserTask(): void;
+  getCurrentUserTask(
+    callback: (userTaskResponse: SmartMapUserTaskResponse) => void
+  ): void;
   cancelCurrentUserTask(): void;
   selectMapObject(mapObj: SmartMapObject): void;
   getMapObject(
@@ -42,8 +44,10 @@ export interface SmartMapViewMethods {
     source: string,
     callback: (mapObject: SmartMapObject | null) => void
   ): void;
-  getMapObjectByProperties(properties: Record<string, unknown>,
-    callback: (mapObject: SmartMapObject | null) => void): void
+  getMapObjectByProperties(
+    properties: Record<string, unknown>,
+    callback: (mapObject: SmartMapObject | null) => void
+  ): void;
   animateCameraToObject(
     localRef: string,
     buildingRef: string,
@@ -77,6 +81,7 @@ export interface SmartMapViewMethods {
   removeMarker(smartMapObj: SmartMapObject): void;
   removeMarkers(smartMaps: SmartMapObject[]): void;
   removeAllMarkers(): void;
+  onBackPressed(callback: () => boolean): void;
 }
 
 export enum SmartMapModes {
