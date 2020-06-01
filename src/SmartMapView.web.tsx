@@ -10,6 +10,7 @@ import {
   SmartMapObject,
   Layout,
   MapResponse,
+  SmartMapViewMethods,
 } from "./SmartMapViewProps";
 import { steerpath } from "steerpath-smart-sdk";
 
@@ -50,94 +51,80 @@ function convertToWebUserTaskObj(userTask: any) {
   );
 }
 
-export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
-  const smartMapRef = useRef(null);
+export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
+  (props, ref) => {
+    const smartMapRef = useRef<{ removeMap: Function }>(null);
 
-  useEffect(() => {
-    for (const apiKey in steerpath.sdk) {
-      if (steerpath.sdk.apiKey) {
-        const smartSDK = steerpath.sdk[apiKey];
-        smartMapRef.current = new steerpath.SmartMapView(
-          COMPONENT_ID_PREFIX,
-          smartSDK
-        );
-        break;
+    useEffect(() => {
+      for (const apiKey in steerpath.sdk) {
+        if (steerpath.sdk.apiKey) {
+          const smartSDK = steerpath.sdk[apiKey];
+          // Allow setting the ref
+          // @ts-ignore
+          smartMapRef.current = new steerpath.SmartMapView(
+            COMPONENT_ID_PREFIX,
+            smartSDK
+          );
+          break;
+        }
       }
-    }
 
-    const events = [
-      {
-        sdk: "onMapClick",
-        binding: "onMapClicked",
-      },
-      {
-        sdk: "onSearchResultSelected",
-        binding: "onSearchResultSelected",
-      },
-      {
-        sdk: "steerpathLayerIndexChanged",
-        binding: "onVisibleFloorChanged",
-      },
-      {
-        sdk: "steerpathMapLoaded",
-        binding: "onMapLoaded",
-      },
-    ];
-    //add map event listeners ("on")
-    events.forEach((event) => {
-      if (props[event.binding]) {
-        steerpath.MapEventListener.on(event.sdk, props[event.binding]);
-      }
-    });
-
-    //also add user task listener
-    steerpath.UserTaskListener.on(
-      "onUserTaskResponse",
-      props.onUserTaskResponse
-    );
-
-    return () => {
-      //remove map event listeners ("off")
+      const events = [
+        {
+          sdk: "onMapClick",
+          binding: "onMapClicked",
+        },
+        {
+          sdk: "onSearchResultSelected",
+          binding: "onSearchResultSelected",
+        },
+        {
+          sdk: "steerpathLayerIndexChanged",
+          binding: "onVisibleFloorChanged",
+        },
+        {
+          sdk: "steerpathMapLoaded",
+          binding: "onMapLoaded",
+        },
+      ];
+      //add map event listeners ("on")
       events.forEach((event) => {
         if (props[event.binding]) {
-          steerpath.MapEventListener.off(event.sdk, props[event.binding]);
+          steerpath.MapEventListener.on(event.sdk, props[event.binding]);
         }
       });
 
-      //also remove user task listener
-      steerpath.UserTaskListener.off(
+      //also add user task listener
+      steerpath.UserTaskListener.on(
         "onUserTaskResponse",
         props.onUserTaskResponse
       );
 
-      //When screen size changes and this component unmounted
-      //remove the old instance of smartMapRef.current
-      if (smartMapRef.current) {
-        smartMapRef.current.removeMap();
-      }
-    };
-  }, [props.apiKey]);
+      return () => {
+        //remove map event listeners ("off")
+        events.forEach((event) => {
+          if (props[event.binding]) {
+            steerpath.MapEventListener.off(event.sdk, props[event.binding]);
+          }
+        });
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  useImperativeHandle(ref, () => ({
-    setCamera({
-      latitude,
-      longitude,
-      zoomLevel,
-      bearing,
-      pitch,
-      floorIndex,
-      buildingRef,
-    }: {
-      latitude: number;
-      longitude: number;
-      zoomLevel: number;
-      bearing?: number;
-      pitch?: number;
-      floorIndex?: number;
-      buildingRef?: string;
-    }) {
-      runCommand(smartMapRef.current, "setCamera", [
+        //also remove user task listener
+        steerpath.UserTaskListener.off(
+          "onUserTaskResponse",
+          props.onUserTaskResponse
+        );
+
+        //When screen size changes and this component unmounted
+        //remove the old instance of smartMapRef.current
+        if (smartMapRef.current) {
+          smartMapRef.current?.removeMap();
+        }
+      };
+    }, [props.apiKey]);
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    useImperativeHandle(ref, () => ({
+      setCamera({
         latitude,
         longitude,
         zoomLevel,
@@ -145,97 +132,75 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         pitch,
         floorIndex,
         buildingRef,
-      ]);
-    },
-    setCameraToBuildingRef(
-      buildingRef: string,
-      callback: (response: MapResponse) => void
-    ) {
-      runCommand(smartMapRef.current, "setCameraToBuilding", [
-        buildingRef,
-        18,
-        callback,
-      ]);
-    },
-    setCameraToObject(
-      localRef: string,
-      buildingRef: string,
-      zoomLevel: number,
-      callback: (response: MapResponse) => void
-    ) {
-      runCommand(smartMapRef.current, "setCameraToObject", [
-        localRef,
-        buildingRef,
-        zoomLevel,
-        callback,
-      ]);
-    },
+      }) {
+        runCommand(smartMapRef.current, "setCamera", [
+          latitude,
+          longitude,
+          zoomLevel,
+          bearing,
+          pitch,
+          floorIndex,
+          buildingRef,
+        ]);
+      },
+      setCameraToBuildingRef(buildingRef, callback) {
+        runCommand(smartMapRef.current, "setCameraToBuilding", [
+          buildingRef,
+          18,
+          callback,
+        ]);
+      },
+      setCameraToObject(localRef, buildingRef, zoomLevel, callback) {
+        runCommand(smartMapRef.current, "setCameraToObject", [
+          localRef,
+          buildingRef,
+          zoomLevel,
+          callback,
+        ]);
+      },
 
-    addMarker(
-      smartMapObj: SmartMapObject,
-      layout: Layout | null,
-      iconName: string | null,
-      textColor: string | null,
-      textHaloColor: string | null
-    ) {
-      runCommand(smartMapRef.current, "addMarker", [
-        convertToWebSDKSmartMapObj(smartMapObj),
-        layout,
-        iconName,
-        textColor,
-        textHaloColor,
-      ]);
-    },
-    addMarkers(
-      mapObjectsArray,
-      layout: Layout | null,
-      iconName: string | null,
-      textColor: string | null,
-      textHaloColor: string | null
-    ) {
-      mapObjectsArray = mapObjectsArray.map((smartMapObject) => {
-        return convertToWebSDKSmartMapObj(smartMapObject);
-      });
-      runCommand(smartMapRef.current, "addMarkers", [
-        mapObjectsArray,
-        layout,
-        iconName,
-        textColor,
-        textHaloColor,
-      ]);
-    },
-    removeMarker(smartMapObj: SmartMapObject) {
-      runCommand(smartMapRef.current, "removeMarker", [
-        convertToWebSDKSmartMapObj(smartMapObj),
-      ]);
-    },
-    removeMarkers(mapObjectsArray) {
-      mapObjectsArray = mapObjectsArray.map((smartMapObject) => {
-        return convertToWebSDKSmartMapObj(smartMapObject);
-      });
-      runCommand(smartMapRef.current, "removeMarkers", [mapObjectsArray]);
-    },
-    removeAllMarkers() {
-      runCommand(smartMapRef.current, "removeAllMarkers", []);
-    },
-    animateCamera({
-      latitude,
-      longitude,
-      zoomLevel,
-      bearing,
-      pitch,
-      floorIndex,
-      buildingRef,
-    }: {
-      latitude: number;
-      longitude: number;
-      zoomLevel: number;
-      bearing?: number;
-      pitch?: number;
-      floorIndex?: number;
-      buildingRef?: string;
-    }) {
-      runCommand(smartMapRef.current, "animateCamera", [
+      addMarker(
+        smartMapObj: SmartMapObject,
+        layout: Layout | null,
+        iconName: string | null,
+        textColor: string | null,
+        textHaloColor: string | null
+      ) {
+        runCommand(smartMapRef.current, "addMarker", [
+          convertToWebSDKSmartMapObj(smartMapObj),
+          layout,
+          iconName,
+          textColor,
+          textHaloColor,
+        ]);
+      },
+      addMarkers(mapObjectsArray, layout, iconName, textColor, textHaloColor) {
+        mapObjectsArray = mapObjectsArray.map((smartMapObject) => {
+          return convertToWebSDKSmartMapObj(smartMapObject);
+        });
+        runCommand(smartMapRef.current, "addMarkers", [
+          mapObjectsArray,
+          layout,
+          iconName,
+          textColor,
+          textHaloColor,
+        ]);
+      },
+      removeMarker(smartMapObj) {
+        runCommand(smartMapRef.current, "removeMarker", [
+          convertToWebSDKSmartMapObj(smartMapObj),
+        ]);
+      },
+      removeMarkers(mapObjectsArray) {
+        mapObjectsArray = mapObjectsArray.map((smartMapObject) => {
+          return convertToWebSDKSmartMapObj(smartMapObject);
+        });
+        runCommand(smartMapRef.current, "removeMarkers", [mapObjectsArray]);
+      },
+      removeAllMarkers() {
+        runCommand(smartMapRef.current, "removeAllMarkers", []);
+      },
+      animateCamera({
         latitude,
         longitude,
         zoomLevel,
@@ -243,78 +208,72 @@ export const SmartMapView = forwardRef((props: SmartMapViewProps, ref: any) => {
         pitch,
         floorIndex,
         buildingRef,
-      ]);
-    },
-    animateCameraToBuildingRef(
-      buildingRef: string,
-      callback: (response: MapResponse) => void
-    ) {
-      runCommand(smartMapRef.current, "animateCameraToBuilding", [
-        buildingRef,
-        18,
-        callback,
-      ]);
-    },
-    animateCameraToObject(
-      localRef: string,
-      buildingRef: string,
-      zoomLevel: number | null,
-      callback: (response: MapResponse) => void
-    ) {
-      runCommand(smartMapRef.current, "animateCameraToObject", [
-        localRef,
-        buildingRef,
-        zoomLevel,
-        callback,
-      ]);
-    },
-    setMapMode(mapMode: string) {
-      runCommand(smartMapRef.current, "setMapMode", [mapMode]);
-    },
-    startUserTask(userTask: any) {
-      // TODO: roope fixes
-      runCommand(smartMapRef.current, "startUserTask", [
-        convertToWebUserTaskObj(userTask),
-      ]);
-    },
-    getCurrentUserTask() {
-      //TODO: does not return current task
-      return runCommand(smartMapRef.current, "getCurrentUserTask", []);
-    },
-    cancelCurrentUserTask() {
-      runCommand(smartMapRef.current, "cancelCurrentUserTask", []);
-    },
-    selectMapObject(smartMapObj: SmartMapObject) {
-      const localRef = smartMapObj.localRef;
-      const buildingRef = smartMapObj.buildingRef;
-      runCommand(smartMapRef.current, "selectMapObject", [
-        localRef,
-        buildingRef,
-      ]);
-    },
-    getMapObject(
-      localRef: string,
-      buildingRef: string,
-      source: string,
-      callback: (mapObject: SmartMapObject | null) => void
-    ) {
-      runCommand(smartMapRef.current, "getMapObject", [
-        localRef,
-        buildingRef,
-        source,
-        callback,
-      ]);
-    },
-    getMapObjectByProperties(
-      properties: Record<string, unknown>,
-      callback: (mapObject: SmartMapObject | null) => void
-    ) {
-      runCommand(smartMapRef.current, "getMapObjectByProperties", [
-        properties,
-        callback,
-      ]);
-    },
-  }));
+      }) {
+        runCommand(smartMapRef.current, "animateCamera", [
+          latitude,
+          longitude,
+          zoomLevel,
+          bearing,
+          pitch,
+          floorIndex,
+          buildingRef,
+        ]);
+      },
+      animateCameraToBuildingRef(buildingRef, callback) {
+        runCommand(smartMapRef.current, "animateCameraToBuilding", [
+          buildingRef,
+          18,
+          callback,
+        ]);
+      },
+      animateCameraToObject(localRef, buildingRef, zoomLevel, callback) {
+        runCommand(smartMapRef.current, "animateCameraToObject", [
+          localRef,
+          buildingRef,
+          zoomLevel,
+          callback,
+        ]);
+      },
+      setMapMode(mapMode) {
+        runCommand(smartMapRef.current, "setMapMode", [mapMode]);
+      },
+      startUserTask(userTask) {
+        // TODO: roope fixes
+        runCommand(smartMapRef.current, "startUserTask", [
+          convertToWebUserTaskObj(userTask),
+        ]);
+      },
+      getCurrentUserTask() {
+        //TODO: does not return current task
+        return runCommand(smartMapRef.current, "getCurrentUserTask", []);
+      },
+      cancelCurrentUserTask() {
+        runCommand(smartMapRef.current, "cancelCurrentUserTask", []);
+      },
+      selectMapObject(smartMapObj: SmartMapObject) {
+        const localRef = smartMapObj.localRef;
+        const buildingRef = smartMapObj.buildingRef;
+        runCommand(smartMapRef.current, "selectMapObject", [
+          localRef,
+          buildingRef,
+        ]);
+      },
+      getMapObject(localRef, buildingRef, source, callback) {
+        runCommand(smartMapRef.current, "getMapObject", [
+          localRef,
+          buildingRef,
+          source,
+          callback,
+        ]);
+      },
+      getMapObjectByProperties(properties, callback) {
+        runCommand(smartMapRef.current, "getMapObjectByProperties", [
+          properties,
+          callback,
+        ]);
+      },
+    }));
 
-  return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1 }} />;
-});
+    return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1 }} />;
+  }
+);
