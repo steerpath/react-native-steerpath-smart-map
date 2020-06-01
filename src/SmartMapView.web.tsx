@@ -173,11 +173,11 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
       },
 
       addMarker(
-        smartMapObj: SmartMapObject,
-        layout: Layout | null,
-        iconName: string | null,
-        textColor: string | null,
-        textHaloColor: string | null
+        smartMapObj,
+        layout,
+        iconName,
+        textColor,
+        textHaloColor
       ) {
         runCommand(smartMapRef.current, "addMarker", [
           convertToWebSDKSmartMapObj(smartMapObj),
