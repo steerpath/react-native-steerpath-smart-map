@@ -7,5 +7,5 @@ export const SmartGeofenceManager = {
   addBeaconfence() {},
   removeBeaconfence() {},
   addListener() {},
-  removeListener() {}
+  removeListener() {},
 };

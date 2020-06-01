@@ -3,7 +3,7 @@ import {
   SmartMapManager,
   SmartMapView,
 } from "react-native-steerpath-smart-map";
-import RNFS from "react-native-fs";
+import RNFS, { setReadable } from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { View, Platform } from "react-native";
 import { CONFIG_STRING, LIVE_CONFIG } from "./config.js";
@@ -23,7 +23,13 @@ export default function App() {
   const [sdkReady, setSDKReady] = useState(false);
 
   useEffect(() => {
-    RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
+    console.log("configString", CONFIG_STRING);
+    SmartMapManager.startWithConfig({
+      apiKey: API_KEY,
+      configString: JSON.stringify(CONFIG_STRING),
+    });
+    setSDKReady(true);
+    /* RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
       .then((success) => {
         SmartMapManager.startWithConfig({
           apiKey: API_KEY,
@@ -35,7 +41,7 @@ export default function App() {
       })
       .catch((err) => {
         console.log(err.message);
-      });
+      }); */
   }, []);
 
   // navigate to selected smart map object

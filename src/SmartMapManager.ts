@@ -17,7 +17,8 @@ export const SmartMapManager = {
     if (Platform.OS === "web") {
       throw new Error("Not implemented");
     }
-    let { configFilePath, configString } = config;
+    let { configFilePath } = config;
+    const { configString } = config;
 
     if (configFilePath && configFilePath.startsWith("file://")) {
       // iOS only accept the path like this: /var/something/file.json
@@ -30,7 +31,7 @@ export const SmartMapManager = {
       configString,
     });
   },
-  setLiveConfig(config: Record<string, any> | null): void {
+  setLiveConfig(config: Record<string, unknown> | null): void {
     RNSmartMapManager.setLiveConfig(config);
   },
 };

@@ -5,7 +5,7 @@ import {
   requireNativeComponent,
   NativeModules,
   findNodeHandle,
-  Platform
+  Platform,
 } from "react-native";
 import {
   SmartMapViewProps,
@@ -14,12 +14,13 @@ import {
   MapResponse,
   SmartMapUserTask,
   SmartMapUserTaskResponse,
-  SmartMapModes
+  SmartMapModes,
 } from "./SmartMapViewProps";
 
 const NATIVE_VIEW_NAME = "RNSmartMapView";
 
 function runCommand(handler: any, name: string, args: any[]) {
+  // TODO: handler and args type
   if (Platform.OS === "ios") {
     return NativeModules[NATIVE_VIEW_NAME][name](
       findNodeHandle(handler),
@@ -36,6 +37,7 @@ function runCommand(handler: any, name: string, args: any[]) {
 }
 export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
   function _SmartMapViewFC(props: SmartMapViewProps, ref: any) {
+    // TODO: ref types
     const smartMapRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
@@ -54,7 +56,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           layout,
           iconName,
           textColor,
-          textHaloColor
+          textHaloColor,
         ]);
       },
       addMarkers(
@@ -69,7 +71,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           layout,
           iconName,
           textColor,
-          textHaloColor
+          textHaloColor,
         ]);
       },
       animateCamera({
@@ -79,7 +81,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         bearing,
         pitch,
         floorIndex,
-        buildingRef
+        buildingRef,
       }: {
         latitude: number;
         longitude: number;
@@ -96,7 +98,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           bearing || 90,
           pitch || 0,
           floorIndex || 2,
-          buildingRef
+          buildingRef,
         ]);
       },
       animateCameraToBuildingRef(
@@ -112,7 +114,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         } else {
           runCommand(smartMapRef.current, "animateCameraToBuildingRef", [
             buildingRef,
-            callback
+            callback,
           ]);
         }
       },
@@ -133,7 +135,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
             localRef,
             buildingRef,
             zoomLevel,
-            callback
+            callback,
           ]);
         }
       },
@@ -141,7 +143,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         runCommand(smartMapRef.current, "cancelCurrentUserTask", []);
       },
       getCurrentUserTask(
-        callback: (userTaskResponse: SmartMapUserTaskResponse) => any
+        callback: (userTaskResponse: SmartMapUserTaskResponse) => void
       ) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.getCurrentUserTask(
@@ -156,7 +158,10 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         localRef: string,
         buildingRef: string,
         source: string,
-        callback: (mapObject: SmartMapObject | null,response: MapResponse) => void
+        callback: (
+          mapObject: SmartMapObject | null,
+          response: MapResponse
+        ) => void
       ) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.getMapObject(
@@ -169,13 +174,16 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
             localRef,
             buildingRef,
             source,
-            callback
+            callback,
           ]);
         }
       },
       getMapObjectByProperties(
-        properties: object,
-        callback: (mapObject: SmartMapObject | null, response: MapResponse) => void
+        properties: Record<string, unknown>,
+        callback: (
+          mapObject: SmartMapObject | null,
+          response: MapResponse
+        ) => void
       ) {
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.getMapObjectByProperties(
@@ -186,7 +194,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         } else {
           runCommand(smartMapRef.current, "getMapObjectByProperties", [
             properties,
-            callback
+            callback,
           ]);
         }
       },
@@ -209,7 +217,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         bearing,
         pitch,
         floorIndex,
-        buildingRef
+        buildingRef,
       }: {
         latitude: number;
         longitude: number;
@@ -226,7 +234,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           bearing || 90,
           pitch || 0,
           floorIndex || 2,
-          buildingRef
+          buildingRef,
         ]);
       },
       setCameraToBuildingRef(
@@ -242,7 +250,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
         } else {
           runCommand(smartMapRef.current, "setCameraToBuildingRef", [
             buildingRef,
-            callback
+            callback,
           ]);
         }
       },
@@ -263,7 +271,7 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
             localRef,
             buildingRef,
             zoomLevel,
-            callback
+            callback,
           ]);
         }
       },
@@ -280,53 +288,53 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
           runCommand(smartMapRef.current, "stop", []);
         }
       },
-      onBackPressed(callback: () => Boolean) {
+      onBackPressed(callback: () => boolean) {
         if (Platform.OS === "android") {
           NativeModules.RNSmartMapModule.onBackPressed(
             findNodeHandle(smartMapRef.current),
             callback
           );
         }
-      }
+      },
     }));
 
     return (
       <RNSmartMapView
         ref={smartMapRef}
         {...props}
-        onUserFloorChanged={event => {
+        onUserFloorChanged={(event) => {
           props.onUserFloorChanged &&
             props.onUserFloorChanged(event.nativeEvent);
         }}
-        onViewStatusChanged={event => {
+        onViewStatusChanged={(event) => {
           props.onViewStatusChanged &&
             props.onViewStatusChanged(event.nativeEvent);
         }}
-        onNavigationFailed={event => {
+        onNavigationFailed={(event) => {
           props.onNavigationFailed &&
             props.onNavigationFailed(event.nativeEvent);
         }}
-        onVisibleFloorChanged={event => {
+        onVisibleFloorChanged={(event) => {
           props.onVisibleFloorChanged &&
             props.onVisibleFloorChanged(event.nativeEvent);
         }}
-        onMapClicked={event => {
+        onMapClicked={(event) => {
           if (Platform.OS === "ios") {
             // iOS Mapbox SDK return a reversed order of map object compared to web and android sdk, so we reverse to match the behavior
 
             props.onMapClicked &&
               props.onMapClicked({
-                mapObjects: [...event.nativeEvent.mapObjects].reverse()
+                mapObjects: [...event.nativeEvent.mapObjects].reverse(),
               });
           } else {
             props.onMapClicked && props.onMapClicked(event.nativeEvent);
           }
         }}
-        onUserTaskResponse={event => {
+        onUserTaskResponse={(event) => {
           props.onUserTaskResponse &&
             props.onUserTaskResponse(event.nativeEvent);
         }}
-        onSearchResultSelected={event => {
+        onSearchResultSelected={(event) => {
           props.onSearchResultSelected &&
             props.onSearchResultSelected(event.nativeEvent);
         }}
@@ -337,5 +345,5 @@ export const SmartMapView: React.ComponentType<SmartMapViewProps> = forwardRef(
 
 const RNSmartMapView = (requireNativeComponent as (
   name: string,
-  componentClass: any
-) => any)(NATIVE_VIEW_NAME, SmartMapView);
+  componentClass: any // TODO: component class type
+) => any)(NATIVE_VIEW_NAME, SmartMapView); // TODO:

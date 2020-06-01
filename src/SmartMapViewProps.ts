@@ -10,38 +10,38 @@ export interface ConfigSDK {
 export enum SmartMapModes {
   MAP_ONLY = "mapOnly",
   STATIC = "static",
-  SEARCH = "search"
+  SEARCH = "search",
 }
 
 export enum SmartObjectSource {
   STATIC = "STATIC",
   MARKER = "MARKER",
-  LIVE = "LIVE"
+  LIVE = "LIVE",
 }
 
 export enum Layout {
   TOP = "top",
   BOTTOM = "bottom",
   LEFT = "left",
-  RIGHT = "right"
+  RIGHT = "right",
 }
 
 export enum MapResponse {
   SUCCESS = "success",
   OBJECT_NOT_FOUND = "objectNotFound",
-  NETWORK_ERROR = "networkError"
+  NETWORK_ERROR = "networkError",
 }
 
 export enum SmartGeofenceResponse {
   SUCCESS = "success",
   MALFORMED_DATA = "malformedData",
-  NOT_FOUND = "notFound"
+  NOT_FOUND = "notFound",
 }
 
 export enum SmartMapEvent {
   MAP_LOADED = "SPSmartMapLoaded",
   MAP_CLICKED = "SPSmartMapClicked",
-  SEARCH_RESULT_SELECTED = "SPSearchResultSelected"
+  SEARCH_RESULT_SELECTED = "SPSearchResultSelected",
 }
 
 export enum SmartMapViewStatus {
@@ -52,13 +52,13 @@ export enum SmartMapViewStatus {
   SETTING_VIEW = "settingView",
   NAVIGATING_VIEW = "navigatingView",
   SEARCH_IN_EXPANDED_MODE = "searchInExpandedMode",
-  SEARCH_IN_PREFERRED_HEIGHT = "searchInPreferredHeight"
+  SEARCH_IN_PREFERRED_HEIGHT = "searchInPreferredHeight",
 }
 
 export enum NavigationError {
   OBJECT_NOT_FOUND = "objectNotFound",
   ROUTE_NOT_FOUND = "routeNotFound",
-  USER_LOCATION_NOT_FOUND = "userLocationNotFound"
+  USER_LOCATION_NOT_FOUND = "userLocationNotFound",
 }
 
 export enum SmartMapUserTaskResponse {
@@ -67,7 +67,7 @@ export enum SmartMapUserTaskResponse {
   ERROR = "error",
   BUSY = "busy",
   UNSUPPORTED = "unsupported",
-  COMPLETED = "completed"
+  COMPLETED = "completed",
 }
 
 export interface SmartMapObject {
@@ -77,7 +77,7 @@ export interface SmartMapObject {
   localRef: string;
   buildingRef: string;
   title: string;
-  properties: object,
+  properties: Record<string, unknown>;
   source: SmartObjectSource;
 }
 
@@ -132,7 +132,7 @@ export interface SmartMapPOISelectionUserTask extends SmartMapObject {
 
 export enum SmartMapUserTaskType {
   NAVIGATION = "navigation",
-  POI_SELECTION = "poiSelection"
+  POI_SELECTION = "poiSelection",
 }
 
 export interface SmartMapUserTask {
