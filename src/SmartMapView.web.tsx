@@ -8,7 +8,6 @@ import React, {
 import {
   SmartMapViewProps,
   SmartMapObject,
-  Layout,
   SmartMapViewMethods,
   SmartMapUserTask,
   SmartMapPOISelectionUserTask,
@@ -171,13 +170,7 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
         ]);
       },
 
-      addMarker(
-        smartMapObj,
-        layout,
-        iconName,
-        textColor,
-        textHaloColor
-      ) {
+      addMarker(smartMapObj, layout, iconName, textColor, textHaloColor) {
         runCommand(smartMapRef.current, "addMarker", [
           convertToWebSDKSmartMapObj(smartMapObj),
           layout,

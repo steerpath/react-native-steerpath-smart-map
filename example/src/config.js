@@ -9,7 +9,11 @@ export const CONFIG_STRING = {
             link: "support@steerpath.com",
             type: "email",
           },
-          { title: "Website", link: "https://steerpath.com", type: "web" },
+          {
+            title: "Website",
+            link: "https://steerpath.com",
+            type: "web",
+          },
         ],
       },
       web: {
@@ -42,7 +46,10 @@ export const CONFIG_STRING = {
           "infrastructure_wing",
         ],
         mapDataURL: "https://mapdata.eu.steerpath.com/",
-        bluedot: { indoor: true, outdoor: false },
+        bluedot: {
+          indoor: true,
+          outdoor: false,
+        },
         routeDataURL: "https://routes.eu.steerpath.com/",
         navigationDestinationThresholdM: 5,
         navigationRerouteThresholdM: 5,
@@ -54,8 +61,14 @@ export const CONFIG_STRING = {
           layerIndex: 2,
           buildingRef: "431",
           bounds: {
-            sw: { lng: 24.812049873812953, lat: 60.22079674581377 },
-            ne: { lng: 24.812706546050777, lat: 60.221077322610995 },
+            sw: {
+              lng: 24.812049873812953,
+              lat: 60.22079674581377,
+            },
+            ne: {
+              lng: 24.812706546050777,
+              lat: 60.221077322610995,
+            },
           },
         },
       },
@@ -129,7 +142,9 @@ export const CONFIG_STRING = {
           shortTitle: "sp_more_suggestions_title_short",
           description: "sp_more_suggestions_description",
           iconName: "category_more",
-          action: { type: "show_more_categories" },
+          action: {
+            type: "show_more_categories",
+          },
         },
       },
     },
@@ -138,10 +153,16 @@ export const CONFIG_STRING = {
         bearing: -2.4,
         pitch: 0,
         layerIndex: 2,
-        buildingRef: "building_1_31552752-7d5a-44c6-8206-cd86bd91f7c4",
+        buildingRef: "431",
         bounds: {
-          sw: { lng: 24.812092498784267, lat: 60.220765809605325 },
-          ne: { lng: 24.812663064333123, lat: 60.22107929468535 },
+          sw: {
+            lng: 24.812092498784267,
+            lat: 60.220765809605325,
+          },
+          ne: {
+            lng: 24.812663064333123,
+            lat: 60.22107929468535,
+          },
         },
       },
       share: {
@@ -169,22 +190,26 @@ export const CONFIG_STRING = {
       },
     },
     metadata: {
-      default: { metadataURL: "https://meta2.eu.steerpath.com/meta/v2/" },
+      default: {
+        metadataURL: "https://meta2.eu.steerpath.com/meta/v2/",
+      },
     },
     offline: {
-      default: { offlineDataURL: "https://offline.eu.steerpath.com/" },
+      default: {
+        offlineDataURL: "https://offline.eu.steerpath.com/",
+      },
     },
     live: {
       default: {
         liveURL: "https://live-eu3.steerpath.com/",
         liveApiKey:
-          "eyJhbGciOiJSUzI1NiJ9.eyJpYXQ6IjoxNTY4MDI5MTc0LCJqdGkiOiJlNzY5N2NiMS0wYmE4LTRhNTUtOWY5Zi01OGM5NjNmMDFlZDMiLCJzY29wZXMiOiJ2Mi0zYWU0MTdiYS0wMzg3LTRlNzktYTUxOS03ZWU5MjE3NmRjNjgtbGl2ZTpyLHciLCJzdWIiOiJ2Mi0zYWU0MTdiYS0wMzg3LTRlNzktYTUxOS03ZWU5MjE3NmRjNjgifQ.DV2Vnt5AJfuPv1K8X3Rw0u1SOFROyrr1KHLc6T7cd9R4BwTSgxt69IMYcc4ROTgqP254F3XUh_d92ku0W86pDlJslAoLcqA1T4MMkSgEMFvTl0V3ykAcNQDDs2opmudr4acIbbCJbtYe7_CG4GKV7WAnVocjbXqexpmrbTUol8xWhtuV2uB1ZODGCNLd2morhJYmMJtzp1jugtyvYO8-JKO4clKd5GfeWZ9YL9OywsGxanU5HKdpYivmWsLxCUGw8RajoM9hu9_APHNyw8jj8WDGUwZNqGfvTNHK17jAuZhJS5BaaelJoZCURyn7QqJVPp6QW3y6QW44IE7_H8ol-g",
+          "eyJhbGciOiJSUzI1NiJ9.eyJpYXQ6IjoxNTY4MDI5MTc0LCJqdGkiOiJmOWYxMzlkMS03OWRhLTRiMWEtYjZkNS1iM2Y1MTUwMWRiMzMiLCJzY29wZXMiOiJ2Mi0zYWU0MTdiYS0wMzg3LTRlNzktYTUxOS03ZWU5MjE3NmRjNjgtbGl2ZTpyIiwic3ViIjoidjItM2FlNDE3YmEtMDM4Ny00ZTc5LWE1MTktN2VlOTIxNzZkYzY4In0.WzW22UAZkDMQnD8XDTVewnghareFvHnkZqf9oh4UPm1ZPPIYHbgZ73MQ5M2vRRXsLr5_rsduSt1D620Mwmy0fN6O92Ra_kMEX5NVJR1vZC2S8sUP8ech_bNOF7HEBmVNGyBhT_h3_kZpAAIfMirBimS3UStIutpY_kBbHye6g8_HH2lHbWnh2ZDN76lSu2pmGNMpxIo_TdP_gKfnillbKlo3HyC2ztttMuCnLqmMLcatfX2pGXhzN94yuPIfvKQJ8mtOR_HxkgggzUOlkzZ_lsQHDQsob_ynn44LypbKWn7hDaVRqYY1r95EJHpL1nBT0WD3qFGlA6-VksLWrKaY6Q",
         enabled: true,
       },
       web: {
         enabled: true,
         liveApiKey:
-          "eyJhbGciOiJSUzI1NiJ9.eyJpYXQ6IjoxNTY0NDEwMjIxLCJqdGkiOiJlZWJkMDZmOS1hNzE2LTQ1YmYtOWE1MC1lYWZkNDE0YmY1Y2UiLCJzY29wZXMiOiJ2Mi1kNGQzNmI5Zi1lOGZiLTQ4MDctYTBjNS1lZDk3MzM0NGI2MDktbGl2ZTpyIiwic3ViIjoidjItZDRkMzZiOWYtZThmYi00ODA3LWEwYzUtZWQ5NzMzNDRiNjA5In0.mLdk_iS5hk_QYDjKDLfMfQKLVeJx9iJHPEoxEGNsO8fNJJJbuyNntV6p2blIU48nL1ZWuVLEsdLXVLN79x6rRI700RF71tj2QeLpVfDfKe18bfQO3HO95jtpyspw4wQEVFkoWv8WYEP7b8TExn8XeaHYYCdMCE-RnvWLfyxKrDKxgNhz2D8yLM2G9WqPJNsLSqSGU8kqSHbrrSHL_ro5aQzumFsfXOkty1MiQx9GukO0RiOvOd5C_46LJOetpERWXMP16z1wquqVGY9mqEWkQm-aTDAUjW4pGRqdK0gObrN0C5qmyDqoJjAJXKM-FxcGO1Truy13o5fSB4nfVauS0w",
+          "eyJhbGciOiJSUzI1NiJ9.eyJpYXQ6IjoxNTY4MDI5MTc0LCJqdGkiOiJlNzY5N2NiMS0wYmE4LTRhNTUtOWY5Zi01OGM5NjNmMDFlZDMiLCJzY29wZXMiOiJ2Mi0zYWU0MTdiYS0wMzg3LTRlNzktYTUxOS03ZWU5MjE3NmRjNjgtbGl2ZTpyLHciLCJzdWIiOiJ2Mi0zYWU0MTdiYS0wMzg3LTRlNzktYTUxOS03ZWU5MjE3NmRjNjgifQ.DV2Vnt5AJfuPv1K8X3Rw0u1SOFROyrr1KHLc6T7cd9R4BwTSgxt69IMYcc4ROTgqP254F3XUh_d92ku0W86pDlJslAoLcqA1T4MMkSgEMFvTl0V3ykAcNQDDs2opmudr4acIbbCJbtYe7_CG4GKV7WAnVocjbXqexpmrbTUol8xWhtuV2uB1ZODGCNLd2morhJYmMJtzp1jugtyvYO8-JKO4clKd5GfeWZ9YL9OywsGxanU5HKdpYivmWsLxCUGw8RajoM9hu9_APHNyw8jj8WDGUwZNqGfvTNHK17jAuZhJS5BaaelJoZCURyn7QqJVPp6QW3y6QW44IE7_H8ol-g",
         liveURL: "https://live-eu3.steerpath.com/sdk-data",
       },
     },
@@ -198,7 +223,9 @@ export const CONFIG_STRING = {
         useCompass: false,
         gpsThresholdM: 10,
       },
-      ios: { useCompass: true },
+      ios: {
+        useCompass: true,
+      },
     },
     ui: {
       default: {

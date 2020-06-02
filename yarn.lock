@@ -4028,6 +4028,11 @@ steerpath-smart-sdk@1.0.37:
   resolved "https://registry.yarnpkg.com/steerpath-smart-sdk/-/steerpath-smart-sdk-1.0.37.tgz#a88db3ec4e22cf726f6908ba0efad21a3bb58d65"
   integrity sha512-q4CS5TsMb+XAPkOEKCcP4qVMJABtYHhkta2NKSOTC4Oi1XeDiKqieb+2Ms2guH1PbQ++5BxTptUt+ZrsRKFRDw==
 
+steerpath-smart-sdk@^1.1.11:
+  version "1.1.11"
+  resolved "https://registry.yarnpkg.com/steerpath-smart-sdk/-/steerpath-smart-sdk-1.1.11.tgz#35bef6d7445a14fea3963361430aa6e4438cd315"
+  integrity sha512-Mpow+f+3WDiF7B6AzvB2eK36X1UyIFACfb5CjBFpwD7yWRwpFi39Lxtx/e7sK9dJuA6VNw3AY4CqvUe8P+e8RA==
+
 stream-buffers@~2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/stream-buffers/-/stream-buffers-2.2.0.tgz#91d5f5130d1cef96dcfa7f726945188741d09ee4"
