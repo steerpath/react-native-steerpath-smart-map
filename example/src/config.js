@@ -231,19 +231,15 @@ export const CONFIG_STRING = {
       default: {
         colors: {
           primaryColor: "#01b2a5",
-          secondaryColor: "#d7b127",
-          detailColor: "#C6956C",
           bluedotColor: "#3887be",
-          primaryVariantColor: "#c90050",
-          secondaryVariantColor: "#871c9a",
-          detailVariantColor: "#ff9127",
           zoomedInRouteLineColor: "#01b2a5",
           zoomedOutRouteLineColor: "#d7b127",
           altRouteLineColor: "#DEC56B",
           backgroundColor: "#fafafa",
-          shadeColor: "#949494",
-          textColor: "#01b2a5",
-          textHaloColor: "#fff",
+          backgroundColorLayout: "rgba(255, 255, 255, 0.6)",
+          backgroundColorItem: "#fafafa",
+          textColor: "#000",
+          textHaloColor: "#fff"
         },
       },
     },

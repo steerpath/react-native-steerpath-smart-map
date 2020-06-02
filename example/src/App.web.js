@@ -12,10 +12,8 @@ const API_KEY =
 
 export default function App() {
   const smartMapRef = useRef();
+  SmartMapManager.start(API_KEY, CONFIG_STRING);
 
-  useEffect(() => {
-    SmartMapManager.start(API_KEY, CONFIG_STRING);
-  }, []);
 
   // navigate to selected smart map object
   const navigateToPoi = (smartmapObject) => {
@@ -34,6 +32,7 @@ export default function App() {
       <View style={{ flex: 7 }}>
         <SmartMapView
           style={{ flex: 1 }}
+          apiKey={API_KEY}
           ref={smartMapRef}
           onMapLoaded={() => {
             console.log("Map loaded");
