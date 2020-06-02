@@ -171,13 +171,13 @@
         return @{};
     }
   return @{
-           @"title": mapObj.title,
+           @"title": mapObj.title ?: @"",
            @"latitude": [NSNumber numberWithDouble:mapObj.latitude],
            @"longitude": [NSNumber numberWithDouble:mapObj.longitude],
            @"floorIndex": [NSNumber numberWithInteger:mapObj.floorIndex],
-           @"localRef": mapObj.localRef,
-           @"buildingRef": mapObj.buildingRef,
-           @"properties": mapObj.properties
+           @"localRef": mapObj.localRef ?: @"",
+           @"buildingRef": mapObj.buildingRef ?: @"",
+           @"properties": mapObj.properties ?: @{}
            };
 }
 
