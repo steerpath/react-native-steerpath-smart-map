@@ -83,7 +83,7 @@ export default class Drawer extends Component {
       SmartMapManager.setLiveConfig({
         receive: {
           showsThisDevice: false,
-          groups: ["Employees", "Bosses"],
+          groups: [],
         },
         transmit: {
           id: "Developer123",
