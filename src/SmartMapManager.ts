@@ -9,6 +9,24 @@ interface ConfigSDK {
   configString?: string | null;
 }
 
+export interface LiveConfig {
+  transmit?: {
+    id: string;
+    password: string;
+    title?: string;
+    groups?: string[];
+    geofences?: {
+      neutral?: string[];
+      forbidden?: string[];
+      allowed?: string[];
+    };
+  };
+  receive?: {
+    showThisDevice?: boolean;
+    groups?: string[];
+  };
+}
+
 export const SmartMapManager = {
   start(apiKey: string): void {
     RNSmartMapManager.start(apiKey);
@@ -17,7 +35,8 @@ export const SmartMapManager = {
     if (Platform.OS === "web") {
       throw new Error("Not implemented");
     }
-    let { configFilePath, configString } = config;
+    let { configFilePath } = config;
+    const { configString } = config;
 
     if (configFilePath && configFilePath.startsWith("file://")) {
       // iOS only accept the path like this: /var/something/file.json
@@ -30,7 +49,7 @@ export const SmartMapManager = {
       configString,
     });
   },
-  setLiveConfig(config: Record<string, any> | null): void {
+  setLiveConfig(config: LiveConfig | null): void {
     RNSmartMapManager.setLiveConfig(config);
   },
 };

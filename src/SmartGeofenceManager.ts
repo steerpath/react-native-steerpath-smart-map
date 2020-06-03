@@ -6,14 +6,14 @@ export enum SmartGeofenceEvent {
   GEOFENCE_ENTERED = "GeofenceEntered",
   GEOFENCE_EXITED = "GeofenceExited",
   BEACONFENCE_ENTERED = "BeaconfenceEntered",
-  BEACONFENCE_EXITED = "BeaconfenceExited"
+  BEACONFENCE_EXITED = "BeaconfenceExited",
 }
 
 const POSSIBLE_EVENTS: SmartGeofenceEvent[] = [
   SmartGeofenceEvent.GEOFENCE_ENTERED,
   SmartGeofenceEvent.GEOFENCE_EXITED,
   SmartGeofenceEvent.BEACONFENCE_ENTERED,
-  SmartGeofenceEvent.BEACONFENCE_EXITED
+  SmartGeofenceEvent.BEACONFENCE_EXITED,
 ];
 
 const RNSmartGeofenceManager = NativeModules.RNSmartGeofenceManager;
@@ -51,39 +51,44 @@ function createSmartGeofenceManager() {
     removeBeaconfence(beaconId: string) {
       RNSmartGeofenceManager.removeBeaconfence(beaconId);
     },
-    startListening(){
+    startListening() {
       RNSmartGeofenceManager.startListening();
     },
     stopListening() {
       RNSmartGeofenceManager.stopListening();
     },
     addListener(
-      listener: (eventName: SmartGeofenceEvent, data: Record<string, string>) => void
+      listener: (
+        eventName: SmartGeofenceEvent,
+        data: Record<string, string>
+      ) => void
     ) {
       if (!eventListenerRegistered) {
         RNSmartGeofenceManager.startListening();
         eventListenerRegistered = true;
       }
-      POSSIBLE_EVENTS.forEach(eventName => {
+      POSSIBLE_EVENTS.forEach((eventName) => {
         smartGeofenceManagerEmitter.addListener(eventName, (payload) => {
           listener(eventName, payload);
         });
-      })
-
+      });
     },
     removeListener(
-      listener: (eventName: SmartGeofenceEvent, data: Record<string, string>) => void
+      listener: (
+        eventName: SmartGeofenceEvent,
+        data: Record<string, string>
+      ) => void
     ) {
       RNSmartGeofenceManager.stopListening();
       eventListenerRegistered = false;
 
-      POSSIBLE_EVENTS.forEach(eventName => {
+      POSSIBLE_EVENTS.forEach((eventName) => {
         smartGeofenceManagerEmitter.removeListener(eventName, (payload) => {
           listener(eventName, payload);
         });
-      })
-    }
-  }
+      });
+    },
+  };
 }
 
 export const SmartGeofenceManager = createSmartGeofenceManager();
