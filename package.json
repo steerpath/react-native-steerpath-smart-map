@@ -24,7 +24,6 @@
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",
   "dependencies": {
-    "react-native-steerpath-smart-map": "1.0.69",
     "steerpath-smart-sdk": "^1.1.11"
   },
   "peerDependencies": {

@@ -3461,13 +3461,6 @@ react-is@^16.8.1, react-is@^16.8.4:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.13.0.tgz#0f37c3613c34fe6b37cd7f763a0d6293ab15c527"
   integrity sha512-GFMtL0vHkiBv9HluwNZTggSn/sCyEt9n02aM0dSAjGGyqyNlAyftYm4phPxdvCigG15JreC5biwxCgTAJZ7yAA==
 
-react-native-steerpath-smart-map@1.0.69:
-  version "1.0.69"
-  resolved "https://registry.yarnpkg.com/react-native-steerpath-smart-map/-/react-native-steerpath-smart-map-1.0.69.tgz#34878c7fd886ece0e4798abe2b212e311a20265f"
-  integrity sha512-dHop3GYQTKEx9sEeylI9jv+vqusDwrR0un+Jg2UZiFPfNw3kDkcNsahPteXhYM4A7WernzoOi48g91pFvc3tog==
-  dependencies:
-    steerpath-smart-sdk "1.0.37"
-
 react-native@^0.60.5:
   version "0.60.6"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.60.6.tgz#8a13dece1c3f6e01db0833db14d2b01b2d8ccba5"
@@ -4022,11 +4015,6 @@ static-extend@^0.1.1:
   version "1.5.0"
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
-
-steerpath-smart-sdk@1.0.37:
-  version "1.0.37"
-  resolved "https://registry.yarnpkg.com/steerpath-smart-sdk/-/steerpath-smart-sdk-1.0.37.tgz#a88db3ec4e22cf726f6908ba0efad21a3bb58d65"
-  integrity sha512-q4CS5TsMb+XAPkOEKCcP4qVMJABtYHhkta2NKSOTC4Oi1XeDiKqieb+2Ms2guH1PbQ++5BxTptUt+ZrsRKFRDw==
 
 steerpath-smart-sdk@^1.1.11:
   version "1.1.11"
