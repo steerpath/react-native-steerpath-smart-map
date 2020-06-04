@@ -497,7 +497,9 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
 -(BOOL)spSmartMapView:(RNSmartMapView*)smartMap onSearchResultSelected:(SPSmartMapObject*)mapObject
 {
     if (smartMap.onSearchResultSelected) {
-        smartMap.onSearchResultSelected([RCTConvert convertMapObjectToJSONWith:mapObject]);
+        smartMap.onSearchResultSelected(@{
+          @"mapObject": [RCTConvert convertMapObjectToJSONWith:mapObject]
+        });
         return YES;
     }
     return NO;
