@@ -80,7 +80,9 @@ export interface SmartMapViewMethods {
   removeMarker(smartMapObj: SmartMapObject): void;
   removeMarkers(smartMaps: SmartMapObject[]): void;
   removeAllMarkers(): void;
-  onBackPressed(callback: () => boolean): void;
+  onBackPressed(callback: (response: boolean) => void): void; // Android only
+  start(): void; // Android only
+  stop(): void; // Android only
 }
 
 export enum SmartMapModes {

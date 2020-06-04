@@ -23,7 +23,7 @@ export default function App() {
         payload: smartmapObject,
       };
 
-      smartMapRef.current.startUserTask(userTask);
+      smartMapRef.current?.startUserTask(userTask);
     }
   };
 
@@ -48,7 +48,7 @@ export default function App() {
 
             const smartmapObject = mapObjects[0];
             // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
-            smartMapRef.current.selectMapObject(smartmapObject);
+            smartMapRef.current?.selectMapObject(smartmapObject);
 
             //navigateToPoi(smartmapObject);
           }}
@@ -59,7 +59,7 @@ export default function App() {
             console.log("Visible Floor changed", payload)
           }
           onSearchResultSelected={(payload) => {
-            smartMapRef.current.selectMapObject(payload);
+            smartMapRef.current?.selectMapObject(payload);
             console.log("Search result selected ", payload);
           }}
           onViewStatusChanged={(payload) =>
