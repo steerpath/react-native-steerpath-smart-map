@@ -6,6 +6,8 @@ import {
   NativeModules,
   findNodeHandle,
   Platform,
+  View,
+  NativeMethods,
 } from "react-native";
 import { SmartMapViewProps, SmartMapViewMethods } from "./SmartMapViewProps";
 
@@ -233,49 +235,52 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
     }));
 
     return (
-      <RNSmartMapView
-        ref={smartMapRef}
-        {...props}
-        onUserFloorChanged={(event) => {
-          props.onUserFloorChanged &&
-            props.onUserFloorChanged(event.nativeEvent);
-        }}
-        onViewStatusChanged={(event) => {
-          props.onViewStatusChanged &&
-            props.onViewStatusChanged(event.nativeEvent);
-        }}
-        onNavigationFailed={(event) => {
-          props.onNavigationFailed &&
-            props.onNavigationFailed(event.nativeEvent);
-        }}
-        onVisibleFloorChanged={(event) => {
-          props.onVisibleFloorChanged &&
-            props.onVisibleFloorChanged(event.nativeEvent);
-        }}
-        onMapClicked={(event) => {
-          if (Platform.OS === "ios") {
-            // iOS Mapbox SDK return a reversed order of map object compared to web and android sdk, so we reverse to match the behavior
+      <View style={props.style}>
+        <RNSmartMapView
+          ref={smartMapRef}
+          style={{ flex: 1 }}
+          onUserFloorChanged={(event) => {
+            props.onUserFloorChanged &&
+              props.onUserFloorChanged(event.nativeEvent);
+          }}
+          onViewStatusChanged={(event) => {
+            props.onViewStatusChanged &&
+              props.onViewStatusChanged(event.nativeEvent);
+          }}
+          onNavigationFailed={(event) => {
+            props.onNavigationFailed &&
+              props.onNavigationFailed(event.nativeEvent);
+          }}
+          onVisibleFloorChanged={(event) => {
+            props.onVisibleFloorChanged &&
+              props.onVisibleFloorChanged(event.nativeEvent);
+          }}
+          onMapClicked={(event) => {
+            if (Platform.OS === "ios") {
+              // iOS Mapbox SDK return a reversed order of map object compared to web and android sdk, so we reverse to match the behavior
 
-            props.onMapClicked &&
-              props.onMapClicked({
-                mapObjects: [...event.nativeEvent.mapObjects].reverse(),
-              });
-          } else {
-            props.onMapClicked && props.onMapClicked(event.nativeEvent);
-          }
-        }}
-        onUserTaskResponse={(event) => {
-          props.onUserTaskResponse &&
-            props.onUserTaskResponse(event.nativeEvent);
-        }}
-        onSearchResultSelected={(event) => {
-          props.onSearchResultSelected &&
-            props.onSearchResultSelected(event.nativeEvent);
-        }}
-      />
+              props.onMapClicked &&
+                props.onMapClicked({
+                  mapObjects: [...event.nativeEvent.mapObjects].reverse(),
+                });
+            } else {
+              props.onMapClicked && props.onMapClicked(event.nativeEvent);
+            }
+          }}
+          onUserTaskResponse={(event) => {
+            props.onUserTaskResponse &&
+              props.onUserTaskResponse(event.nativeEvent);
+          }}
+          onSearchResultSelected={(event) => {
+            props.onSearchResultSelected &&
+              props.onSearchResultSelected(event.nativeEvent);
+          }}
+        />
+      </View>
     );
   }
 );
 
 // It's tedious to type native props, so we can defer it later
-const RNSmartMapView = requireNativeComponent<any>(NATIVE_VIEW_NAME);
+// Hacky escape from requireNativeComponent as it is quite outdated
+const RNSmartMapView = requireNativeComponent<any>(NATIVE_VIEW_NAME) as any;
