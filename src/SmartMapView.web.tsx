@@ -64,33 +64,34 @@ function convertToWebUserTaskObj(userTask: SmartMapUserTask) {
 
 function parseJwtToken(token) {
   try {
-      let base64Url = token.split('.')[1]
-      let base64 = base64Url.replace('-', '+').replace('_', '/')
-      return JSON.parse(window.atob(base64))
+    let base64Url = token.split(".")[1];
+    let base64 = base64Url.replace("-", "+").replace("_", "/");
+    return JSON.parse(window.atob(base64));
   } catch (e) {
-      return null
-  } finally {}
-};
+    return null;
+  } finally {
+  }
+}
 
 export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
   (props, ref) => {
     const smartMapRef = useRef<SmartMapRef>(null);
 
     useEffect(() => {
-      let smartSDK = {}
-      
-      if(parseJwtToken(props.apiKey).hasOwnProperty("client_token")){
-          smartSDK = steerpath.sdk[parseJwtToken(props.apiKey).client_token];
+      let smartSDK = {};
+
+      if (parseJwtToken(props.apiKey).hasOwnProperty("client_token")) {
+        smartSDK = steerpath.sdk[parseJwtToken(props.apiKey).client_token];
       } else {
-        if(props.apiKey){
-            smartSDK = steerpath.sdk[props.apiKey];
+        if (props.apiKey) {
+          smartSDK = steerpath.sdk[props.apiKey];
         }
       }
       // Allow setting the ref
       // @ts-ignore
       smartMapRef.current = new steerpath.SmartMapView(
-            COMPONENT_ID_PREFIX,
-            smartSDK
+        COMPONENT_ID_PREFIX,
+        smartSDK
       );
       const events = [
         {
@@ -291,6 +292,12 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
       },
       onBackPressed() {
         // Web doesn't have this implementation
+      },
+      start() {
+        // No web implementation
+      },
+      stop() {
+        // No web implementation
       },
     }));
 
