@@ -239,41 +239,49 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
         <RNSmartMapView
           ref={smartMapRef}
           style={{ flex: 1 }}
+          onMapLoaded={() => {
+            props.onMapLoaded?.();
+          }}
           onUserFloorChanged={(event) => {
-            props.onUserFloorChanged &&
-              props.onUserFloorChanged(event.nativeEvent);
+            props.onUserFloorChanged?.(event.nativeEvent);
           }}
           onViewStatusChanged={(event) => {
-            props.onViewStatusChanged &&
-              props.onViewStatusChanged(event.nativeEvent);
+            props.onViewStatusChanged?.(event.nativeEvent);
           }}
           onNavigationFailed={(event) => {
-            props.onNavigationFailed &&
-              props.onNavigationFailed(event.nativeEvent);
+            props.onNavigationFailed?.(event.nativeEvent);
+          }}
+          onNavigationEnded={() => {
+            props.onNavigationEnded?.();
+          }}
+          onNavigationStarted={() => {
+            props.onNavigationStarted?.();
+          }}
+          onNavigationPreviewAppeared={() => {
+            props.onNavigationPreviewAppeared?.();
+          }}
+          onNavigationDestinationReached={() => {
+            props.onNavigationDestinationReached?.();
           }}
           onVisibleFloorChanged={(event) => {
-            props.onVisibleFloorChanged &&
-              props.onVisibleFloorChanged(event.nativeEvent);
+            props.onVisibleFloorChanged?.(event.nativeEvent);
           }}
           onMapClicked={(event) => {
             if (Platform.OS === "ios") {
               // iOS Mapbox SDK return a reversed order of map object compared to web and android sdk, so we reverse to match the behavior
 
-              props.onMapClicked &&
-                props.onMapClicked({
-                  mapObjects: [...event.nativeEvent.mapObjects].reverse(),
-                });
+              props.onMapClicked?.({
+                mapObjects: [...event.nativeEvent.mapObjects].reverse(),
+              });
             } else {
-              props.onMapClicked && props.onMapClicked(event.nativeEvent);
+              props.onMapClicked?.(event.nativeEvent);
             }
           }}
           onUserTaskResponse={(event) => {
-            props.onUserTaskResponse &&
-              props.onUserTaskResponse(event.nativeEvent);
+            props.onUserTaskResponse?.(event.nativeEvent);
           }}
           onSearchResultSelected={(event) => {
-            props.onSearchResultSelected &&
-              props.onSearchResultSelected(event.nativeEvent);
+            props.onSearchResultSelected?.(event.nativeEvent);
           }}
         />
       </View>
