@@ -7,41 +7,119 @@ export interface ConfigSDK {
   configFilePath: string;
 }
 
+export interface SmartMapViewMethods {
+  setCamera(arg: {
+    latitude: number;
+    longitude: number;
+    zoomLevel: number;
+    bearing?: number;
+    pitch?: number;
+    floorIndex?: number;
+    buildingRef?: string;
+  }): void;
+  animateCamera(arg: {
+    latitude: number;
+    longitude: number;
+    zoomLevel: number;
+    bearing?: number;
+    pitch?: number;
+    floorIndex?: number;
+    buildingRef?: string;
+  }): void;
+  animateCameraToBuildingRef(
+    buildingRef: string,
+    callback: (response: MapResponse) => void
+  ): void;
+  setMapMode(mapMode: SmartMapModes): void;
+  startUserTask(userTask: SmartMapUserTask): void;
+  getCurrentUserTask(
+    callback: (userTaskResponse: SmartMapUserTaskResponse) => void
+  ): void;
+  cancelCurrentUserTask(): void;
+  selectMapObject(mapObj: SmartMapObject): void;
+  getMapObject(
+    localRef: string,
+    buildingRef: string,
+    source: string,
+    callback: (mapObject: SmartMapObject | null) => void
+  ): void;
+  getMapObjectByProperties(
+    properties: Record<string, unknown>,
+    callback: (mapObject: SmartMapObject | null) => void
+  ): void;
+  animateCameraToObject(
+    localRef: string,
+    buildingRef: string,
+    zoomLevel: number | null,
+    callback: (response: MapResponse) => void
+  ): void;
+  setCameraToBuildingRef(
+    buildingRef: string,
+    callback: (response: MapResponse) => void
+  ): void;
+  setCameraToObject(
+    localRef: string,
+    buildingRef: string,
+    zoomLevel: number,
+    callback: (response: MapResponse) => void
+  ): void;
+  addMarker(
+    smartMapObj: SmartMapObject,
+    layout: Layout | null,
+    iconName: string | null,
+    textColor: string | null,
+    textHaloColor: string | null
+  ): void;
+  addMarkers(
+    mapObjectsArray: SmartMapObject[],
+    layout: Layout | null,
+    iconName: string | null,
+    textColor: string | null,
+    textHaloColor: string | null
+  ): void;
+  removeMarker(smartMapObj: SmartMapObject): void;
+  removeMarkers(smartMaps: SmartMapObject[]): void;
+  removeAllMarkers(): void;
+  onBackPressed(callback: (response: boolean) => void): void; // Android only
+  start(): void; // Android only
+  stop(): void; // Android only
+}
+
 export enum SmartMapModes {
   MAP_ONLY = "mapOnly",
   STATIC = "static",
-  SEARCH = "search"
+  SEARCH = "search",
 }
 
 export enum SmartObjectSource {
   STATIC = "STATIC",
   MARKER = "MARKER",
-  LIVE = "LIVE"
+  LIVE = "LIVE",
 }
 
 export enum Layout {
   TOP = "top",
   BOTTOM = "bottom",
   LEFT = "left",
-  RIGHT = "right"
+  RIGHT = "right",
 }
 
 export enum MapResponse {
   SUCCESS = "success",
   OBJECT_NOT_FOUND = "objectNotFound",
-  NETWORK_ERROR = "networkError"
+  NETWORK_ERROR = "networkError",
 }
 
 export enum SmartGeofenceResponse {
   SUCCESS = "success",
   MALFORMED_DATA = "malformedData",
-  NOT_FOUND = "notFound"
+  NOT_FOUND = "notFound",
 }
 
 export enum SmartMapEvent {
   MAP_LOADED = "SPSmartMapLoaded",
   MAP_CLICKED = "SPSmartMapClicked",
-  SEARCH_RESULT_SELECTED = "SPSearchResultSelected"
+  SEARCH_RESULT_SELECTED = "SPSearchResultSelected",
 }
 
 export enum SmartMapViewStatus {
@@ -52,13 +130,13 @@ export enum SmartMapViewStatus {
   SETTING_VIEW = "settingView",
   NAVIGATING_VIEW = "navigatingView",
   SEARCH_IN_EXPANDED_MODE = "searchInExpandedMode",
-  SEARCH_IN_PREFERRED_HEIGHT = "searchInPreferredHeight"
+  SEARCH_IN_PREFERRED_HEIGHT = "searchInPreferredHeight",
 }
 
 export enum NavigationError {
   OBJECT_NOT_FOUND = "objectNotFound",
   ROUTE_NOT_FOUND = "routeNotFound",
-  USER_LOCATION_NOT_FOUND = "userLocationNotFound"
+  USER_LOCATION_NOT_FOUND = "userLocationNotFound",
 }
 
 export enum SmartMapUserTaskResponse {
@@ -67,7 +145,7 @@ export enum SmartMapUserTaskResponse {
   ERROR = "error",
   BUSY = "busy",
   UNSUPPORTED = "unsupported",
-  COMPLETED = "completed"
+  COMPLETED = "completed",
 }
 
 export interface SmartMapObject {
@@ -77,7 +155,7 @@ export interface SmartMapObject {
   localRef: string;
   buildingRef: string;
   title: string;
-  properties: object,
+  properties: Record<string, unknown>;
   source: SmartObjectSource;
 }
 
@@ -124,15 +202,16 @@ export interface SmartMapViewProps
 
 export type SmartMapNavigationUserTask = SmartMapObject;
 
-export interface SmartMapPOISelectionUserTask extends SmartMapObject {
+export interface SmartMapPOISelectionUserTask {
   shouldAddMarker: boolean;
   actionButtonText: string;
   actionButtonIcon: string;
+  smartMapObject: SmartMapObject;
 }
 
 export enum SmartMapUserTaskType {
   NAVIGATION = "navigation",
-  POI_SELECTION = "poiSelection"
+  POI_SELECTION = "poiSelection",
 }
 
 export interface SmartMapUserTask {

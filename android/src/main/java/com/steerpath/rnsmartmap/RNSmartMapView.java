@@ -134,7 +134,9 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
     @Override
     public boolean onSearchResultSelected(SmartMapObject mapObject) {
-        manager.sendEvent(reactContext, this, SEARCH_RESULT_SELECTED, smartMapObjectToWritableMap(mapObject, true));
+        WritableMap map = new WritableNativeMap();
+        map.putMap("mapObject", smartMapObjectToWritableMap(mapObject, true));
+        manager.sendEvent(reactContext, this, SEARCH_RESULT_SELECTED, map);
         return true;
     }
 
