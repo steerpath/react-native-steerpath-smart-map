@@ -91,7 +91,7 @@ export const CONFIG_STRING = `{
           "infrastructure_department",
           "department"
         ],
-        "mapDataURL": "https://mapdata.eu.steerpath.com/",
+        "mapDataURL": "https://mapdata.eu.steerpath.net/",
         "bluedot": {
           "indoor": true,
           "outdoor": false
