@@ -35,18 +35,16 @@ RCT_EXPORT_METHOD(setLiveConfig:(NSDictionary *)config)
     [[SPSmartSDK getInstance] setLiveConfiguration: config];
 }
 
-RCT_EXPORT_METHOD(fetchSmartSDKVersion:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(fetchVersions:(RCTResponseSenderBlock)callback)
 {
     NSDictionary *infoDictionary = [[NSBundle bundleForClass: [SPSmartSDK class]] infoDictionary];
-    NSString *version = [infoDictionary valueForKey:@"CFBundleShortVersionString"];
-    callback(@[version]);
-}
-
-RCT_EXPORT_METHOD(fetchMapboxVersion:(RCTResponseSenderBlock)callback)
-{
-    NSDictionary *infoDictionary = [[NSBundle bundleForClass: [MGLMapView class]] infoDictionary];
-    NSString *version = [infoDictionary valueForKey:@"CFBundleShortVersionString"];
-    callback(@[version]);
+    NSString *smartSDKVersion = [infoDictionary valueForKey:@"CFBundleShortVersionString"];
+    NSDictionary *mapboxInfoDictionary = [[NSBundle bundleForClass: [MGLMapView class]] infoDictionary];
+    NSString *mapboxVersion = [mapboxInfoDictionary valueForKey:@"CFBundleShortVersionString"];
+    callback(@[@{
+                   @"smartSDKVersion": smartSDKVersion,
+                   @"mapboxSDKVersion": mapboxVersion
+    }]);
 }
 
 @end
