@@ -9,6 +9,11 @@ interface ConfigSDK {
   configString?: string | null;
 }
 
+interface FetchVersionResponse {
+  smartSDKVersion: string;
+  mapboxSDKVersion: string;
+}
+
 export interface LiveConfig {
   transmit?: {
     id: string;
@@ -52,10 +57,7 @@ export const SmartMapManager = {
   setLiveConfig(config: LiveConfig | null): void {
     RNSmartMapManager.setLiveConfig(config);
   },
-  fetchSmartSDKVersion(callback: (version: string) => void) {
-    RNSmartMapManager.fetchSmartSDKVersion(callback);
-  },
-  fetchMapboxVersion(callback: (version: string) => void) {
-    RNSmartMapManager.fetchMapboxVersion(callback);
+  fetchVersions(callback: (versions: FetchVersionResponse) => void) {
+    RNSmartMapManager.fetchVersions(callback);
   },
 };

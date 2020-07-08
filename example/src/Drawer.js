@@ -79,11 +79,8 @@ export default class Drawer extends Component {
   }
 
   componentDidMount() {
-    SmartMapManager.fetchSmartSDKVersion((smartSDKVersion) => {
-      this.setState({ smartSDKVersion });
-    });
-    SmartMapManager.fetchMapboxVersion((mapboxSDKVersion) => {
-      this.setState({ mapboxSDKVersion });
+    SmartMapManager.fetchVersions(({ smartSDKVersion, mapboxSDKVersion }) => {
+      this.setState({ smartSDKVersion, mapboxSDKVersion });
     });
   }
 
