@@ -52,4 +52,10 @@ export const SmartMapManager = {
   setLiveConfig(config: LiveConfig | null): void {
     RNSmartMapManager.setLiveConfig(config);
   },
+  fetchSmartSDKVersion(callback: (version: string) => void) {
+    RNSmartMapManager.fetchSmartSDKVersion(callback);
+  },
+  fetchMapboxVersion(callback: (version: string) => void) {
+    RNSmartMapManager.fetchMapboxVersion(callback);
+  },
 };

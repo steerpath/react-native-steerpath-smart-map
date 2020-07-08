@@ -72,6 +72,19 @@ export default class Drawer extends Component {
       ],
     };
     this.handleGeofenceEntered = this.handleGeofenceEntered.bind(this);
+    this.state = {
+      smartSDKVersion: "",
+      mapboxSDKVersion: "",
+    };
+  }
+
+  componentDidMount() {
+    SmartMapManager.fetchSmartSDKVersion((smartSDKVersion) => {
+      this.setState({ smartSDKVersion });
+    });
+    SmartMapManager.fetchMapboxVersion((mapboxSDKVersion) => {
+      this.setState({ mapboxSDKVersion });
+    });
   }
 
   handleGeofenceEntered() {}
@@ -352,6 +365,10 @@ export default class Drawer extends Component {
       <View style={{ flex: 1 }}>
         <SafeAreaView style={{ flex: 1 }}>
           <ScrollView>
+            <View>
+              <Text>Smart SDK Version: {this.state.smartSDKVersion}</Text>
+              <Text>Mapbox Version: {this.state.mapboxSDKVersion}</Text>
+            </View>
             <Button
               title={
                 this.liveEnabled ? "Stop Live service" : "Start Live service"

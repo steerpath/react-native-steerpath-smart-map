@@ -7,6 +7,7 @@
 //
 
 #import "RNSmartMapManager.h"
+#import <Mapbox/Mapbox.h>
 
 @implementation RNSmartMapManager
 
@@ -32,6 +33,20 @@ RCT_EXPORT_METHOD(startWithConfig:(nonnull NSDictionary *)config)
 RCT_EXPORT_METHOD(setLiveConfig:(NSDictionary *)config)
 {
     [[SPSmartSDK getInstance] setLiveConfiguration: config];
+}
+
+RCT_EXPORT_METHOD(fetchSmartSDKVersion:(RCTResponseSenderBlock)callback)
+{
+    NSDictionary *infoDictionary = [[NSBundle bundleForClass: [SPSmartSDK class]] infoDictionary];
+    NSString *version = [infoDictionary valueForKey:@"CFBundleShortVersionString"];
+    callback(@[version]);
+}
+
+RCT_EXPORT_METHOD(fetchMapboxVersion:(RCTResponseSenderBlock)callback)
+{
+    NSDictionary *infoDictionary = [[NSBundle bundleForClass: [MGLMapView class]] infoDictionary];
+    NSString *version = [infoDictionary valueForKey:@"CFBundleShortVersionString"];
+    callback(@[version]);
 }
 
 @end
