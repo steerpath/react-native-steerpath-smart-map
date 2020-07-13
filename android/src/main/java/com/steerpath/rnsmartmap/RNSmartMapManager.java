@@ -7,6 +7,8 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 import com.steerpath.smart.SmartSDK;
 
 import org.json.JSONException;
@@ -70,5 +72,19 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
                 Log.e("Error", "Failed to set live configuration for SmartSDK");
             }
         }
+    }
+
+    @ReactMethod
+    public void fetchVersions(Callback callback) {
+        WritableMap map = new WritableNativeMap();
+        JSONObject versions = SmartSDK.getVersions();
+        try {
+            map = Utils.convertJsonToWritableMap(versions);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("map", "" + map);
+        callback.invoke(map);
     }
 }

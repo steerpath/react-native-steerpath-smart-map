@@ -80,7 +80,7 @@ PODS:
   - React-RCTWebSocket (0.60.6):
     - React-Core (= 0.60.6)
   - Steerpath-Map-SDK (1.1.20)
-  - SteerpathSmartSDK (1.10.22):
+  - SteerpathSmartSDK (1.10.25):
     - Steerpath-Map-SDK (= 1.1.20)
   - yoga (0.60.6.React)
 
@@ -105,7 +105,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
-  - SteerpathSmartSDK (= 1.10.22)
+  - SteerpathSmartSDK (= 1.10.25)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -183,9 +183,9 @@ SPEC CHECKSUMS:
   React-RCTVibration: 7655d72dfb919dd6d8e135ca108a5a2bd9fcd7b4
   React-RCTWebSocket: 7cd2c8d0f8ddd680dc76404defba7ab1f56b83af
   Steerpath-Map-SDK: 52430ac923f64203a09e726259a155a0fa87c355
-  SteerpathSmartSDK: 9441cc714ca724657020f925cbd2038987039289
+  SteerpathSmartSDK: 6288b04f797adbfccf2135aa82e6b11f26d98c36
   yoga: 5079887aa3e4c62142d6bcee493022643ee4d730
 
-PODFILE CHECKSUM: 15d24a7049546296d272a8b6a909469a4d2d080d
+PODFILE CHECKSUM: 363c961aa747ee608750d026f543ff1b29a965c0
 
 COCOAPODS: 1.9.1
