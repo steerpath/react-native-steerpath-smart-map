@@ -2,6 +2,7 @@ package com.steerpath.rnsmartmap;
 
 import android.util.Log;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -83,8 +84,6 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        Log.d("map", "" + map);
         callback.invoke(map);
     }
 }
