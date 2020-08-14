@@ -10,6 +10,7 @@ import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { View } from "react-native";
 import { CONFIG_STRING } from "./config.js";
+import { SmartMapObject } from '../../src/SmartMapViewProps';
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
 
@@ -38,14 +39,14 @@ export default function App() {
   }, []);
 
   // navigate to selected smart map object
-  const navigateToPoi = (smartmapObject) => {
+  const navigateToPoi = (smartmapObject: SmartMapObject) => {
     if (smartmapObject) {
       const userTask: SmartMapUserTask = {
         type: SmartMapUserTaskType.NAVIGATION,
         payload: smartmapObject,
       };
 
-      smartMapRef.current.startUserTask(userTask);
+      smartMapRef.current?.startUserTask(userTask);
     }
   };
 
@@ -70,7 +71,7 @@ export default function App() {
 
                 const smartmapObject = mapObjects[0];
                 // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
-                smartMapRef.current.selectMapObject(smartmapObject);
+                smartMapRef.current?.selectMapObject(smartmapObject);
               }
 
               //navigateToPoi(smartmapObject);
@@ -83,7 +84,7 @@ export default function App() {
             }
             onSearchResultSelected={(payload) => {
               console.log("Search result selected ", payload.mapObject);
-              smartMapRef.current.selectMapObject(payload.mapObject);
+              smartMapRef.current?.selectMapObject(payload.mapObject);
             }}
             onViewStatusChanged={(payload) =>
               console.log("onViewstatuschanged", payload)
