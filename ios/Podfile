@@ -30,6 +30,6 @@ target 'SteerpathSmartMapSdk' do
 		pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
     pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  pod 'SteerpathSmartSDK', '1.10.25'
+  pod 'SteerpathSmartSDK', '1.10.29'
 
 end
