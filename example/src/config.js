@@ -68,6 +68,7 @@ export const CONFIG_STRING = `{
     },
     "smartmap": {
       "default": {
+        "initialSearchBottomSheetState": "collapsed",
         "defaultLanguage": "en-GB",
         "supportedLanguages": [
           "en-GB"

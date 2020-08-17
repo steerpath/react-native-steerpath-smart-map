@@ -79,9 +79,11 @@ export default class Drawer extends Component {
   }
 
   componentDidMount() {
-    SmartMapManager.fetchVersions(({ smartSDKVersion, mapboxSDKVersion }) => {
-      this.setState({ smartSDKVersion, mapboxSDKVersion });
-    });
+    if (Platform.OS !== "web") {
+      SmartMapManager.fetchVersions(({ smartSDKVersion, mapboxSDKVersion }) => {
+        this.setState({ smartSDKVersion, mapboxSDKVersion });
+      });
+    }
   }
 
   handleGeofenceEntered() {}
