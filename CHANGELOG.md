@@ -13,6 +13,12 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.3.1]
+
+### Changed
+- Bump web Smart SDK verison to 1.2.4
+- In onSearchResultSelected-event wrap the mapObject inside payload object to make it same as other platforms.
+
 ## [1.3.0]
 
 ### Changed
