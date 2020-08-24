@@ -43,15 +43,11 @@ export default function App() {
           }}
           onMapClicked={(payload) => {
             const { mapObjects } = payload;
-
-            for (let i = 0; i < mapObjects.length; i++) {
-              console.log("object", mapObjects[i]);
+            if( mapObjects[0]){
+              const smartmapObject = mapObjects[0];
+              // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
+              smartMapRef.current?.selectMapObject(smartmapObject);
             }
-
-            const smartmapObject = mapObjects[0];
-            // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
-            smartMapRef.current?.selectMapObject(smartmapObject);
-
             //navigateToPoi(smartmapObject);
           }}
           onUserFloorChanged={(payload) =>

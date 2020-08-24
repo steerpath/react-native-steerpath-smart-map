@@ -12894,9 +12894,9 @@ stealthy-require@^1.1.1:
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
 steerpath-smart-sdk@^1.2.0:
-  version "1.2.0"
-  resolved "https://registry.yarnpkg.com/steerpath-smart-sdk/-/steerpath-smart-sdk-1.2.0.tgz#c519df4775025d33dc2d610fb1febc3355a6b7a7"
-  integrity sha512-hiAt+GU+782sClH5biDfAWPMiem3w7ivWgEhKK0lXII6JheLB0ngzsmWEOw2ZZ4hSWlvez7Hl6WCLcCnQx318g==
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/steerpath-smart-sdk/-/steerpath-smart-sdk-1.2.4.tgz#c479240268b25747ea9324d1f384f82c44bf94eb"
+  integrity sha512-JagAwgcRDDo2CJigQ3PmjuPIbdjZt74c6jdpHMWThd/sX7/ffTgKtnhjDLYX3N0R4AgbpBnSuaEZKuc1tJd6sw==
 
 stream-browserify@^2.0.1:
   version "2.0.2"
