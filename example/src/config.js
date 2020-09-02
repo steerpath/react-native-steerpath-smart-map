@@ -49,21 +49,35 @@ export const CONFIG_STRING = `{
     },
     "smartmap": {
       "default": {
+        "defaultLanguage": "en-GB",
+        "supportedLanguages": [
+            "en-GB"
+        ],
         "defaultTheme": "default",
         "supportedThemes": [
-          "default",
-          "dark"
+            "default",
+            "dark"
         ],
         "useFloorBasedStyle": true,
+        "enableExtrusion": true,
+        "enableExtrusionAntialiasing": false,
+        "nonSelectableTags": [
+            "hidden"
+        ],
         "nonSelectableCssClasses": [
-          "infrastructure_stairs",
-          "infrastructure_lift",
-          "category_stairs",
-          "category_other",
-          "infrastructure_hole",
-          "category_cover_poi",
-          "infrastructure_department",
-          "infrastructure_wing"
+            "text_large",
+            "text_medium",
+            "text_small",
+            "service_direction",
+            "category_other",
+            "infrastructure_hole",
+            "category_cover_poi",
+            "infrastructure_wing",
+            "wing",
+            "infrastructure_department",
+            "department",
+            "infrastructure_department_sticky",
+            "department_sticky"
         ],
         "mapDataURL": "https://mapdata.eu.steerpath.net/",
         "bluedot": {
@@ -74,7 +88,7 @@ export const CONFIG_STRING = `{
         "navigationDestinationThresholdM": 5,
         "navigationRerouteThresholdM": 5,
         "mapStylePath": "/style/default.json",
-        "urlServiceURL": "https://url.steerpath.com/",
+        "urlServiceURL": "https://url.eu.steerpath.net/",
         "viewProperties": {
           "bearing": -2.4,
           "pitch": 0,
@@ -96,15 +110,14 @@ export const CONFIG_STRING = `{
     "search": {
       "default": {
         "nonSearchableCssClasses": [
-          "infrastructure_stairs",
-          "infrastructure_lift",
-          "category_stairs",
+          "text_large",
+          "text_medium",
+          "text_small",
+          "service_direction",
           "category_other",
           "infrastructure_hole",
-          "category_cover_poi",
-          "infrastructure_department",
-          "infrastructure_wing"
-        ],
+          "category_cover_poi"
+      ],
         "searchSuggestions": [
           {
             "title": "sp_show_free_desk_title",
@@ -182,29 +195,32 @@ export const CONFIG_STRING = `{
     },
     "kiosk": {
       "share": {
-        "hash": false,
-        "qrCodeShare": {
-          "enabled": true,
-          "qrCodeURL": "https://kiosk.steerpath.com/",
-          "qrCodePath": "/steerpath/index.html"
-        },
-        "copyLinkToClipboard": false
+          "hash": false,
+          "qrCodeShare": {
+              "enabled": false,
+              "qrCodeURL": "https://kiosk.steerpath.com/",
+              "qrCodePath": "/default/index.html"
+          },
+          "copyLinkToClipboard": false
+      },
+      "analytics": {
+          "enabled": false
       }
     },
     "telemetry": {
       "default": {
-        "telemetryURL": "https://capture-v1.eu.steerpath.com/v1/",
-        "beacons": "known",
-        "location": "indoor",
-        "enabled": false,
-        "locationIntervalS": 60,
-        "transmissionIntervalS": 120
+          "telemetryURL": "https://capture.eu.steerpath.net/v1/",
+          "beacons": "known",
+          "location": "indoor",
+          "enabled": true,
+          "locationIntervalS": 60,
+          "transmissionIntervalS": 120
       },
       "web": {
-        "enabled": false,
-        "telemetryURL": "https://capture-v1.eu.steerpath.com/v1/"
+          "enabled": false,
+          "telemetryURL": "https://capture.eu.steerpath.net/v1/"
       }
-    },
+  },
     "metadata": {
       "default": {
         "metadataURL": "https://meta2.eu.steerpath.net/meta/v2/"
@@ -217,30 +233,31 @@ export const CONFIG_STRING = `{
     },
     "live": {
       "default": {
-        "liveURL": "https://live-eu3.steerpath.net/",
+        "liveURL": "https://live3.eu.steerpath.net/",
         "liveApiKey": "eyJhbGciOiJSUzI1NiJ9.eyJpYXQ6IjoxNTY4MDI5MTc0LCJqdGkiOiJlNzY5N2NiMS0wYmE4LTRhNTUtOWY5Zi01OGM5NjNmMDFlZDMiLCJzY29wZXMiOiJ2Mi0zYWU0MTdiYS0wMzg3LTRlNzktYTUxOS03ZWU5MjE3NmRjNjgtbGl2ZTpyLHciLCJzdWIiOiJ2Mi0zYWU0MTdiYS0wMzg3LTRlNzktYTUxOS03ZWU5MjE3NmRjNjgifQ.DV2Vnt5AJfuPv1K8X3Rw0u1SOFROyrr1KHLc6T7cd9R4BwTSgxt69IMYcc4ROTgqP254F3XUh_d92ku0W86pDlJslAoLcqA1T4MMkSgEMFvTl0V3ykAcNQDDs2opmudr4acIbbCJbtYe7_CG4GKV7WAnVocjbXqexpmrbTUol8xWhtuV2uB1ZODGCNLd2morhJYmMJtzp1jugtyvYO8-JKO4clKd5GfeWZ9YL9OywsGxanU5HKdpYivmWsLxCUGw8RajoM9hu9_APHNyw8jj8WDGUwZNqGfvTNHK17jAuZhJS5BaaelJoZCURyn7QqJVPp6QW3y6QW44IE7_H8ol-g",
         "enabled": true
       },
       "web": {
         "enabled": true,
         "liveApiKey": "eyJhbGciOiJSUzI1NiJ9.eyJpYXQ6IjoxNTY4MDI5MTc0LCJqdGkiOiJmOWYxMzlkMS03OWRhLTRiMWEtYjZkNS1iM2Y1MTUwMWRiMzMiLCJzY29wZXMiOiJ2Mi0zYWU0MTdiYS0wMzg3LTRlNzktYTUxOS03ZWU5MjE3NmRjNjgtbGl2ZTpyIiwic3ViIjoidjItM2FlNDE3YmEtMDM4Ny00ZTc5LWE1MTktN2VlOTIxNzZkYzY4In0.WzW22UAZkDMQnD8XDTVewnghareFvHnkZqf9oh4UPm1ZPPIYHbgZ73MQ5M2vRRXsLr5_rsduSt1D620Mwmy0fN6O92Ra_kMEX5NVJR1vZC2S8sUP8ech_bNOF7HEBmVNGyBhT_h3_kZpAAIfMirBimS3UStIutpY_kBbHye6g8_HH2lHbWnh2ZDN76lSu2pmGNMpxIo_TdP_gKfnillbKlo3HyC2ztttMuCnLqmMLcatfX2pGXhzN94yuPIfvKQJ8mtOR_HxkgggzUOlkzZ_lsQHDQsob_ynn44LypbKWn7hDaVRqYY1r95EJHpL1nBT0WD3qFGlA6-VksLWrKaY6Q",
-        "liveURL": "https://live-eu3.steerpath.net/sdk-data"
+        "liveURL": "https://live3.eu.steerpath.net/sdk-data"
       }
     },
     "positioning": {
       "default": {
-        "beaconsURL": "https://beacons2.eu.steerpath.net/",
-        "nddURL": "https://ndd.eu.steerpath.net/",
-        "eidURL": "https://eidupdates.eu.steerpath.net/",
-        "useAccelerometer": true,
-        "useGyro": false,
-        "useCompass": false,
-        "gpsThresholdM": 10
+          "beaconsURL": "https://beacons2.eu.steerpath.net/",
+          "nddURL": "https://ndd.eu.steerpath.net/",
+          "eidURL": "https://eidupdates.eu.steerpath.net/",
+          "useAccelerometer": true,
+          "useGyro": false,
+          "useCompass": true,
+          "gpsThresholdM": 10,
+          "eidUpdatesEnabled": true
       },
       "ios": {
-        "useCompass": true
+          "useCompass": true
       }
-    },
+  },
     "ui": {
       "default": {
         "colors": {
