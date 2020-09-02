@@ -210,7 +210,7 @@ export default class Drawer extends Component {
   }
 
   setCamera = (type) => {
-    let localRef = "Kitchen";
+    let localRef = "Mobile development";
     let cameraOptions = {
       latitude: 60.220945577091356,
       longitude: 24.812374723580888,
@@ -238,7 +238,7 @@ export default class Drawer extends Component {
   };
 
   animateCamera(type) {
-    let localRef = "Kitchen";
+    let localRef = "Mobile development";
     let cameraOptions = {
       latitude: 60.220945577091356,
       longitude: 24.812374723580888,
