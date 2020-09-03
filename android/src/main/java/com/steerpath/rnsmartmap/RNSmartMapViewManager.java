@@ -54,6 +54,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     private static final int START_MAP = 11;
     private static final int STOP_MAP = 12;
     private static final int SET_MAP_MODE = 13;
+    private static final int SET_WIDGET_PADDING = 14;
 
     private static final String REACT_CLASS = "RNSmartMapView";
 
@@ -117,6 +118,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
         commands.put("start", START_MAP);
         commands.put("stop", STOP_MAP);
         commands.put("setMapMode", SET_MAP_MODE);
+        commands.put("setWidgetPadding", SET_WIDGET_PADDING);
         return commands;
     }
 
@@ -222,6 +224,44 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                     default:
                         break;
                 }
+            case SET_WIDGET_PADDING:
+                if(args != null) {
+                    int[] currentPadding = mapView.getMap().getWidgetPadding();
+                    int left;
+                    int top;
+                    int right;
+                    int bottom;
+
+                    if (args.isNull(0)) {
+                        left = currentPadding[0];
+                    } else {
+                        left = args.getInt(0);
+                    }
+
+                    if (args.isNull(1)) {
+                        top = currentPadding[1];
+                    } else {
+                        top = args.getInt(1);
+                    }
+
+                    if (args.isNull(2)) {
+                        right = currentPadding[2];
+                    } else {
+                        right = args.getInt(2);
+                    }
+
+                    if (args.isNull(3)) {
+                        bottom = currentPadding[3];
+                    } else {
+                        bottom = args.getInt(3);
+                    }
+
+                    mapView.setWidgetPadding(left, top, right, bottom);
+                }
+
+                Log.w("RnSmartMapView", "No arguments for method setWidgetPadding()");
+
+                break;
         }
     }
 

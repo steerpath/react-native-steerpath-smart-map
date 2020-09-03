@@ -7,7 +7,6 @@ import {
   findNodeHandle,
   Platform,
   View,
-  NativeMethods,
 } from "react-native";
 import { SmartMapViewProps, SmartMapViewMethods } from "./SmartMapViewProps";
 
@@ -230,6 +229,28 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
             findNodeHandle(smartMapRef.current),
             callback
           );
+        }
+      },
+      getWidgetPadding(callback) {
+        if (Platform.OS == "android") {
+          NativeModules.RNSmartMapModule.getWidgetPadding(
+            findNodeHandle(smartMapRef.current),
+            callback
+          );
+        } /* else {
+          runCommand(smartMapRef.current, "getWidgetPadding", [
+            callback,
+          ]);
+        } */ // TODO
+      },
+      setWidgetPadding(left, top, right, bottom) {
+        if (Platform.OS === "android") {
+          runCommand(smartMapRef.current, "setWidgetPadding", [
+            left,
+            top,
+            right,
+            bottom,
+          ]);
         }
       },
     }));

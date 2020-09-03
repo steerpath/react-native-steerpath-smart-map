@@ -1,5 +1,6 @@
 package com.steerpath.rnsmartmap;
 
+import android.telecom.Call;
 import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
@@ -9,6 +10,8 @@ import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableMapKeySetIterator;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.steerpath.smart.ObjectSource;
@@ -173,6 +176,25 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
                 // TODO: userTask does not have any getters and I cannot return it to JavaScript side
                 callback.invoke(mapView.getMap().getCurrentUserTask());
             }
+        });
+    }
+
+    @ReactMethod
+    public void getWidgetPadding(final int tag, final Callback callback) {
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
+            }
+
+            int[] padding = mapView.getMap().getWidgetPadding();
+            WritableMap map = new WritableNativeMap();
+            map.putInt("left", padding[0]);
+            map.putInt("top", padding[1]);
+            map.putInt("right", padding[2]);
+            map.putInt("bottom", padding[3]);
+
+            callback.invoke(map);
         });
     }
 

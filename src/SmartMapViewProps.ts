@@ -83,6 +83,20 @@ export interface SmartMapViewMethods {
   onBackPressed(callback: (response: boolean) => void): void; // Android only
   start(): void; // Android only
   stop(): void; // Android only
+  getWidgetPadding(
+    callback: (padding: {
+      left: number;
+      top: number;
+      right: number;
+      bottom: number;
+    }) => void
+  ): void;
+  setWidgetPadding(
+    left: number | null,
+    top: number | null,
+    right: number | null,
+    bottom: number | null
+  ): void; // currently for Android only (v1.4.0)
 }
 
 export enum SmartMapModes {

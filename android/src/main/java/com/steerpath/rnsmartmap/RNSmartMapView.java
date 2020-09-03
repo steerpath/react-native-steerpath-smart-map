@@ -1,6 +1,5 @@
 package com.steerpath.rnsmartmap;
 
-import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
@@ -328,6 +327,10 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
                 smartMap.startUserTask(new POISelectionUserTask(smartMapObject, addMarker, actionButtonText, resId));
             }
         });
+    }
+
+    public void setWidgetPadding(int left, int top, int right, int bottom) {
+        smartMap.setWidgetPadding(left, top, right, bottom);
     }
 
     /** - - - - - PRIVATE METHODS - - - - - */
