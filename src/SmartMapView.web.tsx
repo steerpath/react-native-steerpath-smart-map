@@ -299,6 +299,12 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
       stop() {
         // No web implementation
       },
+      getWidgetPadding() {
+        // No web implementation
+      },
+      setWidgetPadding() {
+        // No web implementation
+      },
     }));
 
     return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1, height: "100%" }} />;
