@@ -92,10 +92,10 @@ export interface SmartMapViewMethods {
     }) => void
   ): void;
   setWidgetPadding(
-    left: number | null,
-    top: number | null,
-    right: number | null,
-    bottom: number | null
+    left: number,
+    top: number,
+    right: number,
+    bottom: number
   ): void; // currently for Android only (v1.4.0)
 }
 

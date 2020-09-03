@@ -246,10 +246,10 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
       setWidgetPadding(left, top, right, bottom) {
         if (Platform.OS === "android") {
           runCommand(smartMapRef.current, "setWidgetPadding", [
-            left,
-            top,
-            right,
-            bottom,
+            left || 0,
+            top || 0,
+            right || 0,
+            bottom || 0,
           ]);
         }
       },

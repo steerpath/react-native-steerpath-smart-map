@@ -49,10 +49,6 @@ export const CONFIG_STRING = `{
     },
     "smartmap": {
       "default": {
-        "defaultLanguage": "en-GB",
-        "supportedLanguages": [
-            "en-GB"
-        ],
         "defaultTheme": "default",
         "supportedThemes": [
             "default",

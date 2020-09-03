@@ -224,43 +224,13 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                     default:
                         break;
                 }
+                break;
             case SET_WIDGET_PADDING:
                 if(args != null) {
-                    int[] currentPadding = mapView.getMap().getWidgetPadding();
-                    int left;
-                    int top;
-                    int right;
-                    int bottom;
-
-                    if (args.isNull(0)) {
-                        left = currentPadding[0];
-                    } else {
-                        left = args.getInt(0);
-                    }
-
-                    if (args.isNull(1)) {
-                        top = currentPadding[1];
-                    } else {
-                        top = args.getInt(1);
-                    }
-
-                    if (args.isNull(2)) {
-                        right = currentPadding[2];
-                    } else {
-                        right = args.getInt(2);
-                    }
-
-                    if (args.isNull(3)) {
-                        bottom = currentPadding[3];
-                    } else {
-                        bottom = args.getInt(3);
-                    }
-
-                    mapView.setWidgetPadding(left, top, right, bottom);
+                    mapView.setWidgetPadding(args.getInt(0), args.getInt(1), args.getInt(2), args.getInt(3));
+                } else {
+                    Log.w("RnSmartMapView", "No arguments for method setWidgetPadding()");
                 }
-
-                Log.w("RnSmartMapView", "No arguments for method setWidgetPadding()");
-
                 break;
         }
     }

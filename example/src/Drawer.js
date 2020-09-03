@@ -5,6 +5,7 @@ import {
   SmartGeofenceManager,
   SmartMapManager,
   LiveConfig,
+  SmartMapModes,
 } from "react-native-steerpath-smart-map";
 
 export default class Drawer extends Component {
@@ -76,6 +77,8 @@ export default class Drawer extends Component {
       smartSDKVersion: "",
       mapboxSDKVersion: "",
     };
+    this.padding = [];
+    this.mapMode = SmartMapModes.SEARCH;
   }
 
   componentDidMount() {
@@ -112,10 +115,6 @@ export default class Drawer extends Component {
     }
 
     this.liveEnabled = !this.liveEnabled;
-  }
-
-  setMapMode(mapMode) {
-    this.props.smartMapRef.current.setMapMode(mapMode);
   }
 
   startUserTask = (userTask) => {
@@ -359,6 +358,20 @@ export default class Drawer extends Component {
     console.log("handleGeofenceEntered ", status);
   }
 
+  setWidgetPadding() {
+    this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, 200);
+  }
+
+  getWidgetPadding() {
+    this.props.smartMapRef.current.getWidgetPadding((padding) => {
+      console.log("getPadding", padding);
+    });
+  }
+
+  resetWidgetPadding() {
+    this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, 0);
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -373,6 +386,18 @@ export default class Drawer extends Component {
                 this.liveEnabled ? "Stop Live service" : "Start Live service"
               }
               onPress={() => this.startLive()}
+            />
+            <Button
+              title="Set widget padding"
+              onPress={() => this.setWidgetPadding()}
+            />
+            <Button
+              title="Get widget padding"
+              onPress={() => this.getWidgetPadding()}
+            />
+            <Button
+              title="Reset widget padding"
+              onPress={() => this.resetWidgetPadding()}
             />
             <Button
               title="Set camera location"

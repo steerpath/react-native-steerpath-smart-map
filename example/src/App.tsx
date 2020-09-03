@@ -5,6 +5,7 @@ import {
   SmartMapViewMethods,
   SmartMapUserTaskType,
   SmartMapUserTask,
+  SmartMapModes,
 } from "react-native-steerpath-smart-map";
 import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
@@ -60,6 +61,7 @@ export default function App() {
             ref={smartMapRef}
             onMapLoaded={() => {
               console.log("Map loaded");
+              smartMapRef.current?.setMapMode(SmartMapModes.MAP_ONLY);
             }}
             onMapClicked={(payload) => {
               const { mapObjects } = payload;
