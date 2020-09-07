@@ -196,11 +196,14 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
         if (userTask instanceof NavigationUserTask) {
             taskMap.putString("type", "navigation");
+            taskMap.putMap("payload", smartMapObjectToWritableMap(((NavigationUserTask) userTask).getMapObjects().get(0), false));
         } else if (userTask instanceof POISelectionUserTask) {
             taskMap.putString("type", "poiSelection");
+            WritableMap payload = new WritableNativeMap();
+            //payload.putMap("smartMapObject", smartMapObjectToWritableMap(((POISelectionUserTask) userTask).getMapObject(), false));
+            taskMap.putMap("payload", payload);
         }
 
-        taskMap.putMap("payload", new WritableNativeMap());
         map.putMap("userTask", taskMap);
 
         manager.sendEvent(reactContext, this, USER_TASK_RESPONSE, map);
