@@ -13,22 +13,27 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
-## [1.3.3]
+## [1.4.0] - 2020-09-xx
+
+- added setWidgetPadding and getWidgetPadding methods. (currently only for Android)
+
+## [1.3.3] - 2020-09-02
+
 - Bump Web Smart SDK verison to 1.2.5
 - updated localRef in the example folder to match map data
 
-## [1.3.2]
+## [1.3.2] - 2020-09-02
 
 - Bump Android Smart SDK version to 1.3.13.2
 
-## [1.3.1]
+## [1.3.1] - 2020‑08‑24
 
 ### Changed
 
 - Bump web Smart SDK verison to 1.2.4
 - In onSearchResultSelected-event wrap the mapObject inside payload object to make it same as other platforms.
 
-## [1.3.0]
+## [1.3.0] - 2020‑08‑14
 
 ### Changed
 
