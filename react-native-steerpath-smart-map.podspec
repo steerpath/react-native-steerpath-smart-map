@@ -20,7 +20,7 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.dependency "React"
-	s.dependency 'SteerpathSmartSDK', '~> 1.10.30'
+	s.dependency 'SteerpathSmartSDK', '~> 1.10.31'
   # s.dependency "..."
 end
 
