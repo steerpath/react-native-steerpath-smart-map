@@ -4,7 +4,6 @@ import { SafeAreaView, ScrollView, Button, Platform } from "react-native";
 import {
   SmartGeofenceManager,
   SmartMapManager,
-  LiveConfig,
   SmartMapModes,
 } from "react-native-steerpath-smart-map";
 
@@ -132,7 +131,7 @@ export default class Drawer extends Component {
           if (data) {
             let addMarker = true;
             let actionButtonText = "Book a room";
-            let actionButtonIcon = "category_fun";
+            let actionButtonIcon = "ic_sp_category_fun";
             let userTask = {
               type: "poiSelection",
               payload: {

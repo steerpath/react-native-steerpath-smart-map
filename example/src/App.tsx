@@ -99,8 +99,12 @@ export default function App() {
             onNavigationDestinationReached={() =>
               console.log("navigation DestinationReached")
             }
-            onUserTaskResponse={(payload) => {
-              console.log(payload);
+            onUserTaskResponse={(taskInfo) => {
+              console.log('payload', taskInfo);
+              console.log('response', taskInfo.response);
+              console.log('userTask', taskInfo.userTask);
+              console.log('taskType', taskInfo.userTask.type);
+              console.log('userTaskPayload', taskInfo.userTask.payload);       
             }}
             /* onBackPressed={(callback) => {
               console.log("onBackPressed", callback);
