@@ -144,21 +144,21 @@
     }
   if ([task isKindOfClass:[SPSmartMapNavigationUserTask class]]) {
     SPSmartMapNavigationUserTask* navigationTask = (SPSmartMapNavigationUserTask*) task;
+    NSArray<SPSmartMapObject*>* objects = [navigationTask getNavigationObjects];
     return @{
              @"type": @"navigation",
-             @"payload": @{
-                 @"localRef": [RCTConvert valueOrEmptyIfNil:[navigationTask getUserTaskLocalRef]],
-                 @"buildingRef": [RCTConvert valueOrEmptyIfNil:[navigationTask getUserTaskBuildingRef]]
-                 }
-             };
+             @"payload": objects.count > 0 ? [RCTConvert convertMapObjectToJSONWith:[objects objectAtIndex:0]] : [NSNull null]
+    };
   }
   if ([task isKindOfClass:[SPSmartMapPOISelectionUserTask class]]) {
     SPSmartMapPOISelectionUserTask* poiTask = (SPSmartMapPOISelectionUserTask*) task;
     return @{
              @"type": @"poiSelection",
              @"payload": @{
-                 @"localRef": [RCTConvert valueOrEmptyIfNil:[poiTask getMapObject].localRef],
-                 @"buildingRef": [RCTConvert valueOrEmptyIfNil:[poiTask getMapObject].buildingRef]
+                 @"smartMapObject": [RCTConvert convertMapObjectToJSONWith:poiTask.getMapObject],
+                 @"shouldAddMarker": @(poiTask.shouldAddMarker),
+                 @"actionButtonText": [RCTConvert valueOrEmptyIfNil:poiTask.getActionButtonText] ,
+                 @"actionButtonIcon": [RCTConvert valueOrEmptyIfNil:poiTask.iconName]
                  }
              };
   }

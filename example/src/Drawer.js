@@ -146,6 +146,18 @@ export default class Drawer extends Component {
           }
         }
       );
+    } else {
+      console.log("obj", this.props.smartMapObject);
+      if (this.props.selectMapObject) {
+        const userTask = {
+          type: "navigation",
+          payload: this.props.smartMapObject,
+        };
+
+        this.props.smartMapRef.startUserTask(userTask);
+      } else {
+        console.log("object is null");
+      }
     }
   };
 
@@ -446,6 +458,10 @@ export default class Drawer extends Component {
             <Button
               title="Start POI Selection task"
               onPress={() => this.startUserTask("poiSelection")}
+            />
+            <Button
+              title="Start navigation task"
+              onPress={() => this.startUserTask("navigation")}
             />
             <Button
               title="Cancel current user task"

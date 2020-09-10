@@ -5,13 +5,12 @@ import {
   SmartMapViewMethods,
   SmartMapUserTaskType,
   SmartMapUserTask,
-  SmartMapModes,
+  SmartMapModes,SmartMapObject, SmartMapUserTaskResponse, SmartMapNavigationUserTask
 } from "react-native-steerpath-smart-map";
 import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { View } from "react-native";
 import { CONFIG_STRING } from "./config.js";
-import { SmartMapObject } from '../../src/SmartMapViewProps';
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
 
@@ -21,6 +20,7 @@ const API_KEY =
 export default function App() {
   const smartMapRef = useRef<SmartMapViewMethods>(null);
   const [sdkReady, setSDKReady] = useState(false);
+  const [selectedObject, setSelectedObject] = useState<SmartMapObject>();
 
   useEffect(() => {
     console.log("configString", CONFIG_STRING);
@@ -67,16 +67,12 @@ export default function App() {
               const { mapObjects } = payload;
 
               if (mapObjects.length > 0) {
-                for (let i = 0; i < mapObjects.length; i++) {
-                  console.log("object", mapObjects[i]);
-                }
-
                 const smartmapObject = mapObjects[0];
                 // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
-                smartMapRef.current?.selectMapObject(smartmapObject);
+                navigateToPoi(smartmapObject);
               }
 
-              //navigateToPoi(smartmapObject);
+              
             }}
             onUserFloorChanged={(payload) =>
               console.log("User floor changed", payload)
@@ -100,11 +96,16 @@ export default function App() {
               console.log("navigation DestinationReached")
             }
             onUserTaskResponse={(taskInfo) => {
-              console.log('payload', taskInfo);
-              console.log('response', taskInfo.response);
-              console.log('userTask', taskInfo.userTask);
-              console.log('taskType', taskInfo.userTask.type);
-              console.log('userTaskPayload', taskInfo.userTask.payload);       
+              const { response, userTask } = taskInfo
+              console.log('response', response)
+              console.log('userTask', userTask);
+              
+              if(response === SmartMapUserTaskResponse.COMPLETED || response === SmartMapUserTaskResponse.CANCELLED) {
+                if(userTask.type === SmartMapUserTaskType.NAVIGATION) {
+                  const smartMapObject: SmartMapObject = ((userTask.payload as SmartMapNavigationUserTask) as SmartMapObject); 
+                  smartMapRef.current?.selectMapObject(smartMapObject);
+                }
+              }
             }}
             /* onBackPressed={(callback) => {
               console.log("onBackPressed", callback);
@@ -114,7 +115,7 @@ export default function App() {
       </View>
       {
         <View style={{ flex: 3 }}>
-          <Drawer smartMapRef={smartMapRef} />
+          <Drawer smartMapRef={smartMapRef} selectedMapObject={selectedObject} />
         </View>
       }
     </View>
