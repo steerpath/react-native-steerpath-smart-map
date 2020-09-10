@@ -4,7 +4,6 @@ import { SafeAreaView, ScrollView, Button, Platform } from "react-native";
 import {
   SmartGeofenceManager,
   SmartMapManager,
-  LiveConfig,
   SmartMapModes,
 } from "react-native-steerpath-smart-map";
 
@@ -132,7 +131,7 @@ export default class Drawer extends Component {
           if (data) {
             let addMarker = true;
             let actionButtonText = "Book a room";
-            let actionButtonIcon = "category_fun";
+            let actionButtonIcon = "ic_sp_category_fun";
             let userTask = {
               type: "poiSelection",
               payload: {
@@ -147,6 +146,18 @@ export default class Drawer extends Component {
           }
         }
       );
+    } else {
+      console.log("obj", this.props.smartMapObject);
+      if (this.props.selectMapObject) {
+        const userTask = {
+          type: "navigation",
+          payload: this.props.smartMapObject,
+        };
+
+        this.props.smartMapRef.startUserTask(userTask);
+      } else {
+        console.log("object is null");
+      }
     }
   };
 
@@ -447,6 +458,10 @@ export default class Drawer extends Component {
             <Button
               title="Start POI Selection task"
               onPress={() => this.startUserTask("poiSelection")}
+            />
+            <Button
+              title="Start navigation task"
+              onPress={() => this.startUserTask("navigation")}
             />
             <Button
               title="Cancel current user task"

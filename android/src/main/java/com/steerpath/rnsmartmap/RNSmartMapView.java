@@ -1,5 +1,6 @@
 package com.steerpath.rnsmartmap;
 
+import android.util.Log;
 import android.view.Choreographer;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,8 @@ import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
 import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.VISIBLE_FLOOR_CHANGED;
 
-public class RNSmartMapView extends FrameLayout implements MapEventListener, UserTaskListener, NavigationEventListener, ViewStatusListener {
+public class RNSmartMapView extends FrameLayout
+        implements MapEventListener, UserTaskListener, NavigationEventListener, ViewStatusListener {
 
     private SmartMapFragment smartMap;
     private ReactContext reactContext;
@@ -58,9 +60,9 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     private ArrayList<String> addedIcons = new ArrayList<>();
 
     public RNSmartMapView(ThemedReactContext context, ReactApplicationContext reactApplicationContext,
-                          RNSmartMapViewManager mapViewManager) {
+            RNSmartMapViewManager mapViewManager) {
         super(context);
-    
+
         SmartMapFragment fragment = SmartMapFragment.newInstance();
         this.reactContext = reactApplicationContext;
         this.manager = mapViewManager;
@@ -81,10 +83,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         };
 
         AppCompatActivity activity = (AppCompatActivity) context.getCurrentActivity();
-        activity.getSupportFragmentManager()
-                .beginTransaction()
-                .add(fragment, "tag")
-                .commit();
+        activity.getSupportFragmentManager().beginTransaction().add(fragment, "tag").commit();
 
         activity.getSupportFragmentManager().executePendingTransactions();
         activity.getOnBackPressedDispatcher().addCallback(onBackPressedCallback);
@@ -99,7 +98,8 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
             public void doFrame(long l) {
                 for (int i = 0; i < RNSmartMapView.this.getChildCount(); i++) {
                     View child = RNSmartMapView.this.getChildAt(i);
-                    child.measure(MeasureSpec.makeMeasureSpec(RNSmartMapView.this.getMeasuredWidth(), MeasureSpec.EXACTLY),
+                    child.measure(
+                            MeasureSpec.makeMeasureSpec(RNSmartMapView.this.getMeasuredWidth(), MeasureSpec.EXACTLY),
                             MeasureSpec.makeMeasureSpec(RNSmartMapView.this.getMeasuredHeight(), MeasureSpec.EXACTLY));
                     child.layout(0, 0, child.getMeasuredWidth(), child.getMeasuredHeight());
 
@@ -114,7 +114,9 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         return smartMap;
     }
 
-    /** - - - - - MAP EVENTS - - - - -  */
+    /**
+     * - - - - - MAP EVENTS - - - - -
+     */
 
     @Override
     public boolean onMapClick(List<SmartMapObject> mapObjects) {
@@ -196,17 +198,25 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
 
         if (userTask instanceof NavigationUserTask) {
             taskMap.putString("type", "navigation");
+            taskMap.putMap("payload",
+                    smartMapObjectToWritableMap(((NavigationUserTask) userTask).getMapObjects().get(0), false));
         } else if (userTask instanceof POISelectionUserTask) {
             taskMap.putString("type", "poiSelection");
+            WritableMap payload = new WritableNativeMap();
+            payload.putMap("smartMapObject",
+                    smartMapObjectToWritableMap(((POISelectionUserTask) userTask).getMapObject(), false));
+            taskMap.putMap("payload", payload);
         }
 
-        taskMap.putMap("payload", new WritableNativeMap());
+        Log.d("nativeTask", "" + taskMap);
         map.putMap("userTask", taskMap);
 
         manager.sendEvent(reactContext, this, USER_TASK_RESPONSE, map);
     }
 
-    /** - - - - - NAVIGATION EVENTS - - - - - */
+    /**
+     * - - - - - NAVIGATION EVENTS - - - - -
+     */
 
     @Override
     public void onNavigationPreviewAppeared() {
@@ -235,7 +245,9 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         manager.sendEvent(reactContext, this, NAVIGATION_FAILED, map);
     }
 
-    /** - - - - - VIEW STATUS LISTENER - - - - -  */
+    /**
+     * - - - - - VIEW STATUS LISTENER - - - - -
+     */
 
     @Override
     public void onViewStatusChanged(String s, SmartMapObject smartMapObject) {
@@ -248,10 +260,12 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         manager.sendEvent(reactContext, this, VIEW_STATUS_CHANGED, map);
     }
 
-    /** - - - - - PUBLIC METHODS - - - - - */
+    /**
+     * - - - - - PUBLIC METHODS - - - - -
+     */
 
-    public void addMarker(double lat, double lon, int floorIndex, String localRef, String buildingRef, String layout, @Nullable String iconImage,
-                          String rgbTextColor, String rgbTextHaloColor) {
+    public void addMarker(double lat, double lon, int floorIndex, String localRef, String buildingRef, String layout,
+            @Nullable String iconImage, String rgbTextColor, String rgbTextHaloColor) {
 
         if (!addedIcons.contains(iconImage)) {
             int resId = this.getResources().getIdentifier(iconImage, "drawable", getContext().getPackageName());
@@ -267,7 +281,8 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         }
     }
 
-    public void addMarkers(List<SmartMapObject> objects, @Layout String layout, String iconName, String rgbTextColor, String rgbTextHaloColor) {
+    public void addMarkers(List<SmartMapObject> objects, @Layout String layout, String iconName, String rgbTextColor,
+            String rgbTextHaloColor) {
         if (layout == null && rgbTextColor == null && rgbTextHaloColor == null) {
             smartMap.addMarkers(objects);
         } else {
@@ -275,9 +290,11 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         }
     }
 
-    public void animateCamera(double latitude, double longitude, double zoomLevel, double bearing, double pitch, int floorIndex, String buildingRef) {
+    public void animateCamera(double latitude, double longitude, double zoomLevel, double bearing, double pitch,
+            int floorIndex, String buildingRef) {
         smartMap.animateCamera(latitude, longitude, zoomLevel, bearing, pitch, floorIndex, buildingRef);
     }
+
     public void cancelCurrentUserTask() {
         smartMap.cancelCurrentUserTask();
     }
@@ -299,7 +316,7 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
     }
 
     public void setCamera(double latitude, double longitude, double zoomLevel, double bearing, double pitch,
-                          int floorIndex, String buildingRef) {
+            int floorIndex, String buildingRef) {
         smartMap.setCamera(latitude, longitude, zoomLevel, bearing, pitch, floorIndex, buildingRef);
     }
 
@@ -307,24 +324,34 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         smartMap.setMapMode(mapMode);
     }
 
-    public void startNavigationUserTask(double lat, double lon, int floorIndex, String localRef,String buildingRef) {
+    public void startNavigationUserTask(double lat, double lon, int floorIndex, String localRef, String buildingRef) {
         smartMap.startUserTask(new NavigationUserTask(new SmartMapObject(lat, lon, floorIndex, localRef, buildingRef)));
     }
 
     public void startPoiSelectionUserTask(String localRef, String buildingRef, String source, boolean addMarker,
-                                          String actionButtonText, String actionButtonIcon) {
+            String actionButtonText, String actionButtonIcon) {
 
         String objectSource;
-        int resId = this.getResources().getIdentifier(actionButtonIcon, "drawable", getContext().getPackageName());
+        int resId = 0;
+
+        try {
+            resId = this.getResources().getIdentifier(actionButtonIcon, "drawable", getContext().getPackageName());
+        } catch (NullPointerException e) {
+            Log.w("RNSmartMapView", "Couldn't find resource for actionButtonIcon");
+        }
+
         if (source.toLowerCase().equals("marker")) {
             objectSource = ObjectSource.MARKER;
         } else {
             objectSource = ObjectSource.STATIC;
         }
 
+        int finalResId = resId;
+        Log.d("finalResId", "" + finalResId);
         smartMap.getMapObject(localRef, buildingRef, objectSource, (smartMapObject, s) -> {
             if (smartMapObject != null) {
-                smartMap.startUserTask(new POISelectionUserTask(smartMapObject, addMarker, actionButtonText, resId));
+                smartMap.startUserTask(
+                        new POISelectionUserTask(smartMapObject, addMarker, actionButtonText, finalResId));
             }
         });
     }
@@ -333,13 +360,16 @@ public class RNSmartMapView extends FrameLayout implements MapEventListener, Use
         smartMap.setWidgetPadding(left, top, right, bottom);
     }
 
-    /** - - - - - PRIVATE METHODS - - - - - */
+    /**
+     * - - - - - PRIVATE METHODS - - - - -
+     */
 
     WritableMap smartMapObjectToWritableMap(SmartMapObject object, boolean removePropertiesKey) {
         WritableMap map = new WritableNativeMap();
         try {
             if (removePropertiesKey) {
-                map.putMap("properties", Utils.convertJsonToWritableMap(object.getProperties().getJSONObject("properties")));
+                map.putMap("properties",
+                        Utils.convertJsonToWritableMap(object.getProperties().getJSONObject("properties")));
             } else {
                 map.putMap("properties", Utils.convertJsonToWritableMap(object.getProperties()));
             }
