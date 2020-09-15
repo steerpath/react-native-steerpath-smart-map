@@ -370,7 +370,7 @@ export default class Drawer extends Component {
   }
 
   setWidgetPadding() {
-    this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, 200);
+    this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, 50);
   }
 
   getWidgetPadding() {

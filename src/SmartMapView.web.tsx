@@ -300,11 +300,19 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
         // No web implementation
       },
       getWidgetPadding() {
-        // No web implementation
+        return runCommand(smartMapRef.current, "getWidgetPadding", []);
       },
-      setWidgetPadding() {
-        // No web implementation
+      resetWidgetPadding() {
+        runCommand(smartMapRef.current, "resetWidgetPadding", []);
       },
+      setWidgetPadding(left, top, right, bottom) {
+        runCommand(smartMapRef.current, "setWidgetPadding", [
+          left,
+          top,
+          right,
+          bottom
+        ]);
+      }
     }));
 
     return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1, height: "100%" }} />;
