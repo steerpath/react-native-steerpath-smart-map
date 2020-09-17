@@ -13,6 +13,10 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.5.1] 2020-09-17
+- added setWidgetPadding binding to web
+- bump web Smart SDK version to 1.3.1
+
 ## [1.5.0] - 2020-09-10
 
 - Fixed onUserTaskResponse callback to return correct values.
