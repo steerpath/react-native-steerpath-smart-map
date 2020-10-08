@@ -79,6 +79,22 @@ RCT_EXPORT_METHOD(setMapMode:(nonnull NSNumber*) reactTag
   
 }
 
+RCT_EXPORT_METHOD(setWidgetPadding:(nonnull NSNumber*) reactTag
+                  left:(nonnull NSNumber*)left
+                  top:(nonnull NSNumber*)top
+                  right:(nonnull NSNumber*)right
+                  bottom:(nonnull NSNumber*)bottom)
+{   // The one we want to switch on
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+      RNSmartMapView *view = viewRegistry[reactTag];
+      if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+        RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+        return;
+      }
+        [view setWidgetPadding:left.floatValue top:top.floatValue right:right.floatValue bottom:bottom.floatValue];
+    }];
+}
+
 
 RCT_EXPORT_METHOD(setCamera:(nonnull NSNumber*) reactTag
                   latitude:(nonnull NSNumber*)latitude
@@ -255,6 +271,28 @@ RCT_EXPORT_METHOD(selectMapObject:(nonnull NSNumber*) reactTag
     if (json) {
       [view selectMapObject:[RCTConvert SPSmartMapObject:json]];
     }
+  }];
+  
+}
+
+RCT_EXPORT_METHOD(getWidgetPadding:(nonnull NSNumber*) reactTag
+                  callback:(RCTResponseSenderBlock)callback)
+{
+  [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+    RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+    if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+      RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+      return;
+    }
+      NSArray<NSNumber*> * padding = view.getWidgetPadding;
+      callback(@[
+               @{
+                   @"left": [padding objectAtIndex:0],
+                   @"top": [padding objectAtIndex:1],
+                   @"right": [padding objectAtIndex:2],
+                   @"bottom": [padding objectAtIndex:3]
+               }
+               ]);
   }];
   
 }

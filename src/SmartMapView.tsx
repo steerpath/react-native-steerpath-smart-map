@@ -237,11 +237,9 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
             findNodeHandle(smartMapRef.current),
             callback
           );
-        } /* else {
-          runCommand(smartMapRef.current, "getWidgetPadding", [
-            callback,
-          ]);
-        } */ // TODO
+        } else {
+          runCommand(smartMapRef.current, "getWidgetPadding", [callback]);
+        }
       },
       setWidgetPadding(left, top, right, bottom) {
         runCommand(smartMapRef.current, "setWidgetPadding", [
