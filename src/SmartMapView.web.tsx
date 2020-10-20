@@ -310,9 +310,12 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           left,
           top,
           right,
-          bottom
+          bottom,
         ]);
-      }
+      },
+      setGeoJson(sourceId, geoJson, callback) {
+        // todo
+      },
     }));
 
     return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1, height: "100%" }} />;

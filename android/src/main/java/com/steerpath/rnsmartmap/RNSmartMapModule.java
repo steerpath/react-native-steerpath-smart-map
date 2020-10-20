@@ -1,6 +1,5 @@
 package com.steerpath.rnsmartmap;
 
-import android.telecom.Call;
 import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
@@ -15,8 +14,10 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.steerpath.smart.ObjectSource;
-import com.steerpath.smart.POISelectionUserTask;
 import com.steerpath.smart.UserTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -173,7 +174,8 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
             if (userTask == null) {
                 callback.invoke("No active user task available");
             } else {
-                // TODO: userTask does not have any getters and I cannot return it to JavaScript side
+                // TODO: userTask does not have any getters and I cannot return it to JavaScript
+                // side
                 callback.invoke(mapView.getMap().getCurrentUserTask());
             }
         });
@@ -206,11 +208,36 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
                 return;
             }
 
-            if(mapView.getMap() != null) {
+            if (mapView.getMap() != null) {
                 boolean onBackPressed = mapView.getMap().onBackPressed();
                 callback.invoke(onBackPressed);
             } else {
                 Log.e("ERROR", "Could not complete method call, SmartMap is null");
+            }
+        });
+    }
+
+    @ReactMethod
+    public void setGeoJson(final int tag, final ReadableArray args, final Callback callback) {
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
+            }
+
+            if (mapView.getMap() != null) {
+                String sourceId = args.getString(0);
+                String geoJsonString = args.getString(1);
+                JSONObject geoJson = null;
+                if (geoJsonString != null) {
+                    try {
+                        geoJson = new JSONObject(geoJsonString);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                mapView.getMap().setGeoJson(sourceId, geoJson, callback::invoke);
             }
         });
     }

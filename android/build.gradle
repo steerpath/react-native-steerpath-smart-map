@@ -59,7 +59,7 @@ repositories {
 
 dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactnativeVersion', '+')}"
-    api "com.steerpath:smart:android-smart-1.5.0"
+    api "com.steerpath:smart:android-smart-1.6.1"
 }
 
 def configureReactNativePom(def pom) {

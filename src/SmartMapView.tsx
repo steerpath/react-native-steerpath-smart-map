@@ -249,6 +249,21 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           bottom || 0,
         ]);
       },
+      setGeoJson(sourceId, geoJson, callback) {
+        if (Platform.OS === "android") {
+          NativeModules.RNSmartMapModule.setGeoJson(
+            findNodeHandle(smartMapRef.current),
+            [sourceId, geoJson],
+            callback
+          );
+        } else {
+          runCommand(smartMapRef.current, "setGeoJson", [
+            sourceId,
+            geoJson,
+            callback,
+          ]);
+        }
+      },
     }));
 
     return (
