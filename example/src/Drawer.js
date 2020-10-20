@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { PixelRatio, Text, View } from "react-native";
 import { SafeAreaView, ScrollView, Button, Platform } from "react-native";
 import {
   SmartGeofenceManager,
@@ -370,7 +370,11 @@ export default class Drawer extends Component {
   }
 
   setWidgetPadding() {
-    this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, 200);
+    const padding =
+      Platform.OS === "android"
+        ? PixelRatio.getPixelSizeForLayoutSize(200)
+        : 200;
+    this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, padding);
   }
 
   getWidgetPadding() {
