@@ -232,7 +232,6 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
                 if (geoJsonMap != null) {
                     try {
                         geoJson = Utils.convertMapToJson(geoJsonMap);
-                        Log.d("json", geoJson.toString(1));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
