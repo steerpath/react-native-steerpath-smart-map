@@ -99,7 +99,7 @@ export interface SmartMapViewMethods {
   ): void; // currently for Android only (v1.4.0)
   setGeoJson(
     sourceId: string,
-    geoJson: Record<string, unknown> | null,
+    geoJson: Record<string, unknown> | null,
     callback: (response: MapResponse) => void
   ): void;
 }
@@ -127,6 +127,7 @@ export enum MapResponse {
   SUCCESS = "success",
   OBJECT_NOT_FOUND = "objectNotFound",
   NETWORK_ERROR = "networkError",
+  NOT_SUPPORTED = "notSupported",
 }
 
 export enum SmartGeofenceResponse {
