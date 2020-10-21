@@ -388,7 +388,28 @@ export default class Drawer extends Component {
   }
 
   setGeoJson = () => {
-    const json = "{\"type\":\"FeatureCollection\",\"features\":[{\"type\":\"Feature\",\"geometry\":{\"type\":\"Point\",\"coordinates\":[24.8124114,60.2209866]},\"properties\":{\"iconImage\":\"category_marker\",\"title\":\"Mobile development\",\"css_class\":\"\",\"localRef\":\"Mobile development\",\"layerIndex\":2,\"buildingRef\":\"431\",\"id\":\"\"}}]}";
+    const json = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type":"Feature",
+          "geometry": {
+            "type":"Point",
+            "coordinates":[24.8124114,60.2209866]
+          },
+          "properties":{
+            "iconImage":"category_marker",
+            "title":"Mobile development",
+            "css_class":"",
+            "localRef":"Mobile development",
+            "layerIndex":2,
+            "buildingRef":"431",
+            "id":""
+          }
+        }
+      ]
+    };
+    
     console.log('setGeoJson called');
     this.props.smartMapRef.current.setGeoJson('marker', json, (response) => {
       console.log('setGeoJson', response)

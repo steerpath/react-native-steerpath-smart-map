@@ -227,11 +227,12 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
 
             if (mapView.getMap() != null) {
                 String sourceId = args.getString(0);
-                String geoJsonString = args.getString(1);
+                ReadableMap geoJsonMap = args.getMap(1);
                 JSONObject geoJson = null;
-                if (geoJsonString != null) {
+                if (geoJsonMap != null) {
                     try {
-                        geoJson = new JSONObject(geoJsonString);
+                        geoJson = Utils.convertMapToJson(geoJsonMap);
+                        Log.d("json", geoJson.toString(1));
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }

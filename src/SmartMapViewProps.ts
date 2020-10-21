@@ -99,7 +99,7 @@ export interface SmartMapViewMethods {
   ): void; // currently for Android only (v1.4.0)
   setGeoJson(
     sourceId: string,
-    geoJson: string | null,
+    geoJson: Record<string, unknown> | null,
     callback: (response: MapResponse) => void
   ): void;
 }
