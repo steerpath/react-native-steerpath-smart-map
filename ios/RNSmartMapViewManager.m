@@ -181,6 +181,23 @@ RCT_EXPORT_METHOD(addMarker:(nonnull NSNumber*) reactTag
   
 }
 
+RCT_EXPORT_METHOD(setGeoJson:(nonnull NSNumber*) reactTag
+                  sourceId:(nonnull NSString*)sourceId
+                  geoJson:(NSDictionary*)geoJson
+                  callback:(RCTResponseSenderBlock)callback)
+{
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+      RNSmartMapView *view = (RNSmartMapView*)viewRegistry[reactTag];
+      if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+        RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+        return;
+      }
+        [view setGeoJson:sourceId geoJson:geoJson completion:^(SPMapResponse response) {
+            callback(@[[RCTConvert SPMapResponse:response]]);
+        }];
+    }];
+}
+
 RCT_EXPORT_METHOD(addMarkers:(nonnull NSNumber*) reactTag
                   mapObjectsArray:(id)mapObjectsArray
                   layout:(NSString*)layout
