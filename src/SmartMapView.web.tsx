@@ -314,8 +314,15 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
         ]);
       },
       setGeoJson(sourceId, geoJson, callback) {
-        // todo
+        runCommand(smartMapRef.current, "setGeoJson", [
+          sourceId,
+          geoJson,
+          callback
+        ]);
       },
+      stopLive(){
+        runCommand(smartMapRef.current, "stopLive", []);
+      }
     }));
 
     return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1, height: "100%" }} />;
