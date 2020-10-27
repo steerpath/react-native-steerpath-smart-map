@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, View } from "react-native";
+import { PixelRatio, Text, View } from "react-native";
 import { SafeAreaView, ScrollView, Button, Platform } from "react-native";
 import {
   SmartGeofenceManager,
@@ -369,18 +369,57 @@ export default class Drawer extends Component {
     console.log("handleGeofenceEntered ", status);
   }
 
-  setWidgetPadding() {
-    this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, 200);
+  setWidgetPadding = () => {
+    const padding =
+      Platform.OS === "android"
+        ? PixelRatio.getPixelSizeForLayoutSize(200)
+        : 200;
+    this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, padding);
   }
 
-  getWidgetPadding() {
+  getWidgetPadding = () => {
     this.props.smartMapRef.current.getWidgetPadding((padding) => {
       console.log("getPadding", padding);
     });
   }
 
-  resetWidgetPadding() {
+  resetWidgetPadding = () => {
     this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, 0);
+  }
+
+  setGeoJson = () => {
+    const json = {
+      "type": "FeatureCollection",
+      "features": [
+        {
+          "type":"Feature",
+          "geometry": {
+            "type":"Point",
+            "coordinates":[24.8124114,60.2209866]
+          },
+          "properties":{
+            "iconImage":"category_marker",
+            "title":"Mobile development",
+            "css_class":"",
+            "localRef":"Mobile development",
+            "layerIndex":2,
+            "buildingRef":"431",
+            "id":""
+          }
+        }
+      ]
+    };
+    
+    console.log('setGeoJson called');
+    this.props.smartMapRef.current.setGeoJson('marker', json, (response) => {
+      console.log('setGeoJson', response)
+    })
+  }
+
+  clearGeoJson = () => {
+    this.props.smartMapRef.current.setGeoJson('marker', null, (response) => {
+      console.log('clearGeoJson', response)
+    })
   }
 
   render() {
@@ -400,15 +439,15 @@ export default class Drawer extends Component {
             />
             <Button
               title="Set widget padding"
-              onPress={() => this.setWidgetPadding()}
+              onPress={this.setWidgetPadding}
             />
             <Button
               title="Get widget padding"
-              onPress={() => this.getWidgetPadding()}
+              onPress={this.getWidgetPadding}
             />
             <Button
               title="Reset widget padding"
-              onPress={() => this.resetWidgetPadding()}
+              onPress={this.resetWidgetPadding}
             />
             <Button
               title="Set camera location"
@@ -472,6 +511,9 @@ export default class Drawer extends Component {
               title="Get current task"
               onPress={this.getCurrentUserTask}
             />
+            <Button title="Set geoJson" onPress={this.setGeoJson} />
+            <Button title="Clear geoJson" onPress={this.clearGeoJson} />
+
           </ScrollView>
         </SafeAreaView>
       </View>

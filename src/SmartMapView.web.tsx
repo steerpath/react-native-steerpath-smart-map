@@ -310,8 +310,18 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           left,
           top,
           right,
-          bottom
+          bottom,
         ]);
+      },
+      setGeoJson(sourceId, geoJson, callback) {
+        runCommand(smartMapRef.current, "setGeoJson", [
+          sourceId,
+          geoJson,
+          callback
+        ]);
+      },
+      stopLive(){
+        runCommand(smartMapRef.current, "stopLive", []);
       }
     }));
 
