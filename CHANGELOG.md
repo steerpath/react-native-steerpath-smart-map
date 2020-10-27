@@ -13,12 +13,19 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
-## [1.6.0] 2020-10-09
+## [1.7.0] - 2020-10-27
+
+- added SmartMapView.setGeoJson(). See more details from platform specific documentations.
+- bump Android Smart SDK version to android-smart-1.7.0
+- bump iOS Smart SDK version to 1.11.3
+- bump web Smart SDK version to 1.4.0
+
+## [1.6.0] - 2020-10-09
 
 - added setWidgetPadding and getWidgetPadding methods for iOS
 - bump iOS Smart SDK version 1.11.1
 
-## [1.5.1] 2020-09-17
+## [1.5.1] - 2020-09-17
 
 - added setWidgetPadding binding to web
 - bump web Smart SDK version to 1.3.1
