@@ -61,7 +61,7 @@ export default function App() {
             ref={smartMapRef}
             onMapLoaded={() => {
               console.log("Map loaded");
-              smartMapRef.current?.setMapMode(SmartMapModes.MAP_ONLY);
+              smartMapRef.current?.setMapMode(SmartMapModes.SEARCH);
             }}
             onMapClicked={(payload) => {
               const { mapObjects } = payload;
