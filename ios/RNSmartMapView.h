@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) RCTBubblingEventBlock onVisibleFloorChanged;
 
 @property (nonatomic, copy) RCTBubblingEventBlock onViewStatusChanged;
+@property (nonatomic, copy) RCTBubblingEventBlock onBottomSheetStatusChanged;
 
 @property (nonatomic, copy) RCTBubblingEventBlock onNavigationEnded;
 @property (nonatomic, copy) RCTBubblingEventBlock onNavigationFailed;

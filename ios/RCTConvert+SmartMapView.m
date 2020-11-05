@@ -201,20 +201,32 @@
             return @"onlyMap";
         case SPMapViewStatusCardView:
             return @"cardView";
-        case SPMapViewStatusSearchInMinHeight:
-            return @"searchInMinHeight";
         case SPMapViewStatusErrorView:
             return @"errorView";
         case SPMapViewStatusSettingView:
             return @"settingView";
         case SPMapViewStatusNavigatingView:
             return @"navigatingView";
-        case SPMapViewStatusSearchInExpandedMode:
-            return @"searchInExpandedMode";
-        case SPMapViewStatusSearchInPreferredHeight:
-            return @"searchInPreferredHeight";
+        case SPMapViewStatusSearchView:
+            return @"searchView";
         default:
             return @"unknownViewStatus";
+    }
+}
+
++ (NSString *)SPSmartMapBottomSheetViewState:(SPSmartMapBottomSheetViewState)status
+{
+    switch (status) {
+        case SPSmartMapBottomSheetViewStateHidden:
+            return @"hidden";
+        case SPSmartMapBottomSheetViewStateCollapsed:
+            return @"collapsed";
+        case SPSmartMapBottomSheetViewStateHalfExpanded:
+            return @"halfExpanded";
+        case SPSmartMapBottomSheetViewStateExpanded:
+            return @"expanded";
+        default:
+            return @"unknownStatus";
     }
 }
 
