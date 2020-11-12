@@ -7,7 +7,9 @@ import {
   findNodeHandle,
   Platform,
   View,
+  PixelRatio,
 } from "react-native";
+import { convertNativePixelToDp } from "./internalUtils";
 import { SmartMapViewProps, SmartMapViewMethods } from "./SmartMapViewProps";
 
 const NATIVE_VIEW_NAME = "RNSmartMapView";
@@ -232,21 +234,34 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
         }
       },
       getWidgetPadding(callback) {
+        function processedCallback(padding: {
+          left: number;
+          top: number;
+          right: number;
+          bottom: number;
+        }) {
+          callback({
+            left: convertNativePixelToDp(padding.left),
+            top: convertNativePixelToDp(padding.top),
+            right: convertNativePixelToDp(padding.right),
+            bottom: convertNativePixelToDp(padding.bottom),
+          });
+        }
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.getWidgetPadding(
             findNodeHandle(smartMapRef.current),
-            callback
+            processedCallback
           );
         } else {
-          runCommand(smartMapRef.current, "getWidgetPadding", [callback]);
+          runCommand(smartMapRef.current, "getWidgetPadding", [processedCallback]);
         }
       },
       setWidgetPadding(left, top, right, bottom) {
         runCommand(smartMapRef.current, "setWidgetPadding", [
-          left || 0,
-          top || 0,
-          right || 0,
-          bottom || 0,
+          PixelRatio.getPixelSizeForLayoutSize(left || 0),
+          PixelRatio.getPixelSizeForLayoutSize(top || 0),
+          PixelRatio.getPixelSizeForLayoutSize(right || 0),
+          PixelRatio.getPixelSizeForLayoutSize(bottom || 0),
         ]);
       },
       setGeoJson(sourceId, geoJson, callback) {
