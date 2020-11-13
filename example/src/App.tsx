@@ -5,11 +5,11 @@ import {
   SmartMapViewMethods,
   SmartMapUserTaskType,
   SmartMapUserTask,
-  SmartMapModes,SmartMapObject, SmartMapUserTaskResponse, SmartMapNavigationUserTask
+  SmartMapModes,SmartMapObject, SmartMapUserTaskResponse, SmartMapNavigationUserTask,SmartBottomSheetStatus
 } from "react-native-steerpath-smart-map";
 import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
-import { View } from "react-native";
+import { BackHandler, View } from "react-native";
 import { CONFIG_STRING } from "./config.js";
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
@@ -21,10 +21,9 @@ export default function App() {
   const smartMapRef = useRef<SmartMapViewMethods>(null);
   const [sdkReady, setSDKReady] = useState(false);
   const [selectedObject, setSelectedObject] = useState<SmartMapObject>();
+  const [bottomSheetState, setBottomSheetState] = useState<SmartBottomSheetStatus>();
 
   useEffect(() => {
-    console.log("configString", CONFIG_STRING);
-
     RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
       .then((success) => {
         SmartMapManager.startWithConfig({
@@ -51,6 +50,17 @@ export default function App() {
     }
   };
 
+  const onMapLoaded = () => {
+    smartMapRef.current?.setMapMode(SmartMapModes.SEARCH);
+    BackHandler.addEventListener('hardwareBackPress', () => {
+      if(bottomSheetState === SmartBottomSheetStatus.EXPANDED) {
+        smartMapRef.current?.onBackPressed(() => {});
+        return true;
+      }
+      return false;
+    });
+  }
+
   return (
     <View style={{ flex: 10, flexDirection: "row" }}>
       <View style={{ flex: 7 }}>
@@ -59,10 +69,7 @@ export default function App() {
             style={{ flex: 1 }}
             apiKey={API_KEY}
             ref={smartMapRef}
-            onMapLoaded={() => {
-              console.log("Map loaded");
-              smartMapRef.current?.setMapMode(SmartMapModes.SEARCH);
-            }}
+            onMapLoaded={onMapLoaded}
             onMapClicked={(payload) => {
               const { mapObjects } = payload;
 
@@ -87,9 +94,10 @@ export default function App() {
             onViewStatusChanged={(payload) =>
               console.log("onViewstatuschanged", payload)
             }
-            onBottomSheetStatusChanged={(payload) =>
-              console.log("onBottomSheetStatusChanged", payload.status)
-            }
+            onBottomSheetStatusChanged={(payload) => {
+              setBottomSheetState(payload.status);
+              console.log("onBottomSheetStatusChanged", payload.status);
+            }}
             onNavigationEnded={() => console.log("navigation ended")}
             onNavigationStarted={() => console.log("navigation started")}
             onNavigationPreviewAppeared={() =>
@@ -110,9 +118,6 @@ export default function App() {
                 }
               }
             }}
-            /* onBackPressed={(callback) => {
-              console.log("onBackPressed", callback);
-            }} */
           />
         )}
       </View>
