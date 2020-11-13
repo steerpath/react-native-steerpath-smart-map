@@ -315,6 +315,9 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           onSearchResultSelected={(event) => {
             props.onSearchResultSelected?.(event.nativeEvent);
           }}
+          onBottomSheetStatusChanged={(event) => {
+            props.onBottomSheetStatusChanged?.(event.nativeEvent);
+          }}
         />
       </View>
     );

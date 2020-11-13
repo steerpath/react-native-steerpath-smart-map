@@ -88,7 +88,7 @@ export default function App() {
               console.log("onViewstatuschanged", payload)
             }
             onBottomSheetStatusChanged={(payload) =>
-              console.log("onBottomSheetStatusChanged", payload)
+              console.log("onBottomSheetStatusChanged", payload.status)
             }
             onNavigationEnded={() => console.log("navigation ended")}
             onNavigationStarted={() => console.log("navigation started")}

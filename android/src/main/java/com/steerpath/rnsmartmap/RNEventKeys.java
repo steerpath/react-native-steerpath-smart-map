@@ -14,6 +14,7 @@ public class RNEventKeys {
 
     // VIEW STATUS
     public static final String VIEW_STATUS_CHANGED = "onViewStatusChanged";
+    public static final String BOTTOMSHEET_STATUS_CHANGED = "onBottomSheetStatusChanged";
 
     // NAVIGATION EVENTS
     public static final String NAVIGATION_FAILED = "onNavigationFailed";
