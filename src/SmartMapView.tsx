@@ -7,7 +7,9 @@ import {
   findNodeHandle,
   Platform,
   View,
+  PixelRatio,
 } from "react-native";
+import { convertNativePixelToDp } from "./internalUtils";
 import { SmartMapViewProps, SmartMapViewMethods } from "./SmartMapViewProps";
 
 const NATIVE_VIEW_NAME = "RNSmartMapView";
@@ -232,22 +234,55 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
         }
       },
       getWidgetPadding(callback) {
+        function processedCallback(padding: {
+          left: number;
+          top: number;
+          right: number;
+          bottom: number;
+        }) {
+          callback({
+            left:
+              Platform.OS === "android"
+                ? convertNativePixelToDp(padding.left)
+                : padding.left,
+            top:
+              Platform.OS === "android"
+                ? convertNativePixelToDp(padding.top)
+                : padding.top,
+            right:
+              Platform.OS === "android"
+                ? convertNativePixelToDp(padding.right)
+                : padding.right,
+            bottom:
+              Platform.OS === "android"
+                ? convertNativePixelToDp(padding.bottom)
+                : padding.bottom,
+          });
+        }
         if (Platform.OS == "android") {
           NativeModules.RNSmartMapModule.getWidgetPadding(
             findNodeHandle(smartMapRef.current),
-            callback
+            processedCallback
           );
         } else {
-          runCommand(smartMapRef.current, "getWidgetPadding", [callback]);
+          runCommand(smartMapRef.current, "getWidgetPadding", [
+            processedCallback,
+          ]);
         }
       },
       setWidgetPadding(left, top, right, bottom) {
-        runCommand(smartMapRef.current, "setWidgetPadding", [
-          left || 0,
-          top || 0,
-          right || 0,
-          bottom || 0,
-        ]);
+        runCommand(
+          smartMapRef.current,
+          "setWidgetPadding",
+          Platform.OS === "android"
+            ? [
+                PixelRatio.getPixelSizeForLayoutSize(left || 0),
+                PixelRatio.getPixelSizeForLayoutSize(top || 0),
+                PixelRatio.getPixelSizeForLayoutSize(right || 0),
+                PixelRatio.getPixelSizeForLayoutSize(bottom || 0),
+              ]
+            : [left || 0, top || 0, right || 0, bottom || 0]
+        );
       },
       setGeoJson(sourceId, geoJson, callback) {
         if (Platform.OS === "android") {

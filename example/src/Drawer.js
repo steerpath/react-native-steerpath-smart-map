@@ -370,11 +370,7 @@ export default class Drawer extends Component {
   }
 
   setWidgetPadding = () => {
-    const padding =
-      Platform.OS === "android"
-        ? PixelRatio.getPixelSizeForLayoutSize(200)
-        : 200;
-    this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, padding);
+    this.props.smartMapRef.current.setWidgetPadding(0, 0, 0, 150);
   }
 
   getWidgetPadding = () => {
