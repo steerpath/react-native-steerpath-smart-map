@@ -38,6 +38,7 @@ import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
 import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.VISIBLE_FLOOR_CHANGED;
+import static com.steerpath.rnsmartmap.RNEventKeys.BOTTOMSHEET_STATUS_CHANGED;
 
 public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
 
@@ -79,24 +80,21 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     @Override
     public Map getExportedCustomDirectEventTypeConstants() {
         String registrationName = "registrationName";
-        Map<String, Map<String, String>> map =  MapBuilder.of(
-                MAP_LOADED, MapBuilder.of(registrationName, MAP_LOADED),
-                MAP_CLICKED, MapBuilder.of(registrationName, MAP_CLICKED),
-                SEARCH_RESULT_SELECTED, MapBuilder.of(registrationName, SEARCH_RESULT_SELECTED),
-                USER_FLOOR_CHANGED, MapBuilder.of(registrationName, USER_FLOOR_CHANGED),
-                VISIBLE_FLOOR_CHANGED, MapBuilder.of(registrationName, VISIBLE_FLOOR_CHANGED),
-                USER_TASK_RESPONSE, MapBuilder.of(registrationName, USER_TASK_RESPONSE),
-                VIEW_STATUS_CHANGED, MapBuilder.of(registrationName, VIEW_STATUS_CHANGED)
-        );
+        Map<String, Map<String, String>> map = MapBuilder.of(MAP_LOADED, MapBuilder.of(registrationName, MAP_LOADED),
+                MAP_CLICKED, MapBuilder.of(registrationName, MAP_CLICKED), SEARCH_RESULT_SELECTED,
+                MapBuilder.of(registrationName, SEARCH_RESULT_SELECTED), USER_FLOOR_CHANGED,
+                MapBuilder.of(registrationName, USER_FLOOR_CHANGED), VISIBLE_FLOOR_CHANGED,
+                MapBuilder.of(registrationName, VISIBLE_FLOOR_CHANGED), USER_TASK_RESPONSE,
+                MapBuilder.of(registrationName, USER_TASK_RESPONSE), VIEW_STATUS_CHANGED,
+                MapBuilder.of(registrationName, VIEW_STATUS_CHANGED));
 
-        map.putAll(MapBuilder.of(
-                NAVIGATION_FAILED, MapBuilder.of(registrationName, NAVIGATION_FAILED),
-                NAVIGATION_ENDED, MapBuilder.of(registrationName, NAVIGATION_ENDED),
-                NAVIGATION_STARTED, MapBuilder.of(registrationName, NAVIGATION_STARTED),
-                NAVIGATION_PREVIEW_APPEARED, MapBuilder.of(registrationName, NAVIGATION_PREVIEW_APPEARED),
-                NAVIGATION_DESTINATION_REACHED, MapBuilder.of(registrationName, NAVIGATION_DESTINATION_REACHED),
-                ON_BACK_PRESSED, MapBuilder.of(registrationName, ON_BACK_PRESSED)
-        ));
+        map.putAll(MapBuilder.of(NAVIGATION_FAILED, MapBuilder.of(registrationName, NAVIGATION_FAILED),
+                NAVIGATION_ENDED, MapBuilder.of(registrationName, NAVIGATION_ENDED), NAVIGATION_STARTED,
+                MapBuilder.of(registrationName, NAVIGATION_STARTED), NAVIGATION_PREVIEW_APPEARED,
+                MapBuilder.of(registrationName, NAVIGATION_PREVIEW_APPEARED), NAVIGATION_DESTINATION_REACHED,
+                MapBuilder.of(registrationName, NAVIGATION_DESTINATION_REACHED), ON_BACK_PRESSED,
+                MapBuilder.of(registrationName, ON_BACK_PRESSED), BOTTOMSHEET_STATUS_CHANGED,
+                MapBuilder.of(registrationName, BOTTOMSHEET_STATUS_CHANGED)));
 
         return map;
     }
@@ -140,12 +138,12 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 String iconImage = args.getString(2);
                 String rgbTextColor = args.getString(3);
                 String rgbTextHaloColor = args.getString(4);
-                mapView.addMarker(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map), getBuildingRef(map), 
-                        layout, iconImage, rgbTextColor, rgbTextHaloColor);
+                mapView.addMarker(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map),
+                        getBuildingRef(map), layout, iconImage, rgbTextColor, rgbTextHaloColor);
                 break;
             case ADD_MARKERS:
-                mapView.addMarkers(generateMapObjectsList(args.getArray(0)), args.getString(1),
-                        args.getString(2), args.getString(3), args.getString(4));
+                mapView.addMarkers(generateMapObjectsList(args.getArray(0)), args.getString(1), args.getString(2),
+                        args.getString(3), args.getString(4));
                 break;
             case ANIMATE_CAMERA:
                 Log.d("animateCamera", args.toString());
@@ -166,7 +164,8 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 break;
             case REMOVE_MARKER:
                 map = args.getMap(0);
-                mapView.removeMarker(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map), getBuildingRef(map));
+                mapView.removeMarker(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map),
+                        getBuildingRef(map));
                 break;
             case REMOVE_MARKERS:
                 mapView.removeMarkers(generateMapObjectsList(args.getArray(0)));
@@ -190,13 +189,15 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 ReadableMap payload = map.getMap("payload");
                 String taskType = map.getString("type");
                 if (taskType.equals("navigation")) {
-                    mapView.startNavigationUserTask(getLatitude(payload), getLongitude(payload), getFloorIndex(payload), getLocalRef(payload), getBuildingRef(payload));
+                    mapView.startNavigationUserTask(getLatitude(payload), getLongitude(payload), getFloorIndex(payload),
+                            getLocalRef(payload), getBuildingRef(payload));
                 } else if (taskType.equals("poiSelection")) {
                     map = args.getMap(0);
                     payload = map.getMap("payload");
                     ReadableMap mapObject = payload.getMap("smartMapObject");
-                    mapView.startPoiSelectionUserTask(getLocalRef(mapObject), getBuildingRef(mapObject), getSource(mapObject),
-                            payload.getBoolean("shouldAddMarker"), payload.getString("actionButtonText"), payload.getString("actionButtonIcon"));
+                    mapView.startPoiSelectionUserTask(getLocalRef(mapObject), getBuildingRef(mapObject),
+                            getSource(mapObject), payload.getBoolean("shouldAddMarker"),
+                            payload.getString("actionButtonText"), payload.getString("actionButtonIcon"));
                 } else {
                     Log.d("ERROR", "Invalid user task type");
                 }
@@ -226,7 +227,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 }
                 break;
             case SET_WIDGET_PADDING:
-                if(args != null) {
+                if (args != null) {
                     mapView.setWidgetPadding(args.getInt(0), args.getInt(1), args.getInt(2), args.getInt(3));
                 } else {
                     Log.w("RnSmartMapView", "No arguments for method setWidgetPadding()");
@@ -260,14 +261,12 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     }
 
     void sendEvent(ReactContext reactContext, View view, String eventName, @Nullable WritableMap params) {
-        reactContext
-                .getJSModule(RCTEventEmitter.class)
-                .receiveEvent(view.getId(), eventName, params);
+        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(view.getId(), eventName, params);
     }
 
     private List<SmartMapObject> generateMapObjectsList(ReadableArray array) {
         List<SmartMapObject> mapObjects = new ArrayList<>();
-        for (int i = 0; i<array.size(); i++) {
+        for (int i = 0; i < array.size(); i++) {
             mapObjects.add(generateMapObject(array.getMap(i)));
         }
 
@@ -275,6 +274,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     }
 
     private SmartMapObject generateMapObject(ReadableMap map) {
-        return new SmartMapObject(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map), getBuildingRef(map));
+        return new SmartMapObject(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map),
+                getBuildingRef(map));
     }
 }

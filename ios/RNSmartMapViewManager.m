@@ -509,6 +509,15 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
     }
 }
 
+-(void)spSmartMapView:(RNSmartMapView*)smartMap onBottomSheetChanged:(SPSmartMapBottomSheetViewState)state
+{
+    if (smartMap.onBottomSheetStatusChanged) {
+        smartMap.onBottomSheetStatusChanged(@{
+            @"status": [RCTConvert SPSmartMapBottomSheetViewState:state]
+                                      });
+    }
+}
+
 #pragma mark NavigationEvent
 
 -(void)spSmartMapViewOnNavigationEnded:(RNSmartMapView*)smartMap

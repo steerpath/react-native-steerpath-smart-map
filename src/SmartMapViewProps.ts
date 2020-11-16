@@ -145,12 +145,17 @@ export enum SmartMapEvent {
 export enum SmartMapViewStatus {
   ONLY_MAP = "onlyMap",
   CARD_VIEW = "cardView",
-  SEARCH_IN_MIN_HEIGHT = "searchInMinHeight",
   ERROR_VIEW = "errorView",
   SETTING_VIEW = "settingView",
   NAVIGATING_VIEW = "navigatingView",
-  SEARCH_IN_EXPANDED_MODE = "searchInExpandedMode",
-  SEARCH_IN_PREFERRED_HEIGHT = "searchInPreferredHeight",
+  SEARCH_VIEW = "searchView"
+}
+
+export enum SmartBottomSheetStatus {
+  HIDDEN = "hidden",
+  COLLAPSED = "collapsed",
+  HALF_EXPANDED = "halfExpanded",
+  EXPANDED = "expanded"
 }
 
 export enum NavigationError {
@@ -197,6 +202,9 @@ export interface SmartViewNativeProps {
   onViewStatusChanged?: (payload: {
     status: SmartMapViewStatus;
     poiDetail: SmartMapObject;
+  }) => void;
+  onBottomSheetStatusChanged?: (payload: {
+    status: SmartBottomSheetStatus;
   }) => void;
   onNavigationFailed?: (payload: { error: NavigationError }) => void;
   onNavigationEnded?: () => void;

@@ -17,6 +17,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeArray;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.ThemedReactContext;
+import com.steerpath.smart.BottomSheetViewState;
 import com.steerpath.smart.Layout;
 import com.steerpath.smart.NavigationUserTask;
 import com.steerpath.smart.ObjectSource;
@@ -37,6 +38,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import static com.steerpath.rnsmartmap.RNEventKeys.BOTTOMSHEET_STATUS_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.MAP_CLICKED;
 import static com.steerpath.rnsmartmap.RNEventKeys.MAP_LOADED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_DESTINATION_REACHED;
@@ -258,6 +260,29 @@ public class RNSmartMapView extends FrameLayout
         }
 
         manager.sendEvent(reactContext, this, VIEW_STATUS_CHANGED, map);
+    }
+
+    @Override
+    public void onBottomSheetStateChanged(int status) {
+        WritableMap map = new WritableNativeMap();
+        switch (status) {
+            case BottomSheetViewState.HIDDEN:
+                map.putString("status", "hidden");
+                break;
+            case BottomSheetViewState.COLLAPSED:
+                map.putString("status", "collapsed");
+                break;
+            case BottomSheetViewState.HALF_EXPANDED:
+                map.putString("status", "halfExpanded");
+                break;
+            case BottomSheetViewState.EXPANDED:
+                map.putString("status", "expanded");
+                break;
+            default:
+                map.putString("status", "unknownStatus");
+        }
+
+        manager.sendEvent(reactContext, this, BOTTOMSHEET_STATUS_CHANGED, map);
     }
 
     /**
