@@ -151,7 +151,7 @@ export enum SmartMapViewStatus {
   SEARCH_VIEW = "searchView"
 }
 
-export enum SmartBottomSheetStatus {
+export enum SmartBottomSheetState {
   HIDDEN = "hidden",
   COLLAPSED = "collapsed",
   HALF_EXPANDED = "halfExpanded",
@@ -203,8 +203,8 @@ export interface SmartViewNativeProps {
     status: SmartMapViewStatus;
     poiDetail: SmartMapObject;
   }) => void;
-  onBottomSheetStatusChanged?: (payload: {
-    status: SmartBottomSheetStatus;
+  onBottomSheetStateChanged?: (payload: {
+    state: SmartBottomSheetState;
   }) => void;
   onNavigationFailed?: (payload: { error: NavigationError }) => void;
   onNavigationEnded?: () => void;

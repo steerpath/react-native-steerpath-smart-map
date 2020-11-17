@@ -13,6 +13,13 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.8.0] - 2020-11-17
+
+- unified the units that setWidgetPadding and getWidgetPadding are using. Previously Android used pixels instead of dp, but now we use dp for all platforms and do the conversions internally.
+- added onBottomSheetStateChanged event and SmartBottomSheetState enum
+- bump iOS Smart SDK version to 1.12.0
+- bump Android Smart SDK version to android-smart-1.8.0
+
 ## [1.7.1] - 2020-11-03
 
 - bump Android Smart SDK version to android-smart-1.7.1 to fix issue with translations that appeared in version 1.7.0

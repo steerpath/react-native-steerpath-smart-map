@@ -5,7 +5,7 @@ import {
   SmartMapViewMethods,
   SmartMapUserTaskType,
   SmartMapUserTask,
-  SmartMapModes,SmartMapObject, SmartMapUserTaskResponse, SmartMapNavigationUserTask,SmartBottomSheetStatus
+  SmartMapModes,SmartMapObject, SmartMapUserTaskResponse, SmartMapNavigationUserTask,SmartBottomSheetState
 } from "react-native-steerpath-smart-map";
 import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
@@ -21,7 +21,7 @@ export default function App() {
   const smartMapRef = useRef<SmartMapViewMethods>(null);
   const [sdkReady, setSDKReady] = useState(false);
   const [selectedObject, setSelectedObject] = useState<SmartMapObject>();
-  const [bottomSheetState, setBottomSheetState] = useState<SmartBottomSheetStatus>();
+  const [bottomSheetState, setBottomSheetState] = useState<SmartBottomSheetState>();
 
   useEffect(() => {
     RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
@@ -53,7 +53,7 @@ export default function App() {
   const onMapLoaded = () => {
     smartMapRef.current?.setMapMode(SmartMapModes.SEARCH);
     BackHandler.addEventListener('hardwareBackPress', () => {
-      if(bottomSheetState === SmartBottomSheetStatus.EXPANDED) {
+      if(bottomSheetState === SmartBottomSheetState.EXPANDED) {
         smartMapRef.current?.onBackPressed(() => {});
         return true;
       }
@@ -94,9 +94,9 @@ export default function App() {
             onViewStatusChanged={(payload) =>
               console.log("onViewstatuschanged", payload)
             }
-            onBottomSheetStatusChanged={(payload) => {
-              setBottomSheetState(payload.status);
-              console.log("onBottomSheetStatusChanged", payload.status);
+            onBottomSheetStateChanged={(payload) => {
+              setBottomSheetState(payload.state);
+              console.log("onBottomSheetStatusChanged", payload.state);
             }}
             onNavigationEnded={() => console.log("navigation ended")}
             onNavigationStarted={() => console.log("navigation started")}

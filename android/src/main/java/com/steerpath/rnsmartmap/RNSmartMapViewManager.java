@@ -38,7 +38,7 @@ import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
 import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.VISIBLE_FLOOR_CHANGED;
-import static com.steerpath.rnsmartmap.RNEventKeys.BOTTOMSHEET_STATUS_CHANGED;
+import static com.steerpath.rnsmartmap.RNEventKeys.BOTTOMSHEET_STATE_CHANGED;
 
 public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
 
@@ -93,8 +93,8 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 MapBuilder.of(registrationName, NAVIGATION_STARTED), NAVIGATION_PREVIEW_APPEARED,
                 MapBuilder.of(registrationName, NAVIGATION_PREVIEW_APPEARED), NAVIGATION_DESTINATION_REACHED,
                 MapBuilder.of(registrationName, NAVIGATION_DESTINATION_REACHED), ON_BACK_PRESSED,
-                MapBuilder.of(registrationName, ON_BACK_PRESSED), BOTTOMSHEET_STATUS_CHANGED,
-                MapBuilder.of(registrationName, BOTTOMSHEET_STATUS_CHANGED)));
+                MapBuilder.of(registrationName, ON_BACK_PRESSED), BOTTOMSHEET_STATE_CHANGED,
+                MapBuilder.of(registrationName, BOTTOMSHEET_STATE_CHANGED)));
 
         return map;
     }

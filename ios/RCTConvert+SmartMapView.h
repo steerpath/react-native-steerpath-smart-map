@@ -25,7 +25,7 @@
 + (NSDictionary*)convertMapObjectToJSONWith:(SPSmartMapObject*)mapObj;
 + (NSArray<NSDictionary*>*)convertMapObjects:(id)mapObjects;
 + (NSString*)SPMapViewStatus:(SPMapViewStatus)status;
-+ (NSString*)SPSmartMapBottomSheetViewState:(SPSmartMapBottomSheetViewState)status;
++ (NSString*)SPSmartMapBottomSheetViewState:(SPSmartMapBottomSheetViewState)state;
 + (NSString*)SPNavigationError:(SPNavigationError)error;
 + (NSString*)SPSmartMapUserTaskResponse:(SPSmartMapUserTaskResponse)response;
 

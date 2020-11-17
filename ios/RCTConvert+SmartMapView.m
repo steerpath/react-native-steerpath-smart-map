@@ -214,9 +214,9 @@
     }
 }
 
-+ (NSString *)SPSmartMapBottomSheetViewState:(SPSmartMapBottomSheetViewState)status
++ (NSString *)SPSmartMapBottomSheetViewState:(SPSmartMapBottomSheetViewState)state
 {
-    switch (status) {
+    switch (state) {
         case SPSmartMapBottomSheetViewStateHidden:
             return @"hidden";
         case SPSmartMapBottomSheetViewStateCollapsed:
@@ -226,7 +226,7 @@
         case SPSmartMapBottomSheetViewStateExpanded:
             return @"expanded";
         default:
-            return @"unknownStatus";
+            return @"unknownState";
     }
 }
 

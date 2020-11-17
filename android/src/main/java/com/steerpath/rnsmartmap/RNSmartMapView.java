@@ -38,7 +38,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import static com.steerpath.rnsmartmap.RNEventKeys.BOTTOMSHEET_STATUS_CHANGED;
+import static com.steerpath.rnsmartmap.RNEventKeys.BOTTOMSHEET_STATE_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.MAP_CLICKED;
 import static com.steerpath.rnsmartmap.RNEventKeys.MAP_LOADED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_DESTINATION_REACHED;
@@ -267,22 +267,22 @@ public class RNSmartMapView extends FrameLayout
         WritableMap map = new WritableNativeMap();
         switch (status) {
             case BottomSheetViewState.HIDDEN:
-                map.putString("status", "hidden");
+                map.putString("state", "hidden");
                 break;
             case BottomSheetViewState.COLLAPSED:
-                map.putString("status", "collapsed");
+                map.putString("state", "collapsed");
                 break;
             case BottomSheetViewState.HALF_EXPANDED:
-                map.putString("status", "halfExpanded");
+                map.putString("state", "halfExpanded");
                 break;
             case BottomSheetViewState.EXPANDED:
-                map.putString("status", "expanded");
+                map.putString("state", "expanded");
                 break;
             default:
-                map.putString("status", "unknownStatus");
+                map.putString("state", "unknownStatus");
         }
 
-        manager.sendEvent(reactContext, this, BOTTOMSHEET_STATUS_CHANGED, map);
+        manager.sendEvent(reactContext, this, BOTTOMSHEET_STATE_CHANGED, map);
     }
 
     /**
