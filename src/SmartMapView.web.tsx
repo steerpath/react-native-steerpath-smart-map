@@ -5,6 +5,7 @@ import React, {
   useRef,
   forwardRef,
 } from "react";
+import { PixelRatio } from "react-native";
 import {
   SmartMapViewProps,
   SmartMapObject,
@@ -300,6 +301,7 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
         // No web implementation
       },
       getWidgetPadding() {
+        // TODO: add correct callback to getWidgetPadding on web
         return runCommand(smartMapRef.current, "getWidgetPadding", []);
       },
       resetWidgetPadding() {
@@ -307,22 +309,22 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
       },
       setWidgetPadding(left, top, right, bottom) {
         runCommand(smartMapRef.current, "setWidgetPadding", [
-          left,
-          top,
-          right,
-          bottom,
+          PixelRatio.getPixelSizeForLayoutSize(left || 0),
+          PixelRatio.getPixelSizeForLayoutSize(top || 0),
+          PixelRatio.getPixelSizeForLayoutSize(right || 0),
+          PixelRatio.getPixelSizeForLayoutSize(bottom || 0),
         ]);
       },
       setGeoJson(sourceId, geoJson, callback) {
         runCommand(smartMapRef.current, "setGeoJson", [
           sourceId,
           geoJson,
-          callback
+          callback,
         ]);
       },
-      stopLive(){
+      stopLive() {
         runCommand(smartMapRef.current, "stopLive", []);
-      }
+      },
     }));
 
     return <div id={COMPONENT_ID_PREFIX} style={{ flex: 1, height: "100%" }} />;

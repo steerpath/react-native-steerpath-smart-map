@@ -42,6 +42,7 @@ RCT_EXPORT_VIEW_PROPERTY(onMapClicked, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onUserFloorChanged, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onVisibleFloorChanged, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onViewStatusChanged, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onBottomSheetStateChanged, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onNavigationEnded, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onNavigationFailed, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onNavigationStarted, RCTBubblingEventBlock)
@@ -505,6 +506,15 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
         smartMap.onViewStatusChanged(@{
                                       @"status": [RCTConvert SPMapViewStatus:status],
                                       @"poiDetail": [RCTConvert convertMapObjectToJSONWith:objectDetail]
+                                      });
+    }
+}
+
+-(void)spSmartMapView:(RNSmartMapView*)smartMap onBottomSheetChanged:(SPSmartMapBottomSheetViewState)state
+{
+    if (smartMap.onBottomSheetStateChanged) {
+        smartMap.onBottomSheetStateChanged(@{
+            @"state": [RCTConvert SPSmartMapBottomSheetViewState:state]
                                       });
     }
 }
