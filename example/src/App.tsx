@@ -76,7 +76,7 @@ export default function App() {
               if (mapObjects.length > 0) {
                 const smartmapObject = mapObjects[0];
                 // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
-                navigateToPoi(smartmapObject);
+                smartMapRef.current?.selectMapObject(smartmapObject);
               }
 
               

@@ -7,11 +7,17 @@ All app release notes of react-native-steerpath-smart-map will be documented in 
 The format is based on [Keep a Changelog](http://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-This package is built on top of Steerpath's Smart SDK, and most of releases are made due to changes in Web or native SDK's. More details of Smart SDK releases behind the links:
+This package is built on top of Steerpath's Smart SDK, and most of releases are made due to changes in Web or native SDK's. More details of Smart SDK releases behind the following links:<br>
 
-[Android](https://s3-eu-west-1.amazonaws.com/steerpath/android/documentation/smart/index.html)
-[iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
-[Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
+- [Android](https://s3-eu-west-1.amazonaws.com/steerpath/android/documentation/smart/index.html)
+- [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
+- [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
+
+## [1.8.1] - 2020-12-10
+
+- Android: run RNSmartMapManager.setLiveConfiguration() in UI thread to prevent errors
+- Bump Android Smart SDK version to android-smart-1.8.1
+- Bump iOS Smart SDK version to 1.12.1
 
 ## [1.8.0] - 2020-11-17
 
