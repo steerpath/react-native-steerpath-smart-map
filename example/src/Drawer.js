@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { PixelRatio, Text, View } from "react-native";
+import { Text, View } from "react-native";
 import { SafeAreaView, ScrollView, Button, Platform } from "react-native";
 import {
   SmartGeofenceManager,
