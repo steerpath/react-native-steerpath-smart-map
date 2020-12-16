@@ -16,7 +16,7 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 ## [1.8.2] - 2020-12-16
 
 - Bump Android Smart SDK to android-smart-1.8.3 (fixes problem with navigation event callbacks)
-- Bump iOS Smart SDK to 1.13.0 (fixes map performance issues)
+- Bump iOS Smart SDK to 1.13.1 (fixes map performance issues)
 
 ## [1.8.1] - 2020-12-10
 
