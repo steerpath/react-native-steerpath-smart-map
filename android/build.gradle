@@ -59,7 +59,7 @@ repositories {
 
 dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactnativeVersion', '+')}"
-    api "com.steerpath:smart:android-smart-1.8.3"
+    api "com.steerpath:smart:android-smart-1.9.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
 }
