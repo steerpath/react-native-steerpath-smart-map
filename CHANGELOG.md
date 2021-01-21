@@ -13,6 +13,10 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.8.4] - 2021-01-21
+
+- Fix onViewStatusChanged callback values for Android
+
 ## [1.8.3] - 2021-01-12
 
 - Bump iOS Smart SDK to 1.14.0 (improved Voice Over support)

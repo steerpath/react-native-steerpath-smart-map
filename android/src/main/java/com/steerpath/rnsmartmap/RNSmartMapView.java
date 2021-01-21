@@ -19,6 +19,7 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.steerpath.smart.BottomSheetViewState;
 import com.steerpath.smart.Layout;
+import com.steerpath.smart.NavigationError;
 import com.steerpath.smart.NavigationUserTask;
 import com.steerpath.smart.ObjectSource;
 import com.steerpath.smart.POISelectionUserTask;
@@ -26,6 +27,7 @@ import com.steerpath.smart.SmartMapFragment;
 import com.steerpath.smart.SmartMapObject;
 import com.steerpath.smart.UserTask;
 import com.steerpath.smart.UserTaskResponse;
+import com.steerpath.smart.ViewStatus;
 import com.steerpath.smart.listeners.MapEventListener;
 import com.steerpath.smart.listeners.NavigationEventListener;
 import com.steerpath.smart.listeners.UserTaskListener;
@@ -243,7 +245,22 @@ public class RNSmartMapView extends FrameLayout
     @Override
     public void onNavigationFailed(String s) {
         WritableMap map = new WritableNativeMap();
-        map.putString("error", s);
+        String error;
+        switch (s) {
+            case NavigationError.POI_NOT_FOUND:
+                error = "objectNotFound";
+                break;
+            case NavigationError.ROUTE_NOT_FOUND:
+                error = "routeNotFound";
+                break;
+            case NavigationError.USER_LOCATION_NOT_FOUND:
+                error = "userLocationNotFound";
+                break;
+            default:
+                error = s;
+                break;
+        }
+        map.putString("error", error);
         manager.sendEvent(reactContext, this, NAVIGATION_FAILED, map);
     }
 
@@ -254,11 +271,36 @@ public class RNSmartMapView extends FrameLayout
     @Override
     public void onViewStatusChanged(String s, SmartMapObject smartMapObject) {
         WritableMap map = new WritableNativeMap();
-        map.putString("status", s);
+        String status;
+        switch (s) {
+            case ViewStatus.CARD_VIEW:
+                status = "cardView";
+                break;
+            case ViewStatus.ERROR_VIEW:
+                status = "errorView";
+                break;
+            case ViewStatus.SETTINGS_VIEW:
+                status = "settingView";
+                break;
+            case ViewStatus.MAP_ONLY:
+                status = "onlyMap";
+                break;
+            case ViewStatus.NAVIGATION_VIEW:
+                status = "navigatingView";
+                break;
+            case ViewStatus.SEARCH_VIEW:
+                status = "searchView";
+                break;
+            default:
+                status = "mapOnly";
+                break;
+        }
+
         if (smartMapObject != null) {
             map.putMap("smartMapObject", smartMapObjectToWritableMap(smartMapObject, false));
         }
 
+        map.putString("status", status);
         manager.sendEvent(reactContext, this, VIEW_STATUS_CHANGED, map);
     }
 

@@ -5,7 +5,7 @@ import {
   SmartMapViewMethods,
   SmartMapUserTaskType,
   SmartMapUserTask,
-  SmartMapModes,SmartMapObject, SmartMapUserTaskResponse, SmartMapNavigationUserTask,SmartBottomSheetState
+  SmartMapModes,SmartMapObject, SmartMapUserTaskResponse, SmartMapNavigationUserTask,SmartBottomSheetState, SmartMapViewStatus
 } from "react-native-steerpath-smart-map";
 import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
@@ -91,9 +91,27 @@ export default function App() {
               console.log("Search result selected ", payload.mapObject);
               smartMapRef.current?.selectMapObject(payload.mapObject);
             }}
-            onViewStatusChanged={(payload) =>
-              console.log("onViewstatuschanged", payload)
-            }
+            onViewStatusChanged={(payload) => {
+              console.log("onViewstatuschanged", payload);
+              if(payload.status === SmartMapViewStatus.CARD_VIEW) {
+                console.log('card');
+              }
+              if(payload.status === SmartMapViewStatus.SEARCH_VIEW) {
+                console.log('search');
+              }
+              if(payload.status === SmartMapViewStatus.SETTING_VIEW) {
+                console.log('settings');
+              }
+              if(payload.status === SmartMapViewStatus.NAVIGATING_VIEW) {
+                console.log('nav');
+              }
+              if(payload.status === SmartMapViewStatus.ERROR_VIEW) {
+                console.log('err');
+              }
+              if(payload.status === SmartMapViewStatus.ONLY_MAP) {
+                console.log('map');
+              }
+            }}
             onBottomSheetStateChanged={(payload) => {
               setBottomSheetState(payload.state);
               console.log("onBottomSheetStatusChanged", payload.state);

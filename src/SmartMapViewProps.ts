@@ -148,14 +148,14 @@ export enum SmartMapViewStatus {
   ERROR_VIEW = "errorView",
   SETTING_VIEW = "settingView",
   NAVIGATING_VIEW = "navigatingView",
-  SEARCH_VIEW = "searchView"
+  SEARCH_VIEW = "searchView",
 }
 
 export enum SmartBottomSheetState {
   HIDDEN = "hidden",
   COLLAPSED = "collapsed",
   HALF_EXPANDED = "halfExpanded",
-  EXPANDED = "expanded"
+  EXPANDED = "expanded",
 }
 
 export enum NavigationError {
