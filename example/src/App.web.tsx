@@ -5,6 +5,7 @@ import {
   SmartMapObject,
   SmartMapViewMethods,
   SmartMapUserTaskType,
+  SmartMapModes,
 } from "react-native-steerpath-smart-map";
 import { View } from "react-native";
 import { CONFIG_STRING } from "./config.js";
