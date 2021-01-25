@@ -56,6 +56,9 @@ export default function App() {
               //   smartMapRef.current?.selectMapObject(smartmapObject);
               // }
             }}
+            onSearchCategorySelected={(payload)=>{
+              console.log("payload  ", payload);
+            }}
             onUserFloorChanged={(payload) =>
               console.log("User floor changed", payload)
             }

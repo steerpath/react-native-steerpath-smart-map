@@ -188,6 +188,12 @@ export interface SmartViewWebProps {
   apiKey?: string;
 }
 
+export interface SearchAction {
+  anyTags: Array<string>;
+  title: string;
+  type: string;
+}
+
 export interface SmartViewNativeProps {
   onMapClicked?: (payload: { mapObjects: SmartMapObject[] }) => void;
   onSearchResultSelected?: (payload: { mapObject: SmartMapObject }) => void;
@@ -214,6 +220,10 @@ export interface SmartViewNativeProps {
   onUserTaskResponse?: (payload: {
     response: SmartMapUserTaskResponse;
     userTask: SmartMapUserTask;
+  }) => void;
+  onSearchCategorySelected?: (payload: {
+    searchAction: any,
+    searchResults: Array<SmartMapObject>
   }) => void;
 }
 
