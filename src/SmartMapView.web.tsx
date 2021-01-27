@@ -111,6 +111,10 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           sdk: "steerpathMapLoaded",
           binding: "onMapLoaded",
         },
+        {
+          sdk: "onSearchCategorySelected",
+          binding: "onSearchCategorySelected",
+        },
       ];
       //add map event listeners ("on")
       events.forEach((event) => {

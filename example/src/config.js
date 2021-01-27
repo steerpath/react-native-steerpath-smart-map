@@ -252,6 +252,9 @@ export const CONFIG_STRING = `{
       },
       "ios": {
           "useCompass": true
+      },
+      "web": {
+        "enabled": true
       }
   },
     "ui": {

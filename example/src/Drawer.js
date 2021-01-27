@@ -177,7 +177,7 @@ export default class Drawer extends Component {
     let localRef = "";
     switch (source) {
       case "STATIC":
-        localRef = "Kitchen";
+        localRef = "R&D";
         this.props.smartMapRef.current.getMapObject(
           localRef,
           this.buildingRef,
