@@ -72,14 +72,11 @@ export default function App() {
             onMapLoaded={onMapLoaded}
             onMapClicked={(payload) => {
               const { mapObjects } = payload;
-
               if (mapObjects.length > 0) {
                 const smartmapObject = mapObjects[0];
                 // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
                 smartMapRef.current?.selectMapObject(smartmapObject);
-              }
-
-              
+              }       
             }}
             onUserFloorChanged={(payload) =>
               console.log("User floor changed", payload)
