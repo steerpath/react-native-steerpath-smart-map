@@ -1,7 +1,7 @@
 {
   "name": "react-native-steerpath-smart-map",
   "title": "React Native Steerpath Smart Map",
-  "version": "1.8.5",
+  "version": "1.9.0",
   "description": "Steerpath SmartMapView for React Native",
   "main": "dist/index.js",
   "scripts": {
