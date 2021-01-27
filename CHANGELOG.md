@@ -13,6 +13,12 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.9.0] - 2021-01-27
+
+- Added onSearchCategorySelected callback. Currently only Web support.
+- Bump web Smart SDK version to 1.5.8
+- Fix onVisibleFloorChanged payload for web
+
 ## [1.8.4] - 2021-01-21
 
 - Fix onViewStatusChanged callback values for Android
