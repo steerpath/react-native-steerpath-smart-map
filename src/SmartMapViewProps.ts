@@ -189,7 +189,7 @@ export interface SmartViewWebProps {
 }
 
 export interface SearchAction {
-  anyTags: Array<string>;
+  allTags: string[];
   title: string;
   type: string;
 }
@@ -222,8 +222,8 @@ export interface SmartViewNativeProps {
     userTask: SmartMapUserTask;
   }) => void;
   onSearchCategorySelected?: (payload: {
-    searchAction: any,
-    searchResults: Array<SmartMapObject>
+    searchAction: SearchAction;
+    searchResults: SmartMapObject[];
   }) => void;
 }
 
