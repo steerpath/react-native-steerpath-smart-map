@@ -24,7 +24,7 @@
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",
   "dependencies": {
-    "steerpath-smart-sdk": "^1.5.8"
+    "steerpath-smart-sdk": "^1.5.11"
   },
   "peerDependencies": {
     "react": "^16.5.0",
