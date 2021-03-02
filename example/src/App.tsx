@@ -1,16 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  SmartMapManager,
-  SmartMapView,
-  SmartMapViewMethods,
-  SmartMapUserTaskType,
-  SmartMapUserTask,
-  SmartMapModes,SmartMapObject, SmartMapUserTaskResponse, SmartMapNavigationUserTask,SmartBottomSheetState, SmartMapViewStatus
-} from "react-native-steerpath-smart-map";
+
 import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { BackHandler, View } from "react-native";
 import { CONFIG_STRING } from "./config.js";
+import { SmartBottomSheetState, SmartMapManager, SmartMapModes, SmartMapNavigationUserTask, SmartMapObject, SmartMapUserTask, SmartMapUserTaskResponse, SmartMapUserTaskType, SmartMapView, SmartMapViewMethods, SmartMapViewStatus } from "react-native-steerpath-smart-map";
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
 
@@ -69,7 +63,7 @@ export default function App() {
             style={{ flex: 1 }}
             apiKey={API_KEY}
             ref={smartMapRef}
-            onMapLoaded={onMapLoaded}
+            onMapLoaded={onMapLoaded}            
             onMapClicked={(payload) => {
               const { mapObjects } = payload;
               if (mapObjects.length > 0) {

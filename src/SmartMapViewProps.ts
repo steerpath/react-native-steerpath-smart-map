@@ -195,35 +195,35 @@ export interface SearchAction {
 }
 
 export interface SmartViewNativeProps {
+  onBottomSheetStateChanged?: (payload: {
+    state: SmartBottomSheetState;
+  }) => void;
   onMapClicked?: (payload: { mapObjects: SmartMapObject[] }) => void;
+  onNavigationDestinationReached?: () => void;
+  onNavigationEnded?: () => void;
+  onNavigationFailed?: (payload: { error: NavigationError }) => void;
+  onNavigationPreviewAppeared?: () => void;
+  onNavigationStarted?: () => void;
+  onSearchCategorySelected?: (payload: { // currently web only
+    searchAction: SearchAction;
+    searchResults: SmartMapObject[];
+  }) => void;
   onSearchResultSelected?: (payload: { mapObject: SmartMapObject }) => void;
   onUserFloorChanged?: (payload: {
     floorIndex: number;
     buildingRef?: string;
   }) => void;
-  onVisibleFloorChanged?: (payload: {
-    floorIndex: number;
-    buildingRef?: string;
+  onUserTaskResponse?: (payload: {
+    response: SmartMapUserTaskResponse;
+    userTask: SmartMapUserTask;
   }) => void;
   onViewStatusChanged?: (payload: {
     status: SmartMapViewStatus;
     poiDetail: SmartMapObject;
   }) => void;
-  onBottomSheetStateChanged?: (payload: {
-    state: SmartBottomSheetState;
-  }) => void;
-  onNavigationFailed?: (payload: { error: NavigationError }) => void;
-  onNavigationEnded?: () => void;
-  onNavigationStarted?: () => void;
-  onNavigationPreviewAppeared?: () => void;
-  onNavigationDestinationReached?: () => void;
-  onUserTaskResponse?: (payload: {
-    response: SmartMapUserTaskResponse;
-    userTask: SmartMapUserTask;
-  }) => void;
-  onSearchCategorySelected?: (payload: {
-    searchAction: SearchAction;
-    searchResults: SmartMapObject[];
+  onVisibleFloorChanged?: (payload: {
+    floorIndex: number;
+    buildingRef?: string;
   }) => void;
 }
 
