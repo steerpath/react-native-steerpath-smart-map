@@ -8,61 +8,6 @@ export interface ConfigSDK {
 }
 
 export interface SmartMapViewMethods {
-  setCamera(arg: {
-    latitude: number;
-    longitude: number;
-    zoomLevel: number;
-    bearing?: number;
-    pitch?: number;
-    floorIndex?: number;
-    buildingRef?: string;
-  }): void;
-  animateCamera(arg: {
-    latitude: number;
-    longitude: number;
-    zoomLevel: number;
-    bearing?: number;
-    pitch?: number;
-    floorIndex?: number;
-    buildingRef?: string;
-  }): void;
-  animateCameraToBuildingRef(
-    buildingRef: string,
-    callback: (response: MapResponse) => void
-  ): void;
-  setMapMode(mapMode: SmartMapModes): void;
-  startUserTask(userTask: SmartMapUserTask): void;
-  getCurrentUserTask(
-    callback: (userTaskResponse: SmartMapUserTaskResponse) => void
-  ): void;
-  cancelCurrentUserTask(): void;
-  selectMapObject(mapObj: SmartMapObject): void;
-  getMapObject(
-    localRef: string,
-    buildingRef: string,
-    source: string,
-    callback: (mapObject: SmartMapObject | null) => void
-  ): void;
-  getMapObjectByProperties(
-    properties: Record<string, unknown>,
-    callback: (mapObject: SmartMapObject | null) => void
-  ): void;
-  animateCameraToObject(
-    localRef: string,
-    buildingRef: string,
-    zoomLevel: number | null,
-    callback: (response: MapResponse) => void
-  ): void;
-  setCameraToBuildingRef(
-    buildingRef: string,
-    callback: (response: MapResponse) => void
-  ): void;
-  setCameraToObject(
-    localRef: string,
-    buildingRef: string,
-    zoomLevel: number,
-    callback: (response: MapResponse) => void
-  ): void;
   addMarker(
     smartMapObj: SmartMapObject,
     layout: Layout | null,
@@ -77,12 +22,39 @@ export interface SmartMapViewMethods {
     textColor: string | null,
     textHaloColor: string | null
   ): void;
-  removeMarker(smartMapObj: SmartMapObject): void;
-  removeMarkers(smartMaps: SmartMapObject[]): void;
-  removeAllMarkers(): void;
-  onBackPressed(callback: (response: boolean) => void): void; // Android only
-  start(): void; // Android only
-  stop(): void; // Android only
+  animateCamera(arg: {
+    latitude: number;
+    longitude: number;
+    zoomLevel: number;
+    bearing?: number;
+    pitch?: number;
+    floorIndex?: number;
+    buildingRef?: string;
+  }): void;
+  animateCameraToBuildingRef(
+    buildingRef: string,
+    callback: (response: MapResponse) => void
+  ): void;
+  animateCameraToObject(
+    localRef: string,
+    buildingRef: string,
+    zoomLevel: number | null,
+    callback: (response: MapResponse) => void
+  ): void;
+  cancelCurrentUserTask(): void;
+  getCurrentUserTask(
+    callback: (userTaskResponse: SmartMapUserTaskResponse) => void
+  ): void;
+  getMapObject(
+    localRef: string,
+    buildingRef: string,
+    source: SmartObjectSource,
+    callback: (mapObject: SmartMapObject | null) => void
+  ): void;
+  getMapObjectByProperties(
+    properties: Record<string, unknown>,
+    callback: (mapObject: SmartMapObject | null) => void
+  ): void;
   getWidgetPadding(
     callback: (padding: {
       left: number;
@@ -91,17 +63,45 @@ export interface SmartMapViewMethods {
       bottom: number;
     }) => void
   ): void;
-  setWidgetPadding(
-    left: number,
-    top: number,
-    right: number,
-    bottom: number
-  ): void; // currently for Android only (v1.4.0)
+  onBackPressed(callback: (response: boolean) => void): void; // Android only
+  removeMarker(smartMapObj: SmartMapObject): void;
+  removeMarkers(mapObjectsArray: SmartMapObject[]): void;
+  removeAllMarkers(): void;
+  selectMapObject(mapObj: SmartMapObject): void;
+  setCamera(arg: {
+    latitude: number;
+    longitude: number;
+    zoomLevel: number;
+    bearing?: number;
+    pitch?: number;
+    floorIndex?: number;
+    buildingRef?: string;
+  }): void;
+  setCameraToBuildingRef(
+    buildingRef: string,
+    callback: (response: MapResponse) => void
+  ): void;
+  setCameraToObject(
+    localRef: string,
+    buildingRef: string,
+    zoomLevel: number,
+    callback: (response: MapResponse) => void
+  ): void;
   setGeoJson(
     sourceId: string,
     geoJson: Record<string, unknown> | null,
     callback: (response: MapResponse) => void
   ): void;
+  setMapMode(mapMode: SmartMapModes): void;
+  setWidgetPadding(
+    left: number,
+    top: number,
+    right: number,
+    bottom: number
+  ): void;
+  start(): void; // Android only
+  startUserTask(userTask: SmartMapUserTask): void;
+  stop(): void; // Android only
 }
 
 export enum SmartMapModes {
