@@ -52,7 +52,7 @@
 | `setCameraToBuildingRef` | `buildingRef: string, callback?: (response: MapResponse) => void` | iOS/Android/Web | Move the camera to a specific building. Does not include animation.|
 | `setCameraToObject` | `localRef: string, buildingRef: string, zoomLevel: number ⎮ null, callback?: (response: MapResponse) => void` | iOS/Android/Web | Move the camera to a specific point of interest. Does not include animation.|
 | `setGeoJson` | `sourceId: string, geoJson: Record<string, unknown> ⎮ null, callback: (response: MapResponse) => void` | iOS/Android/Web | Finds GeoJsonSource from the current map style and sets the given GeoJson as its data source. If source is not found, MapResponse.OBJECT_NOT_FOUND will be triggered.|
-| `setMapMode` | `mapMode: SmartMapModes` | iOS/Android/Web | Change the map mode of the map view |
+| `setMapMode` | `mapMode: SmartMapMode` | iOS/Android/Web | Change the map mode of the map view |
 | `setWidgetPadding` | `left, top, right, bottom` as `numbers` | iOS/Android/Web | set padding for the map widgets, inputs are treated as dp points |
 | `start` | | Android | If your application has more than one screen, it’s recommended to use this with `willFocus` subscription. Without calling `start` and `stop`methods, the app may freeze when navigating away from the map screen. |
 | `startUserTask` | `userTask: SmartMapUserTask` | iOS/Android | Starts given UserTask unless some other UserTask is already in progress. Current MapMode will be suspended. |

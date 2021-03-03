@@ -92,7 +92,7 @@ export interface SmartMapViewMethods {
     geoJson: Record<string, unknown> | null,
     callback: (response: MapResponse) => void
   ): void;
-  setMapMode(mapMode: SmartMapModes): void;
+  setMapMode(mapMode: SmartMapMode): void;
   setWidgetPadding(
     left: number,
     top: number,
@@ -104,7 +104,7 @@ export interface SmartMapViewMethods {
   stop(): void; // Android only
 }
 
-export enum SmartMapModes {
+export enum SmartMapMode {
   MAP_ONLY = "mapOnly",
   STATIC = "static",
   SEARCH = "search",
