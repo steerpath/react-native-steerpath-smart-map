@@ -4,7 +4,7 @@ import { SafeAreaView, ScrollView, Button, Platform } from "react-native";
 import {
   SmartGeofenceManager,
   SmartMapManager,
-  SmartMapModes,
+  SmartMapMode,
 } from "react-native-steerpath-smart-map";
 
 export default class Drawer extends Component {
@@ -77,7 +77,7 @@ export default class Drawer extends Component {
       mapboxSDKVersion: "",
     };
     this.padding = [];
-    this.mapMode = SmartMapModes.SEARCH;
+    this.mapMode = SmartMapMode.SEARCH;
   }
 
   componentDidMount() {

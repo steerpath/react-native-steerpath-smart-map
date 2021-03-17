@@ -3,7 +3,7 @@
 > This API is only available for the Native Platforms
 
 | Function | Arguments | Note |
-|:---|:---:|:---:|:------|
+|:---|:---|:---|:------|
 | `addGeofence` | `localRef: string, buildingRef: string, callback: (error: Error, response: SmartGeofenceResponse) => void` | Searches geofence with given localRef and buildingRef, and registers it.
 | `removeGeofence` | `localRef: string, buildingRef: string` | Remove the geofence with given localRef and buildingRef
 | `addBeaconfence` | `beaconId: string, radius: number, loiteringDelay: number, callback: (error: Error, response: SmartGeofenceResponse) => void` | Searches beaconfence with given localRef and buildingRef, and registers it.

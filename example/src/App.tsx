@@ -1,16 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import {
-  SmartMapManager,
-  SmartMapView,
-  SmartMapViewMethods,
-  SmartMapUserTaskType,
-  SmartMapUserTask,
-  SmartMapModes,SmartMapObject, SmartMapUserTaskResponse, SmartMapNavigationUserTask,SmartBottomSheetState, SmartMapViewStatus
-} from "react-native-steerpath-smart-map";
+
 import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { BackHandler, View } from "react-native";
 import { CONFIG_STRING } from "./config.js";
+import { SmartBottomSheetState, SmartMapManager, SmartMapMode, SmartMapNavigationUserTask, SmartMapObject, SmartMapUserTask, SmartMapUserTaskResponse, SmartMapUserTaskType, SmartMapView, SmartMapViewMethods, SmartMapViewStatus } from "react-native-steerpath-smart-map";
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
 
@@ -51,7 +45,7 @@ export default function App() {
   };
 
   const onMapLoaded = () => {
-    smartMapRef.current?.setMapMode(SmartMapModes.SEARCH);
+    smartMapRef.current?.setMapMode(SmartMapMode.SEARCH);
     BackHandler.addEventListener('hardwareBackPress', () => {
       if(bottomSheetState === SmartBottomSheetState.EXPANDED) {
         smartMapRef.current?.onBackPressed(() => {});
@@ -69,7 +63,7 @@ export default function App() {
             style={{ flex: 1 }}
             apiKey={API_KEY}
             ref={smartMapRef}
-            onMapLoaded={onMapLoaded}
+            onMapLoaded={onMapLoaded}            
             onMapClicked={(payload) => {
               const { mapObjects } = payload;
               if (mapObjects.length > 0) {
