@@ -13,6 +13,10 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.9.1] - 2021-03-19
+
+- Android: Fixed accessibility issues of map widget components and improved bottom sheet back navigation
+
 ## [1.9.0] - 2021-01-27
 
 - Added onSearchCategorySelected callback. Currently only Web support.

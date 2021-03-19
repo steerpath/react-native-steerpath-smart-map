@@ -88,8 +88,6 @@ export default class Drawer extends Component {
     }
   }
 
-  handleGeofenceEntered() {}
-
   startLive() {
     if (this.liveEnabled) {
       SmartMapManager.setLiveConfig(null);
@@ -286,7 +284,7 @@ export default class Drawer extends Component {
     //this.props.smartMapRef.addMarker(this.markerMapObject)
     //or set the layout options.
     let markerIcon = "category_marker";
-    if (Platform.OS == "android") {
+    if (Platform.OS === "android") {
       markerIcon = "ic_sp_category_marker";
     }
 
