@@ -16,6 +16,7 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 ## [1.9.1] - 2021-03-19
 
 - Android: Fixed accessibility issues of map widget components and improved bottom sheet back navigation
+- Renamed SmartMapModes to SmartMapMode
 
 ## [1.9.0] - 2021-01-27
 
