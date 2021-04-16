@@ -106,6 +106,7 @@ Add configuration file to your Xcode project and select your application target
 ### Web
 
 Add config file to your project and export it from there to the component where the **SmartMapManager.start()** is initialised. You can pass the config file as the second parameter to the **start()** method as a string. Below is the TypeScript snippet from the example project:
+
 ```javascript
 (SmartMapManager as { start: (apiKey: string, config: Record<string, unknown>) => void }).start(
   API_KEY,
