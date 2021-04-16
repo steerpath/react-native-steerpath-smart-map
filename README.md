@@ -79,7 +79,7 @@ import {
 } from "react-native-steerpath-smart-map";
 const API_KEY = "...";
 
-SmartMapManager.start(API_KEY); // This is not required in the web platform
+SmartMapManager.start(API_KEY);
 
 <SmartMapView
   style={{ flex: 1 }}
@@ -105,7 +105,13 @@ Add configuration file to your Xcode project and select your application target
 
 ### Web
 
-// TODO: JUHANI
+Add config file to your project and export it from there to the component where the **SmartMapManager.start()** is initialised. You can pass the config file as the second parameter to the **start()** method as a string. Below is the TypeScript snippet from the example project:
+```javascript
+(SmartMapManager as { start: (apiKey: string, config: Record<string, unknown>) => void }).start(
+  API_KEY,
+  JSON.parse(CONFIG_STRING),
+);
+```
 
 ## Using offline bundle (Optional)
 
@@ -135,7 +141,7 @@ The default offline data file name is “sp_offline_data.sff”. If you want to 
 
 ### Web
 
-// TODO juhani
+Using the offline bundle with react-native-steerpath-smartmap package on web platform is not yet supported. You can use the example of Steerpath Core SDK found in the Offline bundle ***./style*** folder to view maps.
 
 ## Documentation
 
