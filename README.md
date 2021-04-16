@@ -87,6 +87,52 @@ SmartMapManager.start(API_KEY); // This is not required in the web platform
 />;
 ```
 
+## Add configuration file (optional)
+
+General naming for the configuration file is steerpath_config.json. If your Smart SDK Api Key requires other naming, name your configuration file according to that.
+
+### Android: 
+
+Add configuration file to ***/src/main/assets*** folder of your Android project.
+
+### iOS
+
+Add configuration file to your Xcode project and select your application target
+
+### Web
+
+// TODO: JUHANI
+
+## Using offline bundle (Optional)
+
+OfflineBundle (.sff) is a package containing indoor map tiles, (world tiles excluded), map style, routing data, positioning data and map object meta data. With OfflineBundle, maps & indoor positioning works without network connection.
+
+### Android
+
+Steps to enable OfflineBundle
+
+1. Copy provided .sff file into your application project's /assets folder
+2. Add following flag to your app's Manifest.xml:
+
+```xml
+<meta-data android:name="SP_OFFLINE_DATA" android:value="theNameOfYourOffineBundle.sff"/>
+```
+
+### iOS
+
+The offline bundle should have “.sff” extension. Rename it to “sp_offline_data.sff” and drag it to your Xcode project. Select “Copy items if needed” and select your application target.
+
+The default offline data file name is “sp_offline_data.sff”. If you want to use a custom name, you can add the following key to your application’s Info.plist (Please make sure that the offline data file name matches):
+
+```xml
+<key>SP_OFFLINE_DATA</key>
+<string>sp_offline_data.sff</string>
+```
+
+### Web
+
+// TODO juhani
+
 ## Documentation
 
 - [<SmartMapView /> Component API](https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/docs/SmartMapView.md)
