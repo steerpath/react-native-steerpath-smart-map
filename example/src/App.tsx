@@ -18,6 +18,7 @@ export default function App() {
   const [bottomSheetState, setBottomSheetState] = useState<SmartBottomSheetState>();
 
   useEffect(() => {
+    // Store configuration to the file system and use path to the file
     RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
       .then((success) => {
         SmartMapManager.startWithConfig({
@@ -30,6 +31,12 @@ export default function App() {
       .catch((err) => {
         console.log(err.message);
       });
+
+  // or use configuration as a string
+/*   SmartMapManager.startWithConfig({
+    apiKey: API_KEY,
+    configString: CONFIG_STRING
+  }) */
   }, []);
 
   // navigate to selected smart map object
