@@ -87,9 +87,13 @@ SmartMapManager.start(API_KEY); // This is not required in the web platform
 />;
 ```
 
-## Add configuration file (optional)
+## Using configuration file (optional)
 
-General naming for the configuration file is steerpath_config.json. If your Smart SDK Api Key requires other naming, name your configuration file according to that.
+General naming for the configuration file is steerpath_config.json. If your Smart SDK Api Key requires other naming, name your configuration file according to that. There are two options of how to use config file:
+
+1. Add configuration file to your react native project folder and use startWithConfig(iOS/Android) or start(web) method of SmartMapMananger. See [config.js](https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/example/src/config.js) and [App.tsx](https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/example/src/App.tsx) or [App.web.tsx](https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/example/src/App.web.tsx) of our example application.
+
+2. Add a configuration file to your project. See platform specific instructions below.
 
 ### Android: 
 
