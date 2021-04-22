@@ -38,7 +38,7 @@ In your `android/app/build.gradle`, add the following lines before the
 ```gradle
 repositories {
     // For Steerpath Smart Map SDK
-    maven { url "http://steerpath.bintray.com/steerpath" }
+    maven { url "https://android-sdk.steerpath.net" }
 }
 ```
 
