@@ -53,13 +53,13 @@ repositories {
     }
     mavenCentral()
     // For Steerpath Smart Map SDK
-    maven { url "http://steerpath.bintray.com/steerpath" }
+    maven { url "https://android-sdk.steerpath.net" }
     google()
 }
 
 dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactnativeVersion', '+')}"
-    api "com.steerpath:smart:android-smart-1.10.2"
+    implementation "com.steerpath:smart:android-smart-1.11.0"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
 }

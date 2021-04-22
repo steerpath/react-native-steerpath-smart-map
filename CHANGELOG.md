@@ -13,6 +13,11 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.10.0] - 2021-04-22
+
+- ***IMPORTANT!*** JFrog Bintray Sunset 1st May, 2021. See our native Android SDK [Migration Guide](https://s3-eu-west-1.amazonaws.com/steerpath/android/migration/index.html) for instructions how to change maven repository url.
+- Bump Android Smart SDK version to android-smart-1.11.0
+
 ## [1.9.2] - 2021-04-16
 
 - Bump Android Smart SDK version to android-smart-1.10.2 to fix a bug in map style loading when using an offline bundle
