@@ -11,7 +11,6 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.ViewGroupManager;
-import com.facebook.react.uimanager.annotations.ReactProp;
 
 import com.facebook.react.uimanager.events.RCTEventEmitter;
 import com.steerpath.smart.MapMode;
@@ -33,6 +32,7 @@ import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.ON_BACK_PRESSED;
+import static com.steerpath.rnsmartmap.RNEventKeys.SEARCH_CATEGORY_SELECTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.SEARCH_RESULT_SELECTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
@@ -95,6 +95,8 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 MapBuilder.of(registrationName, NAVIGATION_DESTINATION_REACHED), ON_BACK_PRESSED,
                 MapBuilder.of(registrationName, ON_BACK_PRESSED), BOTTOMSHEET_STATE_CHANGED,
                 MapBuilder.of(registrationName, BOTTOMSHEET_STATE_CHANGED)));
+        
+        map.putAll(MapBuilder.of(SEARCH_CATEGORY_SELECTED, MapBuilder.of(registrationName, SEARCH_CATEGORY_SELECTED)));
 
         return map;
     }

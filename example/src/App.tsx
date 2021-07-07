@@ -16,6 +16,7 @@ export default function App() {
   const [sdkReady, setSDKReady] = useState(false);
   const [selectedObject, setSelectedObject] = useState<SmartMapObject>();
   const [bottomSheetState, setBottomSheetState] = useState<SmartBottomSheetState>();
+  const [searchResults, setSearchResults] = useState<SmartMapObject[]>();
 
   useEffect(() => {
     // Store configuration to the file system and use path to the file
@@ -50,6 +51,17 @@ export default function App() {
       smartMapRef.current?.startUserTask(userTask);
     }
   };
+
+  useEffect(() => {
+    console.log("selectedObject", selectedObject);
+    console.log("searchResults", searchResults);
+    
+    if (selectedObject && searchResults) {
+      const otherObjs = searchResults.filter((res) => res.localRef !== selectedObject.localRef && res.buildingRef === selectedObject.buildingRef);
+      smartMapRef.current?.selectMapObject(selectedObject);
+      smartMapRef.current?.addMarkers(otherObjs, null, null, null, null)
+    }
+  }, [selectedObject, searchResults]);
 
   const onMapLoaded = () => {
     smartMapRef.current?.setMapMode(SmartMapMode.SEARCH);
@@ -86,8 +98,7 @@ export default function App() {
               console.log("Visible Floor changed", payload)
             }
             onSearchResultSelected={(payload) => {
-              console.log("Search result selected ", payload.mapObject);
-              smartMapRef.current?.selectMapObject(payload.mapObject);
+              setSelectedObject(payload.mapObject);
             }}
             onViewStatusChanged={(payload) => {
               console.log("onViewstatuschanged", payload);
@@ -133,6 +144,10 @@ export default function App() {
                   smartMapRef.current?.selectMapObject(smartMapObject);
                 }
               }
+            }}
+            onSearchCategorySelected={(evt) => {
+              console.log("payload.searchResults", evt.searchResults);
+              setSearchResults(evt.searchResults);
             }}
           />
         )}

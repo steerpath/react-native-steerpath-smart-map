@@ -50,6 +50,7 @@ RCT_EXPORT_VIEW_PROPERTY(onNavigationPreviewAppeared, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onNavigationDestinationReached, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onUserTaskResponse, RCTBubblingEventBlock)
 RCT_EXPORT_VIEW_PROPERTY(onSearchResultSelected, RCTBubblingEventBlock)
+RCT_EXPORT_VIEW_PROPERTY(onSearchCategorySelected, RCTBubblingEventBlock)
 
 
 RCT_EXPORT_METHOD(setMapMode:(nonnull NSNumber*) reactTag
@@ -412,9 +413,9 @@ RCT_EXPORT_METHOD(animateCameraToBuildingRef:(nonnull NSNumber*) reactTag
       return;
     }
     [view animateCameraToBuildingRef:buildingRef
-                     completion:^(SPMapResponse response) {
-                       callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
-                     }];
+      completion:^(SPMapResponse response) {
+        callback(@[[NSNull null], [RCTConvert SPMapResponse:response]]);
+      }];
   }];
 }
 
@@ -471,8 +472,8 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
 {
     if (smartMap.onMapClicked) {
         smartMap.onMapClicked(@{
-                               @"mapObjects": [RCTConvert convertMapObjects:objects]
-                               });
+          @"mapObjects": [RCTConvert convertMapObjects:objects]
+        });
         return YES;
     }
     return NO;
@@ -482,9 +483,9 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
 {
     if (smartMap.onUserFloorChanged) {
         smartMap.onUserFloorChanged(@{
-                                     @"floorIndex": [NSNumber numberWithInteger:floorIndex],
-                                     @"buildingRef": [self valueOrEmptyIfNil:buildingRef]
-                                     });
+          @"floorIndex": [NSNumber numberWithInteger:floorIndex],
+          @"buildingRef": [self valueOrEmptyIfNil:buildingRef]
+        });
     }
 }
 
@@ -492,9 +493,9 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
 {
     if (smartMap.onVisibleFloorChanged) {
         smartMap.onVisibleFloorChanged(@{
-                                     @"floorIndex": [NSNumber numberWithInteger:floorIndex],
-                                     @"buildingRef": [self valueOrEmptyIfNil:buildingRef]
-                                     });
+          @"floorIndex": [NSNumber numberWithInteger:floorIndex],
+          @"buildingRef": [self valueOrEmptyIfNil:buildingRef]
+        });
     }
 }
 
@@ -569,6 +570,18 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
     }
     return NO;
 }
+
+#pragma mark Search category selection event
+-(void)spSmartMapView:(RNSmartMapView*)smartMap onSearchCategorySelected:(NSDictionary*)searchAction searchResults:(NSArray<SPSmartMapObject*>*) searchResults;
+{
+  if (smartMap.onSearchCategorySelected) {
+    smartMap.onSearchCategorySelected(@{
+      @"searchAction": [searchAction], // DONT KNOW HOW TO IMPLEMENT THIS
+      @"searchResults": [RCTConvert convertMapObjects:searchResults]
+    });
+  }
+}
+
 
 -(NSString*)valueOrEmptyIfNil:(nullable NSString*)str
 {

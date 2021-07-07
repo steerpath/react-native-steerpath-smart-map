@@ -34,6 +34,7 @@ import com.steerpath.smart.listeners.UserTaskListener;
 import com.steerpath.smart.listeners.ViewStatusListener;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,11 +50,13 @@ import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_FAILED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_PREVIEW_APPEARED;
 import static com.steerpath.rnsmartmap.RNEventKeys.NAVIGATION_STARTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.ON_BACK_PRESSED;
+import static com.steerpath.rnsmartmap.RNEventKeys.SEARCH_CATEGORY_SELECTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.SEARCH_RESULT_SELECTED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
 import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.VISIBLE_FLOOR_CHANGED;
+import static com.steerpath.rnsmartmap.Utils.convertJsonToWritableMap;
 
 public class RNSmartMapView extends FrameLayout
         implements MapEventListener, UserTaskListener, NavigationEventListener, ViewStatusListener {
@@ -143,6 +146,29 @@ public class RNSmartMapView extends FrameLayout
         map.putMap("mapObject", smartMapObjectToWritableMap(mapObject, true));
         manager.sendEvent(reactContext, this, SEARCH_RESULT_SELECTED, map);
         return true;
+    }
+
+    @Override
+    public void onSearchCategorySelected(JSONObject searchAction, List<SmartMapObject> searchResults) {
+        WritableMap map = new WritableNativeMap();
+        WritableMap payload = new WritableNativeMap();
+        WritableMap action = new WritableNativeMap();
+        try {
+           action = convertJsonToWritableMap(searchAction);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        payload.putMap("searchAction", action);
+        Log.d("payload action", "" + payload);
+
+        WritableNativeArray list = new WritableNativeArray();
+        for (SmartMapObject obj : searchResults) {
+            list.pushMap(smartMapObjectToWritableMap(obj, false));
+        }
+
+        payload.putArray("searchResults", list);
+        map.putMap("payload", payload);
+        manager.sendEvent(reactContext, this, SEARCH_CATEGORY_SELECTED, map);
     }
 
     @Override
@@ -436,9 +462,9 @@ public class RNSmartMapView extends FrameLayout
         try {
             if (removePropertiesKey) {
                 map.putMap("properties",
-                        Utils.convertJsonToWritableMap(object.getProperties().getJSONObject("properties")));
+                        convertJsonToWritableMap(object.getProperties().getJSONObject("properties")));
             } else {
-                map.putMap("properties", Utils.convertJsonToWritableMap(object.getProperties()));
+                map.putMap("properties", convertJsonToWritableMap(object.getProperties()));
             }
         } catch (JSONException e) {
             e.printStackTrace();

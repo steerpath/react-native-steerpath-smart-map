@@ -36,9 +36,9 @@
 {
     if (mapView.onUserTaskResponse) {
         mapView.onUserTaskResponse(@{
-                                     @"response": [RCTConvert SPSmartMapUserTaskResponse:response],
-                                     @"userTask": [RCTConvert convertUserTaskToJSONWith:userTask]
-                                     });
+            @"response": [RCTConvert SPSmartMapUserTaskResponse:response],
+            @"userTask": [RCTConvert convertUserTaskToJSONWith:userTask]
+        });
     }
 }
 
