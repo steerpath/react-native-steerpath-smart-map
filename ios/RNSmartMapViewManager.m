@@ -572,11 +572,11 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
 }
 
 #pragma mark Search category selection event
--(void)spSmartMapView:(RNSmartMapView*)smartMap onSearchCategorySelected:(NSDictionary*)searchAction searchResults:(NSArray<SPSmartMapObject*>*) searchResults;
+-(void)spSmartMapView:(RNSmartMapView*)smartMap onSearchCategorySelected:(NSDictionary*)searchAction searchResults:(NSArray<SPSmartMapObject*>*)searchResults
 {
   if (smartMap.onSearchCategorySelected) {
     smartMap.onSearchCategorySelected(@{
-      @"searchAction": [searchAction], // DONT KNOW HOW TO IMPLEMENT THIS
+      @"searchAction": searchAction,
       @"searchResults": [RCTConvert convertMapObjects:searchResults]
     });
   }

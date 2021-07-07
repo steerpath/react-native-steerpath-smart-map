@@ -14,10 +14,10 @@
 {
   json = [self NSDictionary:json];
   SPSmartMapObject* obj = [[SPSmartMapObject alloc] initWithLatitude:[self double:json[@"latitude"]]
-                                          longitude:[self double:json[@"longitude"]]
-                                         floorIndex:[self NSInteger:json[@"floorIndex"]]
-                                           localRef:[self NSString:json[@"localRef"]]
-                                        buildingRef:[self NSString:json[@"buildingRef"]]];
+      longitude:[self double:json[@"longitude"]]
+      floorIndex:[self NSInteger:json[@"floorIndex"]]
+      localRef:[self NSString:json[@"localRef"]]
+      buildingRef:[self NSString:json[@"buildingRef"]]];
   obj.title = [self NSString:json[@"title"]];
   
   NSString* rawSource = [self NSString:json[@"source"]];
