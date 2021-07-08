@@ -150,7 +150,6 @@ public class RNSmartMapView extends FrameLayout
 
     @Override
     public void onSearchCategorySelected(JSONObject searchAction, List<SmartMapObject> searchResults) {
-        WritableMap map = new WritableNativeMap();
         WritableMap payload = new WritableNativeMap();
         WritableMap action = new WritableNativeMap();
         try {
@@ -159,16 +158,13 @@ public class RNSmartMapView extends FrameLayout
             e.printStackTrace();
         }
         payload.putMap("searchAction", action);
-        Log.d("payload action", "" + payload);
-
         WritableNativeArray list = new WritableNativeArray();
         for (SmartMapObject obj : searchResults) {
             list.pushMap(smartMapObjectToWritableMap(obj, false));
         }
 
         payload.putArray("searchResults", list);
-        map.putMap("payload", payload);
-        manager.sendEvent(reactContext, this, SEARCH_CATEGORY_SELECTED, map);
+        manager.sendEvent(reactContext, this, SEARCH_CATEGORY_SELECTED, payload);
     }
 
     @Override

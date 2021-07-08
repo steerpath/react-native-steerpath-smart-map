@@ -146,6 +146,7 @@ export default function App() {
               }
             }}
             onSearchCategorySelected={(evt) => {
+              console.log("payload", evt)
               console.log("payload.searchResults", evt.searchResults);
               setSearchResults(evt.searchResults);
             }}
