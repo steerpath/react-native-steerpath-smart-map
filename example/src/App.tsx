@@ -14,7 +14,7 @@ const API_KEY =
 export default function App() {
   const smartMapRef = useRef<SmartMapViewMethods>(null);
   const [sdkReady, setSDKReady] = useState(false);
-  const [selectedObject, setSelectedObject] = useState<SmartMapObject>();
+  const [selectedObject, setSelectedObject] = useState<SmartMapObject | null>();
   const [bottomSheetState, setBottomSheetState] = useState<SmartBottomSheetState>();
   const [searchResults, setSearchResults] = useState<SmartMapObject[]>();
 
@@ -53,13 +53,11 @@ export default function App() {
   };
 
   useEffect(() => {
-    console.log("selectedObject", selectedObject);
-    console.log("searchResults", searchResults);
-    
     if (selectedObject && searchResults) {
       const otherObjs = searchResults.filter((res) => res.localRef !== selectedObject.localRef && res.buildingRef === selectedObject.buildingRef);
       smartMapRef.current?.selectMapObject(selectedObject);
       smartMapRef.current?.addMarkers(otherObjs, null, null, null, null)
+      setSelectedObject(null);
     }
   }, [selectedObject, searchResults]);
 
@@ -146,6 +144,11 @@ export default function App() {
               }
             }}
             onSearchCategorySelected={(evt) => {
+              if (searchResults && searchResults.length > 0) {
+                setSearchResults([]);
+                smartMapRef.current?.removeAllMarkers();
+              }
+              
               console.log("payload", evt)
               console.log("payload.searchResults", evt.searchResults);
               setSearchResults(evt.searchResults);
