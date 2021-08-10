@@ -204,7 +204,7 @@ export interface SmartViewNativeProps {
   onNavigationFailed?: (payload: { error: NavigationError }) => void;
   onNavigationPreviewAppeared?: () => void;
   onNavigationStarted?: () => void;
-  onSearchCategorySelected?: (payload: { // currently web only
+  onSearchCategorySelected?: (payload: {
     searchAction: SearchAction;
     searchResults: SmartMapObject[];
   }) => void;
