@@ -1,13 +1,12 @@
 
 `<SmartMapView />` Component API
 
-  
+
 ### Props
 
 | Props | Type | Default | Platform | Note |
 |:------|:-----|:--------|:---------|:-----|
 | `apiKey` | `string` | `null` | Web | The api key to initialise the SDK |
-
 
 ### Events
 
@@ -21,7 +20,7 @@
 | `onNavigationFailed` | `{ error: NavigationError }` | iOS/Android | Called if navigation fails. |
 | `onNavigationPreviewAppeared` | | iOS/Android | Called when navigation preview appeared |
 | `onNavigationStarted` | | iOS/Android | Called when navigation started started |
-| `onSearchCategorySelected` | `{ searchAction: SearchAction, searchResults: SmartMapObject[] }` | Web | Called when user selects any search category |
+| `onSearchCategorySelected` | `{ searchAction: SearchAction, searchResults: SmartMapObject[] }` | iOS/Android/Web | Called when user selects any search category |
 | `onSearchResultSelected` | `{ mapObject: SmartMapObject }` | iOS/Android/Web | Returns a SmartMapObject that is selected in search bottom sheet |
 | `onUserFloorChanged` | `{ floorIndex: number; buildingRef?: string }` | iOS/Android | Called after the user moves onto a new floor or building. The ‘buildingRef’ parameter is nil if the user has moved outside of a building. |
 | `onUserTaskResponse` | `{ response: SmartMapUserTaskResponse; userTask: SmartMapUserTask }` | iOS/Android | Called when smartmap start a userTask. Whenever the user task is interrupted. The response type will be Cancelled otherwise if it is finished Completed will be returned. After a user task is finished. The map mode will be set to mapOnly. |
