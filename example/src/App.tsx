@@ -149,8 +149,7 @@ export default function App() {
                 smartMapRef.current?.removeAllMarkers();
               }
               
-              console.log("payload", evt)
-              console.log("payload.searchResults", evt.searchResults);
+              console.log("payload.searchResults", JSON.stringify(evt.searchResults, null, 4));
               setSearchResults(evt.searchResults);
             }}
           />

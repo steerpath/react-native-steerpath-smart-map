@@ -160,7 +160,7 @@ public class RNSmartMapView extends FrameLayout
         payload.putMap("searchAction", action);
         WritableNativeArray list = new WritableNativeArray();
         for (SmartMapObject obj : searchResults) {
-            list.pushMap(smartMapObjectToWritableMap(obj, false));
+            list.pushMap(smartMapObjectToWritableMap(obj, true));
         }
 
         payload.putArray("searchResults", list);
