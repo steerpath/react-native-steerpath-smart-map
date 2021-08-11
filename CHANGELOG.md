@@ -13,6 +13,10 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.12.1] - 2021-08-11
+
+- Fix onSearchCateogySelected callback's payload on Android 
+
 ## [1.12.0] - 2021-08-11
 
 - Implement onSearchCategorySelected callback of SmartMapView for iOS and Android
