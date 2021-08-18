@@ -189,9 +189,15 @@ export interface SmartViewWebProps {
 }
 
 export interface SearchAction {
-  allTags: string[];
   title: string;
-  type: string;
+  shortTitle: string;
+  description: string;
+  iconName: string;
+  action: {
+    allTags?: string[];
+    anyTags?: string[];
+    type: string;
+  }
 }
 
 export interface SmartViewNativeProps {

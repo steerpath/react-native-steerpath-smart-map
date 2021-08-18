@@ -143,14 +143,16 @@ export default function App() {
                 }
               }
             }}
-            onSearchCategorySelected={(evt) => {
+            onSearchCategorySelected={(payload) => {
+              console.log("alltags  ", payload.searchAction.action.allTags);
+              console.log("anyTags  ", payload.searchAction.action.anyTags);
+              console.log("title  ", payload.searchAction.title);
+              console.log("type  ", payload.searchAction.action.type);
               if (searchResults && searchResults.length > 0) {
                 setSearchResults([]);
                 smartMapRef.current?.removeAllMarkers();
-              }
-              
-              console.log("payload.searchResults", JSON.stringify(evt.searchResults, null, 4));
-              setSearchResults(evt.searchResults);
+              }              
+              setSearchResults(payload.searchResults);
             }}
           />
         )}

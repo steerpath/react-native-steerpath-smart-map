@@ -57,9 +57,9 @@ export default function App() {
             }}
             onSearchCategorySelected={(payload)=>{
               console.log("payload  ", payload);
-              console.log("alltags  ", payload.searchAction.allTags);
+              console.log("alltags  ", payload.searchAction.action.allTags);
               console.log("title  ", payload.searchAction.title);
-              console.log("type  ", payload.searchAction.type);
+              console.log("type  ", payload.searchAction.action.type);
             }}
             onUserFloorChanged={(payload) =>
               console.log("User floor changed", payload)
