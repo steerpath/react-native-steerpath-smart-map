@@ -4,7 +4,7 @@ import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { BackHandler, View } from "react-native";
 import { CONFIG_STRING } from "./config.js";
-import { SmartBottomSheetState, SmartMapManager, SmartMapMode, SmartMapNavigationUserTask, SmartMapObject, SmartMapUserTask, SmartMapUserTaskResponse, SmartMapUserTaskType, SmartMapView, SmartMapViewMethods, SmartMapViewStatus } from "react-native-steerpath-smart-map";
+import { LiveConfig, SmartBottomSheetState, SmartMapManager, SmartMapMode, SmartMapNavigationUserTask, SmartMapObject, SmartMapUserTask, SmartMapUserTaskResponse, SmartMapUserTaskType, SmartMapView, SmartMapViewMethods, SmartMapViewStatus } from "react-native-steerpath-smart-map";
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
 
@@ -20,12 +20,30 @@ export default function App() {
 
   useEffect(() => {
     // Store configuration to the file system and use path to the file
+
+    const transmitOptions = {
+      id: "testaaja",
+      password: "testaaja",
+      title: 'Teppo Testaaja',
+      groups: ["employee"],
+    };
+    const receiveOptions = {
+      groups: ["employee"],
+      showsThisDevice: false,
+    };
+
+    const liveCongig: LiveConfig = {
+      receive: receiveOptions, 
+      transmit: transmitOptions,
+    };
     RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
       .then((success) => {
         SmartMapManager.startWithConfig({
           apiKey: API_KEY,
           configFilePath: CONFIG_FILE_PATH,
         });
+
+        SmartMapManager.setLiveConfig(liveCongig);
         console.log("FILE WRITTEN!");
         setSDKReady(true);
       })
@@ -82,6 +100,8 @@ export default function App() {
             ref={smartMapRef}
             onMapLoaded={onMapLoaded}            
             onMapClicked={(payload) => {
+              console.log("payload", payload);
+              
               const { mapObjects } = payload;
               if (mapObjects.length > 0) {
                 const smartmapObject = mapObjects[0];
