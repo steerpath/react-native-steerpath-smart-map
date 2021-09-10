@@ -209,8 +209,8 @@ export const CONFIG_STRING = `{
           "beacons": "known",
           "location": "indoor",
           "enabled": true,
-          "locationIntervalS": 60,
-          "transmissionIntervalS": 120
+          "locationIntervalS": 20,
+          "transmissionIntervalS": 30
       },
       "web": {
           "enabled": false,
