@@ -7,11 +7,18 @@ All app release notes of react-native-steerpath-smart-map will be documented in 
 The format is based on [Keep a Changelog](http://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+Date format: YYYY-MM-DD
+
 This package is built on top of Steerpath's Smart SDK, and most of releases are made due to changes in Web or native SDK's. More details of Smart SDK releases behind the following links:<br>
 
 - [Android](https://s3-eu-west-1.amazonaws.com/steerpath/android/documentation/smart/index.html)
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
+
+## [1.12.5] - 2021-10-01
+
+- Bump Android Smart SDK to android-smart-1.11.4
+    - Performance fix for `getMapObjectByProperties` method
 
 ## [1.12.4] - 2021-09-10
 
@@ -28,11 +35,11 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 
 ## [1.12.1] - 2021-08-11
 
-- Fix onSearchCateogySelected callback's payload on Android 
+- Fix `onSearchCateogySelected` callback's payload on Android 
 
 ## [1.12.0] - 2021-08-11
 
-- Implement onSearchCategorySelected callback of SmartMapView for iOS and Android
+- Implement `onSearchCategorySelected` callback of SmartMapView for iOS and Android
 
 ## [1.11.0] - 2021-08-10
 
@@ -50,17 +57,17 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 ## [1.9.1] - 2021-03-19
 
 - Android: Fixed accessibility issues of map widget components and improved bottom sheet back navigation
-- Renamed SmartMapModes to SmartMapMode
+- Renamed `SmartMapModes` to `SmartMapMode`
 
 ## [1.9.0] - 2021-01-27
 
-- Added onSearchCategorySelected callback. Currently only Web support.
+- Added `onSearchCategorySelected` callback. Currently only Web support.
 - Bump web Smart SDK version to 1.5.8
-- Fix onVisibleFloorChanged payload for web
+- Fix `onVisibleFloorChanged` payload for web
 
 ## [1.8.4] - 2021-01-21
 
-- Fix onViewStatusChanged callback values for Android
+- Fix `onViewStatusChanged` callback values for Android
 
 ## [1.8.3] - 2021-01-12
 
@@ -74,14 +81,14 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 
 ## [1.8.1] - 2020-12-10
 
-- Android: run RNSmartMapManager.setLiveConfiguration() in UI thread to prevent errors
+- Android: run `RNSmartMapManager.setLiveConfiguration()` in UI thread to prevent errors
 - Bump Android Smart SDK version to android-smart-1.8.1
 - Bump iOS Smart SDK version to 1.12.1
 
 ## [1.8.0] - 2020-11-17
 
-- unified the units that setWidgetPadding and getWidgetPadding are using. Previously Android used pixels instead of dp, but now we use dp for all platforms and do the conversions internally.
-- added onBottomSheetStateChanged event and SmartBottomSheetState enum
+- unified the units that `setWidgetPadding` and `getWidgetPadding` are using. Previously Android used pixels instead of dp, but now we use dp for all platforms and do the conversions internally.
+- added `onBottomSheetStateChanged` event and `SmartBottomSheetState` enum
 - bump iOS Smart SDK version to 1.12.0
 - bump Android Smart SDK version to android-smart-1.8.0
 
@@ -91,30 +98,30 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 
 ## [1.7.0] - 2020-10-27
 
-- added SmartMapView.setGeoJson(). See more details from platform specific documentations.
+- added `SmartMapView.setGeoJson()`. See more details from platform specific documentations.
 - bump Android Smart SDK version to android-smart-1.7.0
 - bump iOS Smart SDK version to 1.11.3
 - bump web Smart SDK version to 1.4.0
 
 ## [1.6.0] - 2020-10-09
 
-- added setWidgetPadding and getWidgetPadding methods for iOS
+- added `setWidgetPadding` and `getWidgetPadding` methods for iOS
 - bump iOS Smart SDK version 1.11.1
 
 ## [1.5.1] - 2020-09-17
 
-- added setWidgetPadding binding to web
+- added `setWidgetPadding` binding to web
 - bump web Smart SDK version to 1.3.1
 
 ## [1.5.0] - 2020-09-10
 
-- Fixed onUserTaskResponse callback to return correct values.
+- Fixed `onUserTaskResponse` callback to return correct values.
 - bump iOS Smart SDK version to '1.10.32'
 - bump Android Smart SDK version to 'android-smart-1.5.0'
 
 ## [1.4.0] - 2020-09-08
 
-- added setWidgetPadding and getWidgetPadding methods. (currently only for Android)
+- added `setWidgetPadding` and `getWidgetPadding` methods. (currently only for Android)
 
 ## [1.3.3] - 2020-09-02
 
@@ -130,7 +137,7 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 ### Changed
 
 - Bump web Smart SDK verison to '1.2.4'
-- In onSearchResultSelected-event wrap the mapObject inside payload object to make it same as other platforms.
+- In `onSearchResultSelected`-event wrap the mapObject inside payload object to make it same as other platforms.
 
 ## [1.3.0] - 2020‑08‑14
 
@@ -146,7 +153,7 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 
 ### Added
 
-- SmartMapManager.fetchVersions() to get the version of Steerpath Smart SDK and Mapbox SDK. (iOS and Android)
+- `SmartMapManager.fetchVersions()` to get the version of Steerpath Smart SDK and Mapbox SDK. (iOS and Android)
 
 ### Changed
 
