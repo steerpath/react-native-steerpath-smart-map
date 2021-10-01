@@ -10,8 +10,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@bitbucket.org:nimbledevices/react-native-steerpath-smartmap.git",
-    "baseUrl": "https://bitbucket.org/nimbledevices/react-native-steerpath-smartmap/src/master/"
+    "url": "https://github.com/steerpath/react-native-steerpath-smart-map.git",
+    "baseUrl": "https://github.com/steerpath/react-native-steerpath-smart-map"
   },
   "keywords": [
     "react-native"

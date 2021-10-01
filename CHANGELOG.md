@@ -15,6 +15,12 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.12.6] - 2021-10-01
+
+- Bump Android Smart SDK to android-smart-1.11.5
+    - improved search
+- Moved project from bitbucket to [github](https://github.com/steerpath/react-native-steerpath-smart-map)
+
 ## [1.12.5] - 2021-10-01
 
 - Bump Android Smart SDK to android-smart-1.11.4
