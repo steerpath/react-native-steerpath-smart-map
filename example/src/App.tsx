@@ -80,7 +80,6 @@ export default function App() {
   }, [selectedObject, searchResults]);
 
   const onMapLoaded = () => {
-    smartMapRef.current?.setMapMode(SmartMapMode.SEARCH);
     BackHandler.addEventListener('hardwareBackPress', () => {
       if(bottomSheetState === SmartBottomSheetState.EXPANDED) {
         smartMapRef.current?.onBackPressed(() => {});
@@ -178,9 +177,9 @@ export default function App() {
         )}
       </View>
       {
-        <View style={{ flex: 3 }}>
-          <Drawer smartMapRef={smartMapRef} selectedMapObject={selectedObject} />
-        </View>
+        // <View style={{ flex: 3 }}>
+        //   <Drawer smartMapRef={smartMapRef} selectedMapObject={selectedObject} />
+        // </View>
       }
     </View>
   );

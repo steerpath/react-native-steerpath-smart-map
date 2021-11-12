@@ -2,7 +2,7 @@ export const CONFIG_STRING = `{
   "services": {
     "settings": {
       "default": {
-        "enabled": true,
+        "enabled": false,
         "externalLinks": []
       },
       "web": {
@@ -77,7 +77,7 @@ export const CONFIG_STRING = `{
         ],
         "mapDataURL": "https://mapdata.eu.steerpath.net/",
         "bluedot": {
-          "indoor": true,
+          "indoor": false,
           "outdoor": false
         },
         "routeDataURL": "https://routes.eu.steerpath.net/",
@@ -100,7 +100,9 @@ export const CONFIG_STRING = `{
               "lat": 60.221077322610995
             }
           }
-        }
+        },
+        "initialMapMode": "mapOnly",
+        "floorSwitcherState": "hidden"
       }
     },
     "search": {
@@ -245,13 +247,14 @@ export const CONFIG_STRING = `{
           "nddURL": "https://ndd.eu.steerpath.net/",
           "eidURL": "https://eidupdates.eu.steerpath.net/",
           "useAccelerometer": true,
-          "useGyro": false,
+          "useGyro": true,
           "useCompass": true,
           "gpsThresholdM": 10,
           "eidUpdatesEnabled": true
       },
       "ios": {
-          "useCompass": true
+          "useCompass": true,
+          "useGyro": true
       },
       "web": {
         "enabled": true
