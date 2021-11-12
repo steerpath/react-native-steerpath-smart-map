@@ -177,9 +177,9 @@ export default function App() {
         )}
       </View>
       {
-        // <View style={{ flex: 3 }}>
-        //   <Drawer smartMapRef={smartMapRef} selectedMapObject={selectedObject} />
-        // </View>
+        <View style={{ flex: 3 }}>
+        <Drawer smartMapRef={smartMapRef} selectedMapObject={selectedObject} />
+        </View>
       }
     </View>
   );
