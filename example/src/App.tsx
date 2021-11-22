@@ -4,7 +4,7 @@ import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { BackHandler, View } from "react-native";
 import { CONFIG_STRING } from "./config.js";
-import { LiveConfig, SmartBottomSheetState, SmartMapManager, SmartMapMode, SmartMapNavigationUserTask, SmartMapObject, SmartMapUserTask, SmartMapUserTaskResponse, SmartMapUserTaskType, SmartMapView, SmartMapViewMethods, SmartMapViewStatus } from "react-native-steerpath-smart-map";
+import { Layout, LiveConfig, SmartBottomSheetState, SmartMapManager, SmartMapMode, SmartMapNavigationUserTask, SmartMapObject, SmartMapUserTask, SmartMapUserTaskResponse, SmartMapUserTaskType, SmartMapView, SmartMapViewMethods, SmartMapViewStatus } from "react-native-steerpath-smart-map";
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
 
@@ -80,6 +80,7 @@ export default function App() {
   }, [selectedObject, searchResults]);
 
   const onMapLoaded = () => {
+    smartMapRef.current?.setMapMode(SmartMapMode.SEARCH);
     BackHandler.addEventListener('hardwareBackPress', () => {
       if(bottomSheetState === SmartBottomSheetState.EXPANDED) {
         smartMapRef.current?.onBackPressed(() => {});
@@ -105,7 +106,7 @@ export default function App() {
               if (mapObjects.length > 0) {
                 const smartmapObject = mapObjects[0];
                 // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
-                smartMapRef.current?.selectMapObject(smartmapObject);
+                smartMapRef.current?.addMarker(smartmapObject, null, null, null, null);
               }       
             }}
             onUserFloorChanged={(payload) =>

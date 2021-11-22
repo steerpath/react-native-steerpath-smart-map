@@ -15,6 +15,12 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.12.10] - 2021-11-22
+
+Special release where search UI is completely disabled on iOS.
+
+- Bump iOS Smart SDK to 1.15.6
+- Use default marker of the style when iconImage is not defined in addMarkers or addMarker methods
 ## [1.12.9] - 2021-11-12
 
 - Bump iOS Smart SDK to 1.15.5
