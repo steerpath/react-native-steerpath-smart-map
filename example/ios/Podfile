@@ -60,4 +60,4 @@ def find_and_replace(dir, findstr, replacestr)
 		end
 	end
 	Dir[dir + '*/'].each(&method(:find_and_replace))
-  end
+end
