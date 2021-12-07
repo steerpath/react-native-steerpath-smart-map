@@ -4,6 +4,7 @@ import {
   SmartMapView,
   SmartMapObject,
   SmartMapViewMethods,
+  Layout,
 } from "react-native-steerpath-smart-map";
 import { View } from "react-native";
 import { CONFIG_STRING } from "./config.js";
@@ -49,11 +50,8 @@ export default function App() {
               console.log("Map loaded");
             }}
             onMapClicked={(payload) => {
-              // const { mapObjects } = payload;
-              // if( mapObjects[0]){
-              //   const smartmapObject = mapObjects[0];
-              //   smartMapRef.current?.selectMapObject(smartmapObject);
-              // }
+              const { mapObjects } = payload;
+              smartMapRef.current?.addMarker(mapObjects[0], Layout.TOP, null, null, null);
             }}
             onSearchCategorySelected={(payload)=>{
               console.log("payload  ", payload);

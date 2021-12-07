@@ -45,7 +45,7 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
         runCommand(smartMapRef.current, "addMarker", [
           smartMapObj,
           layout,
-          iconName,
+          iconName || "category_marker",
           textColor,
           textHaloColor,
         ]);
@@ -54,7 +54,7 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
         runCommand(smartMapRef.current, "addMarkers", [
           mapObjectsArray,
           layout,
-          iconName,
+          iconName || "category_marker",
           textColor,
           textHaloColor,
         ]);
