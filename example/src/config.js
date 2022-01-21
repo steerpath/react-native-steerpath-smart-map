@@ -49,6 +49,13 @@ export const CONFIG_STRING = `{
     },
     "smartmap": {
       "default": {
+        "defaultLanguage": "fi-FI",
+				"supportedLanguages": [
+					"en-GB",
+					"fi-FI",
+					"sv-SE",
+          "nb-NO"
+				],
         "defaultTheme": "default",
         "supportedThemes": [
             "default",
@@ -101,7 +108,7 @@ export const CONFIG_STRING = `{
             }
           }
         },
-        "initialMapMode": "mapOnly",
+        "initialMapMode": "search",
         "floorSwitcherState": "hidden"
       }
     },
