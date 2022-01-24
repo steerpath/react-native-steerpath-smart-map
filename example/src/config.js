@@ -2,7 +2,7 @@ export const CONFIG_STRING = `{
   "services": {
     "settings": {
       "default": {
-        "enabled": false,
+        "enabled": true,
         "externalLinks": []
       },
       "web": {
@@ -84,7 +84,7 @@ export const CONFIG_STRING = `{
         ],
         "mapDataURL": "https://mapdata.eu.steerpath.net/",
         "bluedot": {
-          "indoor": false,
+          "indoor": true,
           "outdoor": false
         },
         "routeDataURL": "https://routes.eu.steerpath.net/",
