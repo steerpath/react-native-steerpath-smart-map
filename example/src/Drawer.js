@@ -5,6 +5,7 @@ import {
   SmartGeofenceManager,
   SmartMapManager,
   SmartMapMode,
+  SmartMapView,
 } from "react-native-steerpath-smart-map";
 
 export default class Drawer extends Component {
@@ -410,6 +411,16 @@ export default class Drawer extends Component {
     })
   }
 
+  toggleMapMode = () => {
+    if (this.mapMode === SmartMapMode.SEARCH) {
+      this.props.smartMapRef.current.setMapMode(SmartMapMode.MAP_ONLY);
+      this.mapMode = SmartMapMode.MAP_ONLY;
+    } else {
+      this.props.smartMapRef.current.setMapMode(SmartMapMode.SEARCH);
+      this.mapMode = SmartMapMode.SEARCH;
+    }
+  }
+
   clearGeoJson = () => {
     this.props.smartMapRef.current.setGeoJson('marker', null, (response) => {
       console.log('clearGeoJson', response)
@@ -507,6 +518,7 @@ export default class Drawer extends Component {
             />
             <Button title="Set geoJson" onPress={this.setGeoJson} />
             <Button title="Clear geoJson" onPress={this.clearGeoJson} />
+            <Button title="Toggle map mode" onPress={this.toggleMapMode} />
 
           </ScrollView>
         </SafeAreaView>
