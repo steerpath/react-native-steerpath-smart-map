@@ -10163,7 +10163,7 @@ react-native-reanimated@^1.2.0:
     fbjs "^1.0.0"
 
 "react-native-steerpath-smart-map@file:..":
-  version "1.13.0"
+  version "1.13.1"
   dependencies:
     steerpath-smart-sdk "^2.0.2"
 
