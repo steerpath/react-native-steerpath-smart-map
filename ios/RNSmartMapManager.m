@@ -47,4 +47,9 @@ RCT_EXPORT_METHOD(fetchVersions:(RCTResponseSenderBlock)callback)
     }]);
 }
 
+RCT_EXPORT_METHOD(setLanguage:(nonnull NSString *)languageCode)
+{
+    [[SPSmartSDK getInstance] setLanguage: languageCode];
+}
+
 @end

@@ -43,6 +43,8 @@ export default function App() {
           configFilePath: CONFIG_FILE_PATH,
         });
 
+        SmartMapManager.setLanguage("fi-FI");
+
         SmartMapManager.setLiveConfig(liveCongig);
         console.log("FILE WRITTEN!");
         setSDKReady(true);

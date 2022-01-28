@@ -86,4 +86,9 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
         }
         callback.invoke(map);
     }
+    
+    @ReactMethod
+    public void setLanguage(String languageCode) {
+        appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().setLanguage(languageCode));
+    }
 }
