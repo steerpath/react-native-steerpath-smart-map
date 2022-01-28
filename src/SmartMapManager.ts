@@ -60,4 +60,7 @@ export const SmartMapManager = {
   fetchVersions(callback: (versions: FetchVersionResponse) => void) {
     RNSmartMapManager.fetchVersions(callback);
   },
+  setLanguage(languageCode: String): void {
+    RNSmartMapManager.setLanguage(languageCode);
+  }
 };

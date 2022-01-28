@@ -427,6 +427,10 @@ export default class Drawer extends Component {
     })
   }
 
+  setLanguage = (languageCode) => {
+    SmartMapManager.setLanguage(languageCode);
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -519,6 +523,10 @@ export default class Drawer extends Component {
             <Button title="Set geoJson" onPress={this.setGeoJson} />
             <Button title="Clear geoJson" onPress={this.clearGeoJson} />
             <Button title="Toggle map mode" onPress={this.toggleMapMode} />
+            <Button title="Set English" onPress={()=>{this.setLanguage("en-GB")}} />
+            <Button title="Set Finnish" onPress={()=>{this.setLanguage("fi-FI")}} />
+            <Button title="Set Swedish" onPress={()=>{this.setLanguage("sv-SE")}} />
+            <Button title="Set Norwegian" onPress={()=>{this.setLanguage("nb-NO")}} />
 
           </ScrollView>
         </SafeAreaView>

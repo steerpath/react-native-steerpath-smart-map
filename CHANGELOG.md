@@ -15,6 +15,18 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.14.0] - 2022-01-28
+- Added ```setLanguage()``` API which sets the language that the SDK will use in search. The method setLanguage() takes one parameter ```languageCode``` which is one of the language codes listed in the config file's ```supportedLanguages```-array.
+```
+"defaultLanguage": "fi-FI",
+"supportedLanguages": [
+    "en-GB",
+    "fi-FI",
+    "sv-SE",
+    "nb-NO"
+],
+```
+Example: ``` SmartMapManager.setLanguage('en-GB')```
 ## [1.13.1] - 2022-01-25
 
 - Bump Android Smart SDK to android-smart-1.14.1
