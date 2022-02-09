@@ -38,7 +38,7 @@ target 'example' do
 	pod 'ReactCommon/turbomodule/core', :path => "../node_modules/react-native/ReactCommon"
 	pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
 	pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
-	# pod 'SteerpathSmartSDK', '1.15.6'
+	# pod 'SteerpathSmartSDK', '1.15.9'
 
 end
 

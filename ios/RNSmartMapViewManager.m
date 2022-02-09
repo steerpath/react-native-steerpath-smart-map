@@ -78,7 +78,7 @@ RCT_EXPORT_METHOD(setMapMode:(nonnull NSNumber*) reactTag
           break;
       }
     }];
-  
+    
 }
 
 RCT_EXPORT_METHOD(setWidgetPadding:(nonnull NSNumber*) reactTag
