@@ -15,6 +15,10 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.14.2] - 2022-02-16
+
+- Bump iOS Smart SDK version to 1.15.11
+
 ## [1.14.1] - 2022-02-01
 
 - Bump iOS Smart SDK to 1.15.10 (fixes an issue where search bottom sheet was cut off from the bottom)
