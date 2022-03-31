@@ -173,6 +173,18 @@ export enum SmartMapUserTaskResponse {
   COMPLETED = "completed",
 }
 
+interface UrlObject {
+  title: string;
+  url: string;
+}
+
+export type LinkProperty = UrlObject; 
+export type ImageProperty = UrlObject; 
+export interface BookingIntegration {
+  integrationType: string;
+  integrationRef: string;
+}
+
 export interface SmartMapObject {
   latitude: number;
   longitude: number;
@@ -180,7 +192,40 @@ export interface SmartMapObject {
   localRef: string;
   buildingRef: string;
   title: string;
-  properties: Record<string, unknown>;
+  properties: {
+    amenities?: string[] | undefined;
+    bookingIntegrations?: BookingIntegration[];
+    buildingRef: string;
+    calendarRef?: string;
+    capacity?: number;
+    cateringEmail?: string;
+    css_class: string;
+    description?: string;
+    'description:fi?': string;
+    'description:nb?': string;
+    'description:sv?': string;
+    'description:en?': string;
+    images?: ImageProperty[];
+    integrationRef?: string;
+    keywords: string;
+    layerIndex: number;
+    links?: LinkProperty[];
+    'links:fi'?: LinkProperty[];
+    'links:sv'?: LinkProperty[];
+    'links:nb'?: LinkProperty[];
+    'links:en'?: LinkProperty[];
+    localRef?: string;
+    occupancy?: string;
+    parentRef?: string;
+    resourceType?: string;
+    subType?: string;
+    tags?: string[]; // There might also be props like 'tags.roomName' etc. What to do with those?
+    title: string;
+    'title:fi'?: string;
+    'title:sv'?: string;
+    'title:nb'?: string;
+    'title:en'?: string;
+  }
   source: SmartObjectSource;
 }
 

@@ -51,7 +51,17 @@ export default function App() {
             }}
             onMapClicked={(payload) => {
               const { mapObjects } = payload;
-              smartMapRef.current?.addMarker(mapObjects[0], Layout.TOP, null, null, null);
+              if (mapObjects.length) {
+                mapObjects.forEach((obj) => {
+                  console.log('buildingRef', obj.properties.buildingRef);
+                  console.log('localRef', obj.properties.localRef);
+                  console.log('calendarRef', obj.properties.calendarRef);
+                  console.log('css_class', obj.properties.css_class);
+                  console.log('images', obj.properties.images);
+                  
+                })
+                smartMapRef.current?.addMarker(mapObjects[0], Layout.TOP, null, null, null);
+              }
             }}
             onSearchCategorySelected={(payload)=>{
               console.log("payload  ", payload);
