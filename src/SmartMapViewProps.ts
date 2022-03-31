@@ -180,10 +180,11 @@ interface UrlObject {
 
 export type LinkProperty = UrlObject; 
 export type ImageProperty = UrlObject; 
-export interface BookingIntegration {
+export type BookingIntegration = {
   integrationType: string;
   integrationRef: string;
 }
+export type OccupancyIntegrations = BookingIntegration;
 
 export interface SmartMapObject {
   latitude: number;
@@ -193,8 +194,8 @@ export interface SmartMapObject {
   buildingRef: string;
   title: string;
   properties: {
-    amenities?: string[] | undefined;
     bookingIntegrations?: BookingIntegration[];
+    occupancyIntegrations?: OccupancyIntegrations[];
     buildingRef: string;
     calendarRef?: string;
     capacity?: number;
@@ -206,8 +207,11 @@ export interface SmartMapObject {
     'description:sv?': string;
     'description:en?': string;
     images?: ImageProperty[];
+    'images:fi'?: ImageProperty[];
+    'images:sv'?: ImageProperty[];
+    'images:nb'?: ImageProperty[];
+    'images:en'?: ImageProperty[];
     integrationRef?: string;
-    keywords: string;
     layerIndex: number;
     links?: LinkProperty[];
     'links:fi'?: LinkProperty[];
@@ -219,12 +223,22 @@ export interface SmartMapObject {
     parentRef?: string;
     resourceType?: string;
     subType?: string;
-    tags?: string[]; // There might also be props like 'tags.roomName' etc. What to do with those?
+    amenities?: string[];
+    tags?: string[];
+    keywords?: string[];
+    'keywords:fi'?: string[];
+    'keywords:sv'?: string[];
+    'keywords:nb'?: string[];
+    'keywords:en'?: string[];
     title: string;
     'title:fi'?: string;
     'title:sv'?: string;
     'title:nb'?: string;
     'title:en'?: string;
+    sp_maximum_advance_booking_hours_normal_user?: number;
+    sp_maximum_booking_hours_normal_user?: number;
+    sp_maximum_advance_booking_hours_power_user?: number;
+    sp_maximum_booking_hours_power_user?: number;
   }
   source: SmartObjectSource;
 }
