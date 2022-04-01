@@ -172,14 +172,16 @@ export enum SmartMapUserTaskResponse {
   UNSUPPORTED = "unsupported",
   COMPLETED = "completed",
 }
-
-interface UrlObject {
+export interface LinkProperty {
   title: string;
   url: string;
-}
+}; 
 
-export type LinkProperty = UrlObject; 
-export type ImageProperty = UrlObject; 
+export interface ImageProperty {
+  title: string;
+  url: string;
+};
+
 export type BookingIntegration = {
   integrationType: string;
   integrationRef: string;
