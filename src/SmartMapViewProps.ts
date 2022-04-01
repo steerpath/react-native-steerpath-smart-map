@@ -188,6 +188,56 @@ export type BookingIntegration = {
 }
 export type OccupancyIntegrations = BookingIntegration;
 
+export interface SmartMapObjectProperties {
+  amenities?: string[];
+  bookingIntegrations?: BookingIntegration[];
+  occupancyIntegrations?: OccupancyIntegrations[];
+  buildingRef: string;
+  calendarRef?: string;
+  capacity?: number;
+  cateringEmail?: string;
+  css_class: string;
+  description?: string;
+  'description:fi?': string;
+  'description:nb?': string;
+  'description:sv?': string;
+  'description:en?': string;
+  images?: ImageProperty[];
+  'images:fi'?: ImageProperty[];
+  'images:sv'?: ImageProperty[];
+  'images:nb'?: ImageProperty[];
+  'images:en'?: ImageProperty[];
+  integrationRef?: string;
+  keywords?: string[];
+  'keywords:fi'?: string[];
+  'keywords:sv'?: string[];
+  'keywords:nb'?: string[];
+  'keywords:en'?: string[];
+  layerIndex: number;
+  links?: LinkProperty[];
+  'links:fi'?: LinkProperty[];
+  'links:sv'?: LinkProperty[];
+  'links:nb'?: LinkProperty[];
+  'links:en'?: LinkProperty[];
+  localRef?: string;
+  occupancy?: string;
+  parentRef?: string;
+  resourceType?: string;
+  sp_maximum_advance_booking_hours_normal_user?: number;
+  sp_maximum_booking_hours_normal_user?: number;
+  sp_maximum_advance_booking_hours_power_user?: number;
+  sp_maximum_booking_hours_power_user?: number;
+  subType?: string;
+  tags?: string[];
+  title: string;
+  'title:fi'?: string;
+  'title:sv'?: string;
+  'title:nb'?: string;
+  'title:en'?: string;
+  weekPlannerCapacity?: number;
+  [key: string]: any; // Probably not the best practice, but this way we can get the access to properties that are not typed above.
+}
+
 export interface SmartMapObject {
   latitude: number;
   longitude: number;
@@ -195,53 +245,7 @@ export interface SmartMapObject {
   localRef: string;
   buildingRef: string;
   title: string;
-  properties: {
-    bookingIntegrations?: BookingIntegration[];
-    occupancyIntegrations?: OccupancyIntegrations[];
-    buildingRef: string;
-    calendarRef?: string;
-    capacity?: number;
-    cateringEmail?: string;
-    css_class: string;
-    description?: string;
-    'description:fi?': string;
-    'description:nb?': string;
-    'description:sv?': string;
-    'description:en?': string;
-    images?: ImageProperty[];
-    'images:fi'?: ImageProperty[];
-    'images:sv'?: ImageProperty[];
-    'images:nb'?: ImageProperty[];
-    'images:en'?: ImageProperty[];
-    integrationRef?: string;
-    layerIndex: number;
-    links?: LinkProperty[];
-    'links:fi'?: LinkProperty[];
-    'links:sv'?: LinkProperty[];
-    'links:nb'?: LinkProperty[];
-    'links:en'?: LinkProperty[];
-    localRef?: string;
-    occupancy?: string;
-    parentRef?: string;
-    resourceType?: string;
-    subType?: string;
-    amenities?: string[];
-    tags?: string[];
-    keywords?: string[];
-    'keywords:fi'?: string[];
-    'keywords:sv'?: string[];
-    'keywords:nb'?: string[];
-    'keywords:en'?: string[];
-    title: string;
-    'title:fi'?: string;
-    'title:sv'?: string;
-    'title:nb'?: string;
-    'title:en'?: string;
-    sp_maximum_advance_booking_hours_normal_user?: number;
-    sp_maximum_booking_hours_normal_user?: number;
-    sp_maximum_advance_booking_hours_power_user?: number;
-    sp_maximum_booking_hours_power_user?: number;
-  }
+  properties: SmartMapObjectProperties,
   source: SmartObjectSource;
 }
 
