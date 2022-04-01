@@ -51,7 +51,10 @@ export default function App() {
             }}
             onMapClicked={(payload) => {
               const { mapObjects } = payload;
-              smartMapRef.current?.addMarker(mapObjects[0], Layout.TOP, null, null, null);
+              if (mapObjects.length) {
+                smartMapRef.current?.removeAllMarkers();
+                smartMapRef.current?.addMarker(mapObjects[0], Layout.TOP, null, null, null);
+              }
             }}
             onSearchCategorySelected={(payload)=>{
               console.log("payload  ", payload);
