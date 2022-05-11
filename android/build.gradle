@@ -3,6 +3,7 @@ buildscript {
         rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
     }
     repositories {
+        mavenCentral()
         google()
         jcenter()
     }
@@ -10,7 +11,7 @@ buildscript {
     dependencies {
         // Matches recent template from React Native (0.60)
         // https://github.com/facebook/react-native/blob/0.60-stable/template/android/build.gradle#L16
-        classpath("com.android.tools.build:gradle:${safeExtGet('gradlePluginVersion', '3.4.1')}")
+        classpath("com.android.tools.build:gradle:${safeExtGet('gradlePluginVersion', '4.0.2')}")
     }
 }
 
@@ -59,7 +60,7 @@ repositories {
 
 dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactnativeVersion', '+')}"
-    implementation "com.steerpath:smart:android-smart-1.14.3"
+    implementation "com.steerpath:smart:android-smart-1.14.4"
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
 }

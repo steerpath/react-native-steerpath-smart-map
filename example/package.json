@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-native start",
     "run-ios": "react-native run-ios",
-    "run-android": "react-native run-android",
+    "android": "react-native run-android",
     "web": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "test": "jest",
     "lint": "eslint .",
@@ -18,7 +18,7 @@
     "react": "16.8.6",
     "react-dom": "^16.8.6",
     "react-native": "0.61.5",
-    "react-native-fs": "reactrondev/react-native-fs#v2.13.4",
+    "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^1.1.0",
     "react-native-reanimated": "^1.2.0",
     "react-native-steerpath-smart-map": "file:../",

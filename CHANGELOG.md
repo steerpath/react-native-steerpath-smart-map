@@ -15,12 +15,19 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
-# [1.15.3]
+# [1.15.4] - 2022-05-11
+
+- Bump Android Smart SDK to android-smart-1.14.4
+- Update default gradle plugin version to 4.0.2
+
+# [1.15.3] - 2022-04-01
 
 - Improved typings for SmartMapObject
 
-## [1.15.0]
+## [1.15.0] - 2022-03-24
+
 - Bump Android Smart SDK to android-smart-1.14.3
+
 ## [1.14.2] - 2022-02-16
 
 - Bump iOS Smart SDK version to 1.15.11
