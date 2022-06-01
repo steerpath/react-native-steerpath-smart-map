@@ -9,8 +9,6 @@ buildscript {
     }
 
     dependencies {
-        // Matches recent template from React Native (0.60)
-        // https://github.com/facebook/react-native/blob/0.60-stable/template/android/build.gradle#L16
         classpath("com.android.tools.build:gradle:${safeExtGet('gradlePluginVersion', '4.0.2')}")
     }
 }
@@ -18,8 +16,6 @@ buildscript {
 apply plugin: 'com.android.library'
 apply plugin: 'maven-publish'
 
-// Matches values in recent template from React Native (0.59)
-// https://github.com/facebook/react-native/blob/0.59-stable/template/android/build.gradle#L5-L9
 def DEFAULT_COMPILE_SDK_VERSION = 30
 def DEFAULT_BUILD_TOOLS_VERSION = "30.0.3"
 def DEFAULT_MIN_SDK_VERSION = 21
@@ -47,9 +43,6 @@ android {
 
 repositories {
     maven {
-        // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-        // MatcPes recent template from React Native (0.59)
-        // https://github.com/facebook/react-native/blob/0.59-stable/template/android/build.gradle#L30
         url "$projectDir/../node_modules/react-native/android"
     }
     mavenCentral()
@@ -64,32 +57,3 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
 }
-
-def configureReactNativePom(def pom) {
-    def packageJson = new groovy.json.JsonSlurper().parseText(file('../package.json').text)
-
-    pom.project {
-        name packageJson.title
-        artifactId packageJson.name
-        version = packageJson.version
-        group = "com.steerpath.rnsmartmap"
-        description packageJson.description
-        url packageJson.repository.baseUrl
-
-        licenses {
-            license {
-                name packageJson.license
-                url packageJson.repository.baseUrl + '/blob/master/' + packageJson.licenseFilename
-                distribution 'repo'
-            }
-        }
-
-        developers {
-            developer {
-                id packageJson.author.username
-                name packageJson.author.name
-            }
-        }
-    }
-}
-
