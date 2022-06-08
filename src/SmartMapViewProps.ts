@@ -198,10 +198,10 @@ export interface SmartMapObjectProperties {
   cateringEmail?: string;
   css_class: string;
   description?: string;
-  'description:fi?': string;
-  'description:nb?': string;
-  'description:sv?': string;
-  'description:en?': string;
+  'description:fi'?: string;
+  'description:nb'?: string;
+  'description:sv'?: string;
+  'description:en'?: string;
   images?: ImageProperty[];
   'images:fi'?: ImageProperty[];
   'images:sv'?: ImageProperty[];

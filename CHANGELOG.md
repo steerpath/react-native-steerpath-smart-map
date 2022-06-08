@@ -15,6 +15,10 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+# [1.16.1] - 2022-06-08
+
+- Fixed typoes in localized description properties in SmartMapObjectProperties interface. These props are optional.
+
 # [1.16.0] - 2022-06-01
 
 - Update build.gradle to make the library compatible with apps using gradle version 7+
