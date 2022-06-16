@@ -109,6 +109,7 @@ export const CONFIG_STRING = `{
           }
         },
         "initialMapMode": "search",
+        "initialSearchBottomSheetState": "collapsed",
         "floorSwitcherState": "hidden"
       }
     },
