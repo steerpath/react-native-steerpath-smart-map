@@ -15,6 +15,10 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+# [1.16.6] - 2022-09-05
+
+- Bump Android Smart SDK version to android-smart-1.14.7
+
 # [1.16.5] - 2022-08-18
 
 - Bump iOS Smart SDK version to 1.15.13
