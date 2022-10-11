@@ -15,8 +15,27 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
-# [1.16.5] - 2022-07-26
+
+# [1.17.1]
 - Bump Web Smart SDK version to 2.2.2
+# [1.17.0] - 2022-10-06
+
+- Bump Android Smart SDK version to android-smart-1.15.0
+    - Introduced new Bluetooth scan and Bluetooth connect runtime permissions
+    - target and compile sdk versions bumped to 31
+
+# [1.16.7] - 2022-09-05
+
+- Bump Android Smart SDK version to android-smart-1.14.8
+
+# [1.16.6] - 2022-09-05
+
+- Bump Android Smart SDK version to android-smart-1.14.7
+
+# [1.16.5] - 2022-08-18
+
+- Bump iOS Smart SDK version to 1.15.13
+- Bump Android SDK version to android-smart-1.14.6
 
 # [1.16.4] - 2022-07-26
 - Bump Web Smart SDK version to 2.1.4
