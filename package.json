@@ -1,7 +1,7 @@
 {
   "name": "react-native-steerpath-smart-map",
   "title": "React Native Steerpath Smart Map",
-  "version": "1.17.0",
+  "version": "1.17.1",
   "description": "Steerpath SmartMapView for React Native",
   "main": "dist/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",
   "dependencies": {
-    "steerpath-smart-sdk": "^2.1.4"
+    "steerpath-smart-sdk": "^2.2.2"
   },
   "peerDependencies": {
     "react": "^16.5.0",
