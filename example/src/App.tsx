@@ -14,7 +14,7 @@ const API_KEY =
 export default function App() {
   const smartMapRef = useRef<SmartMapViewMethods>(null);
   const [sdkReady, setSDKReady] = useState(false);
-  const [selectedObject, setSelectedObject] = useState<SmartMapObject | null>();
+  const [selectedObject, setSelectedObject] = useState<SmartMapObject | null>();
   const [bottomSheetState, setBottomSheetState] = useState<SmartBottomSheetState>();
   const [searchResults, setSearchResults] = useState<SmartMapObject[]>();
 
@@ -33,7 +33,7 @@ export default function App() {
     };
 
     const liveCongig: LiveConfig = {
-      receive: receiveOptions, 
+      receive: receiveOptions,
       transmit: transmitOptions,
     };
     RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
@@ -45,7 +45,7 @@ export default function App() {
 
         SmartMapManager.setLanguage("fi-FI");
 
-        // SmartMapManager.setLiveConfig(liveCongig);
+        SmartMapManager.setLiveConfig(liveCongig);
         console.log("FILE WRITTEN!");
         setSDKReady(true);
       })
@@ -53,11 +53,11 @@ export default function App() {
         console.log(err.message);
       });
 
-  // or use configuration as a string
-/*   SmartMapManager.startWithConfig({
-    apiKey: API_KEY,
-    configString: CONFIG_STRING
-  }) */
+    // or use configuration as a string
+    /*   SmartMapManager.startWithConfig({
+        apiKey: API_KEY,
+        configString: CONFIG_STRING
+      }) */
   }, []);
 
   // navigate to selected smart map object
@@ -82,106 +82,111 @@ export default function App() {
   }, [selectedObject, searchResults]);
 
   const onMapLoaded = () => {
-    smartMapRef.current?.setMapMode(SmartMapMode.SEARCH);
+    // smartMapRef.current?.setMapMode(SmartMapMode.SEARCH);
     BackHandler.addEventListener('hardwareBackPress', () => {
-      if(bottomSheetState === SmartBottomSheetState.EXPANDED) {
-        smartMapRef.current?.onBackPressed(() => {});
+      if (bottomSheetState === SmartBottomSheetState.EXPANDED) {
+        smartMapRef.current?.onBackPressed(() => { });
         return true;
       }
       return false;
     });
   }
 
+  /**
+   * Rendering SmartMapView or its parent view before sdk is fully ready, may cause some unexpected behavior i.e. 
+   * some UI configurations set in config json are not working properly.
+   * 
+   * Issues noticed at least with initialMapMode, initialSearchBottomSheetState and settings.
+   * 
+   * You can start the SDK when showing a splash screen, or if you have a multi-screen app, we recommend starting the SDK
+   * before user navigates to the map screen.
+   */
+  if (!sdkReady) return null;
+
   return (
     <View style={{ flex: 10, flexDirection: "row" }}>
       <View style={{ flex: 7 }}>
-        {sdkReady && (
-          <SmartMapView
-            style={{ flex: 1 }}
-            apiKey={API_KEY}
-            ref={smartMapRef}
-            onMapLoaded={onMapLoaded}            
-            onMapClicked={(payload) => {
-              console.log("payload", payload);
-              
-              const { mapObjects } = payload;
-              if (mapObjects.length > 0) {
-                const smartmapObject = mapObjects[0];
-                // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
-                smartMapRef.current?.selectMapObject(smartmapObject);
-              }       
-            }}
-            onUserFloorChanged={(payload) =>
-              console.log("User floor changed", payload)
+        <SmartMapView
+          style={{ flex: 1 }}
+          apiKey={API_KEY}
+          ref={smartMapRef}
+          onMapLoaded={onMapLoaded}
+          onMapClicked={(payload) => {
+            console.log("payload", payload);
+
+            const { mapObjects } = payload;
+            if (mapObjects.length > 0) {
+              const smartmapObject = mapObjects[0];
+              // use selectMapObject() to open the default info bottomsheet of selected smartMapObject
+              smartMapRef.current?.selectMapObject(smartmapObject);
             }
-            onVisibleFloorChanged={(payload) =>
-              console.log("Visible Floor changed", payload)
+          }}
+          onUserFloorChanged={(payload) =>
+            console.log("User floor changed", payload)
+          }
+          onVisibleFloorChanged={(payload) =>
+            console.log("Visible Floor changed", payload)
+          }
+          onSearchResultSelected={(payload) => {
+            setSelectedObject(payload.mapObject);
+          }}
+          onViewStatusChanged={(payload) => {
+            console.log("onViewstatuschanged", payload);
+            if (payload.status === SmartMapViewStatus.CARD_VIEW) {
+              console.log('card');
             }
-            onSearchResultSelected={(payload) => {
-              setSelectedObject(payload.mapObject);
-            }}
-            onViewStatusChanged={(payload) => {
-              console.log("onViewstatuschanged", payload);
-              if(payload.status === SmartMapViewStatus.CARD_VIEW) {
-                console.log('card');
-              }
-              if(payload.status === SmartMapViewStatus.SEARCH_VIEW) {
-                console.log('search');
-              }
-              if(payload.status === SmartMapViewStatus.SETTING_VIEW) {
-                console.log('settings');
-              }
-              if(payload.status === SmartMapViewStatus.NAVIGATING_VIEW) {
-                console.log('nav');
-              }
-              if(payload.status === SmartMapViewStatus.ERROR_VIEW) {
-                console.log('err');
-              }
-              if(payload.status === SmartMapViewStatus.ONLY_MAP) {
-                console.log('map');
-              }
-            }}
-            onBottomSheetStateChanged={(payload) => {
-              setBottomSheetState(payload.state);
-              console.log("onBottomSheetStatusChanged", payload.state);
-            }}
-            onNavigationEnded={() => console.log("navigation ended")}
-            onNavigationStarted={() => console.log("navigation started")}
-            onNavigationPreviewAppeared={() =>
-              console.log("navigation PreviewAppeared")
+            if (payload.status === SmartMapViewStatus.SEARCH_VIEW) {
+              console.log('search');
             }
-            onNavigationDestinationReached={() =>
-              console.log("navigation DestinationReached")
+            if (payload.status === SmartMapViewStatus.SETTING_VIEW) {
+              console.log('settings');
             }
-            onUserTaskResponse={(taskInfo) => {
-              const { response, userTask } = taskInfo
-              console.log('response', response)
-              console.log('userTask', userTask);
-              
-              if(response === SmartMapUserTaskResponse.COMPLETED || response === SmartMapUserTaskResponse.CANCELLED) {
-                if(userTask.type === SmartMapUserTaskType.NAVIGATION) {
-                  const smartMapObject: SmartMapObject = ((userTask.payload as SmartMapNavigationUserTask) as SmartMapObject); 
-                  smartMapRef.current?.selectMapObject(smartMapObject);
-                }
+            if (payload.status === SmartMapViewStatus.NAVIGATING_VIEW) {
+              console.log('nav');
+            }
+            if (payload.status === SmartMapViewStatus.ERROR_VIEW) {
+              console.log('err');
+            }
+            if (payload.status === SmartMapViewStatus.ONLY_MAP) {
+              console.log('map');
+            }
+          }}
+          onBottomSheetStateChanged={(payload) => {
+            setBottomSheetState(payload.state);
+            console.log("onBottomSheetStatusChanged", payload.state);
+          }}
+          onNavigationEnded={() => console.log("navigation ended")}
+          onNavigationStarted={() => console.log("navigation started")}
+          onNavigationPreviewAppeared={() =>
+            console.log("navigation PreviewAppeared")
+          }
+          onNavigationDestinationReached={() =>
+            console.log("navigation DestinationReached")
+          }
+          onUserTaskResponse={(taskInfo) => {
+            const { response, userTask } = taskInfo
+            console.log('response', response)
+            console.log('userTask', userTask);
+
+            if (response === SmartMapUserTaskResponse.COMPLETED || response === SmartMapUserTaskResponse.CANCELLED) {
+              if (userTask.type === SmartMapUserTaskType.NAVIGATION) {
+                const smartMapObject: SmartMapObject = ((userTask.payload as SmartMapNavigationUserTask) as SmartMapObject);
+                smartMapRef.current?.selectMapObject(smartMapObject);
               }
-            }}
-            onSearchCategorySelected={(payload) => {
-              console.log("alltags  ", payload.searchAction.action.allTags);
-              console.log("anyTags  ", payload.searchAction.action.anyTags);
-              console.log("title  ", payload.searchAction.title);
-              console.log("type  ", payload.searchAction.action.type);
-              if (searchResults && searchResults.length > 0) {
-                setSearchResults([]);
-                smartMapRef.current?.removeAllMarkers();
-              }              
-              setSearchResults(payload.searchResults);
-            }}
-          />
-        )}
+            }
+          }}
+          onSearchCategorySelected={(payload) => {
+            if (searchResults && searchResults.length > 0) {
+              setSearchResults([]);
+              smartMapRef.current?.removeAllMarkers();
+            }
+            setSearchResults(payload.searchResults);
+          }}
+        />
       </View>
       {
         <View style={{ flex: 3 }}>
-        <Drawer smartMapRef={smartMapRef} selectedMapObject={selectedObject} />
+          <Drawer smartMapRef={smartMapRef} selectedMapObject={selectedObject} />
         </View>
       }
     </View>
