@@ -2,7 +2,7 @@ export const CONFIG_STRING = `{
   "services": {
     "settings": {
       "default": {
-        "enabled": true,
+        "enabled": false,
         "externalLinks": []
       },
       "web": {
@@ -84,7 +84,7 @@ export const CONFIG_STRING = `{
         ],
         "mapDataURL": "https://mapdata.eu.steerpath.net/",
         "bluedot": {
-          "indoor": true,
+          "indoor": false,
           "outdoor": false
         },
         "routeDataURL": "https://routes.eu.steerpath.net/",
@@ -108,8 +108,8 @@ export const CONFIG_STRING = `{
             }
           }
         },
-        "initialMapMode": "search",
-        "initialSearchBottomSheetState": "collapsed",
+        "initialMapMode": "mapOnly",
+        "initialSearchBottomSheetState": "hidden",
         "floorSwitcherState": "hidden"
       }
     },
