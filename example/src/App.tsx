@@ -93,10 +93,13 @@ export default function App() {
   }
 
   /**
-   * Rendering SmartMapView before sdk is fully ready, may cause some unexpected behavior i.e. 
+   * Rendering SmartMapView or its parent view before sdk is fully ready, may cause some unexpected behavior i.e. 
    * some UI configurations set in config json are not working properly.
    * 
    * Issues noticed at least with initialMapMode, initialSearchBottomSheetState and settings.
+   * 
+   * You can start the SDK when showing a splash screen, or if you have a multi-screen app, we recommend starting the SDK
+   * before user navigates to the map screen.
    */
   if (!sdkReady) return null;
 
