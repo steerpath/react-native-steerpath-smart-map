@@ -1,10 +1,25 @@
 import React, { useState, useRef, useEffect } from "react";
-
-import RNFS from "react-native-fs";
-import Drawer from "./Drawer.js";
 import { BackHandler, View } from "react-native";
-import { CONFIG_STRING } from "./config.js";
-import { Layout, LiveConfig, SmartBottomSheetState, SmartMapManager, SmartMapMode, SmartMapNavigationUserTask, SmartMapObject, SmartMapUserTask, SmartMapUserTaskResponse, SmartMapUserTaskType, SmartMapView, SmartMapViewMethods, SmartMapViewStatus } from "react-native-steerpath-smart-map";
+import RNFS from "react-native-fs";
+import {
+  // Layout,
+  LiveConfig,
+  SmartBottomSheetState,
+  SmartMapManager,
+  // SmartMapMode,
+  SmartMapNavigationUserTask,
+  SmartMapObject,
+  SmartMapUserTask,
+  SmartMapUserTaskResponse,
+  SmartMapUserTaskType,
+  SmartMapView,
+  SmartMapViewMethods,
+  SmartMapViewStatus
+} from "react-native-steerpath-smart-map";
+
+import steerpathConfig from "../steerpath_config.json";
+
+import Drawer from "./Drawer";
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
 
@@ -36,7 +51,7 @@ export default function App() {
       receive: receiveOptions,
       transmit: transmitOptions,
     };
-    RNFS.writeFile(CONFIG_FILE_PATH, CONFIG_STRING, "utf8")
+    RNFS.writeFile(CONFIG_FILE_PATH, JSON.stringify(steerpathConfig), "utf8")
       .then((success) => {
         SmartMapManager.startWithConfig({
           apiKey: API_KEY,
@@ -56,7 +71,7 @@ export default function App() {
     // or use configuration as a string
     /*   SmartMapManager.startWithConfig({
         apiKey: API_KEY,
-        configString: CONFIG_STRING
+        configString: JSON.stringify(steerpathConfig)
       }) */
   }, []);
 
