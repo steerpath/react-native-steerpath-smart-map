@@ -17,7 +17,7 @@
     "@react-native-community/netinfo": "~8.2.0",
     "react": "17.0.2",
     "react-dom": "^16.8.6",
-    "react-native": "0.68.1",
+    "react-native": "0.68.5",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.2.0",
     "react-native-reanimated": "~2.8.0",

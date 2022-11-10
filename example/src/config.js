@@ -2,7 +2,7 @@ export const CONFIG_STRING = `{
   "services": {
     "settings": {
       "default": {
-        "enabled": false,
+        "enabled": true,
         "externalLinks": []
       },
       "web": {
@@ -84,8 +84,8 @@ export const CONFIG_STRING = `{
         ],
         "mapDataURL": "https://mapdata.eu.steerpath.net/",
         "bluedot": {
-          "indoor": false,
-          "outdoor": false
+          "indoor": true,
+          "outdoor": true
         },
         "routeDataURL": "https://routes.eu.steerpath.net/",
         "navigationDestinationThresholdM": 5,
@@ -108,9 +108,7 @@ export const CONFIG_STRING = `{
             }
           }
         },
-        "initialMapMode": "mapOnly",
-        "initialSearchBottomSheetState": "hidden",
-        "floorSwitcherState": "hidden"
+        "initialMapMode": "search"
       }
     },
     "search": {
@@ -226,7 +224,7 @@ export const CONFIG_STRING = `{
           "enabled": false,
           "telemetryURL": "https://capture.eu.steerpath.net/v1/"
       }
-  },
+    },
     "metadata": {
       "default": {
         "metadataURL": "https://meta2.eu.steerpath.net/meta/v2/"
@@ -267,7 +265,7 @@ export const CONFIG_STRING = `{
       "web": {
         "enabled": true
       }
-  },
+    },
     "ui": {
       "default": {
         "colors": {
