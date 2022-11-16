@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- These search category translations are missing from the Steerpath SDK -->
+    <string name="sp_show_free_desk_title">Free desks</string>
+    <string name="sp_show_free_desk_title_short">Free\ndesks</string>
+    <string name="sp_show_free_rooms_title">Free rooms</string>
+    <string name="sp_show_free_rooms_title_short">Free\nrooms</string>
+    <string name="sp_category_meeting_room_title">Meeting rooms</string>
+    <string name="sp_category_meeting_room_title_short">Meeting\nrooms</string>
+    <string name="sp_show_free_phone_booths_title">Free phone booths</string>
+    <string name="sp_show_free_phone_booths_title_short">Free phone booths</string>
+    <string name="sp_search_hint">Search for a place</string>
+
+    <string name="sp_show_free_meeting_room_title">Free meeting rooms</string>
+    <string name="sp_show_free_meeting_room_title_short">Free\nMeeting\nrooms</string>
+</resources>
