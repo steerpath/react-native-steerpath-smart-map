@@ -1,3 +1,16 @@
 <resources>
-    <string name="app_name">example</string>
+    <string name="app_name">Esimerkki</string>
+    <!-- These search category translations are missing from the Steerpath SDK -->
+    <string name="sp_show_free_desk_title">Vapaat pöydät</string>
+    <string name="sp_show_free_desk_title_short">Vapaat pöydät</string>
+    <string name="sp_show_free_rooms_title">Vapaat tilat</string>
+    <string name="sp_show_free_rooms_title_short">Vapaat\ntilat</string>
+    <string name="sp_category_meeting_room_title">Kokoushuoneet</string>
+    <string name="sp_category_meeting_room_title_short">Kokous-\nhuoneet</string>
+    <string name="sp_show_free_phone_booths_title">Vapaat puhelinkopit</string>
+    <string name="sp_show_free_phone_booths_title_short">Vapaat puhelinkopit</string>
+    <string name="sp_search_hint">Hae paikkaa</string>
+
+    <string name="sp_show_free_meeting_room_title">Vapaat neuvottelutilat</string>
+    <string name="sp_show_free_meeting_room_title_short">Vapaat\nneuvottelutilat</string>
 </resources>
