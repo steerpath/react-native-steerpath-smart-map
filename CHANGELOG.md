@@ -15,6 +15,15 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+# [1.17.7]
+- Update web sdk
+
+# [1.17.6]
+- Better default values for camera animations
+
+# [1.17.5]
+- Localization updates to example app and updated documentation
+
 # [1.17.4] - 2022-11-10
 
 - Bump Android Smart SDK to version android-smart-1.15.2
