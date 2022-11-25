@@ -226,7 +226,7 @@ export default class Drawer extends Component {
       zoomLevel: 17,
       bearing: 30,
       pitch: 45,
-      floorIndex: 2,
+      floorIndex: 0,
       buildingRef: this.buildingRef,
     };
     if (type === "location") {

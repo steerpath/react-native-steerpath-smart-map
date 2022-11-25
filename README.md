@@ -45,19 +45,6 @@ repositories {
 If you are using React-Native < 0.60:
 `$ react-native link react-native-steerpath-smart-map`
 
-### To use this SDK for the web:
-
-You need to add the following lines to your html file (`index.html` if using
-`create-react-app`):
-
-```html
-<script src="https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/releases/smart/1.0.14/steerpath-smart-1.0.14.min.js"></script>
-<link
-  href="https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/releases/smart/1.0.14/steerpath-smart-1.0.14.css"
-  rel="stylesheet"
-/>
-```
-
 ## Run the example app
 
 ```bash
