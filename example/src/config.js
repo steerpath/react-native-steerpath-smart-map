@@ -49,7 +49,7 @@ export const CONFIG_STRING = `{
     },
     "smartmap": {
       "default": {
-        "defaultLanguage": "fi-FI",
+        "defaultLanguage": "en-GB",
 				"supportedLanguages": [
 					"en-GB",
 					"fi-FI",

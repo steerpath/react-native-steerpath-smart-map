@@ -4,7 +4,7 @@ import RNFS from "react-native-fs";
 import Drawer from "./Drawer.js";
 import { BackHandler, View } from "react-native";
 import { CONFIG_STRING } from "./config.js";
-import { Layout, LiveConfig, SmartBottomSheetState, SmartMapManager, SmartMapMode, SmartMapNavigationUserTask, SmartMapObject, SmartMapUserTask, SmartMapUserTaskResponse, SmartMapUserTaskType, SmartMapView, SmartMapViewMethods, SmartMapViewStatus } from "react-native-steerpath-smart-map";
+import { LiveConfig, SmartBottomSheetState, SmartMapManager, SmartMapMode, SmartMapNavigationUserTask, SmartMapObject, SmartMapUserTask, SmartMapUserTaskResponse, SmartMapUserTaskType, SmartMapView, SmartMapViewMethods, SmartMapViewStatus } from "react-native-steerpath-smart-map";
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
 
@@ -43,10 +43,15 @@ export default function App() {
           configFilePath: CONFIG_FILE_PATH,
         });
 
+        /**
+         * This API sets the language for the search engine.
+         *
+         * To localize the map view UI i.e. search bar, see Steerpath.strings files on iOS and string.xml files on Android.
+         * Smart SDK uses the device's locale to determine the language. Fallbacks to English if no appropriate localization file is found.
+         */
         SmartMapManager.setLanguage("fi-FI");
 
         SmartMapManager.setLiveConfig(liveCongig);
-        console.log("FILE WRITTEN!");
         setSDKReady(true);
       })
       .catch((err) => {
