@@ -49,7 +49,7 @@ If you are using React-Native < 0.60:
 
 ```bash
 $ cd example
-$ yarn install --force
+$ yarn add react-native-steerpath-smart-map --force --ignore-scripts
 $ cd ios
 $ pod update
 $ cd ..
