@@ -49,7 +49,7 @@ If you are using React-Native < 0.60:
 
 ```bash
 $ cd example
-$ yarn add react-native-steerpath-smart-map --force --ignore-scripts
+$ yarn install --force
 $ cd ios
 $ pod update
 $ cd ..
@@ -126,6 +126,18 @@ The default offline data file name is “sp_offline_data.sff”. If you want to 
 <key>SP_OFFLINE_DATA</key>
 <string>sp_offline_data.sff</string>
 ```
+
+#### iOS trouble shooting
+
+* For the error whe doing pod install on /example folder
+```
+Error
+
+Errno::ENOENT - No such file or directory @ realpath_rec - .../react-native-steerpath-smartmap/example/node_modules/react-native-steerpath-smart-map/node_modules
+```
+
+Run ```cd example && yarn add react-native-steerpath-smart-map --force --ignore-scripts```. The node_modules should re-appear
+
 
 ### Web
 
