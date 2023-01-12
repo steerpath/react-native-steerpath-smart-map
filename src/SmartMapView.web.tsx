@@ -24,6 +24,7 @@ const COMPONENT_ID_PREFIX = "map_container_id";
 // Implementation for the smart map reference
 interface SmartMapRef {
   removeMap: Function;
+  getSmartMapCameraOptions: Function;
 }
 
 function runCommand<ArgsT extends Array<unknown>>(
@@ -222,6 +223,10 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
       },
       removeAllMarkers() {
         runCommand(smartMapRef.current, "removeAllMarkers", []);
+      },
+      getSmartMapCameraOptions() {
+        const smartMapCameraOptions = smartMapRef.current ? smartMapRef.current.getSmartMapCameraOptions() : null
+        return smartMapCameraOptions;
       },
       animateCamera({
         latitude,

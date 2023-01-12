@@ -218,6 +218,11 @@ export default class Drawer extends Component {
     console.log("this.getUserTaskResponseBlock", data);
   }
 
+  getSmartMapCameraOptions = () => {
+    const smartMapCameraOptions = this.props.smartMapRef.current.getSmartMapCameraOptions()
+    console.log('smartMapCameraOptions: ', smartMapCameraOptions);
+  }
+
   setCamera = (type) => {
     let localRef = "Mobile development";
     let cameraOptions = {
@@ -457,6 +462,10 @@ export default class Drawer extends Component {
             <Button
               title="Reset widget padding"
               onPress={this.resetWidgetPadding}
+            />
+            <Button
+              title="Get SmartMap Camera Options"
+              onPress={this.getSmartMapCameraOptions}
             />
             <Button
               title="Set camera location"
