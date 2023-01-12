@@ -299,6 +299,18 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           ]);
         }
       },
+      getSmartMapCameraOptions(callback) {
+        if (Platform.OS === 'android') {
+          NativeModules.RNSmartMapModule.getSmartMapCameraOptions(
+            findNodeHandle(smartMapRef.current), 
+            callback
+          );
+        } else {
+          runCommand(smartMapRef.current, "getSmartMapCameraOptions", [
+            callback
+          ]);
+        }
+      }
     }));
 
     return (

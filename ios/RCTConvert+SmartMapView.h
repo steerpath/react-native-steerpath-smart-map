@@ -28,6 +28,7 @@
 + (NSString*)SPSmartMapBottomSheetViewState:(SPSmartMapBottomSheetViewState)state;
 + (NSString*)SPNavigationError:(SPNavigationError)error;
 + (NSString*)SPSmartMapUserTaskResponse:(SPSmartMapUserTaskResponse)response;
++ (NSDictionary*)convertSmartMapCameraOptionsToJSONWith:(SPSmartMapCameraOptions*)opts;
 
 @end
 

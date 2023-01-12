@@ -275,5 +275,20 @@
     return guarded;
 }
 
++ (NSDictionary*)convertSmartMapCameraOptionsToJSONWith:(SPSmartMapCameraOptions*)opts
+{
+    if (opts == nil) {
+        return @{};
+    }
+    
+    return @{
+        @"pitch": opts.getPitch(),
+        @"bearing": opts.getBearing(),
+        @"zoomLevel": opts.getZoomLevel(),
+        @"latitude:": opts.getLatitude(),
+        @"longitude": opts.getLongitude()
+    }
+}
+
 @end
 
