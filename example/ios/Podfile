@@ -20,6 +20,7 @@ end
 
 post_install do |installer|
 	react_native_post_install(installer)
+  # Workaround for pod code signing issue https://github.com/CocoaPods/CocoaPods/issues/11402#issuecomment-1201464693
   installer.pods_project.targets.each do |target|
     if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
       target.build_configurations.each do |config|
