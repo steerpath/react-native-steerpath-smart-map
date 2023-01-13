@@ -14,6 +14,7 @@ import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.uimanager.NativeViewHierarchyManager;
 import com.facebook.react.uimanager.UIManagerModule;
 import com.steerpath.smart.ObjectSource;
+import com.steerpath.smart.SmartMapCameraOptions;
 import com.steerpath.smart.UserTask;
 
 import org.json.JSONException;
@@ -178,6 +179,25 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
                 // side
                 callback.invoke(mapView.getMap().getCurrentUserTask());
             }
+        });
+    }
+
+    @ReactMethod
+    public void getSmartMapCameraOptions(final int tag, final Callback callback) {
+        getUiManager().addUIBlock(nvhm -> {
+            RNSmartMapView mapView = resolveMapView(nvhm, tag, callback);
+            if (mapView == null) {
+                return;
+            }
+            
+            SmartMapCameraOptions opts = mapView.getMap().getSmartMapCameraOptions();
+            WritableMap map = new WritableNativeMap();
+            map.putDouble("latitude", opts.getLatitude());
+            map.putDouble("longitude", opts.getLongitude());
+            map.putDouble("bearing", opts.getBearing());
+            map.putDouble("pitch", opts.getTilt());
+            map.putDouble("zoomLevel", opts.getZoomLevel());
+            callback.invoke(map);
         });
     }
 

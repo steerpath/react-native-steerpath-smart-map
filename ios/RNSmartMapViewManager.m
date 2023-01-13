@@ -459,6 +459,20 @@ RCT_EXPORT_METHOD(cancelCurrentUserTask:(nonnull NSNumber*) reactTag)
   }];
 }
 
+RCT_EXPORT_METHOD(getSmartMapCameraOptions:(nonnull NSNumber*) reactTag
+                  callback:(RCTResponseSenderBlock)callback)
+{
+    [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
+        RNSmartMapView* view = (RNSmartMapView*)viewRegistry[reactTag];
+        if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
+            RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
+            return;
+        }
+        SPSmartMapCameraOptions* opts = view.getSmartMapCameraOptions;
+        callback(@[[RCTConvert convertSmartMapCameraOptionsToJSONWith:opts]]);
+    }];
+}
+
 #pragma MAP Events
 
 -(void)spSmartMapViewOnMapLoaded:(RNSmartMapView*)smartMap;
