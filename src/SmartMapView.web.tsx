@@ -225,8 +225,8 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
       removeAllMarkers() {
         runCommand(smartMapRef.current, "removeAllMarkers", []);
       },
-      getSmartMapCameraOptions() {
-        const smartMapCameraOptions: SmartMapCameraOptions = smartMapRef.current ? smartMapRef.current.getSmartMapCameraOptions() : null
+      getSmartMapCameraOptions(): SmartMapCameraOptions | null {
+        const smartMapCameraOptions: SmartMapCameraOptions | null = smartMapRef.current ? smartMapRef.current.getSmartMapCameraOptions() : null
         return smartMapCameraOptions;
       },
       animateCamera({
