@@ -12,6 +12,7 @@ import {
   SmartMapViewMethods,
   SmartMapUserTask,
   SmartMapPOISelectionUserTask,
+  SmartMapCameraOptions,
 } from "./SmartMapViewProps";
 import { steerpath } from "steerpath-smart-sdk";
 
@@ -225,7 +226,7 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
         runCommand(smartMapRef.current, "removeAllMarkers", []);
       },
       getSmartMapCameraOptions() {
-        const smartMapCameraOptions = smartMapRef.current ? smartMapRef.current.getSmartMapCameraOptions() : null
+        const smartMapCameraOptions: SmartMapCameraOptions = smartMapRef.current ? smartMapRef.current.getSmartMapCameraOptions() : null
         return smartMapCameraOptions;
       },
       animateCamera({
