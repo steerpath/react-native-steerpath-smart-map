@@ -463,12 +463,12 @@ RCT_EXPORT_METHOD(getSmartMapCameraOptions:(nonnull NSNumber*) reactTag
                   callback:(RCTResponseSenderBlock)callback)
 {
     [self.bridge.uiManager addUIBlock:^(RCTUIManager *uiManager, NSDictionary<NSNumber *,UIView *> *viewRegistry) {
-        RNSmartMapView* mapView = (RNSmartMapView*)viewRegistry[reactTag];
-        if (!mapView || ![mapView isKindOfClass:[RNSmartMapView class]]) {
+        RNSmartMapView* view = (RNSmartMapView*)viewRegistry[reactTag];
+        if (!view || ![view isKindOfClass:[RNSmartMapView class]]) {
             RCTLogError(@"Cannot find SPSmartMapView with tag #%@", reactTag);
             return;
         }
-        SPSmartMapCameraOptions* opts =  [mapView getSmartMapCameraOptions];
+        SPSmartMapCameraOptions* opts = view.getSmartMapCameraOptions;
         callback(@[[RCTConvert convertSmartMapCameraOptionsToJSONWith:opts]]);
     }];
 }

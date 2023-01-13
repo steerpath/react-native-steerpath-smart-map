@@ -102,7 +102,7 @@ export interface SmartMapViewMethods {
   start(): void; // Android only
   startUserTask(userTask: SmartMapUserTask): void;
   stop(): void; // Android only
-  getSmartMapCameraOptions: (callback: SmartMapCameraOptions) => void;
+  getSmartMapCameraOptions(callback: (options: SmartMapCameraOptions) => void): void;
 }
 
 export enum SmartMapMode {

@@ -306,9 +306,7 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
             callback
           );
         } else {
-          runCommand(smartMapRef.current, "getSmartMapCameraOptions", [
-            callback
-          ]);
+          runCommand(smartMapRef.current, "getSmartMapCameraOptions", [callback]);
         }
       }
     }));

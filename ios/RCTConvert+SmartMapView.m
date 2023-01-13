@@ -282,12 +282,12 @@
     }
     
     return @{
-        @"pitch": opts.getPitch(),
-        @"bearing": opts.getBearing(),
-        @"zoomLevel": opts.getZoomLevel(),
-        @"latitude:": opts.getLatitude(),
-        @"longitude": opts.getLongitude()
-    }
+        @"pitch": [NSNumber numberWithDouble:opts.getPitch],
+        @"bearing": [NSNumber numberWithDouble:opts.getBearing],
+        @"zoomLevel": [NSNumber numberWithDouble:opts.getZoomLevel],
+        @"latitude:": [NSNumber numberWithDouble:opts.getLatitude],
+        @"longitude": [NSNumber numberWithDouble:opts.getLongitude]
+    };
 }
 
 @end

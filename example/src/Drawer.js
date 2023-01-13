@@ -219,7 +219,7 @@ export default class Drawer extends Component {
   }
 
   getSmartMapCameraOptions = () => {
-    const smartMapCameraOptions = this.props.smartMapRef.current.getSmartMapCameraOptions()
+    const smartMapCameraOptions = this.props.smartMapRef.current.getSmartMapCameraOptions((opts) => console.log('opts', opts))
     console.log('smartMapCameraOptions: ', smartMapCameraOptions);
   }
 

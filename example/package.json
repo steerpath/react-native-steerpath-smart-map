@@ -21,7 +21,7 @@
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "~2.2.0",
     "react-native-reanimated": "~2.8.0",
-    "react-native-steerpath-smart-map": "^1.17.8",
+    "react-native-steerpath-smart-map": "file:../",
     "react-native-web": "0.17.7"
   },
   "devDependencies": {
