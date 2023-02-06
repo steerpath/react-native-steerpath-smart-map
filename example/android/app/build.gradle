@@ -127,9 +127,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    lintOptions {
-          abortOnError false
-    }
 
     defaultConfig {
         applicationId "com.example"
@@ -152,6 +149,11 @@ android {
             storePassword 'android'
             keyAlias 'androiddebugkey'
             keyPassword 'android'
+        }
+    }
+    packagingOptions {
+        jniLibs {
+            pickFirsts += ['**/armeabi-v7a/libc++_shared.so', '**/x86/libc++_shared.so', '**/arm64-v8a/libc++_shared.so', '**/x86_64/libc++_shared.so', '**/x86/libjsc.so', '**/armeabi-v7a/libjsc.so']
         }
     }
     buildTypes {
@@ -181,14 +183,10 @@ android {
         }
     }
 
-    packagingOptions {
-        pickFirst '**/armeabi-v7a/libc++_shared.so'
-        pickFirst '**/x86/libc++_shared.so'
-        pickFirst '**/arm64-v8a/libc++_shared.so'
-        pickFirst '**/x86_64/libc++_shared.so'
-        pickFirst '**/x86/libjsc.so'
-        pickFirst '**/armeabi-v7a/libjsc.so'
+    lint {
+        abortOnError false
     }
+    namespace 'com.example'
 }
 
 repositories {
