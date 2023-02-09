@@ -225,10 +225,6 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
       removeAllMarkers() {
         runCommand(smartMapRef.current, "removeAllMarkers", []);
       },
-      getSmartMapCameraOptions(): SmartMapCameraOptions | null {
-        const smartMapCameraOptions: SmartMapCameraOptions | null = smartMapRef.current ? smartMapRef.current.getSmartMapCameraOptions() : null
-        return smartMapCameraOptions;
-      },
       animateCamera({
         latitude,
         longitude,
@@ -331,6 +327,10 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           geoJson,
           callback,
         ]);
+      },
+      getSmartMapCameraOptions(callback) {
+        const smartMapCameraOptions: SmartMapCameraOptions = smartMapRef.current ? smartMapRef.current.getSmartMapCameraOptions() : null
+        if (smartMapCameraOptions) callback(smartMapCameraOptions) 
       },
       stopLive() {
         runCommand(smartMapRef.current, "stopLive", []);
