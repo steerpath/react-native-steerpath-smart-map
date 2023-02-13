@@ -50,6 +50,7 @@ export default function App() {
               console.log("Map loaded");
             }}
             onMapClicked={(payload) => {
+              console.log('onMapClicked', payload);
               const { mapObjects } = payload;
               if (mapObjects.length) {
                 smartMapRef.current?.removeAllMarkers();
