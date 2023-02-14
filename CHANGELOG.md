@@ -15,8 +15,16 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
-# [1.19.1] - 2023-02-06
-- Web sdk to return camera options from callback in getSmartMapCameraOptions
+# [1.19.2] - 2023-02-14
+
+- Bump Web Smart SDK version to 2.2.7
+- Bump Android Smart SDK version to android-smart-1.18.0
+- Bump iOS Smart SDK version to 1.16.2
+
+# [1.19.1] - 2023-02-10
+
+- Web to return camera options from callback in getSmartMapCameraOptions
+
 # [1.19.0] - 2023-02-06
 
 - Bump Android Smart SDK version to android-smart-1.17.1
@@ -28,13 +36,16 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - Bump iOS Smart SDK version to 1.16.1
 - Bump Web SDK version to 2.2.6
 
-# [1.17.7]
+# [1.17.7] - 2022-11-25
+
 - Update web sdk
 
-# [1.17.6]
+# [1.17.6] - 2022-11-25
+
 - Better default values for camera animations
 
-# [1.17.5]
+# [1.17.5] - 2022-11-15
+
 - Localization updates to example app and updated documentation
 
 # [1.17.4] - 2022-11-10
@@ -72,9 +83,11 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - Bump Android SDK version to android-smart-1.14.6
 
 # [1.16.4] - 2022-07-26
+
 - Bump Web Smart SDK version to 2.1.4
 
 # [1.16.3] - 2022-07-26
+
 - Bump Web Smart SDK version to 2.1.3
 
 # [1.16.2] - 2022-06-16
@@ -92,6 +105,7 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - Update example app's react native version to 0.68.1
 
 # [1.15.5] - 2022-05-11
+
 - Bump Web Smart SDK to 2.1.2
 
 # [1.15.4] - 2022-05-11
@@ -160,6 +174,7 @@ Special release where search UI is completely disabled on iOS. Not recommended t
 - Bump iOS Smart SDK to 1.15.4
 
 ## [1.12.7] - 2021-10-25
+
 - Bump Web SDK to steerpath-smart-sdk 1.7.2
     - Bug fix for setCamera and animateCamera methods
 
