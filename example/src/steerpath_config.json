@@ -1,0 +1,217 @@
+{
+  "services": {
+    "smartmap": {
+      "default": {
+        "defaultLanguage": "en-GB",
+        "supportedLanguages": [
+          "en-GB",
+          "fi-FI"
+        ],
+        "nonSelectableCssClasses": [
+          "infrastructure_department",
+          "infrastructure_wing"
+        ],
+        "mapDataURL": "https://mapdata.eu.steerpath.net/",
+        "bluedot": {
+          "indoor": true,
+          "outdoor": true
+        },
+        "routeDataURL": "https://routes.eu.steerpath.net/",
+        "navigationDestinationThresholdM": 5,
+        "navigationRerouteThresholdM": 5,
+        "mapStylePath": "/style/default.json",
+        "viewProperties": {
+          "bearing": 0,
+          "pitch": 0,
+          "layerIndex": 0,
+          "buildingRef": null,
+          "bounds": {
+            "sw": {
+              "lng": 25.34501353768661,
+              "lat": 64.97358848905606
+            },
+            "ne": {
+              "lng": 25.631230765087366,
+              "lat": 65.06819730508246
+            }
+          }
+        }
+      }
+    },
+    "settings": {
+      "default": {
+        "enabled": true,
+        "externalLinks": [
+          {
+            "title": "Send feedback",
+            "link": "feedback-navigation@oulu.fi",
+            "type": "email"
+          },
+          {
+            "title": "Website",
+            "link": "https://www.oulu.fi/university/",
+            "type": "web"
+          }
+        ]
+      },
+      "web": {
+        "enabled": false
+      }
+    },
+    "kiosk": {
+      "share": {
+        "hash": false,
+        "qrCodeShare": {
+          "enabled": false,
+          "qrCodeURL": "https://kiosk.steerpath.com/",
+          "qrCodePath": "/oulu/index.html"
+        },
+        "copyLinkToClipboard": false
+      }
+    },
+    "search": {
+      "default": {
+        "searchSortResultsByDistance": false,
+        "nonSearchableCssClasses": [
+          "infrastructure_lighting",
+          "infrastructure_stairs",
+          "infrastructure_lift",
+          "category_stairs"
+        ],
+        "searchSuggestions": [
+          {
+            "title": "sp_category_building_title",
+            "shortTitle": "sp_category_building_short",
+            "description": "sp_category_building_description",
+            "iconName": "category_building",
+            "action": {
+              "type": "show_pois_with_tags",
+              "allTags": [
+                "building"
+              ]
+            }
+          },
+          {
+            "title": "sp_category_auditorium_title",
+            "shortTitle": "sp_category_auditorium_title_short",
+            "description": "sp_category_auditorium_description",
+            "iconName": "category_auditorium",
+            "action": {
+              "type": "show_pois_with_tags",
+              "allTags": [
+                "category_auditorium"
+              ]
+            }
+          },
+          {
+            "title": "sp_category_meeting_room_title",
+            "shortTitle": "sp_category_meeting_room_title_short",
+            "description": "sp_category_meeting_room_description ",
+            "iconName": "category_meeting_room",
+            "action": {
+              "type": "show_pois_with_tags",
+              "allTags": [
+                "category_meeting_room"
+              ]
+            }
+          },
+          {
+            "title": "sp_category_restaurant_title",
+            "shortTitle": "sp_category_restaurant_title_short",
+            "description": "sp_category_restaurant_description",
+            "iconName": "category_restaurant",
+            "action": {
+              "type": "show_pois_with_tags",
+              "allTags": [
+                "category_restaurant"
+              ]
+            }
+          },
+          {
+            "title": "sp_infrastructure_entrance_title",
+            "shortTitle": "sp_infrastructure_entrance_title_short",
+            "description": "sp_infrastructure_entrance_description",
+            "iconName": "infrastructure_entrance",
+            "action": {
+              "type": "show_pois_with_tags",
+              "anyTags": [
+                "infrastructure_entrance",
+                "infrastructure_exit"
+              ]
+            }
+          }
+        ],
+        "moreSuggestionsButton": {
+          "title": "sp_more_suggestions_title",
+          "shortTitle": "sp_more_suggestions_title_short",
+          "description": "sp_more_suggestions_description",
+          "iconName": "category_more",
+          "action": {
+            "type": "show_more_categories"
+          }
+        }
+      }
+    },
+    "telemetry": {
+      "default": {
+        "telemetryURL": "https://capture-v1.eu.steerpath.com/v1/",
+        "beacons": "known",
+        "location": "indoor",
+        "enabled": true,
+        "locationIntervalS": 60,
+        "transmissionIntervalS": 120
+      }
+    },
+    "metadata": {
+      "default": {
+        "metadataURL": "https://meta2.eu.steerpath.net/meta/v2/"
+      }
+    },
+    "offline": {
+      "default": {
+        "offlineDataURL": "https://offline.eu.steerpath.net/"
+      }
+    },
+    "live": {
+      "default": {
+        "liveURL": "https://live-eu3.steerpath.com/",
+        "liveApiKey": "contact support@steerpath.com to get your live api key.",
+        "enabled": false
+      }
+    },
+    "permissions": {
+      "android": {
+        "trigger": "disabled"
+      }
+    },
+    "positioning": {
+      "default": {
+        "beaconsURL": "https://beacons2.eu.steerpath.net/",
+        "nddURL": "https://ndd.eu.steerpath.net/",
+        "eidURL": "https://eidupdates.eu.steerpath.net/",
+        "useAccelerometer": true,
+        "useGyro": true,
+        "useCompass": true,
+        "gpsThresholdM": 5
+      }
+    },
+    "ui": {
+      "default": {
+        "colors": {
+          "primaryColor": "#23408f",
+          "secondaryColor": "#d7b127",
+          "detailColor": "#C6956C",
+          "bluedotColor": "#3887be",
+          "zoomedInRouteLineColor": "#23408f",
+          "zoomedOutRouteLineColor": "#d7b127",
+          "altRouteLineColor": "#DEC56B",
+          "backgroundColor": "#fafafa",
+          "shadeColor": "#949494",
+          "textColor": "#01b2a5",
+          "textHaloColor": "#fff"
+        }
+      }
+    }
+  },
+  "update": false
+}

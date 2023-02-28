@@ -15,105 +15,109 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
-# [1.19.2] - 2023-02-14
+## [1.19.3] - 2023-02-28
+
+- Bump iOS Smart SDK version to 1.16.3
+
+## [1.19.2] - 2023-02-14
 
 - Bump Web Smart SDK version to 2.2.7
 - Bump Android Smart SDK version to android-smart-1.18.0
 - Bump iOS Smart SDK version to 1.16.2
 
-# [1.19.1] - 2023-02-10
+## [1.19.1] - 2023-02-10
 
 - Web to return camera options from callback in getSmartMapCameraOptions
 
-# [1.19.0] - 2023-02-06
+## [1.19.0] - 2023-02-06
 
 - Bump Android Smart SDK version to android-smart-1.17.1
 
-# [1.18.0] - 2023-01-13
+## [1.18.0] - 2023-01-13
 
 - New API: SmartMapView.getSmartMapCameraOptions()
 - Bump Android Smart SDK version to android-smart-1.16.0
 - Bump iOS Smart SDK version to 1.16.1
 - Bump Web SDK version to 2.2.6
 
-# [1.17.7] - 2022-11-25
+## [1.17.7] - 2022-11-25
 
 - Update web sdk
 
-# [1.17.6] - 2022-11-25
+## [1.17.6] - 2022-11-25
 
 - Better default values for camera animations
 
-# [1.17.5] - 2022-11-15
+## [1.17.5] - 2022-11-15
 
 - Localization updates to example app and updated documentation
 
-# [1.17.4] - 2022-11-10
+## [1.17.4] - 2022-11-10
 
 - Bump Android Smart SDK to version android-smart-1.15.2
 
-# [1.17.3] - 2022-11-04
+## [1.17.3] - 2022-11-04
 
 - Bump Android Smart SDK to version android-smart-1.15.1
 
-# [1.17.2] - 2022-11-03
+## [1.17.2] - 2022-11-03
 
 - Bump iOS Smart SDK to version 1.15.14
 
-# [1.17.1]
+## [1.17.1]
 
 - Bump Web Smart SDK version to 2.2.2
-# [1.17.0] - 2022-10-06
+## [1.17.0] - 2022-10-06
 
 - Bump Android Smart SDK version to android-smart-1.15.0
     - Introduced new Bluetooth scan and Bluetooth connect runtime permissions
     - target and compile sdk versions bumped to 31
 
-# [1.16.7] - 2022-09-05
+## [1.16.7] - 2022-09-05
 
 - Bump Android Smart SDK version to android-smart-1.14.8
 
-# [1.16.6] - 2022-09-05
+## [1.16.6] - 2022-09-05
 
 - Bump Android Smart SDK version to android-smart-1.14.7
 
-# [1.16.5] - 2022-08-18
+## [1.16.5] - 2022-08-18
 
 - Bump iOS Smart SDK version to 1.15.13
 - Bump Android SDK version to android-smart-1.14.6
 
-# [1.16.4] - 2022-07-26
+## [1.16.4] - 2022-07-26
 
 - Bump Web Smart SDK version to 2.1.4
 
-# [1.16.3] - 2022-07-26
+## [1.16.3] - 2022-07-26
 
 - Bump Web Smart SDK version to 2.1.3
 
-# [1.16.2] - 2022-06-16
+## [1.16.2] - 2022-06-16
 
 - Bump iOS Smart SDK version to 1.15.12
 - Bump Android Smart SDK version to android-smart-1.14.5
 
-# [1.16.1] - 2022-06-08
+## [1.16.1] - 2022-06-08
 
 - Fixed typoes in localized description properties in SmartMapObjectProperties interface. These props are optional.
 
-# [1.16.0] - 2022-06-01
+## [1.16.0] - 2022-06-01
 
 - Update build.gradle to make the library compatible with apps using gradle version 7+
 - Update example app's react native version to 0.68.1
 
-# [1.15.5] - 2022-05-11
+## [1.15.5] - 2022-05-11
 
 - Bump Web Smart SDK to 2.1.2
 
-# [1.15.4] - 2022-05-11
+## [1.15.4] - 2022-05-11
 
 - Bump Android Smart SDK to android-smart-1.14.4
 - Update default gradle plugin version to 4.0.2
 
-# [1.15.3] - 2022-04-01
+## [1.15.3] - 2022-04-01
 
 - Improved typings for SmartMapObject
 
