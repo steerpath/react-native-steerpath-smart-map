@@ -7,7 +7,7 @@ import {
   Layout,
 } from "react-native-steerpath-smart-map";
 import { View } from "react-native";
-import { CONFIG_STRING } from "./config.js";
+import CONFIG  from "./steerpath_config.json";
 import Drawer from "./Drawer.js";
 import { SearchAction } from '../../src/SmartMapViewProps';
 
@@ -20,7 +20,7 @@ export default function App() {
   const smartMapRef = useRef<SmartMapViewMethods>(null);
   (SmartMapManager as { start: (apiKey: string, config: Record<string, unknown>) => void }).start(
     API_KEY,
-    JSON.parse(CONFIG_STRING),
+    CONFIG,
   );
   
   const setCamera = () => {
