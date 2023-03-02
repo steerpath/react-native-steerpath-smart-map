@@ -18,6 +18,8 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 ## [1.19.3] - 2023-02-28
 
 - Bump iOS Smart SDK version to 1.16.3
+- Bump Android Smart SDK version to android-smart-1.19.1
+- Bump Web Smart SDK version to 2.2.8
 
 ## [1.19.2] - 2023-02-14
 
