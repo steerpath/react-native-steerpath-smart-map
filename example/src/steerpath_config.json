@@ -124,6 +124,18 @@
       ],
         "searchSuggestions": [
           {
+            "title": "sp_category_building_title",
+            "shortTitle": "sp_category_building_short",
+            "description": "sp_category_building_description",
+            "iconName": "category_building",
+            "action": {
+              "type": "show_pois_with_tags",
+              "allTags": [
+                "building"
+              ]
+            }
+          },
+          {
             "title": "sp_show_free_desk_title",
             "shortTitle": "sp_show_free_desk_title_short",
             "description": "sp_show_free_desk_description",
@@ -293,6 +305,25 @@
           "textColor": "#fff",
           "textHaloColor": "#000"
         }
+      }
+    },
+    "developer":{
+      "android":{
+        "enabled":true,
+        "monitor":true,
+        "healthMonitor":false,
+        "persistentOfflineBundle":true,
+        "acceleratedCacheAgeing":false,
+        "beaconInfo":false,
+        "floatingSdkInfo":false,
+        "stackTraces":false,
+        "locationMonitor":false,
+        "bluetoothScannerFailureTest":false,
+        "eidMonitor":false,
+        "nativeLogging":false,
+        "verboseFileLoader":false,
+        "strictOfflineBundleValidation":false,
+        "verboseMapAnimations":false
       }
     }
   },

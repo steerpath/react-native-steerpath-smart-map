@@ -2,9 +2,8 @@ import { ViewProperties } from "react-native";
 
 export interface ConfigSDK {
   apiKey: string;
-  // In Web, the config file path is a JSON string, on Android/iOS, it will be a
-  // local file path to the config JSON file
-  configFilePath: string;
+  configFilePath?: string | null;
+  configString?: string | null;
 }
 
 export interface SmartMapViewMethods {
