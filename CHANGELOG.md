@@ -15,8 +15,9 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
-## [1.19.3] - 2023-02-28
+## [1.20.0] - 2023-03-02
 
+- Added missing configString prop to ConfigSDK interface
 - Bump iOS Smart SDK version to 1.16.3
 - Bump Android Smart SDK version to android-smart-1.19.1
 - Bump Web Smart SDK version to 2.2.8
