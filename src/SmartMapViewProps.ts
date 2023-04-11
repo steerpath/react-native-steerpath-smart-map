@@ -235,6 +235,7 @@ export interface SmartMapObjectProperties {
   'title:nb'?: string;
   'title:en'?: string;
   weekPlannerCapacity?: number;
+  externalFeedbackUrl?: string;
   [key: string]: any; // Probably not the best practice, but this way we can get the access to properties that are not typed above.
 }
 
