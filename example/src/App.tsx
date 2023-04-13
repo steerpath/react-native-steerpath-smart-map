@@ -40,7 +40,7 @@ export default function App() {
     RNFS.writeFile(CONFIG_FILE_PATH, JSON.stringify(steerpathConfig), "utf8")
       .then((success) => {
         const configIOS: ConfigSDK = { apiKey: API_KEY, configFilePath: CONFIG_FILE_PATH };
-        const configAndroid: ConfigSDK = { apiKey: API_KEY, configFilePath: JSON.stringify(steerpathConfig) };
+        const configAndroid: ConfigSDK = { apiKey: API_KEY, configString: JSON.stringify(steerpathConfig) };
         SmartMapManager.startWithConfig(Platform.OS === 'ios' ? configIOS : configAndroid);
 
         /**
@@ -72,10 +72,15 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (selectedObject && searchResults) {
-      const otherObjs = searchResults.filter((res) => res.localRef !== selectedObject.localRef && res.buildingRef === selectedObject.buildingRef);
+    if (selectedObject) {
+      console.log('selectedObject', selectedObject);
+      
       smartMapRef.current?.selectMapObject(selectedObject);
-      smartMapRef.current?.addMarkers(otherObjs, null, null, null, null)
+      if (searchResults) {
+        const otherObjs = searchResults.filter((res) => res.localRef !== selectedObject.localRef && res.buildingRef === selectedObject.buildingRef);
+        smartMapRef.current?.addMarkers(otherObjs, null, null, null, null)
+      }
+      
       setSelectedObject(null);
     }
   }, [selectedObject, searchResults]);
@@ -126,6 +131,8 @@ export default function App() {
             console.log("Visible Floor changed", payload)
           }
           onSearchResultSelected={(payload) => {
+            console.log('onSearchResultSelected', payload.mapObject.title);
+            
             setSelectedObject(payload.mapObject);
           }}
           onViewStatusChanged={(payload) => {
