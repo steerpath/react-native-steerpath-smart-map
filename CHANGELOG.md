@@ -15,6 +15,11 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.21.0]
+
+- Added externalFeedbackUrl to SmartMapObjectProperties
+- Bump iOS Smart SDK version to 1.16.4
+
 ## [1.20.0] - 2023-03-02
 
 - Added missing configString prop to ConfigSDK interface
