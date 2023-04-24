@@ -19,6 +19,9 @@
       localRef:[self NSString:json[@"localRef"]]
       buildingRef:[self NSString:json[@"buildingRef"]]];
   obj.title = [self NSString:json[@"title"]];
+
+  NSDictionary* props = [RCTConvert NSDictionary:json[@"properties"]];
+  obj.properties = props;
   
   NSString* rawSource = [self NSString:json[@"source"]];
   NSArray *items = @[@"static", @"marker", @"live"];

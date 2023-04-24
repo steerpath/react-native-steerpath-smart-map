@@ -291,7 +291,6 @@ RCT_EXPORT_METHOD(selectMapObject:(nonnull NSNumber*) reactTag
       [view selectMapObject:[RCTConvert SPSmartMapObject:json]];
     }
   }];
-  
 }
 
 RCT_EXPORT_METHOD(getWidgetPadding:(nonnull NSNumber*) reactTag

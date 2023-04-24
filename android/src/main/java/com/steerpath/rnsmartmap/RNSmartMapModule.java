@@ -58,7 +58,7 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
 
             mapView.getMap().getMapObject(localRef, buildingRef, source, (smartMapObject, s) -> {
                 if (smartMapObject != null) {
-                    callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject, false), s);
+                    callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject), s);
                 } else {
                     callback.invoke(null, s);
                 }
@@ -94,7 +94,7 @@ public class RNSmartMapModule extends ReactContextBaseJavaModule {
 
             mapView.getMap().getMapObjectByProperties(properties, (smartMapObject, s) -> {
                 if (smartMapObject != null) {
-                    callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject, false), s);
+                    callback.invoke(mapView.smartMapObjectToWritableMap(smartMapObject), s);
                 } else {
                     callback.invoke(null, s);
                 }
