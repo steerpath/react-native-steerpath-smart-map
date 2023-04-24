@@ -68,9 +68,7 @@ export default function App() {
   };
 
   useEffect(() => {
-    if (selectedObject) {
-      console.log('selectedObject', selectedObject);
-      
+    if (selectedObject) {      
       smartMapRef.current?.selectMapObject(selectedObject);
       if (searchResults) {
         const otherObjs = searchResults.filter((res) => res.localRef !== selectedObject.localRef && res.buildingRef === selectedObject.buildingRef);
@@ -111,8 +109,6 @@ export default function App() {
           ref={smartMapRef}
           onMapLoaded={onMapLoaded}
           onMapClicked={(payload) => {
-            console.log("payload", JSON.stringify(payload));
-
             const { mapObjects } = payload;
             if (mapObjects.length > 0) {
               const smartmapObject = mapObjects[0];
@@ -126,9 +122,7 @@ export default function App() {
           onVisibleFloorChanged={(payload) =>
             console.log("Visible Floor changed", payload)
           }
-          onSearchResultSelected={(payload) => {
-            console.log('onSearchResultSelected', payload.mapObject.title);
-            
+          onSearchResultSelected={(payload) => {            
             setSelectedObject(payload.mapObject);
           }}
           onViewStatusChanged={(payload) => {
@@ -166,9 +160,6 @@ export default function App() {
           }
           onUserTaskResponse={(taskInfo) => {
             const { response, userTask } = taskInfo
-            console.log('response', response)
-            console.log('userTask', userTask);
-
             if (response === SmartMapUserTaskResponse.COMPLETED || response === SmartMapUserTaskResponse.CANCELLED) {
               if (userTask.type === SmartMapUserTaskType.NAVIGATION) {
                 const smartMapObject: SmartMapObject = ((userTask.payload as SmartMapNavigationUserTask) as SmartMapObject);
