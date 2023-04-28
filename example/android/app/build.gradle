@@ -248,6 +248,11 @@ android {
     }
 }
 
+repositories {
+    // For Steerpath Smart Map SDK
+    maven { url "https://android-sdk.steerpath.net" }
+}
+
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 

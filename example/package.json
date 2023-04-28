@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "run-ios": "react-native run-ios",
+    "ios": "react-native run-ios",
     "android": "react-native run-android",
     "web": "SKIP_PREFLIGHT_CHECK=true react-scripts start",
     "test": "jest",
