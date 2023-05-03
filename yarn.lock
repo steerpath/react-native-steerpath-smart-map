@@ -4016,10 +4016,10 @@ static-extend@^0.1.1:
   resolved "https://registry.yarnpkg.com/statuses/-/statuses-1.5.0.tgz#161c7dac177659fd9811f43771fa99381478628c"
   integrity sha1-Fhx9rBd2Wf2YEfQ3cfqZOBR4Yow=
 
-steerpath-smart-sdk@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/steerpath-smart-sdk/-/steerpath-smart-sdk-2.2.2.tgz#dfff57b938876a68d6fd7a3fb1c3851d4e983688"
-  integrity sha512-LZrnQaXaVuqhcqXLXKo0lkj/W33PNj8NFSX1EIBMSOeh28Vi/DNtluvCPZPDkMqq27XGoE0yUEyQuS8kNil4sA==
+steerpath-smart-sdk@^2.2.8:
+  version "2.2.8"
+  resolved "https://registry.yarnpkg.com/steerpath-smart-sdk/-/steerpath-smart-sdk-2.2.8.tgz#633b17d1b10801ccaa0ee2524e8d5a5880e74acc"
+  integrity sha512-7dee36Vzffnr7JR3/LZm8Zirj1oOFoOXTNRSKMnve513AZNCd2J3fUTuO2ROgyb73M3Tf/xCkq9wBeWGVRpjiA==
 
 stream-buffers@~2.2.0:
   version "2.2.0"

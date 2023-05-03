@@ -130,7 +130,7 @@ public class RNSmartMapView extends FrameLayout
         WritableArray array = new WritableNativeArray();
 
         for (SmartMapObject object : mapObjects) {
-            array.pushMap(smartMapObjectToWritableMap(object, false));
+            array.pushMap(smartMapObjectToWritableMap(object));
         }
 
         WritableMap map = new WritableNativeMap();
@@ -143,7 +143,7 @@ public class RNSmartMapView extends FrameLayout
     @Override
     public boolean onSearchResultSelected(SmartMapObject mapObject) {
         WritableMap map = new WritableNativeMap();
-        map.putMap("mapObject", smartMapObjectToWritableMap(mapObject, true));
+        map.putMap("mapObject", smartMapObjectToWritableMap(mapObject));
         manager.sendEvent(reactContext, this, SEARCH_RESULT_SELECTED, map);
         return true;
     }
@@ -160,7 +160,7 @@ public class RNSmartMapView extends FrameLayout
         payload.putMap("searchAction", action);
         WritableNativeArray list = new WritableNativeArray();
         for (SmartMapObject obj : searchResults) {
-            list.pushMap(smartMapObjectToWritableMap(obj, true));
+            list.pushMap(smartMapObjectToWritableMap(obj));
         }
 
         payload.putArray("searchResults", list);
@@ -225,16 +225,15 @@ public class RNSmartMapView extends FrameLayout
         if (userTask instanceof NavigationUserTask) {
             taskMap.putString("type", "navigation");
             taskMap.putMap("payload",
-                    smartMapObjectToWritableMap(((NavigationUserTask) userTask).getMapObjects().get(0), false));
+                    smartMapObjectToWritableMap(((NavigationUserTask) userTask).getMapObjects().get(0)));
         } else if (userTask instanceof POISelectionUserTask) {
             taskMap.putString("type", "poiSelection");
             WritableMap payload = new WritableNativeMap();
             payload.putMap("smartMapObject",
-                    smartMapObjectToWritableMap(((POISelectionUserTask) userTask).getMapObject(), false));
+                    smartMapObjectToWritableMap(((POISelectionUserTask) userTask).getMapObject()));
             taskMap.putMap("payload", payload);
         }
 
-        Log.d("nativeTask", "" + taskMap);
         map.putMap("userTask", taskMap);
 
         manager.sendEvent(reactContext, this, USER_TASK_RESPONSE, map);
@@ -319,7 +318,7 @@ public class RNSmartMapView extends FrameLayout
         }
 
         if (smartMapObject != null) {
-            map.putMap("smartMapObject", smartMapObjectToWritableMap(smartMapObject, false));
+            map.putMap("smartMapObject", smartMapObjectToWritableMap(smartMapObject));
         }
 
         map.putString("status", status);
@@ -400,8 +399,8 @@ public class RNSmartMapView extends FrameLayout
         smartMap.removeMarkers(smartMapObjects);
     }
 
-    public void selectMapObject(String buildingRef, String localRef) {
-        smartMap.selectMapObject(localRef, buildingRef);
+    public void selectMapObject(SmartMapObject mapObject) {
+        smartMap.selectMapObject(mapObject);
     }
 
     public void setCamera(double latitude, double longitude, double zoomLevel, double bearing, double pitch,
@@ -436,7 +435,6 @@ public class RNSmartMapView extends FrameLayout
         }
 
         int finalResId = resId;
-        Log.d("finalResId", "" + finalResId);
         smartMap.getMapObject(localRef, buildingRef, objectSource, (smartMapObject, s) -> {
             if (smartMapObject != null) {
                 smartMap.startUserTask(
@@ -453,15 +451,10 @@ public class RNSmartMapView extends FrameLayout
      * - - - - - PRIVATE METHODS - - - - -
      */
 
-    WritableMap smartMapObjectToWritableMap(SmartMapObject object, boolean removePropertiesKey) {
+    WritableMap smartMapObjectToWritableMap(SmartMapObject object) {
         WritableMap map = new WritableNativeMap();
         try {
-            if (removePropertiesKey) {
-                map.putMap("properties",
-                        convertJsonToWritableMap(object.getProperties().getJSONObject("properties")));
-            } else {
-                map.putMap("properties", convertJsonToWritableMap(object.getProperties()));
-            }
+            map.putMap("properties", convertJsonToWritableMap(object.getProperties()));
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -72,9 +72,9 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           latitude,
           longitude,
           zoomLevel,
-          bearing || 90,
-          pitch || 0,
-          floorIndex || 2,
+          bearing ?? 0,
+          pitch ?? 0,
+          floorIndex ?? 0,
           buildingRef,
         ]);
       },
@@ -176,9 +176,9 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           latitude,
           longitude,
           zoomLevel,
-          bearing || 90,
-          pitch || 0,
-          floorIndex || 2,
+          bearing ?? 0,
+          pitch ?? 0,
+          floorIndex ?? 0,
           buildingRef,
         ]);
       },
@@ -299,6 +299,16 @@ export const SmartMapView = forwardRef<SmartMapViewMethods, SmartMapViewProps>(
           ]);
         }
       },
+      getSmartMapCameraOptions(callback) {
+        if (Platform.OS === 'android') {
+          NativeModules.RNSmartMapModule.getSmartMapCameraOptions(
+            findNodeHandle(smartMapRef.current), 
+            callback
+          );
+        } else {
+          runCommand(smartMapRef.current, "getSmartMapCameraOptions", [callback]);
+        }
+      }
     }));
 
     return (

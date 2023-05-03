@@ -1,13 +1,8 @@
 /* eslint-disable prefer-destructuring */
 import { NativeModules, Platform } from "react-native";
+import { ConfigSDK } from './SmartMapViewProps';
 
 const RNSmartMapManager = NativeModules.RNSmartMapManager;
-
-interface ConfigSDK {
-  apiKey: string;
-  configFilePath?: string | null;
-  configString?: string | null;
-}
 
 interface FetchVersionResponse {
   smartSDKVersion: string;

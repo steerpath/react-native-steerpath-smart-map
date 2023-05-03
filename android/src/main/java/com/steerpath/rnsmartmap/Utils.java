@@ -13,10 +13,6 @@ import org.json.JSONObject;
 
 import java.util.Iterator;
 
-import static com.facebook.react.bridge.ReadableType.Array;
-import static com.facebook.react.bridge.ReadableType.Map;
-import static com.facebook.react.bridge.ReadableType.Null;
-
 public class Utils {
 
     static WritableMap convertJsonToWritableMap(JSONObject jsonObject) throws JSONException {

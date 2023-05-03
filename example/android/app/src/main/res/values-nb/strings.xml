@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- These search category translations are missing from the Steerpath SDK -->
+    <string name="sp_show_free_desk_title">Lediga bord</string>
+    <string name="sp_show_free_desk_title_short">Lediga bord</string>
+    <string name="sp_show_free_rooms_title">Lediga rom</string>
+    <string name="sp_show_free_rooms_title_short">Lediga rom</string>
+    <string name="sp_category_meeting_room_title">Møterom</string>
+    <string name="sp_category_meeting_room_title_short">Møterom</string>
+    <string name="sp_show_free_phone_booths_title">Lediga telefonbås</string>
+    <string name="sp_show_free_phone_booths_title_short">Lediga telefonbås</string>
+    <string name="sp_search_hint">Søk etter plass</string>
+
+    <string name="sp_show_free_meeting_room_title">Lediga møterom</string>
+    <string name="sp_show_free_meeting_room_title_short">Lediga\nmøterom</string>
+</resources>

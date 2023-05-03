@@ -218,6 +218,11 @@ android {
             keyPassword 'android'
         }
     }
+    packagingOptions {
+        jniLibs {
+            pickFirsts += ['**/armeabi-v7a/libc++_shared.so', '**/x86/libc++_shared.so', '**/arm64-v8a/libc++_shared.so', '**/x86_64/libc++_shared.so', '**/x86/libjsc.so', '**/armeabi-v7a/libjsc.so']
+        }
+    }
     buildTypes {
         debug {
             signingConfig signingConfigs.debug

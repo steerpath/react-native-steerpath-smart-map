@@ -2,9 +2,8 @@ import { ViewProperties } from "react-native";
 
 export interface ConfigSDK {
   apiKey: string;
-  // In Web, the config file path is a JSON string, on Android/iOS, it will be a
-  // local file path to the config JSON file
-  configFilePath: string;
+  configFilePath?: string | null;
+  configString?: string | null;
 }
 
 export interface SmartMapViewMethods {
@@ -102,6 +101,7 @@ export interface SmartMapViewMethods {
   start(): void; // Android only
   startUserTask(userTask: SmartMapUserTask): void;
   stop(): void; // Android only
+  getSmartMapCameraOptions(callback: (options: SmartMapCameraOptions) => void): void;
 }
 
 export enum SmartMapMode {
@@ -235,6 +235,7 @@ export interface SmartMapObjectProperties {
   'title:nb'?: string;
   'title:en'?: string;
   weekPlannerCapacity?: number;
+  externalFeedbackUrl?: string;
   [key: string]: any; // Probably not the best practice, but this way we can get the access to properties that are not typed above.
 }
 
@@ -326,4 +327,12 @@ export enum SmartMapUserTaskType {
 export interface SmartMapUserTask {
   type: SmartMapUserTaskType;
   payload: SmartMapNavigationUserTask | SmartMapPOISelectionUserTask;
+}
+
+export interface SmartMapCameraOptions {
+  pitch: number;
+  bearing: number;
+  zoomLevel: number;
+  latitude: number;
+  longitude: number;
 }

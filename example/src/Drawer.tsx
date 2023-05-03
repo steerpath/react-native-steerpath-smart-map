@@ -240,15 +240,19 @@ export default class Drawer extends Component<Props, State> {
     console.log("this.getUserTaskResponseBlock", userTaskResponse);
   }
 
-  setCamera = (type: "location" | "object" | "building") => {
-    const localRef = "Mobile development";
-    const cameraOptions = {
+  getSmartMapCameraOptions = () => {
+    this.props.smartMapRef.current?.getSmartMapCameraOptions((opts) => console.log('opts', opts))
+  }
+
+  setCamera = (type) => {
+    let localRef = "Mobile development";
+    let cameraOptions = {
       latitude: 60.220945577091356,
       longitude: 24.812374723580888,
       zoomLevel: 17,
       bearing: 30,
       pitch: 45,
-      floorIndex: 2,
+      floorIndex: 0,
       buildingRef: this.buildingRef,
     };
     if (type === "location") {
@@ -274,8 +278,8 @@ export default class Drawer extends Component<Props, State> {
       latitude: 60.220945577091356,
       longitude: 24.812374723580888,
       zoomLevel: 17,
-      bearing: 30,
-      pitch: 45,
+      bearing: 110,
+      pitch: 60 ,
       floorIndex: 2,
       buildingRef: this.buildingRef,
     };
@@ -501,6 +505,10 @@ export default class Drawer extends Component<Props, State> {
             <Button
               title="Reset widget padding"
               onPress={this.resetWidgetPadding}
+            />
+            <Button
+              title="Get SmartMap Camera Options"
+              onPress={this.getSmartMapCameraOptions}
             />
             <Button
               title="Set camera location"

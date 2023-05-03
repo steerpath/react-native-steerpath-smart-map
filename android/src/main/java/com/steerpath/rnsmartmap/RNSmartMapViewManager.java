@@ -39,6 +39,10 @@ import static com.steerpath.rnsmartmap.RNEventKeys.USER_TASK_RESPONSE;
 import static com.steerpath.rnsmartmap.RNEventKeys.VIEW_STATUS_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.VISIBLE_FLOOR_CHANGED;
 import static com.steerpath.rnsmartmap.RNEventKeys.BOTTOMSHEET_STATE_CHANGED;
+import static com.steerpath.rnsmartmap.Utils.convertMapToJson;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
 
@@ -148,7 +152,6 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                         args.getString(3), args.getString(4));
                 break;
             case ANIMATE_CAMERA:
-                Log.d("animateCamera", args.toString());
                 lat = args.getDouble(0);
                 lon = args.getDouble(1);
                 zoom = args.getDouble(2);
@@ -173,8 +176,7 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
                 mapView.removeMarkers(generateMapObjectsList(args.getArray(0)));
                 break;
             case SELECT_MAP_OBJECT:
-                map = args.getMap(0);
-                mapView.selectMapObject(getBuildingRef(map), getLocalRef(map));
+                mapView.selectMapObject(generateMapObject(args.getMap(0)));
                 break;
             case SET_CAMERA:
                 lat = args.getDouble(0);
@@ -262,8 +264,21 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
         return map.getString("source");
     }
 
-    void sendEvent(ReactContext reactContext, View view, String eventName, @Nullable WritableMap params) {
-        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(view.getId(), eventName, params);
+    private String getTitle(ReadableMap map) {
+        return map.getString("title");
+    }
+
+    private JSONObject getProperties(ReadableMap map) {
+        ReadableMap propertiesMap = map.getMap("properties");
+        JSONObject properties = new JSONObject();
+        if (propertiesMap != null) {
+            try {
+                properties = convertMapToJson(propertiesMap);
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return properties;
     }
 
     private List<SmartMapObject> generateMapObjectsList(ReadableArray array) {
@@ -276,7 +291,17 @@ public class RNSmartMapViewManager extends ViewGroupManager<RNSmartMapView> {
     }
 
     private SmartMapObject generateMapObject(ReadableMap map) {
-        return new SmartMapObject(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map),
+        SmartMapObject mapObject = new SmartMapObject(getLatitude(map), getLongitude(map), getFloorIndex(map), getLocalRef(map),
                 getBuildingRef(map));
+        mapObject.setProperties(getProperties(map));
+        mapObject.setSource(getSource(map));
+        mapObject.setTitle(getTitle(map));
+
+        return mapObject;
+
+    }
+
+    void sendEvent(ReactContext reactContext, View view, String eventName, @Nullable WritableMap params) {
+        reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(view.getId(), eventName, params);
     }
 }
