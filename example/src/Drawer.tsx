@@ -144,11 +144,10 @@ export default class Drawer extends Component<Props, State> {
     this.liveEnabled = !this.liveEnabled;
   }
 
-  startUserTask = (userTask: SmartMapUserTaskType) => {
-    if (userTask === SmartMapUserTaskType.POI_SELECTION) {
+  startUserTask = (userTaskType: SmartMapUserTaskType) => {
       //either get by properties or by localRef + buildingRef
       this.props.smartMapRef.current?.getMapObjectByProperties(
-        { title: "R&D" },
+        { localRef: "A1038", buildingRef: "788" },
         (data) => {
           console.log("data ", data);
           if (data) {
@@ -156,32 +155,18 @@ export default class Drawer extends Component<Props, State> {
             let actionButtonText = "Book a room";
             let actionButtonIcon = "ic_sp_category_fun";
             let userTask = {
-              type: SmartMapUserTaskType.POI_SELECTION,
-              payload: {
-                addMarker: addMarker,
+              type: userTaskType,
+              payload: userTaskType === SmartMapUserTaskType.POI_SELECTION ? {
                 actionButtonText: actionButtonText,
                 actionButtonIcon: actionButtonIcon,
                 smartMapObject: data,
                 shouldAddMarker: true,
-              },
+              } : data,
             };
             this.props.smartMapRef.current?.startUserTask(userTask);
           }
         }
       );
-    } else {
-      console.log("obj", this.props.selectedMapObject);
-      if (this.props.selectedMapObject) {
-        const userTask = {
-          type: SmartMapUserTaskType.NAVIGATION,
-          payload: this.props.selectedMapObject,
-        };
-
-        this.props.smartMapRef.current?.startUserTask(userTask);
-      } else {
-        console.log("object is null");
-      }
-    }
   };
 
   getCurrentUserTask = () => {

@@ -149,7 +149,6 @@ export default function App() {
             setSelectedObject(payload.mapObject);
           }}
           onViewStatusChanged={(payload) => {
-            console.log("onViewstatuschanged", payload);
             if (payload.status === SmartMapViewStatus.CARD_VIEW) {
               console.log('card');
             }
@@ -182,7 +181,7 @@ export default function App() {
             console.log("navigation DestinationReached")
           }
           onUserTaskResponse={(taskInfo) => {
-            const { response, userTask } = taskInfo
+            const { response, userTask } = taskInfo;
             if (response === SmartMapUserTaskResponse.COMPLETED || response === SmartMapUserTaskResponse.CANCELLED) {
               if (userTask.type === SmartMapUserTaskType.NAVIGATION) {
                 const smartMapObject: SmartMapObject = ((userTask.payload as SmartMapNavigationUserTask) as SmartMapObject);

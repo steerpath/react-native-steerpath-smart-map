@@ -19,9 +19,7 @@
       localRef:[self NSString:json[@"localRef"]]
       buildingRef:[self NSString:json[@"buildingRef"]]];
   obj.title = [self NSString:json[@"title"]];
-
-  NSDictionary* props = [RCTConvert NSDictionary:json[@"properties"]];
-  obj.properties = props;
+  obj.properties = [RCTConvert NSDictionary:json[@"properties"]];
   
   NSString* rawSource = [self NSString:json[@"source"]];
   NSArray *items = @[@"static", @"marker", @"live"];
@@ -133,7 +131,7 @@
 + (SPSmartMapPOISelectionUserTask*)SPSmartMapPOISelectionUserTask:(id)json
 {
   json = [self NSDictionary:json];
-  SPSmartMapObject* mapObj = [RCTConvert SPSmartMapObject:json[@"payload"]];
+  SPSmartMapObject* mapObj = [RCTConvert SPSmartMapObject:json[@"smartMapObject"]];
   BOOL shouldAddMarker = [self BOOL:json[@"shouldAddMarker"]];
   NSString* actionButtonText = [self NSString:json[@"actionButtonText"]];
   NSString* actionButtonIcon = [self NSString:json[@"actionButtonIcon"]];
