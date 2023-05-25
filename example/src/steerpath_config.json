@@ -160,6 +160,18 @@
             }
           },
           {
+            "title": "sp_category_kitchen_title",
+            "shortTitle": "sp_category_kitchen_title_short",
+            "description": "sp_category_kitchen_description",
+            "iconName": "category_kitchen",
+            "action": {
+              "type": "show_pois_with_tags",
+              "allTags": [
+                "category_kitchen"
+              ]
+            }
+          },
+          {
             "title": "sp_show_free_rooms_title",
             "shortTitle": "sp_show_free_rooms_title_short",
             "description": "sp_show_free_rooms_description",

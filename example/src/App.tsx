@@ -3,11 +3,9 @@ import { BackHandler, Platform, View } from "react-native";
 import RNFS from "react-native-fs";
 import {
   ConfigSDK,
-  // Layout,
   LiveConfig,
   SmartBottomSheetState,
   SmartMapManager,
-  // SmartMapMode,
   SmartMapNavigationUserTask,
   SmartMapObject,
   SmartMapUserTask,
@@ -186,7 +184,6 @@ export default function App() {
           }}
           onBottomSheetStateChanged={(payload) => {
             setBottomSheetState(payload.state);
-            console.log("onBottomSheetStatusChanged", payload.state);
           }}
           onNavigationEnded={() => console.log("navigation ended")}
           onNavigationStarted={() => console.log("navigation started")}
