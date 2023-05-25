@@ -15,6 +15,13 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.23.0] - 2023-05-25
+
+- New icons!
+    - Bump Android Smart SDK to version android-smart-1.21.0
+    - Bump iOS Smart SDK to version 1.17.0
+
+
 ## [1.22.1] - 2023-05-09
 
 - Bump iOS Smart SDK to version 1.16.6 to resolve crashes happening when cancelling user tasks
