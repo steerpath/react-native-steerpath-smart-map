@@ -14,7 +14,6 @@ import {
   SmartMapView,
   SmartMapViewMethods,
   SmartMapViewStatus,
-  SmartLocationManager
 } from "react-native-steerpath-smart-map";
 import steerpathConfig from "./steerpath_config.json";
 import Drawer from "./Drawer";
@@ -109,22 +108,6 @@ export default function App() {
     });
   }
 
-  useEffect(() => {
-    if (sdkReady) {
-      console.log('adding listener');
-      
-      SmartLocationManager.addLocationChangedListener((data) => {
-        console.log('onLocationChanged', data);
-      })
-    }
-    return () => {
-      if (sdkReady) {
-        console.log('removing listener');
-        
-        SmartLocationManager.removeLocationChangedListener();
-      }
-    }
-  }, [sdkReady]);
 
   /**
    * Rendering SmartMapView or its parent view before sdk is fully ready, may cause some unexpected behavior i.e. 

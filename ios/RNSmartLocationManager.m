@@ -30,9 +30,9 @@ RCT_EXPORT_MODULE(RNSmartLocationManager);
     [[SPSmartLocationManager sharedInstance] removeDelegate:self];
 }
 
--(void)spSmartLocationManager:(SPSmartLocationManager *)manager onLocationChanged:(double)latitude longitude:(double)longitude buildingRef:(NSString *)buildingRef floorIndex:(NSInteger)floorIndex {
+-(void)spSmartLocationManager:(SPSmartLocationManager *)manager onLocationChanged:(double)latitude longitude:(double)longitude buildingRef:(nullable NSString *)buildingRef floorIndex:(NSInteger)floorIndex {
     if (hasListeners) {
-        [self sendEventWithName:@"locationChanged" body:@{@"latitude": [NSNumber numberWithDouble:latitude], @"longitude": [NSNumber numberWithDouble:longitude], @"buildingRef": buildingRef, @"floorIndex": [NSNumber numberWithInteger:floorIndex]}];
+        [self sendEventWithName:@"locationChanged" body:@{@"latitude": [NSNumber numberWithDouble:latitude], @"longitude": [NSNumber numberWithDouble:longitude], @"buildingRef": buildingRef ?: [NSNull null], @"floorIndex": [NSNumber numberWithInteger:floorIndex]}];
     }
 }
 

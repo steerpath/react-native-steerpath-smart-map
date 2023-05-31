@@ -1,4 +1,4 @@
-import { NativeModules, NativeEventEmitter } from "react-native";
+import { NativeModules, NativeEventEmitter, EmitterSubscription } from "react-native";
 
 const RNSmartLocationManager = NativeModules.RNSmartLocationManager;
 
@@ -8,6 +8,7 @@ const smartLocationManagerEmitter = new NativeEventEmitter(
 
 function createSmartLocationManager() {
   let eventListenerRegistered = false;
+  let eventListener: EmitterSubscription;
 
   return {
     addLocationChangedListener(
@@ -16,15 +17,15 @@ function createSmartLocationManager() {
       ) => void
     ) {
       if (!eventListenerRegistered) {
-        eventListenerRegistered = true;
-        smartLocationManagerEmitter.addListener('locationChanged', (payload) => {
+        eventListenerRegistered = true;        
+        eventListener = smartLocationManagerEmitter.addListener('locationChanged', (payload) => {
           listener(payload);
         })
       }
     },
     removeLocationChangedListener() {
       eventListenerRegistered = false;
-      smartLocationManagerEmitter.removeListener('locationChanged', () => {})
+      eventListener.remove();
     }
   };
 }

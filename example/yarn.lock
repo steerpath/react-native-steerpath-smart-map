@@ -11399,7 +11399,7 @@ react-native-gradle-plugin@^0.70.3:
   integrity sha512-oOanj84fJEXUg9FoEAQomA8ISG+DVIrTZ3qF7m69VQUJyOGYyDZmPqKcjvRku4KXlEH6hWO9i4ACLzNBh8gC0A==
 
 "react-native-steerpath-smart-map@file:..":
-  version "1.22.1"
+  version "1.23.0"
   dependencies:
     steerpath-smart-sdk "^2.2.8"
 

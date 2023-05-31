@@ -19,6 +19,7 @@ import {
   SmartMapUserTaskResponse,
   SmartMapUserTaskType,
   SmartMapViewMethods,
+  SmartLocationManager,
 } from "react-native-steerpath-smart-map";
 
 interface Props {
@@ -29,6 +30,7 @@ interface Props {
 interface State {
   smartSDKVersion: string;
   mapboxSDKVersion: string;
+  isLocationManagerEnabled: boolean;
 }
 
 const floorIndex = 2;
@@ -107,6 +109,7 @@ export default class Drawer extends Component<Props, State> {
     this.state = {
       smartSDKVersion: "",
       mapboxSDKVersion: "",
+      isLocationManagerEnabled: false,
     };
   }
 
@@ -464,6 +467,18 @@ export default class Drawer extends Component<Props, State> {
     SmartMapManager.setLanguage(languageCode);
   };
 
+  startLocationManager = () => {
+    SmartLocationManager.addLocationChangedListener((data) => {
+      console.log('onLocationChanged', data);
+    });
+    this.setState({ isLocationManagerEnabled: true })
+  }
+
+  stopLocationManager = () => {
+    SmartLocationManager.removeLocationChangedListener();
+    this.setState({ isLocationManagerEnabled: false })
+  }
+
   render() {
     return (
       <View style={{ flex: 1 }}>
@@ -478,6 +493,16 @@ export default class Drawer extends Component<Props, State> {
                 this.liveEnabled ? "Stop Live service" : "Start Live service"
               }
               onPress={() => this.startLive()}
+            />
+            <Button
+              title={this.state.isLocationManagerEnabled ? 'Stop location manager' : 'Start location manager'}
+              onPress={() => {
+                if (this.state.isLocationManagerEnabled) {
+                  this.stopLocationManager();
+                } else {
+                  this.startLocationManager();
+                }
+              }}
             />
             <Button
               title="Set widget padding"
