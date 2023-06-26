@@ -115,3 +115,4 @@
 "sp_unreliable" = "Unreliable";
 "sp_waiting_for_location" = "Waiting for location…";
 "sp_while_in_transportation_format" = "%1$s to %2$s";
+"sp_category_kitchen_title" = "Kitchens";

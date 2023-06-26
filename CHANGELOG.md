@@ -15,6 +15,11 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.23.2] - 2023-06-26
+
+- Bump iOS Smart SDK version to 1.17.2
+    - Fixes an issue where indoor map went blank after returning app from background 
+
 ## [1.23.1] - 2023-05-25
 
 - Fix live category search for iOS
