@@ -32,6 +32,7 @@ public class RNSmartMapPackage implements ReactPackage {
         modules.add(new RNSmartMapManager(reactContext));
         modules.add(new RNSmartGeofenceManager(reactContext));
         modules.add(new RNSmartMapModule(reactContext));
+        modules.add(new RNSmartLocationManager(reactContext));
         return modules;
     }
 }

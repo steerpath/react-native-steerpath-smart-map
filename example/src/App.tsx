@@ -13,11 +13,9 @@ import {
   SmartMapUserTaskType,
   SmartMapView,
   SmartMapViewMethods,
-  SmartMapViewStatus
+  SmartMapViewStatus,
 } from "react-native-steerpath-smart-map";
-
 import steerpathConfig from "./steerpath_config.json";
-
 import Drawer from "./Drawer";
 
 const CONFIG_FILE_PATH = RNFS.DocumentDirectoryPath + "/steerpath_config.json";
@@ -109,6 +107,7 @@ export default function App() {
       return false;
     });
   }
+
 
   /**
    * Rendering SmartMapView or its parent view before sdk is fully ready, may cause some unexpected behavior i.e. 

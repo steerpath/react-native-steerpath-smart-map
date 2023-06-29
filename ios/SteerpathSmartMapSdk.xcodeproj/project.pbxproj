@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5171A8442A1E2F1C0027411B /* RNSmartLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5171A8432A1E2F1C0027411B /* RNSmartLocationManager.m */; };
 		54311E118E4B5D3209B3CD9A /* libPods-SteerpathSmartMapSdk.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B9B946A14D696A939BC22047 /* libPods-SteerpathSmartMapSdk.a */; };
 		B66B217922FAFF6B00E05A0B /* RNSmartMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B217822FAFF6B00E05A0B /* RNSmartMapView.m */; };
-		B66B217C22FB07F400E05A0B /* RNSmartMapEventManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B217B22FB07F400E05A0B /* RNSmartMapEventManager.m */; };
 		B66F820D22F4358C00B6516F /* RNSmartMapManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B66F820322F4358C00B6516F /* RNSmartMapManager.m */; };
 		B66F820E22F4358C00B6516F /* RNSmartMapViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B66F820622F4358C00B6516F /* RNSmartMapViewManager.m */; };
 		B66F820F22F4358C00B6516F /* RCTConvert+SmartMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = B66F820822F4358C00B6516F /* RCTConvert+SmartMapView.m */; };
@@ -31,11 +31,11 @@
 /* Begin PBXFileReference section */
 		134814201AA4EA6300B7C361 /* libSteerpathSmartMapSdk.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSteerpathSmartMapSdk.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		34CDFE83ADF1872D87ECE4E0 /* Pods-SteerpathSmartMapSdk.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SteerpathSmartMapSdk.release.xcconfig"; path = "Target Support Files/Pods-SteerpathSmartMapSdk/Pods-SteerpathSmartMapSdk.release.xcconfig"; sourceTree = "<group>"; };
+		5171A8432A1E2F1C0027411B /* RNSmartLocationManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNSmartLocationManager.m; sourceTree = "<group>"; };
+		5171A8452A1E2F440027411B /* RNSmartLocationManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNSmartLocationManager.h; sourceTree = "<group>"; };
 		9B3178C37E533A845BD4D634 /* Pods-SteerpathSmartMapSdk.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SteerpathSmartMapSdk.debug.xcconfig"; path = "Target Support Files/Pods-SteerpathSmartMapSdk/Pods-SteerpathSmartMapSdk.debug.xcconfig"; sourceTree = "<group>"; };
 		B66B217722FAFF6B00E05A0B /* RNSmartMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNSmartMapView.h; sourceTree = "<group>"; };
 		B66B217822FAFF6B00E05A0B /* RNSmartMapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNSmartMapView.m; sourceTree = "<group>"; };
-		B66B217A22FB07F400E05A0B /* RNSmartMapEventManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RNSmartMapEventManager.h; sourceTree = "<group>"; };
-		B66B217B22FB07F400E05A0B /* RNSmartMapEventManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RNSmartMapEventManager.m; sourceTree = "<group>"; };
 		B66F820322F4358C00B6516F /* RNSmartMapManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RNSmartMapManager.m; sourceTree = "<group>"; };
 		B66F820422F4358C00B6516F /* RCTConvert+SmartMapView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "RCTConvert+SmartMapView.h"; sourceTree = "<group>"; };
 		B66F820522F4358C00B6516F /* RNSmartMapViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RNSmartMapViewManager.h; sourceTree = "<group>"; };
@@ -70,8 +70,8 @@
 		58B511D21A9E6C8500147676 = {
 			isa = PBXGroup;
 			children = (
-				B66B217A22FB07F400E05A0B /* RNSmartMapEventManager.h */,
-				B66B217B22FB07F400E05A0B /* RNSmartMapEventManager.m */,
+				5171A8452A1E2F440027411B /* RNSmartLocationManager.h */,
+				5171A8432A1E2F1C0027411B /* RNSmartLocationManager.m */,
 				B66B217722FAFF6B00E05A0B /* RNSmartMapView.h */,
 				B66B217822FAFF6B00E05A0B /* RNSmartMapView.m */,
 				B66F820422F4358C00B6516F /* RCTConvert+SmartMapView.h */,
@@ -193,7 +193,7 @@
 				B66F820D22F4358C00B6516F /* RNSmartMapManager.m in Sources */,
 				B66F821022F4358C00B6516F /* RNSmartGeofenceManager.m in Sources */,
 				B66B217922FAFF6B00E05A0B /* RNSmartMapView.m in Sources */,
-				B66B217C22FB07F400E05A0B /* RNSmartMapEventManager.m in Sources */,
+				5171A8442A1E2F1C0027411B /* RNSmartLocationManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
