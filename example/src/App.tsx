@@ -43,7 +43,7 @@ export default function App() {
     };
 
     const liveCongig: LiveConfig = {
-      receive: receiveOptions,
+      // receive: receiveOptions,
       transmit: transmitOptions,
     };
     RNFS.writeFile(CONFIG_FILE_PATH, JSON.stringify(steerpathConfig), "utf8")
