@@ -20,6 +20,7 @@ import {
   SmartMapUserTaskType,
   SmartMapViewMethods,
   SmartLocationManager,
+  LiveConfig,
 } from "react-native-steerpath-smart-map";
 
 interface Props {
@@ -122,26 +123,28 @@ export default class Drawer extends Component<Props, State> {
   }
 
   startLive() {
-    if (this.liveEnabled) {
-      SmartMapManager.setLiveConfig(null);
+    const liveConfig: LiveConfig = {
+      receive: {
+        showsThisDevice: false,
+        groups: ["Employees", "Bosses"],
+      },
+      transmit: { 
+        id: "Developer123",
+        password: "W^3iP!m&GE£dq",
+        title: "Software Developer",
+        groups: ["Employees", "Bosses"],
+        geofences: {
+          neutral: ["Neutral-Area"],
+          allowed: ["Allowed-Area"],
+          forbidden: ["Forbidden-Area"],
+        },
+      }
+    }
+
+    if (!this.liveEnabled) {
+      SmartMapManager.loginToLive(liveConfig);
     } else {
-      SmartMapManager.setLiveConfig({
-        receive: {
-          showThisDevice: false,
-          groups: [],
-        },
-        transmit: {
-          id: "Developer123",
-          password: "W^3iP!m&GE£dq",
-          title: "Developer",
-          groups: ["Employees", "Bosses"],
-          geofences: {
-            neutral: ["Neutral-Area"],
-            allowed: ["Allowed-Area"],
-            forbidden: ["Forbidden-Area"],
-          },
-        },
-      });
+      SmartMapManager.logoutFromLive();
     }
 
     this.liveEnabled = !this.liveEnabled;

@@ -14,7 +14,25 @@ export const SmartMapManager = {
     smartSDKInstance = smartSDK;
     smartSDK.start(apiKey, config);
   },
+  /**
+   * Not implemented for web. Use start() instead.
+   */
+  startWithConfig(): void{
+     // No web implementation
+  },
   setLanguage(languageCode: String): void {
     smartSDKInstance.setLanguage(languageCode);
+  },
+  setLiveConfig(): void {
+    // No web implementation
+  },
+  loginToLive(): void {
+    // No web implementation
+  },
+  logoutFromLive(): void {
+    // No web implementation
+  },
+  fetchVersions(): void {
+    // No web implementation
   }
 };

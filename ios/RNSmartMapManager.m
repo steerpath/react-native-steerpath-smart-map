@@ -32,7 +32,28 @@ RCT_EXPORT_METHOD(startWithConfig:(nonnull NSDictionary *)config)
 
 RCT_EXPORT_METHOD(setLiveConfig:(NSDictionary *)config)
 {
-    [[SPSmartSDK getInstance] setLiveConfiguration: config];
+    // TODO: call setLiveConfiguration in the native iOS Smart SDK on main thead instead of here
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[SPSmartSDK getInstance] setLiveConfiguration: config];
+    });
+    
+}
+
+RCT_EXPORT_METHOD(loginToLive:(NSDictionary *)config)
+{
+    // TODO: call loginToLive in the native iOS Smart SDK on main thead instead of here
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[SPSmartSDK getInstance] loginToLive: config];
+    });
+}
+
+RCT_EXPORT_METHOD(logoutFromLive)
+{
+    // TODO: call logoutFrom in the native iOS Smart SDK on main thead instead of here
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[SPSmartSDK getInstance] logoutFromLive];
+    });
+    
 }
 
 RCT_EXPORT_METHOD(fetchVersions:(RCTResponseSenderBlock)callback)
