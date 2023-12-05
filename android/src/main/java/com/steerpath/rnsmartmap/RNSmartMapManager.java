@@ -36,7 +36,6 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void start(String apiKey) {
-        Log.d("RNSmartMapManager", "start");
         appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().start(appContext, apiKey));
     }
 
@@ -59,21 +58,40 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
             // TODO: throw error
         }
     }
-
+    
+    @Deprecated
     @ReactMethod
     public void setLiveConfig(ReadableMap map) {
         if (map == null) {
             // Logout and stop LiveService
-            appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().loginToLive(appContext, null));
+            appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().setLiveConfiguration(appContext, null));
         } else {
             try {
                 JSONObject object = Utils.convertMapToJson(map);
-                appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().loginToLive(appContext, object));
+                appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().setLiveConfiguration(appContext, object));
             } catch (JSONException e) {
                 Log.e("Error", "Failed to set live configuration for SmartSDK");
             }
         }
     }
+    
+    @ReactMethod
+    public void loginToLive(ReadableMap map) {
+        if (map != null) {
+            try {
+                JSONObject obj = Utils.convertMapToJson(map);
+                appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().loginToLive(appContext, obj));
+            } catch (JSONException e) {
+                Log.e("Error", "Failed to login into Steerpath live service");
+            }
+        }
+    }
+    
+    @ReactMethod
+    public void logoutFromLive(){
+        appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().logoutFromLive(appContext));
+    }
+    
 
     @ReactMethod
     public void fetchVersions(Callback callback) {

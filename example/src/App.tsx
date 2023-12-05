@@ -31,21 +31,6 @@ export default function App() {
   useEffect(() => {
     // Store configuration to the file system and use path to the file
 
-    const transmitOptions = {
-      id: "testaaja",
-      password: "testaaja",
-      title: 'Teppo Testaaja',
-      groups: ["employee"],
-    };
-    const receiveOptions = {
-      groups: ["employee"],
-      showsThisDevice: false,
-    };
-
-    const liveCongig: LiveConfig = {
-      receive: receiveOptions,
-      transmit: transmitOptions,
-    };
     RNFS.writeFile(CONFIG_FILE_PATH, JSON.stringify(steerpathConfig), "utf8")
       .then((success) => {
         const configIOS: ConfigSDK = { apiKey: API_KEY, configFilePath: CONFIG_FILE_PATH };
@@ -60,7 +45,6 @@ export default function App() {
          */
         SmartMapManager.setLanguage("fi-FI");
 
-        SmartMapManager.setLiveConfig(liveCongig);
         setSDKReady(true);
       })
       .catch((err) => {
