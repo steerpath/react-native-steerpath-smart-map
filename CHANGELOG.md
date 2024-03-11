@@ -15,6 +15,11 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.26.1] - 2023-03-11
+
+- Bump Android Smart SDK version to android-smart-1.21.5
+    - Fixes native crash caused by March 2024 security update
+
 ## [1.26.0] - 2023-12-05
 
 - Add loginToLive and logoutFromLive methods for iOS and Android
