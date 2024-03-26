@@ -92,7 +92,6 @@ export default function App() {
     });
   }
 
-
   /**
    * Rendering SmartMapView or its parent view before sdk is fully ready, may cause some unexpected behavior i.e. 
    * some UI configurations set in config json are not working properly.
