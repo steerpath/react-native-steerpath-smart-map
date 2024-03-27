@@ -37,7 +37,6 @@ public class RNSmartLocationManager extends ReactContextBaseJavaModule implement
 
     @ReactMethod
     public void addListener(String eventName) {
-        Log.d("LocationManager", "add listener");
         if (listenerCount == 0) {
             SmartLocationManager.addLocationListener(this);
         }
@@ -46,7 +45,6 @@ public class RNSmartLocationManager extends ReactContextBaseJavaModule implement
 
     @ReactMethod
     public void removeListeners(Integer count) {
-        Log.d("LocationManager", "remove listener");
         listenerCount -= count;
         if (listenerCount == 0) {
             SmartLocationManager.removeLocationListener(this);
@@ -54,7 +52,7 @@ public class RNSmartLocationManager extends ReactContextBaseJavaModule implement
     }
 
     @Override
-    public void onLocationChanged(double latitude, double longitude, @Nullable String buildingRef, int floorIndex) {
+    public void onLocationChanged(double latitude, double longitude, @Nullable String buildingRef, int floorIndex, float accuracyM) {
         WritableNativeMap map = new WritableNativeMap();
         map.putDouble("latitude", latitude);
         map.putDouble("longitude", longitude);
@@ -64,6 +62,7 @@ public class RNSmartLocationManager extends ReactContextBaseJavaModule implement
             map.putString("buildingRef", buildingRef);
         }
         map.putInt("floorIndex", floorIndex);
+        map.putDouble("accuracyM", accuracyM);
         sendEvent(appContext, ON_LOCATION_CHANGED, map);
     }
 

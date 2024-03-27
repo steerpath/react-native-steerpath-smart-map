@@ -6,6 +6,10 @@ const smartLocationManagerEmitter = new NativeEventEmitter(
   RNSmartLocationManager
 );
 
+export type LocationResponse = {
+  latitude: number, longitude: number, buildingRef: string | null, floorIndex: number, accuracyM: number
+}
+
 function createSmartLocationManager() {
   let eventListenerRegistered = false;
   let eventListener: EmitterSubscription;
@@ -13,12 +17,12 @@ function createSmartLocationManager() {
   return {
     addLocationChangedListener(
       listener: (
-        data: { latitude: number, longitude: number, buildingRef: string | null, floorIndex: number }
+        data: LocationResponse
       ) => void
     ) {
       if (!eventListenerRegistered) {
         eventListenerRegistered = true;        
-        eventListener = smartLocationManagerEmitter.addListener('locationChanged', (payload) => {
+        eventListener = smartLocationManagerEmitter.addListener('locationChanged', (payload: LocationResponse) => {
           listener(payload);
         })
       }
