@@ -18,6 +18,7 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 ## [1.27.0] - 2024-03-26
 
 - **BREAKING** Added accuracyM value to onLocationChanged callback
+- Added typing for the onLocationChanged callback - LocationResponse
 
 ## [1.26.1] - 2023-03-11
 

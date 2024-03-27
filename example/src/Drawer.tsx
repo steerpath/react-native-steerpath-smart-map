@@ -21,6 +21,7 @@ import {
   SmartMapViewMethods,
   SmartLocationManager,
   LiveConfig,
+  LocationResponse,
 } from "react-native-steerpath-smart-map";
 
 interface Props {

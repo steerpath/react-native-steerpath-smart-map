@@ -10,7 +10,6 @@ export type LocationResponse = {
   latitude: number, longitude: number, buildingRef: string | null, floorIndex: number, accuracyM: number
 }
 
-// TODO: verify the new type works as expexted
 function createSmartLocationManager() {
   let eventListenerRegistered = false;
   let eventListener: EmitterSubscription;
