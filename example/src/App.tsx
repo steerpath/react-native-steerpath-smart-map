@@ -129,24 +129,7 @@ export default function App() {
             setSelectedObject(payload.mapObject);
           }}
           onViewStatusChanged={(payload) => {
-            if (payload.status === SmartMapViewStatus.CARD_VIEW) {
-              console.log('card');
-            }
-            if (payload.status === SmartMapViewStatus.SEARCH_VIEW) {
-              console.log('search');
-            }
-            if (payload.status === SmartMapViewStatus.SETTING_VIEW) {
-              console.log('settings');
-            }
-            if (payload.status === SmartMapViewStatus.NAVIGATING_VIEW) {
-              console.log('nav');
-            }
-            if (payload.status === SmartMapViewStatus.ERROR_VIEW) {
-              console.log('err');
-            }
-            if (payload.status === SmartMapViewStatus.ONLY_MAP) {
-              console.log('map');
-            }
+            console.log('View status changed', payload.status);
           }}
           onBottomSheetStateChanged={(payload) => {
             setBottomSheetState(payload.state);

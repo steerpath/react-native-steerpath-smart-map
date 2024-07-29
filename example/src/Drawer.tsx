@@ -143,8 +143,10 @@ export default class Drawer extends Component<Props, State> {
     }
 
     if (!this.liveEnabled) {
+      console.log("Starting live service", liveConfig);
       SmartMapManager.loginToLive(liveConfig);
     } else {
+      console.log("Stopping live service");
       SmartMapManager.logoutFromLive();
     }
 
