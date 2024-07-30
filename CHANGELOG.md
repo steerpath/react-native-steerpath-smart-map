@@ -15,6 +15,10 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.29.1] - 2024-07-30
+
+- Bump Android Smart SDK version to android-smart-1.23.1 to fix crash when starting live service on Android 14 devices, before location permissions are granted.
+
 ## [1.29.0] - 2024-07-29
 
 - Bump Android Smart SDK version to android-smart-1.23.0. This SDK version includes new foreground service type and permission to support Android 14.
