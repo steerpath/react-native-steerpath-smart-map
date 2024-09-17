@@ -22,12 +22,16 @@ RCT_EXPORT_MODULE(RNSmartLocationManager);
 // Start listening location updates. Starts positioning unless map has started it already.
 -(void)startObserving {
     hasListeners = YES;
-    [[SPSmartLocationManager sharedInstance] addDelegate:self];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[SPSmartLocationManager sharedInstance] addDelegate:self];
+    });
 }
 
 -(void)stopObserving {
     hasListeners = NO;
-    [[SPSmartLocationManager sharedInstance] removeDelegate:self];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [[SPSmartLocationManager sharedInstance] removeDelegate:self];
+    });
 }
 
 -(void)spSmartLocationManager:(SPSmartLocationManager *)manager onLocationChanged:(double)latitude longitude:(double)longitude buildingRef:(nullable NSString *)buildingRef floorIndex:(NSInteger)floorIndex accuracyM:(double)accuracyM{
