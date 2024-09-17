@@ -15,6 +15,11 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [1.29.2] - 2024-09-17
+
+- Bump iOS Smart SDK version to 1.19.1
+- Fix an issue where iOS location updates were not received.
+
 ## [1.29.1] - 2024-07-30
 
 - Bump Android Smart SDK version to android-smart-1.23.1 to fix crash when starting live service on Android 14 devices, before location permissions are granted.
