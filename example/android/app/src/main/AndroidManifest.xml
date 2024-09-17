@@ -18,6 +18,7 @@
       android:roundIcon="@mipmap/ic_launcher_round"
       android:allowBackup="false"
       android:theme="@style/AppTheme">
+      <meta-data android:name="SDK_LOGGING_ENABLED" android:value="true" />
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
