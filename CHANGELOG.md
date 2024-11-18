@@ -2,7 +2,7 @@ Steerpath Smart Map
 
 # Change Log
 
-All app release notes of react-native-steerpath-smart-map will be documented in this file. Supported platforms are Web, iOS and Android.
+All app release notes of react-native-steerpath-smart-map will be documented in this file. Suppdanke orted platforms are Web, iOS and Android.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
