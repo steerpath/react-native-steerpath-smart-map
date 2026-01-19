@@ -9,69 +9,61 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:${safeExtGet('gradlePluginVersion', '4.0.2')}")
+      // Modern Gradle Plugin for 2026 (AGP 8.x or 9.x)
+      classpath("com.android.tools.build:gradle:${safeExtGet('gradlePluginVersion', '8.7.0')}")
+      // Modern Kotlin version
+      classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:${safeExtGet('kotlinVersion', '2.1.0')}"
     }
 }
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
 apply plugin: 'maven-publish'
 
-def DEFAULT_COMPILE_SDK_VERSION = 30
-def DEFAULT_BUILD_TOOLS_VERSION = "30.0.3"
-def DEFAULT_MIN_SDK_VERSION = 21
-def DEFAULT_TARGET_SDK_VERSION = 30
-
-def supportsNamespace() {
-  def parsed = com.android.Version.ANDROID_GRADLE_PLUGIN_VERSION.tokenize('.')
-  def major = parsed[0].toInteger()
-  def minor = parsed[1].toInteger()
-
-  // Namespace support was added in 7.3.0
-  if (major == 7 && minor >= 3) {
-    return true
-  }
-
-  return major >= 8
-}
+def DEFAULT_COMPILE_SDK_VERSION = 35
+def DEFAULT_MIN_SDK_VERSION = 24
+def DEFAULT_TARGET_SDK_VERSION = 35 
 
 android {
   compileSdkVersion safeExtGet('compileSdkVersion', DEFAULT_COMPILE_SDK_VERSION)
   buildToolsVersion safeExtGet('buildToolsVersion', DEFAULT_BUILD_TOOLS_VERSION)
 
-  if (supportsNamespace()) {
-    namespace "com.steerpath.rnsmartmap"
-  }
-  
+  namespace "com.steerpath.rnsmartmap"
 
   defaultConfig {
     minSdkVersion safeExtGet('minSdkVersion', DEFAULT_MIN_SDK_VERSION)
     targetSdkVersion safeExtGet('targetSdkVersion', DEFAULT_TARGET_SDK_VERSION)
     versionCode 1
-    versionName "1.0"
+    versionName "2.0"
   }
   lintOptions {
     abortOnError false
   }
 
   compileOptions {
-    sourceCompatibility JavaVersion.VERSION_1_8
-    targetCompatibility JavaVersion.VERSION_1_8
+    sourceCompatibility JavaVersion.VERSION_17
+    targetCompatibility JavaVersion.VERSION_17
   }
 }
 
-repositories {
-    maven {
-        url "$projectDir/../node_modules/react-native/android"
+kotlinOptions {
+        jvmTarget = '17'
     }
+
+    lintOptions {
+        abortOnError false
+    }
+
+repositories {
     mavenCentral()
+    google()
     // For Steerpath Smart Map SDK
     maven { url "https://android-sdk.steerpath.net" }
-    google()
+    
 }
 
 dependencies {
-    implementation "com.facebook.react:react-native:${safeExtGet('reactnativeVersion', '+')}"
-    implementation "com.steerpath:smart:android-smart-1.23.3"
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
-    implementation "androidx.lifecycle:lifecycle-viewmodel:2.2.0"
+    implementation "com.facebook.react:react-native"
+    implementation "com.steerpath:smart:android-smart-2.0.0"
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.7"
 }

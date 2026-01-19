@@ -9,18 +9,20 @@ Pod::Spec.new do |s|
   s.description  = <<-DESC
                   react-native-steerpath-smart-map-sdk
                    DESC
-  s.homepage     = "https://github.com/github_account/react-native-steerpath-smart-map-sdk"
+  s.homepage     = "https://github.com/steerpath/react-native-steerpath-smart-map"
   s.license      = "MIT"
-  # s.license    = { :type => "MIT", :file => "FILE_LICENSE" }
-  s.authors      = { "Your Name" => "yourname@email.com" }
-  s.platform     = :ios, "7.0"
-  s.source       = { :git => "https://github.com/github_account/react-native-steerpath-smart-map-sdk.git", :tag => "#{s.version}" }
+  s.authors      = { "Steerpath" => "support@steerpath.com" }
+  s.platform     = :ios, "15.1"
+  s.source       = { :git => "https://github.com/steerpath/react-native-steerpath-smart-map", :tag => "#{s.version}" }
 
-  s.source_files = "ios/**/*.{h,m,swift}"
+  s.source_files = "ios/**/*.{h,m,mm,swift}"
   s.requires_arc = true
 
-  s.dependency "React"
-	s.dependency 'SteerpathSmartSDK', '~> 1.19.1'
-  # s.dependency "..."
+  s.dependency "React-Core"
+	s.dependency 'SteerpathSmartSDK', '~> 2.0.0'
+
+  if respond_to?(:install_modules_dependencies)
+    install_modules_dependencies(s)
+  end
 end
 

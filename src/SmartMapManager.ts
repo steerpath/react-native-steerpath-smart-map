@@ -1,13 +1,18 @@
 /* eslint-disable prefer-destructuring */
-import { NativeModules, Platform } from "react-native";
-import { ConfigSDK } from './SmartMapViewProps';
-
-const RNSmartMapManager = NativeModules.RNSmartMapManager;
+import { NativeModules, Platform, TurboModuleRegistry } from "react-native";
+import { Spec } from './NativeSmartMapManager';
 
 interface FetchVersionResponse {
   smartSDKVersion: string;
   mapboxSDKVersion: string;
 }
+
+export interface ConfigSDK {
+  apiKey: string;
+  configFilePath?: string | null;
+  configString?: string | null;
+}
+
 
 export interface LiveConfig {
   transmit?: {
@@ -26,6 +31,16 @@ export interface LiveConfig {
     groups?: string[];
   };
 }
+
+declare var global: {
+  __turboModuleProxy: any;
+};
+
+const isTurboModuleEnabled = global.__turboModuleProxy != null;
+
+const RNSmartMapManager = isTurboModuleEnabled
+  ? TurboModuleRegistry.get<Spec>('RNSmartMapManager')
+  : NativeModules.RNSmartMapManager;
 
 export const SmartMapManager = {
   start(apiKey: string): void {
