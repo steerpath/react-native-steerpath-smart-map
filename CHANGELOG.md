@@ -29,6 +29,8 @@ Added support for new architecture. Old architecture is still supported.
 - Removed SmartMapViewProps
 - Renamed SmartSDK.fetchVersions to SmartSDK.fetchVersion
     - returns just a single string. See docs.
+- Removed SmartSdk.setLanguage    
+- Web support dropped
 
 ### iOS:
 - Updated min version to iOS 15.1
@@ -41,6 +43,9 @@ Added support for new architecture. Old architecture is still supported.
 - min SDK version is now 24.
 - target SDK version upgraded to 35.
 - uses gradle 8.7
+
+### Web:
+- Removed web support, only stub implementation to prevent runtime/build issues on react-native
 
 ## [1.29.5] - 2025-08-28
 

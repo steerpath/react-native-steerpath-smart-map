@@ -29,13 +29,11 @@ export type LiveConfig = {
 export interface Spec extends TurboModule {
   readonly start: (apiKey: string) => void;
   readonly startWithConfig: (config: ConfigSDK) => void;
-  readonly setLiveConfig: (config: LiveConfig | null) => void;
   readonly loginToLive: (config: LiveConfig) => void;
   readonly logoutFromLive: () => void;
   readonly fetchVersion: (callback: (version: string) => void) => void;
-  readonly setLanguage: (languageCode: string) => void;
 }
 
 export default TurboModuleRegistry.getEnforcing<Spec>(
-  'RNSmartMapManager'
+  'SmartMapManager'
 );

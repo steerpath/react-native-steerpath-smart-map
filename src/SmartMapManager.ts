@@ -1,6 +1,6 @@
 /* eslint-disable prefer-destructuring */
 import { NativeModules, Platform, TurboModuleRegistry } from "react-native";
-import { Spec } from './NativeSmartMapManager';
+import { Spec } from './specs/NativeSmartMapManager';
 
 export interface ConfigSDK {
   apiKey: string;
@@ -60,13 +60,6 @@ export const SmartMapManager = {
     });
   },
   /**
-   * 
-   * @deprecated Use loginToLive instead.
-   */
-  setLiveConfig(config: LiveConfig | null): void {
-    RNSmartMapManager.setLiveConfig(config);
-  },
-  /**
    * Share user location by setting transmit options and show live updates on map by setting receive options.
    * 
    * Leave transmit out of the config if you don't want to share location and receive out if you don't want updates to map.
@@ -85,7 +78,4 @@ export const SmartMapManager = {
   fetchVersion(callback: (version: string) => void) {
     RNSmartMapManager.fetchVersion(callback);
   },
-  setLanguage(languageCode: String): void {
-    RNSmartMapManager.setLanguage(languageCode);
-  }
 };

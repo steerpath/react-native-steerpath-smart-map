@@ -11,4 +11,4 @@ export interface Spec extends TurboModule {
   readonly removeListeners: (count: number) => void;
 }
 
-export default TurboModuleRegistry.getEnforcing<Spec>('RNSmartLocationManager');
+export default TurboModuleRegistry.getEnforcing<Spec>('SmartLocationManager');

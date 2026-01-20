@@ -63,11 +63,6 @@ RCT_EXPORT_METHOD(fetchVersion:(RCTResponseSenderBlock)callback) {
     callback(@[smartVersion ?: @"unknown"]);
 }
 
-RCT_EXPORT_METHOD(setLanguage:(NSString *)languageCode)
-{
-    [[SPSmartSDK getInstance] setLanguage:languageCode];
-}
-
 // --- NEW ARCHITECTURE BOILERPLATE ---
 #ifdef RCT_NEW_ARCH_ENABLED
 - (std::shared_ptr<facebook::react::TurboModule>)getTurboModule:

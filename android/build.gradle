@@ -55,7 +55,9 @@ android {
     main {
       java {
         // This path points to where the Codegen task outputs the Java files
-        srcDirs += 'build/generated/source/codegen/java'
+        srcDirs += 'src/main/java'
+        // This is your new clean home for the specs
+        srcDirs += 'src/generated/java'
       }
     }
   }

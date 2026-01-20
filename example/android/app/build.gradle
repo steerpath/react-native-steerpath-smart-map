@@ -1,6 +1,7 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 
+
 /**
  * Set this to true to create separate APKs per CPU architecture.
  */
@@ -14,7 +15,7 @@ def enableProguardInReleaseBuilds = false
 android {
     ndkVersion rootProject.ext.ndkVersion
     compileSdkVersion rootProject.ext.compileSdkVersion
-    namespace "com.example" // Mandatory in 2026
+    namespace "com.example"
 
     defaultConfig {
         applicationId "com.example"

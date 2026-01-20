@@ -41,13 +41,9 @@
   "codegenConfig": {
     "name": "RNSteerpathSmartMapSpec",
     "type": "modules",
-    "jsSrcsDir": "src",
+    "jsSrcsDir": "src/specs",
     "android": {
       "javaPackageName": "com.steerpath.rnsmartmap"
-    },
-    "outputDir": {
-      "ios": "ios/generated",
-      "android": "android/generated"
     }
   }
 }

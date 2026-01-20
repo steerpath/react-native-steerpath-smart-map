@@ -1,5 +1,5 @@
 import { NativeModules, NativeEventEmitter, EmitterSubscription, TurboModuleRegistry } from "react-native";
-import { Spec } from './NativeSmartLocationManager';
+import { Spec } from './specs/NativeSmartLocationManager';
 
 export type LocationResponse = {
   latitude: number, longitude: number, buildingRef: string | null, floorIndex: number, accuracyM: number
