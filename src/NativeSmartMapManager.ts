@@ -32,7 +32,7 @@ export interface Spec extends TurboModule {
   readonly setLiveConfig: (config: LiveConfig | null) => void;
   readonly loginToLive: (config: LiveConfig) => void;
   readonly logoutFromLive: () => void;
-  readonly fetchVersions: (callback: (versions: { smartSDKVersion: string; mapboxSDKVersion: string }) => void) => void;
+  readonly fetchVersion: (callback: (version: string) => void) => void;
   readonly setLanguage: (languageCode: string) => void;
 }
 

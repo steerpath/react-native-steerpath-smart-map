@@ -2,11 +2,6 @@
 import { NativeModules, Platform, TurboModuleRegistry } from "react-native";
 import { Spec } from './NativeSmartMapManager';
 
-interface FetchVersionResponse {
-  smartSDKVersion: string;
-  mapboxSDKVersion: string;
-}
-
 export interface ConfigSDK {
   apiKey: string;
   configFilePath?: string | null;
@@ -87,8 +82,8 @@ export const SmartMapManager = {
   logoutFromLive(): void {
     RNSmartMapManager.logoutFromLive();
   },
-  fetchVersions(callback: (versions: FetchVersionResponse) => void) {
-    RNSmartMapManager.fetchVersions(callback);
+  fetchVersion(callback: (version: string) => void) {
+    RNSmartMapManager.fetchVersion(callback);
   },
   setLanguage(languageCode: String): void {
     RNSmartMapManager.setLanguage(languageCode);

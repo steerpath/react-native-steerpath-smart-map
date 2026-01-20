@@ -1,30 +1,25 @@
 package com.steerpath.rnsmartmap;
 
-import static com.steerpath.rnsmartmap.RNEventKeys.ON_LOCATION_CHANGED;
-
-import android.util.Log;
-
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.steerpath.smart.SmartLocationManager;
 import com.steerpath.smart.listeners.SmartLocationListener;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+// This is the generated class from your package.json codegenConfig
+import com.steerpath.rnsmartmap.NativeSmartLocationManagerSpec;
 
-public class RNSmartLocationManager extends ReactContextBaseJavaModule implements SmartLocationListener{
+public class RNSmartLocationManager extends NativeSmartLocationManagerSpec implements SmartLocationListener {
 
+    public static final String NAME = "RNSmartLocationManager";
     private final ReactApplicationContext appContext;
     private int listenerCount = 0;
 
-    public RNSmartLocationManager(@Nonnull ReactApplicationContext reactContext) {
+    public RNSmartLocationManager(ReactApplicationContext reactContext) {
         super(reactContext);
         this.appContext = reactContext;
     }
@@ -32,45 +27,72 @@ public class RNSmartLocationManager extends ReactContextBaseJavaModule implement
     @NonNull
     @Override
     public String getName() {
-        return "RNSmartLocationManager";
+        return NAME;
     }
 
-    @ReactMethod
+    // --- TurboModule Event Methods ---
+
+    @Override
     public void addListener(String eventName) {
+        // React Native calls this when the first JS listener is added
         if (listenerCount == 0) {
-            SmartLocationManager.addLocationListener(this);
+            // Ensure we are on the main thread for SDK calls
+            appContext.runOnUiQueueThread(() ->
+                    SmartLocationManager.addLocationListener(this)
+            );
         }
         listenerCount++;
     }
 
-    @ReactMethod
-    public void removeListeners(Integer count) {
-        listenerCount -= count;
-        if (listenerCount == 0) {
-            SmartLocationManager.removeLocationListener(this);
+    @Override
+    public void removeListeners(double count) {
+        // Codegen uses 'double' for numeric types from JS
+        listenerCount -= (int) count;
+        if (listenerCount <= 0) {
+            listenerCount = 0;
+            appContext.runOnUiQueueThread(() ->
+                    SmartLocationManager.removeLocationListener(this)
+            );
         }
+    }
+
+    // Explicit implementation for start/stop methods from your TS Spec
+    @Override
+    public void startUpdatingLocation() {
+        addListener("locationChanged");
     }
 
     @Override
-    public void onLocationChanged(double latitude, double longitude, @Nullable String buildingRef, int floorIndex, float accuracyM) {
-        WritableNativeMap map = new WritableNativeMap();
-        map.putDouble("latitude", latitude);
-        map.putDouble("longitude", longitude);
-        if (buildingRef == null) {
-            map.putNull("buildingRef");
-        } else {
-            map.putString("buildingRef", buildingRef);
-        }
-        map.putInt("floorIndex", floorIndex);
-        map.putDouble("accuracyM", accuracyM);
-        sendEvent(appContext, ON_LOCATION_CHANGED, map);
+    public void stopUpdatingLocation() {
+        removeListeners(listenerCount);
     }
 
-    private void sendEvent(ReactContext reactContext,
-                           String eventName,
-                           @Nullable WritableMap params) {
-        reactContext
-                .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, params);
+    // --- SDK Listener Callback ---
+
+    @Override
+    public void onLocationChanged(double latitude, double longitude, @Nullable String buildingRef, int floorIndex, float accuracyM) {
+        // Use Arguments.createMap() - the 2026 standard for pool-managed maps
+        WritableMap params = Arguments.createMap();
+        params.putDouble("latitude", latitude);
+        params.putDouble("longitude", longitude);
+
+        if (buildingRef == null) {
+            params.putNull("buildingRef");
+        } else {
+            params.putString("buildingRef", buildingRef);
+        }
+
+        params.putInt("floorIndex", floorIndex);
+        params.putDouble("accuracyM", (double) accuracyM);
+
+        sendEvent("locationChanged", params);
+    }
+
+    private void sendEvent(String eventName, @Nullable WritableMap params) {
+        if (appContext.hasActiveReactInstance()) {
+            appContext
+                    .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    .emit(eventName, params);
+        }
     }
 }

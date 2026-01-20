@@ -2,37 +2,69 @@ package com.steerpath.rnsmartmap;
 
 import android.app.Activity;
 
-import com.facebook.react.ReactPackage;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.facebook.react.BaseReactPackage;
+import com.facebook.react.TurboReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.uimanager.ViewManager;
+import com.facebook.react.module.model.ReactModuleInfo;
+import com.facebook.react.module.model.ReactModuleInfoProvider;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
-public class RNSmartMapPackage implements ReactPackage {
+public class RNSmartMapPackage extends BaseReactPackage {
     public RNSmartMapPackage(Activity activity) {
     } // backwards compatibility
 
+    // Backwards compatibility constructor
+    public RNSmartMapPackage(Activity activity) {}
     public RNSmartMapPackage() {}
 
+    /**
+     * This handles the Native Modules for the New Architecture (Lazy Loading)
+     */
+    @Nullable
     @Override
-    public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
-        return Arrays.<ViewManager>asList(
-                new RNSmartMapViewManager(reactContext)
-        );
+    public NativeModule getModule(String name, ReactApplicationContext reactContext) {
+        switch (name) {
+            case RNSmartMapManager.NAME:
+                return new RNSmartMapManager(reactContext);
+            case RNSmartLocationManager.NAME:
+                return new RNSmartLocationManager(reactContext);
+            default:
+                return null;
+        }
     }
 
     @Override
-    public List<NativeModule> createNativeModules(
-            ReactApplicationContext reactContext) {
-        List<NativeModule> modules = new ArrayList<>();
-
-        modules.add(new RNSmartMapManager(reactContext));
-        modules.add(new RNSmartGeofenceManager(reactContext));
-        modules.add(new RNSmartMapModule(reactContext));
-        modules.add(new RNSmartLocationManager(reactContext));
-        return modules;
+    public ReactModuleInfoProvider getReactModuleInfoProvider() {
+        return new ReactModuleInfoProvider() {
+            @NonNull
+            @Override
+            public Map<String, ReactModuleInfo> getReactModuleInfos() {
+                Map<String, ReactModuleInfo> map = new HashMap<>();
+                map.put(RNSmartMapManager.NAME, new ReactModuleInfo(
+                        RNSmartMapManager.NAME,
+                        RNSmartMapManager.NAME,
+                        false,
+                        false,
+                        false,
+                        true
+                ));
+                map.put(RNSmartLocationManager.NAME, new ReactModuleInfo(
+                        RNSmartLocationManager.NAME,
+                        RNSmartLocationManager.NAME,
+                        false,
+                        false,
+                        false,
+                        true
+                ));
+                return map;
+            }
+        };
     }
 }

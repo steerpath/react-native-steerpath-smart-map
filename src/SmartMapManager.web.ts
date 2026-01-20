@@ -32,7 +32,7 @@ export const SmartMapManager = {
   logoutFromLive(): void {
     // No web implementation
   },
-  fetchVersions(): void {
+  fetchVersion(): void {
     // No web implementation
   }
 };

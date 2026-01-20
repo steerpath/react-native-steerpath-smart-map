@@ -2,13 +2,6 @@ apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
 
 /**
- * React Native Configuration
- */
-react {    
-    hermesEnabled = true
-}
-
-/**
  * Set this to true to create separate APKs per CPU architecture.
  */
 def enableSeparateBuildPerCPUArchitecture = false

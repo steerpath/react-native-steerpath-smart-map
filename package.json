@@ -37,5 +37,17 @@
     "react-native": "0.83.1",
     "typescript": "^5.7.0",
     "react-native-builder-bob": "^0.30.0"
+  },
+  "codegenConfig": {
+    "name": "RNSteerpathSmartMapSpec",
+    "type": "modules",
+    "jsSrcsDir": "src",
+    "android": {
+      "javaPackageName": "com.steerpath.rnsmartmap"
+    },
+    "outputDir": {
+      "ios": "ios/generated",
+      "android": "android/generated"
+    }
   }
 }
