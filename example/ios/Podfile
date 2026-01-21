@@ -1,12 +1,21 @@
 source 'https://github.com/CocoaPods/Specs.git'
 source 'https://github.com/steerpath/steerpath-smart-sdk-podspec.git'
 
-require_relative '../node_modules/react-native/scripts/react_native_pods'
-require_relative '../node_modules/@react-native/cli-platform-ios/native_modules'
+require Pod::Executable.execute_command('node', ['-p',
+  'require.resolve(
+    "react-native/scripts/react_native_pods.rb",
+    {paths: [process.argv[1]]},
+  )', __dir__]).strip
 
 # 2026 Standard: iOS 15.1+ is required for the latest TurboModule performance
 platform :ios, '15.1'
 prepare_react_native_project!
+
+linkage = ENV['USE_FRAMEWORKS']
+if linkage != nil
+  Pod::UI.puts "Configuring Pod with #{linkage}ally linked Frameworks".green
+  use_frameworks! :linkage => linkage.to_sym
+end
 
 target 'example' do
   # Automatically handles autolinking for the library you are developing
@@ -25,8 +34,5 @@ target 'example' do
     # Modern post_install handles Apple Silicon and Xcode settings automatically
     react_native_post_install(installer)
     
-    # 2026 Workaround: Ensure Steerpath (or any private pod) maps correctly
-    # to the New Architecture headers if they aren't fully migrated.
-    __apply_Xcode_12_5_M1_post_install_workaround(installer)
   end
 end
