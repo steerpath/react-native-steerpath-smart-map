@@ -20,6 +20,13 @@ We only support Cocoapod linking for iOS at the moment
 
 In your `ios/Podfile`, add the following lines to the top it:
 
+Version >= 2.0.0
+```ruby
+source 'https://github.com/CocoaPods/Specs.git'
+source 'https://github.com/steerpath/steerpath-smart-sdk-podspec.git'
+```
+
+or version < 2.0.0
 ```ruby
 source 'https://github.com/CocoaPods/Specs.git'
 source 'https://bitbucket.org/nimbledevices/steerpath-mapbox-ios-podspec.git'

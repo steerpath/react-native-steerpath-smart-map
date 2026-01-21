@@ -1,53 +1,32 @@
 source 'https://github.com/CocoaPods/Specs.git'
-source 'https://bitbucket.org/nimbledevices/steerpath-mapbox-ios-podspec.git'
-source 'https://bitbucket.org/nimbledevices/steerpath-smart-sdk-podspec.git'
+source 'https://github.com/steerpath/steerpath-smart-sdk-podspec.git'
 
 require_relative '../node_modules/react-native/scripts/react_native_pods'
-require_relative '../node_modules/@react-native-community/cli-platform-ios/native_modules'
+require_relative '../node_modules/@react-native/cli-platform-ios/native_modules'
 
-platform :ios, '12.4'
-install! 'cocoapods', :deterministic_uuids => false
+# 2026 Standard: iOS 15.1+ is required for the latest TurboModule performance
+platform :ios, '15.1'
+prepare_react_native_project!
 
 target 'example' do
+  # Automatically handles autolinking for the library you are developing
   config = use_native_modules!
 
-  # Flags change depending on the env values.
-  flags = get_default_flags()
-
+  # Flags are now streamlined; Fabric and New Arch are enabled by default in 0.83
   use_react_native!(
     :path => config[:reactNativePath],
-    # Hermes is now enabled by default. Disable by setting this flag to false.
-    # Upcoming versions of React Native may rely on get_default_flags(), but
-    # we make it explicit here to aid in the React Native upgrade process.
     :hermes_enabled => true,
-    :fabric_enabled => false,
-    # An absolute path to your application root.
+    :fabric_enabled => true, # Enabled for 2026 New Arch performance
     :app_path => "#{Pod::Config.instance.installation_root}/.."
   )
 
-  target 'exampleTests' do
-    inherit! :complete
-    # Pods for testing
-  end
 
   post_install do |installer|
-    react_native_post_install(
-      installer,
-      # Set `mac_catalyst_enabled` to `true` in order to apply patches
-      # necessary for Mac Catalyst builds
-      :mac_catalyst_enabled => false
-    )
+    # Modern post_install handles Apple Silicon and Xcode settings automatically
+    react_native_post_install(installer)
+    
+    # 2026 Workaround: Ensure Steerpath (or any private pod) maps correctly
+    # to the New Architecture headers if they aren't fully migrated.
     __apply_Xcode_12_5_M1_post_install_workaround(installer)
-    # Workaround for pod code signing issue https://github.com/CocoaPods/CocoaPods/issues/11402#issuecomment-1201464693
-    installer.pods_project.targets.each do |target|
-      if target.respond_to?(:product_type) and target.product_type == "com.apple.product-type.bundle"
-        target.build_configurations.each do |config|
-          config.build_settings['CODE_SIGNING_ALLOWED'] = 'NO'
-        end
-      end
-    end
-    installer.pods_project.build_configurations.each do |config|
-      config.build_settings["EXCLUDED_ARCHS[sdk=iphonesimulator*]"] = "arm64"
-    end
   end
 end

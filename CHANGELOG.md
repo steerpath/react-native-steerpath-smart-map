@@ -15,6 +15,39 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [2.0.0] - 2025-01-19
+
+Smart SDK is now a so called "Bluedot SDK" which main task is to provide indoor positioning.
+All map related content is removed.
+
+Added support for new architecture. Old architecture is still supported.
+
+### Breaking changes
+- Removed SmartGeofenceManager
+- Removed SmartMapEventManager
+- Removed SmartMapView
+- Removed SmartMapViewProps
+- Renamed SmartSDK.fetchVersions to SmartSDK.fetchVersion
+    - returns just a single string. See docs.
+- Removed SmartSdk.setLanguage    
+- Web support dropped
+
+### iOS:
+- Updated min version to iOS 15.1
+- Mapbox dependency was removed so library consumers need to update their Podfile.
+    - Remove source 'https://bitbucket.org/nimbledevices/steerpath-mapbox-ios-podspec.git' from Podfile
+- Smart SDK source repo was changed from bitbucket to github
+    - Change source repo to source 'https://github.com/steerpath/steerpath-smart-sdk-podspec.git' in Podfile
+
+### Android:
+- min SDK version is now 24.
+- target SDK version upgraded to 35.
+- uses gradle 8.7
+
+### Web:
+- Removed web support, only stub implementation to prevent runtime/build issues on react-native
+
+
 ## [1.29.5] - 2025-08-28
 
 - Bump Android Smart SDK version to android-smart-1.23.3 to fix the default config

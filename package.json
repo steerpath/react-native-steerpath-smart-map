@@ -27,14 +27,22 @@
     "steerpath-smart-sdk": "^2.3.0"
   },
   "peerDependencies": {
-    "react": "^16.5.0 || ^17.0.0 || ^18.0.0",
-    "react-native": ">=0.57.0-rc.0 <1.0.x"
+    "react": ">=18.2.0",
+    "react-native": ">=0.71.0"
   },
   "devDependencies": {
-    "@types/react": "^16.9.35",
-    "@types/react-native": "^0.62.12",
-    "react": "^16.9.0",
-    "react-native": "^0.60.5",
-    "typescript": "^3.9.3"
+    "@types/react": "^19.0.0",
+    "@types/react-native": "^0.73.0",
+    "react": "19.2.0",
+    "react-native": "0.83.1",
+    "typescript": "^5.7.0"
+  },
+  "codegenConfig": {
+    "name": "RNSteerpathSmartMapSpec",
+    "type": "modules",
+    "jsSrcsDir": "src/specs",
+    "android": {
+      "javaPackageName": "com.steerpath.rnsmartmap"
+    }
   }
 }
