@@ -23,9 +23,6 @@
   "license": "MIT",
   "licenseFilename": "LICENSE",
   "readmeFilename": "README.md",
-  "dependencies": {
-    "steerpath-smart-sdk": "^2.3.0"
-  },
   "peerDependencies": {
     "react": ">=18.2.0",
     "react-native": ">=0.71.0"
@@ -35,14 +32,7 @@
     "@types/react-native": "^0.73.0",
     "react": "19.2.0",
     "react-native": "0.83.1",
-    "typescript": "^5.7.0"
-  },
-  "codegenConfig": {
-    "name": "RNSteerpathSmartMapSpec",
-    "type": "modules",
-    "jsSrcsDir": "src/specs",
-    "android": {
-      "javaPackageName": "com.steerpath.rnsmartmap"
-    }
+    "typescript": "^5.7.0",
+    "react-native-builder-bob": "^0.30.0"
   }
 }
