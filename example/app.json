@@ -2,6 +2,24 @@
   "expo": {
     "name": "example",
     "slug": "example",
-    "version": "1.0.0"
+    "icon": "./assets/images/icon.png",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    }
+  },
+  "ios": {
+    "supportsTablet": true,
+    "bundleIdentifier": "com.example"
+  },
+  "android": {
+    "adaptiveIcon": {
+      "foregroundImage": "./assets/images/adaptive-icon.png",
+      "backgroundColor": "#ffffff"
+    },
+    "package": "com.example"
   }
 }

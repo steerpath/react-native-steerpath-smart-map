@@ -51,5 +51,17 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+	<key>NSBluetoothAlwaysUsageDescription</key>
+		<string>The application needs to access your device's Bluetooth to calculate your current location indoors.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+		<string>The application needs to access your device's Bluetooth to calculate your current location indoors.</string>
+
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+		<string>The application needs to access your device's location to display to the map.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+		<string>The application needs to access your device's location to display to the map.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+		<string>The application needs to access your device's location to display to the map.</string>
 </dict>
 </plist>

@@ -5,7 +5,10 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "jsx": "react",
-    "lib": ["esnext", "dom"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
     "moduleResolution": "bundler",
     "strict": true,
     "target": "esnext",
@@ -22,5 +25,7 @@
     "jest.config.js",
     "example"
   ],
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
