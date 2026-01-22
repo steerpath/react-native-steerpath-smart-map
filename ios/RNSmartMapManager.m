@@ -7,7 +7,6 @@
 //
 
 #import "RNSmartMapManager.h"
-#import <Mapbox/Mapbox.h>
 
 @implementation RNSmartMapManager
 
@@ -30,15 +29,6 @@ RCT_EXPORT_METHOD(startWithConfig:(nonnull NSDictionary *)config)
     [[SPSmartSDK getInstance] start:apiKey config:configFilePath];
 }
 
-RCT_EXPORT_METHOD(setLiveConfig:(NSDictionary *)config)
-{
-    // TODO: call setLiveConfiguration in the native iOS Smart SDK on main thead instead of here
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[SPSmartSDK getInstance] setLiveConfiguration: config];
-    });
-    
-}
-
 RCT_EXPORT_METHOD(loginToLive:(NSDictionary *)config)
 {
     // TODO: call loginToLive in the native iOS Smart SDK on main thead instead of here
@@ -56,21 +46,18 @@ RCT_EXPORT_METHOD(logoutFromLive)
     
 }
 
-RCT_EXPORT_METHOD(fetchVersions:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(fetchVersion:(RCTResponseSenderBlock)callback)
 {
     NSDictionary *infoDictionary = [[NSBundle bundleForClass: [SPSmartSDK class]] infoDictionary];
     NSString *smartSDKVersion = [infoDictionary valueForKey:@"CFBundleShortVersionString"];
-    NSDictionary *mapboxInfoDictionary = [[NSBundle bundleForClass: [MGLMapView class]] infoDictionary];
-    NSString *mapboxVersion = [mapboxInfoDictionary valueForKey:@"CFBundleShortVersionString"];
-    callback(@[@{
-                   @"smartSDKVersion": smartSDKVersion,
-                   @"mapboxSDKVersion": mapboxVersion
-    }]);
-}
+    
+    // Check if version is nil to avoid a crash when creating the array
+    if (smartSDKVersion == nil) {
+        smartSDKVersion = @"Unknown";
+    }
 
-RCT_EXPORT_METHOD(setLanguage:(nonnull NSString *)languageCode)
-{
-    [[SPSmartSDK getInstance] setLanguage: languageCode];
+    // Pass the string as the first and only element of the array
+    callback(@[smartSDKVersion]);
 }
 
 @end

@@ -55,10 +55,4 @@ dependencies {
 
     // Example library usage
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.2.0"
-
-    if (hermesEnabled.toBoolean()) {
-        implementation("com.facebook.react:hermes-android")
-    } else {
-        implementation jscFlavor
-    }
 }

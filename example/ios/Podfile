@@ -1,6 +1,8 @@
 source 'https://github.com/CocoaPods/Specs.git'
 source 'https://github.com/steerpath/steerpath-smart-sdk-podspec.git'
 
+ENV['RCT_NEW_ARCH_ENABLED'] = '0' # change it to 1 to enable New Architecture, and check info.plist files as well
+
 require Pod::Executable.execute_command('node', ['-p',
   'require.resolve(
     "react-native/scripts/react_native_pods.rb",
@@ -10,6 +12,7 @@ require Pod::Executable.execute_command('node', ['-p',
 # 2026 Standard: iOS 15.1+ is required for the latest TurboModule performance
 platform :ios, '15.1'
 prepare_react_native_project!
+
 
 linkage = ENV['USE_FRAMEWORKS']
 if linkage != nil
@@ -25,14 +28,13 @@ target 'example' do
   use_react_native!(
     :path => config[:reactNativePath],
     :hermes_enabled => true,
-    :fabric_enabled => true, # Enabled for 2026 New Arch performance
-    :app_path => "#{Pod::Config.instance.installation_root}/.."
+    :fabric_enabled => false,
+    :new_arch_enabled => false
   )
 
 
   post_install do |installer|
     # Modern post_install handles Apple Silicon and Xcode settings automatically
     react_native_post_install(installer)
-    
   end
 end
