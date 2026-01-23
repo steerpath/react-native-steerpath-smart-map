@@ -1,11 +1,8 @@
-import { NativeModules, NativeEventEmitter, EmitterSubscription, DeviceEventEmitter, Platform } from "react-native";
+import { NativeModules, NativeEventEmitter, EmitterSubscription } from "react-native";
 
 const { RNSmartLocationManager } = NativeModules;
 
-const smartLocationManagerEmitter = Platform.select({
-  ios: new NativeEventEmitter(RNSmartLocationManager),
-  android: DeviceEventEmitter,
-});
+const smartLocationManagerEmitter = new NativeEventEmitter(RNSmartLocationManager);
 
 export type LocationResponse = {
   latitude: number, longitude: number, buildingRef: string | null, floorIndex: number, accuracyM: number
@@ -14,7 +11,7 @@ export type LocationResponse = {
 function createSmartLocationManager() {
   let eventListenerRegistered = false;
   let eventListener: EmitterSubscription;
-
+  console.log('createSmartLocationManager JS')
   return {
     addLocationChangedListener(
       listener: (

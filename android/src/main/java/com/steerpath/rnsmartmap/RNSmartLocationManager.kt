@@ -1,5 +1,6 @@
 package com.steerpath.rnsmartmap
 
+import android.util.Log
 import com.facebook.react.bridge.ReactApplicationContext
 import com.facebook.react.bridge.ReactContext
 import com.facebook.react.bridge.ReactContextBaseJavaModule
@@ -22,7 +23,8 @@ class RNSmartLocationManager(@param:Nonnull private val appContext: ReactApplica
     }
 
     @ReactMethod
-    fun addListener(eventName: String?) {
+    fun addListener() {
+        Log.d("RNSmartLocationManager", "addListener")
         if (listenerCount == 0) {
             SmartLocationManager.addLocationListener(this)
         }
@@ -54,6 +56,7 @@ class RNSmartLocationManager(@param:Nonnull private val appContext: ReactApplica
         }
         map.putInt("floorIndex", floorIndex)
         map.putDouble("accuracyM", accuracyM.toDouble())
+        Log.d("RNSmartLocationManager", "onLocationChanged")
         sendEvent(appContext, ON_LOCATION_CHANGED, map)
     }
 
@@ -63,7 +66,7 @@ class RNSmartLocationManager(@param:Nonnull private val appContext: ReactApplica
         params: WritableMap?
     ) {
         reactContext
-            .getJSModule<DeviceEventManagerModule.RCTDeviceEventEmitter?>(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
+            .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java)
             .emit(eventName, params)
     }
 

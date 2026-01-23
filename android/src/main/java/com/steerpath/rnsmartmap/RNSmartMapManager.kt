@@ -24,11 +24,13 @@ class RNSmartMapManager(@param:Nonnull private val appContext: ReactApplicationC
 
     @ReactMethod
     fun start(apiKey: String?) {
+        Log.d("RNSmartMapManager", "start")
         appContext.runOnUiQueueThread(Runnable { SmartSDK.getInstance().start(appContext, apiKey) })
     }
 
     @ReactMethod
     fun startWithConfig(map: ReadableMap) {
+        Log.d("RNSmartMapManager", "startWithConfig")
         val apiKey = map.getString("apiKey")
         if (map.hasKey("configFilePath")) {
             val filePath = map.getString("configFilePath")
