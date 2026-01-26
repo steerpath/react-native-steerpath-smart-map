@@ -22,6 +22,7 @@ function createSmartLocationManager() {
         console.log('set location listener JS')
         eventListenerRegistered = true;
         eventListener = smartLocationManagerEmitter.addListener('locationChanged', (payload: LocationResponse) => {
+          console.log('locationChanged event received JS', payload);
           listener(payload);
         })
       } else if (eventListenerRegistered) {

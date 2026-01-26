@@ -37,3 +37,7 @@ expoAutolinking.useExpoVersionCatalog()
 
 include ':app'
 includeBuild(expoAutolinking.reactNativeGradlePlugin)
+
+include ':react-native-steerpath-smart-map'
+// Point this to your actual library source code (Git root)
+project(':react-native-steerpath-smart-map').projectDir = new File(rootProject.projectDir, '../../android')

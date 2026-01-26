@@ -62,7 +62,7 @@ export function UserLocationProvider({ children }: PropsWithChildren) {
       if (isListenerSetRef.current === false) {
         isListenerSetRef.current = true;
         console.log('Setting up location listener');
-        SmartLocationManager.addLocationChangedListener((location) => {
+        SmartLocationManager.addLocationChangedListener((location: LocationResponse) => {
           console.log('Location update received:', location);
           setBluedotLocation(location);
         });
