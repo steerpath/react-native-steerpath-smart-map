@@ -59,22 +59,6 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
         }
     }
 
-    @Deprecated
-    @ReactMethod
-    public void setLiveConfig(ReadableMap map) {
-        if (map == null) {
-            // Logout and stop LiveService
-            appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().setLiveConfiguration(appContext, null));
-        } else {
-            try {
-                JSONObject object = Utils.convertMapToJson(map);
-                appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().setLiveConfiguration(appContext, object));
-            } catch (JSONException e) {
-                Log.e("Error", "Failed to set live configuration for SmartSDK");
-            }
-        }
-    }
-
     @ReactMethod
     public void loginToLive(ReadableMap map) {
         if (map != null) {
@@ -88,25 +72,21 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void logoutFromLive(){
+    public void logoutFromLive() {
         appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().logoutFromLive(appContext));
     }
 
-
     @ReactMethod
-    public void fetchVersions(Callback callback) {
+    public void fetchVersion(Callback callback) {
         WritableMap map = new WritableNativeMap();
+        String version = "Unknown";
         JSONObject versions = SmartSDK.getVersions();
         try {
             map = Utils.convertJsonToWritableMap(versions);
+            version = versions.getString("smartSDKVersion");
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        callback.invoke(map);
-    }
-
-    @ReactMethod
-    public void setLanguage(String languageCode) {
-        appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().setLanguage(languageCode));
+        callback.invoke(version);
     }
 }

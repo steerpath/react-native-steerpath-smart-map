@@ -1,6 +1,8 @@
 package com.steerpath.rnsmartmap;
 
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.facebook.react.bridge.ReactApplicationContext;
@@ -11,6 +13,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.steerpath.smart.SmartLocationManager;
+import com.steerpath.smart.SmartSDK;
 import com.steerpath.smart.listeners.SmartLocationListener;
 
 import javax.annotation.Nonnull;
@@ -61,14 +64,19 @@ public class RNSmartLocationManager extends ReactContextBaseJavaModule implement
         }
         map.putInt("floorIndex", floorIndex);
         map.putDouble("accuracyM", accuracyM);
-        sendEvent(appContext, ON_LOCATION_CHANGED, map);
+        Log.d("RNSmartLocationManager", "lat: " + latitude + ", lon: " + longitude);
+        try {
+            sendEvent(map);
+            Log.d("RNSmartLocationManager", "location sent to JS");
+        } catch (Exception e) {
+            Log.e("RNSmartLocationManager", "Exception:", e);
+        }
+
     }
 
-    private void sendEvent(ReactContext reactContext,
-                           String eventName,
-                           @Nullable WritableMap params) {
-        reactContext
+    private void sendEvent(@Nullable WritableMap params) {
+        getReactApplicationContext()
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, params);
+                .emit(ON_LOCATION_CHANGED, params);
     }
 }
