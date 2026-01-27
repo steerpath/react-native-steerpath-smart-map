@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -24,6 +25,7 @@ public class RNSmartLocationManager extends ReactContextBaseJavaModule implement
     private final ReactApplicationContext appContext;
     private int listenerCount = 0;
     private static String ON_LOCATION_CHANGED = "locationChanged";
+    private WritableMap location = null;
 
     public RNSmartLocationManager(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
@@ -64,12 +66,19 @@ public class RNSmartLocationManager extends ReactContextBaseJavaModule implement
         }
         map.putInt("floorIndex", floorIndex);
         map.putDouble("accuracyM", accuracyM);
-        Log.d("RNSmartLocationManager", "lat: " + latitude + ", lon: " + longitude);
-        try {
-            sendEvent(map);
-            Log.d("RNSmartLocationManager", "location sent to JS");
-        } catch (Exception e) {
-            Log.e("RNSmartLocationManager", "Exception:", e);
+
+        this.location = map.copy();
+
+        // See comment about workaround in src/SmartLocationManager.ts
+        // sendEvent(map);
+    }
+
+    @ReactMethod
+    public void getLocation(Callback callback) {
+        if (this.location != null) {
+            callback.invoke(this.location.copy());
+        } else {
+            callback.invoke((Object) null);
         }
 
     }

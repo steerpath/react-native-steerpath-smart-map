@@ -11,7 +11,7 @@ export type LocationResponse = {
 function createSmartLocationManager() {
   let eventListenerRegistered = false;
   let eventListener: EmitterSubscription;
-  console.log('createSmartLocationManager JS')
+  let locationInterval: NodeJS.Timeout | null = null;
   return {
     addLocationChangedListener(
       listener: (
@@ -19,21 +19,33 @@ function createSmartLocationManager() {
       ) => void
     ) {
       if (!eventListenerRegistered && smartLocationManagerEmitter) {
-        console.log('set location listener JS')
         eventListenerRegistered = true;
-        eventListener = smartLocationManagerEmitter.addListener('locationChanged', (payload: LocationResponse) => {
-          console.log('locationChanged event received JS', payload);
-          listener(payload);
+        eventListener = smartLocationManagerEmitter.addListener('locationChanged', (_payload: LocationResponse) => {
+          // listener(payload);
         })
-      } else if (eventListenerRegistered) {
-        console.warn('Location listener already registered');
-      } else {
-        console.warn('SmartLocationManager emitter is not available');
+        // Old-bridge for sending events was not working anymore, so using polling as a workaround, until we move to new architecture
+        locationInterval = setInterval(async () => {
+          try {
+            this.getLocation((loc) => {
+              listener(loc);
+            })
+
+          } catch (e) {
+            console.error('Error getting location:', e);
+          }
+        }, 1000);
       }
     },
     removeLocationChangedListener() {
       eventListenerRegistered = false;
       eventListener.remove();
+      if (locationInterval) {
+        clearInterval(locationInterval);
+        locationInterval = null;
+      }
+    },
+    getLocation(callback: (location: LocationResponse) => void) {
+      RNSmartLocationManager.getLocation(callback);
     }
   };
 }
