@@ -15,12 +15,10 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
-## [2.0.0] - 2025-01-19
+## [2.0.0-alpha.1] - 2025-01-27
 
 Smart SDK is now a so called "Bluedot SDK" which main task is to provide indoor positioning.
 All map related content is removed.
-
-Added support for new architecture. Old architecture is still supported.
 
 ### Breaking changes
 - Removed SmartGeofenceManager
@@ -29,8 +27,13 @@ Added support for new architecture. Old architecture is still supported.
 - Removed SmartMapViewProps
 - Renamed SmartSDK.fetchVersions to SmartSDK.fetchVersion
     - returns just a single string. See docs.
+    - Changed return type from Callback to Promise
 - Removed SmartSdk.setLanguage    
 - Web support dropped
+
+### Added
+- SmartLocationManager.getLocation
+    - Gets user's location one time. Mostly used for internal workaround for sending events from native to JS. See comments in SmartLocationManager.ts
 
 ### iOS:
 - Updated min version to iOS 15.1
@@ -46,7 +49,6 @@ Added support for new architecture. Old architecture is still supported.
 
 ### Web:
 - Removed web support, only stub implementation to prevent runtime/build issues on react-native
-
 
 ## [1.29.5] - 2025-08-28
 

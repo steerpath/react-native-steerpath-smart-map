@@ -25,14 +25,8 @@ function createSmartLocationManager() {
         })
         // Old-bridge for sending events was not working anymore, so using polling as a workaround, until we move to new architecture
         locationInterval = setInterval(async () => {
-          try {
-            this.getLocation((loc) => {
-              listener(loc);
-            })
-
-          } catch (e) {
-            console.error('Error getting location:', e);
-          }
+          const location = await RNSmartLocationManager.getLocation();
+          listener(location);
         }, 1000);
       }
     },
@@ -44,8 +38,14 @@ function createSmartLocationManager() {
         locationInterval = null;
       }
     },
-    getLocation(callback: (location: LocationResponse) => void) {
-      RNSmartLocationManager.getLocation(callback);
+    /**
+     * Mostly for internal use. Fetches user's current location once.
+     * Using this as a workaround for locationChanged event emitter not working with old bridge.
+     * 
+     * @returns user's current location.
+     */
+    getLocation(): Promise<LocationResponse> {
+      return RNSmartLocationManager.getLocation();
     }
   };
 }

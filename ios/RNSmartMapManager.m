@@ -46,18 +46,19 @@ RCT_EXPORT_METHOD(logoutFromLive)
     
 }
 
-RCT_EXPORT_METHOD(fetchVersion:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(fetchVersion:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     NSDictionary *infoDictionary = [[NSBundle bundleForClass: [SPSmartSDK class]] infoDictionary];
     NSString *smartSDKVersion = [infoDictionary valueForKey:@"CFBundleShortVersionString"];
     
-    // Check if version is nil to avoid a crash when creating the array
-    if (smartSDKVersion == nil) {
-        smartSDKVersion = @"Unknown";
+    if (smartSDKVersion != nil) {
+        resolve(smartSDKVersion);
+    } else {
+        reject(@"ERROR",
+               @"The SmartSDK version could not be found in the info dictionary.",
+               nil);
     }
-
-    // Pass the string as the first and only element of the array
-    callback(@[smartSDKVersion]);
 }
 
 @end

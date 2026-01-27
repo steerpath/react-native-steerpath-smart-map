@@ -64,7 +64,11 @@ export const SmartMapManager = {
   logoutFromLive(): void {
     RNSmartMapManager.logoutFromLive();
   },
-  fetchVersion(callback: (version: string) => void) {
-    RNSmartMapManager.fetchVersion(callback);
+  /**
+   * 
+   * @returns Native (iOS/Android) Smart SDK version as a string
+   */
+  fetchVersion(): Promise<string> {
+    return RNSmartMapManager.fetchVersion();
   },
 };

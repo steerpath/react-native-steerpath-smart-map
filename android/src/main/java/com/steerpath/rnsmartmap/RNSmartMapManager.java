@@ -3,6 +3,7 @@ package com.steerpath.rnsmartmap;
 import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -77,16 +78,13 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public void fetchVersion(Callback callback) {
-        WritableMap map = new WritableNativeMap();
-        String version = "Unknown";
+    public void fetchVersion(Promise promise) {
         JSONObject versions = SmartSDK.getVersions();
         try {
-            map = Utils.convertJsonToWritableMap(versions);
-            version = versions.getString("smartSDKVersion");
+            String version = versions.getString("smartSDKVersion");
+            promise.resolve(version);
         } catch (JSONException e) {
-            e.printStackTrace();
+            promise.reject("ERROR", "failed to fetch Smart SDK version");
         }
-        callback.invoke(version);
     }
 }

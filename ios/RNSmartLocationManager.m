@@ -20,12 +20,13 @@ RCT_EXPORT_MODULE(RNSmartLocationManager);
   return @[@"locationChanged"];
 }
 
-RCT_EXPORT_METHOD(getLocation:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(getLocation:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     if (lastLocation != nil) {
-        callback(@[lastLocation]);
+        resolve(lastLocation);
     } else {
-        callback(@[[NSNull null]]);
+        resolve([NSNull null]);
     }
 }
 

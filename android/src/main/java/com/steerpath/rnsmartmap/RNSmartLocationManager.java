@@ -1,20 +1,15 @@
 package com.steerpath.rnsmartmap;
 
-
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
-import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.WritableNativeMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.steerpath.smart.SmartLocationManager;
-import com.steerpath.smart.SmartSDK;
 import com.steerpath.smart.listeners.SmartLocationListener;
 
 import javax.annotation.Nonnull;
@@ -22,14 +17,12 @@ import javax.annotation.Nullable;
 
 public class RNSmartLocationManager extends ReactContextBaseJavaModule implements SmartLocationListener{
 
-    private final ReactApplicationContext appContext;
     private int listenerCount = 0;
     private static String ON_LOCATION_CHANGED = "locationChanged";
     private WritableMap location = null;
 
     public RNSmartLocationManager(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
-        this.appContext = reactContext;
     }
 
     @NonNull
@@ -74,11 +67,11 @@ public class RNSmartLocationManager extends ReactContextBaseJavaModule implement
     }
 
     @ReactMethod
-    public void getLocation(Callback callback) {
+    public void getLocation(Promise promise) {
         if (this.location != null) {
-            callback.invoke(this.location.copy());
+            promise.resolve(this.location.copy());
         } else {
-            callback.invoke((Object) null);
+            promise.resolve((Object) null);
         }
 
     }
