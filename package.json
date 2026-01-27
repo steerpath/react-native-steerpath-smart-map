@@ -9,8 +9,9 @@
   "source": "./src/index.ts",
   "exports": {
     ".": {
-      "source": "./src/index.ts",
       "types": "./lib/typescript/index.d.ts",
+      "import": "./lib/module/index.js",
+      "require": "./lib/commonjs/index.js",
       "default": "./lib/module/index.js"
     },
     "./src/*": "./src/*",
@@ -51,6 +52,7 @@
     "source": "src",
     "output": "lib",
     "targets": [
+      "commonjs",
       [
         "module",
         {
