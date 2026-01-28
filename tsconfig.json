@@ -1,18 +1,20 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
+    "outDir": "lib/typescript",
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "jsx": "react",
-    "lib": ["es6", "dom", "dom.iterable"],
-    "moduleResolution": "node",
-    "typeRoots": ["./src/typings"],
+    "lib": [
+      "esnext",
+      "dom"
+    ],
+    "moduleResolution": "bundler",
     "strict": true,
-    "target": "es5",
+    "target": "esnext",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "es2015",
+    "module": "esnext",
     "resolveJsonModule": true,
     "noImplicitAny": false
   },
@@ -20,7 +22,10 @@
     "node_modules",
     "babel.config.js",
     "metro.config.js",
-    "jest.config.js"
+    "jest.config.js",
+    "example"
   ],
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }

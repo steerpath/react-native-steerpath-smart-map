@@ -10,6 +10,7 @@
 
 @implementation RNSmartLocationManager {
     bool hasListeners;
+    NSDictionary *lastLocation;
 }
 
 RCT_EXPORT_MODULE(RNSmartLocationManager);
@@ -17,6 +18,16 @@ RCT_EXPORT_MODULE(RNSmartLocationManager);
 - (NSArray<NSString *> *)supportedEvents
 {
   return @[@"locationChanged"];
+}
+
+RCT_EXPORT_METHOD(getLocation:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
+{
+    if (lastLocation != nil) {
+        resolve(lastLocation);
+    } else {
+        resolve([NSNull null]);
+    }
 }
 
 // Start listening location updates. Starts positioning unless map has started it already.
@@ -35,9 +46,23 @@ RCT_EXPORT_MODULE(RNSmartLocationManager);
 }
 
 -(void)spSmartLocationManager:(SPSmartLocationManager *)manager onLocationChanged:(double)latitude longitude:(double)longitude buildingRef:(nullable NSString *)buildingRef floorIndex:(NSInteger)floorIndex accuracyM:(double)accuracyM{
-    if (hasListeners) {
-        [self sendEventWithName:@"locationChanged" body:@{@"latitude": [NSNumber numberWithDouble:latitude], @"longitude": [NSNumber numberWithDouble:longitude], @"buildingRef": buildingRef ?: [NSNull null], @"floorIndex": [NSNumber numberWithInteger:floorIndex], @"accuracyM": [NSNumber numberWithDouble:accuracyM]}];
-    }
+    
+    NSDictionary *locationBody = @{
+            @"latitude": [NSNumber numberWithDouble:latitude],
+            @"longitude": [NSNumber numberWithDouble:longitude],
+            @"buildingRef": buildingRef ?: [NSNull null],
+            @"floorIndex": [NSNumber numberWithInteger:floorIndex],
+            @"accuracyM": [NSNumber numberWithDouble:accuracyM]
+        };
+    
+    lastLocation = locationBody;
+    
+    // Using hack on JS side to get the location instead of sending event.
+    // Sending events through the bridge doesnt work, so using this workaround until moving to new arch
+    //    if (hasListeners) {
+    //        [self sendEventWithName:@"locationChanged" body:locationBody];
+    //    }
+    
 }
 
 @end

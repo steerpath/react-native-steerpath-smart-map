@@ -7,7 +7,6 @@
 //
 
 #import "RNSmartMapManager.h"
-#import <Mapbox/Mapbox.h>
 
 @implementation RNSmartMapManager
 
@@ -30,15 +29,6 @@ RCT_EXPORT_METHOD(startWithConfig:(nonnull NSDictionary *)config)
     [[SPSmartSDK getInstance] start:apiKey config:configFilePath];
 }
 
-RCT_EXPORT_METHOD(setLiveConfig:(NSDictionary *)config)
-{
-    // TODO: call setLiveConfiguration in the native iOS Smart SDK on main thead instead of here
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [[SPSmartSDK getInstance] setLiveConfiguration: config];
-    });
-    
-}
-
 RCT_EXPORT_METHOD(loginToLive:(NSDictionary *)config)
 {
     // TODO: call loginToLive in the native iOS Smart SDK on main thead instead of here
@@ -56,21 +46,19 @@ RCT_EXPORT_METHOD(logoutFromLive)
     
 }
 
-RCT_EXPORT_METHOD(fetchVersions:(RCTResponseSenderBlock)callback)
+RCT_EXPORT_METHOD(fetchVersion:(RCTPromiseResolveBlock)resolve
+                  rejecter:(RCTPromiseRejectBlock)reject)
 {
     NSDictionary *infoDictionary = [[NSBundle bundleForClass: [SPSmartSDK class]] infoDictionary];
     NSString *smartSDKVersion = [infoDictionary valueForKey:@"CFBundleShortVersionString"];
-    NSDictionary *mapboxInfoDictionary = [[NSBundle bundleForClass: [MGLMapView class]] infoDictionary];
-    NSString *mapboxVersion = [mapboxInfoDictionary valueForKey:@"CFBundleShortVersionString"];
-    callback(@[@{
-                   @"smartSDKVersion": smartSDKVersion,
-                   @"mapboxSDKVersion": mapboxVersion
-    }]);
-}
-
-RCT_EXPORT_METHOD(setLanguage:(nonnull NSString *)languageCode)
-{
-    [[SPSmartSDK getInstance] setLanguage: languageCode];
+    
+    if (smartSDKVersion != nil) {
+        resolve(smartSDKVersion);
+    } else {
+        reject(@"ERROR",
+               @"The SmartSDK version could not be found in the info dictionary.",
+               nil);
+    }
 }
 
 @end

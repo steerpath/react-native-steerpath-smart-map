@@ -1,15 +1,14 @@
 /* eslint-disable prefer-destructuring */
 import { NativeModules, Platform } from "react-native";
-import { ConfigSDK } from './SmartMapViewProps';
+export type ConfigSDK = {
+  apiKey: string;
+  configFilePath?: string | null;
+  configString?: string | null;
+}
 
 const RNSmartMapManager = NativeModules.RNSmartMapManager;
 
-interface FetchVersionResponse {
-  smartSDKVersion: string;
-  mapboxSDKVersion: string;
-}
-
-export interface LiveConfig {
+export type LiveConfig = {
   transmit?: {
     id: string;
     password: string;
@@ -50,13 +49,6 @@ export const SmartMapManager = {
     });
   },
   /**
-   * 
-   * @deprecated Use loginToLive instead.
-   */
-  setLiveConfig(config: LiveConfig | null): void {
-    RNSmartMapManager.setLiveConfig(config);
-  },
-  /**
    * Share user location by setting transmit options and show live updates on map by setting receive options.
    * 
    * Leave transmit out of the config if you don't want to share location and receive out if you don't want updates to map.
@@ -72,10 +64,11 @@ export const SmartMapManager = {
   logoutFromLive(): void {
     RNSmartMapManager.logoutFromLive();
   },
-  fetchVersions(callback: (versions: FetchVersionResponse) => void) {
-    RNSmartMapManager.fetchVersions(callback);
+  /**
+   * 
+   * @returns Native (iOS/Android) Smart SDK version as a string
+   */
+  fetchVersion(): Promise<string> {
+    return RNSmartMapManager.fetchVersion();
   },
-  setLanguage(languageCode: String): void {
-    RNSmartMapManager.setLanguage(languageCode);
-  }
 };

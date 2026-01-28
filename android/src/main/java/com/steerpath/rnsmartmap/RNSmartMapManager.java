@@ -3,6 +3,7 @@ package com.steerpath.rnsmartmap;
 import android.util.Log;
 
 import com.facebook.react.bridge.Callback;
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -58,23 +59,7 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
             // TODO: throw error
         }
     }
-    
-    @Deprecated
-    @ReactMethod
-    public void setLiveConfig(ReadableMap map) {
-        if (map == null) {
-            // Logout and stop LiveService
-            appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().setLiveConfiguration(appContext, null));
-        } else {
-            try {
-                JSONObject object = Utils.convertMapToJson(map);
-                appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().setLiveConfiguration(appContext, object));
-            } catch (JSONException e) {
-                Log.e("Error", "Failed to set live configuration for SmartSDK");
-            }
-        }
-    }
-    
+
     @ReactMethod
     public void loginToLive(ReadableMap map) {
         if (map != null) {
@@ -86,27 +71,20 @@ public class RNSmartMapManager extends ReactContextBaseJavaModule {
             }
         }
     }
-    
-    @ReactMethod
-    public void logoutFromLive(){
-        appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().logoutFromLive(appContext));
-    }
-    
 
     @ReactMethod
-    public void fetchVersions(Callback callback) {
-        WritableMap map = new WritableNativeMap();
+    public void logoutFromLive() {
+        appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().logoutFromLive(appContext));
+    }
+
+    @ReactMethod
+    public void fetchVersion(Promise promise) {
         JSONObject versions = SmartSDK.getVersions();
         try {
-            map = Utils.convertJsonToWritableMap(versions);
+            String version = versions.getString("smartSDKVersion");
+            promise.resolve(version);
         } catch (JSONException e) {
-            e.printStackTrace();
+            promise.reject("ERROR", "failed to fetch Smart SDK version");
         }
-        callback.invoke(map);
-    }
-    
-    @ReactMethod
-    public void setLanguage(String languageCode) {
-        appContext.runOnUiQueueThread(() -> SmartSDK.getInstance().setLanguage(languageCode));
     }
 }

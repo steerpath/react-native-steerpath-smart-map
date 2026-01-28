@@ -1,13 +1,9 @@
 package com.steerpath.rnsmartmap;
 
-import static com.steerpath.rnsmartmap.RNEventKeys.ON_LOCATION_CHANGED;
-
-import android.util.Log;
-
 import androidx.annotation.NonNull;
 
+import com.facebook.react.bridge.Promise;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
@@ -21,12 +17,12 @@ import javax.annotation.Nullable;
 
 public class RNSmartLocationManager extends ReactContextBaseJavaModule implements SmartLocationListener{
 
-    private final ReactApplicationContext appContext;
     private int listenerCount = 0;
+    private static String ON_LOCATION_CHANGED = "locationChanged";
+    private WritableMap location = null;
 
     public RNSmartLocationManager(@Nonnull ReactApplicationContext reactContext) {
         super(reactContext);
-        this.appContext = reactContext;
     }
 
     @NonNull
@@ -63,14 +59,26 @@ public class RNSmartLocationManager extends ReactContextBaseJavaModule implement
         }
         map.putInt("floorIndex", floorIndex);
         map.putDouble("accuracyM", accuracyM);
-        sendEvent(appContext, ON_LOCATION_CHANGED, map);
+
+        this.location = map.copy();
+
+        // See comment about workaround in src/SmartLocationManager.ts
+        // sendEvent(map);
     }
 
-    private void sendEvent(ReactContext reactContext,
-                           String eventName,
-                           @Nullable WritableMap params) {
-        reactContext
+    @ReactMethod
+    public void getLocation(Promise promise) {
+        if (this.location != null) {
+            promise.resolve(this.location.copy());
+        } else {
+            promise.resolve((Object) null);
+        }
+
+    }
+
+    private void sendEvent(@Nullable WritableMap params) {
+        getReactApplicationContext()
                 .getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                .emit(eventName, params);
+                .emit(ON_LOCATION_CHANGED, params);
     }
 }
