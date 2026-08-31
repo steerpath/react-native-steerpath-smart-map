@@ -15,6 +15,10 @@ This package is built on top of Steerpath's Smart SDK, and most of releases are 
 - [iOS](https://s3-eu-west-1.amazonaws.com/steerpath/ios/releases/smart-sdk-changelog/index.html)
 - [Web](https://s3-eu-west-1.amazonaws.com/steerpath-web-sdk/documentation/smart/latest/index.html)
 
+## [2.0.1] - 2026-08-31
+
+- Update Smart SDK versions to 2.0.1 to fix telemetry
+
 ## [2.0.0] - 2026-01-28
 
 Smart SDK is now a so called "Bluedot SDK" which main task is to provide indoor positioning.

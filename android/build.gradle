@@ -61,6 +61,6 @@ repositories {
 dependencies {
     implementation "com.facebook.react:react-native"
     implementation "com.facebook.react:react-android"
-    implementation "com.steerpath:smart:android-smart-2.0.0"
+    implementation "com.steerpath:smart:android-smart-2.0.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.7"
 }

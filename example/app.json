@@ -13,13 +13,13 @@
   },
   "ios": {
     "supportsTablet": true,
-    "bundleIdentifier": "com.example"
+    "bundleIdentifier": "com.steerpath.example"
   },
   "android": {
     "adaptiveIcon": {
       "foregroundImage": "./assets/images/adaptive-icon.png",
       "backgroundColor": "#ffffff"
     },
-    "package": "com.example"
+    "package": "com.steerpath.example"
   }
 }
