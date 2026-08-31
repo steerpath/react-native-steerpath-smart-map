@@ -244,8 +244,8 @@
                 "beacons": "known",
                 "location": "indoor",
                 "enabled": true,
-                "locationIntervalS": 60,
-                "transmissionIntervalS": 120
+                "locationIntervalS": 30,
+                "transmissionIntervalS": 60
             },
             "web": {
                 "enabled": false,

@@ -19,7 +19,7 @@ Pod::Spec.new do |s|
   s.source_files = "ios/**/*.{h,m,mm,swift}"
 
   s.dependency "React-Core"
-  s.dependency 'SteerpathSmartSDK', '~> 2.0.0'
+  s.dependency 'SteerpathSmartSDK', '~> 2.0.2'
 
   if respond_to?(:install_modules_dependencies)
     install_modules_dependencies(s)
